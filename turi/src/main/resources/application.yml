@@ -1,0 +1,16 @@
+spring:
+    datasource:
+        url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/turi}
+        username: ${SPRING_DATASOURCE_USERNAME:turi}
+        password: ${SPRING_DATASOURCE_PASSWORD:turi-db}
+        driver-class-name: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME:org.postgresql.Driver}
+    jpa:
+        hibernate:
+            ddl-auto: none
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+                format_sql: false
+                show_sql: false
+        show_sql: false
+        open-in-view: false

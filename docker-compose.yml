@@ -1,0 +1,47 @@
+services:
+  turi-db:
+    container_name: turi-db
+    image: postgres:16
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      POSTGRES_DB: turi
+      POSTGRES_USER: turi
+      POSTGRES_PASSWORD: turi-db
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./turi-db/ddl.sql:/docker-entrypoint-initdb.d/ddl.sql
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  turi:
+    container_name: turi
+    build:
+      context: .
+      dockerfile: ./turi/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      turi-db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://turi-db:5432/turi
+      SPRING_DATASOURCE_USERNAME: turi
+      SPRING_DATASOURCE_PASSWORD: turi-db
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+  turi-ui:
+    container_name: turi-ui
+    build:
+      context: .
+      dockerfile: ./turi-ui/Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      turi:
+        condition: service_started
+
+volumes:
+  db-data:
