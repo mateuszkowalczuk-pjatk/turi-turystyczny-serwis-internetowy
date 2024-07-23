@@ -32,6 +32,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
 
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
     compileOnly("org.projectlombok:lombok")
