@@ -14,7 +14,7 @@ public class OwnerRestController
     private final OwnerFacade ownerFacade;
 
     @GetMapping("/getOwners")
-    public List<Owner> getTasks()
+    public List<Owner> getOwners()
     {
         return ownerFacade.getOwners();
     }
