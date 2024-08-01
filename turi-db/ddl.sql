@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS address
     addressid       SERIAL PRIMARY KEY,
     country         VARCHAR(50) NOT NULL,
     city            VARCHAR(50) NOT NULL,
-    zipcode         VARCHAR(5)  NOT NULL,
+    zipcode         VARCHAR(6)  NOT NULL,
     street          VARCHAR(50) NOT NULL,
     buildingnumber  VARCHAR(5)  NOT NULL,
     apartmentnumber INTEGER,
@@ -21,7 +21,7 @@ COMMENT ON TABLE address IS 'Table to store address for the account and the turi
 COMMENT ON COLUMN address.addressid IS 'Unique primary key of the address table.';
 COMMENT ON COLUMN address.country IS 'Country of address.';
 COMMENT ON COLUMN address.city IS 'City of address.';
-COMMENT ON COLUMN address.zipcode IS 'ZIP code of address.';
+COMMENT ON COLUMN address.zipcode IS 'ZIP code of address in format xx-xxx (x is a digit).';
 COMMENT ON COLUMN address.street IS 'Street name of address.';
 COMMENT ON COLUMN address.buildingnumber IS 'Building number on street of address.';
 COMMENT ON COLUMN address.apartmentnumber IS 'Optional apartment number, if there is more than one apartment under a building number.';
