@@ -7,7 +7,7 @@ import com.turi.address.domain.port.AddressRepository;
 import com.turi.address.domain.port.AddressService;
 import com.turi.address.infrastructure.adapter.service.AddressServiceImpl;
 import com.turi.infrastructure.exception.BadRequestParameterException;
-import com.turi.testhelper.annotation.UnitTest;
+import com.turi.testhelper.annotation.ServiceTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-@UnitTest
+@ServiceTest
 class AddressServiceTest
 {
     @Autowired
@@ -32,17 +32,9 @@ class AddressServiceTest
     @Test
     void testAddress_getById()
     {
-        final var result = service.getById(1L);
+        final var address = mockAddress();
 
-        final var address = Address.builder()
-                .withAddressId(1L)
-                .withCountry("Polska")
-                .withCity("Warszawa")
-                .withZipCode("01000")
-                .withStreet("Warszawska")
-                .withBuildingNumber("1")
-                .withApartmentNumber(10)
-                .build();
+        final var result = service.getById(address.getAddressId());
 
         assertNotNull(result);
         assertThat(result).isEqualTo(address);
@@ -63,15 +55,7 @@ class AddressServiceTest
     @Test
     void testAddress_getByAddress()
     {
-        final var address = Address.builder()
-                .withAddressId(1L)
-                .withCountry("Polska")
-                .withCity("Warszawa")
-                .withZipCode("01000")
-                .withStreet("Warszawska")
-                .withBuildingNumber("1")
-                .withApartmentNumber(10)
-                .build();
+        final var address = mockAddress();
 
         final var result = service.getByAddress(address);
 
@@ -82,14 +66,7 @@ class AddressServiceTest
     @Test
     void testAddress_getByAddress_NotFound()
     {
-        final var address = Address.builder()
-                .withAddressId(2L)
-                .withCountry("Polska")
-                .withCity("Warszawa")
-                .withZipCode("01000")
-                .withStreet("Warszawska")
-                .withBuildingNumber("2")
-                .build();
+        final var address = mockNewAddress();
 
         final var result = service.getByAddress(address);
 
@@ -101,7 +78,7 @@ class AddressServiceTest
     {
         final var address = Address.builder()
                 .withCity("Warszawa")
-                .withZipCode("01000")
+                .withZipCode("01-000")
                 .withStreet("Warszawska")
                 .withBuildingNumber("1")
                 .build();
@@ -116,7 +93,7 @@ class AddressServiceTest
     {
         final var address = Address.builder()
                 .withCountry("Polska")
-                .withZipCode("01000")
+                .withZipCode("01-000")
                 .withStreet("Warszawska")
                 .withBuildingNumber("1")
                 .build();
@@ -147,7 +124,7 @@ class AddressServiceTest
         final var address = Address.builder()
                 .withCountry("Polska")
                 .withCity("Warszawa")
-                .withZipCode("01000")
+                .withZipCode("01-000")
                 .withBuildingNumber("1")
                 .build();
 
@@ -162,7 +139,7 @@ class AddressServiceTest
         final var address = Address.builder()
                 .withCountry("Polska")
                 .withCity("Warszawa")
-                .withZipCode("01000")
+                .withZipCode("01-000")
                 .withStreet("Warszawska")
                 .build();
 
@@ -174,14 +151,7 @@ class AddressServiceTest
     @Test
     void testAddress_createAddress()
     {
-        final var address = Address.builder()
-                .withAddressId(2L)
-                .withCountry("Polska")
-                .withCity("Warszawa")
-                .withZipCode("01000")
-                .withStreet("Warszawska")
-                .withBuildingNumber("2")
-                .build();
+        final var address = mockNewAddress();
 
         final var result = service.createAddress(address);
 
@@ -192,15 +162,7 @@ class AddressServiceTest
     @Test
     void testAddress_createAddress_Exists()
     {
-        final var address = Address.builder()
-                .withAddressId(1L)
-                .withCountry("Polska")
-                .withCity("Warszawa")
-                .withZipCode("01000")
-                .withStreet("Warszawska")
-                .withBuildingNumber("1")
-                .withApartmentNumber(10)
-                .build();
+        final var address = mockAddress();
 
         final var result = service.createAddress(address);
 
@@ -214,7 +176,7 @@ class AddressServiceTest
         final var address = Address.builder()
                 .withAddressId(1L)
                 .withCity("Warszawa")
-                .withZipCode("01000")
+                .withZipCode("01-000")
                 .withStreet("Warszawska")
                 .withBuildingNumber("1")
                 .withApartmentNumber(10)
@@ -229,7 +191,7 @@ class AddressServiceTest
         final var address = Address.builder()
                 .withAddressId(1L)
                 .withCountry("Polska")
-                .withZipCode("01000")
+                .withZipCode("01-000")
                 .withStreet("Warszawska")
                 .withBuildingNumber("1")
                 .withApartmentNumber(10)
@@ -260,7 +222,7 @@ class AddressServiceTest
                 .withAddressId(1L)
                 .withCountry("Polska")
                 .withCity("Warszawa")
-                .withZipCode("01000")
+                .withZipCode("01-000")
                 .withBuildingNumber("1")
                 .withApartmentNumber(10)
                 .build();
@@ -275,11 +237,36 @@ class AddressServiceTest
                 .withAddressId(1L)
                 .withCountry("Polska")
                 .withCity("Warszawa")
-                .withZipCode("01000")
+                .withZipCode("01-000")
                 .withStreet("Warszawska")
                 .withApartmentNumber(10)
                 .build();
 
         assertThrows(InvalidAddressException.class, () -> service.createAddress(address));
+    }
+
+    private Address mockAddress()
+    {
+        return Address.builder()
+                .withAddressId(1L)
+                .withCountry("Polska")
+                .withCity("Warszawa")
+                .withZipCode("01-000")
+                .withStreet("Warszawska")
+                .withBuildingNumber("1")
+                .withApartmentNumber(10)
+                .build();
+    }
+
+    private Address mockNewAddress()
+    {
+        return Address.builder()
+                .withAddressId(2L)
+                .withCountry("Polska")
+                .withCity("Warszawa")
+                .withZipCode("01-000")
+                .withStreet("Warszawska")
+                .withBuildingNumber("2")
+                .build();
     }
 }

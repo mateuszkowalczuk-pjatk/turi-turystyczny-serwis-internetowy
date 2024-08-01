@@ -12,6 +12,6 @@ public final class InvalidAddressException extends ResponseStatusException
 
     public InvalidAddressException()
     {
-        super(HttpStatus.BAD_REQUEST, "The specified address is invalid. Parameters country, city, zipCode street and buildingNumber are required!");
+        super(HttpStatus.BAD_REQUEST, "The specified address is invalid. Parameters country, city, zipCode, street and buildingNumber are required!");
     }
 }

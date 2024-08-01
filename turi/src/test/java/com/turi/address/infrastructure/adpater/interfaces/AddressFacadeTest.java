@@ -3,15 +3,16 @@ package com.turi.address.infrastructure.adpater.interfaces;
 import com.turi.address.domain.exception.InvalidAddressException;
 import com.turi.address.domain.model.Address;
 import com.turi.address.infrastructure.adapter.interfaces.AddressFacade;
-import com.turi.testhelper.annotation.IntegrationTest;
+import com.turi.infrastructure.exception.BadRequestParameterException;
+import com.turi.testhelper.annotation.RestControllerTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-@IntegrationTest
-class AddressIntegrationTest
+@RestControllerTest
+class AddressFacadeTest
 {
     @Autowired(required = false)
     private AddressFacade facade;
@@ -19,17 +20,14 @@ class AddressIntegrationTest
     @Test
     void testAddress_getByAddress()
     {
-        final var address = Address.builder()
-                .withAddressId(1L)
-                .withCountry("Polska")
-                .withCity("Warszawa")
-                .withZipCode("01000")
-                .withStreet("Warszawska")
-                .withBuildingNumber("1")
-                .withApartmentNumber(10)
-                .build();
+        final var address = mockAddress();
 
-        final var result = facade.getByAddress(address);
+        final var result = facade.getByAddress(address.getCountry(),
+                address.getCity(),
+                address.getZipCode(),
+                address.getStreet(),
+                address.getBuildingNumber(),
+                address.getApartmentNumber());
 
         assertNotNull(result);
         assertThat(result).isEqualTo(address);
@@ -38,16 +36,14 @@ class AddressIntegrationTest
     @Test
     void testAddress_getByAddress_NotFound()
     {
-        final var address = Address.builder()
-                .withAddressId(2L)
-                .withCountry("Polska")
-                .withCity("Warszawa")
-                .withZipCode("01000")
-                .withStreet("Warszawska")
-                .withBuildingNumber("2")
-                .build();
+        final var address = mockNewAddress();
 
-        final var result = facade.getByAddress(address);
+        final var result = facade.getByAddress(address.getCountry(),
+                address.getCity(),
+                address.getZipCode(),
+                address.getStreet(),
+                address.getBuildingNumber(),
+                address.getApartmentNumber());
 
         assertNull(result);
     }
@@ -58,13 +54,18 @@ class AddressIntegrationTest
         final var address = Address.builder()
                 .withAddressId(1L)
                 .withCity("Warszawa")
-                .withZipCode("01000")
+                .withZipCode("01-000")
                 .withStreet("Warszawska")
                 .withBuildingNumber("1")
                 .withApartmentNumber(10)
                 .build();
 
-        assertThrows(InvalidAddressException.class, () -> facade.getByAddress(address));
+        assertThrows(InvalidAddressException.class, () -> facade.getByAddress(address.getCountry(),
+                address.getCity(),
+                address.getZipCode(),
+                address.getStreet(),
+                address.getBuildingNumber(),
+                address.getApartmentNumber()));
     }
 
     @Test
@@ -73,13 +74,18 @@ class AddressIntegrationTest
         final var address = Address.builder()
                 .withAddressId(1L)
                 .withCountry("Polska")
-                .withZipCode("01000")
+                .withZipCode("01-000")
                 .withStreet("Warszawska")
                 .withBuildingNumber("1")
                 .withApartmentNumber(10)
                 .build();
 
-        assertThrows(InvalidAddressException.class, () -> facade.getByAddress(address));
+        assertThrows(InvalidAddressException.class, () -> facade.getByAddress(address.getCountry(),
+                address.getCity(),
+                address.getZipCode(),
+                address.getStreet(),
+                address.getBuildingNumber(),
+                address.getApartmentNumber()));
     }
 
     @Test
@@ -94,7 +100,12 @@ class AddressIntegrationTest
                 .withApartmentNumber(10)
                 .build();
 
-        assertThrows(InvalidAddressException.class, () -> facade.getByAddress(address));
+        assertThrows(InvalidAddressException.class, () -> facade.getByAddress(address.getCountry(),
+                address.getCity(),
+                address.getZipCode(),
+                address.getStreet(),
+                address.getBuildingNumber(),
+                address.getApartmentNumber()));
     }
 
     @Test
@@ -104,12 +115,17 @@ class AddressIntegrationTest
                 .withAddressId(1L)
                 .withCountry("Polska")
                 .withCity("Warszawa")
-                .withZipCode("01000")
+                .withZipCode("01-000")
                 .withBuildingNumber("1")
                 .withApartmentNumber(10)
                 .build();
 
-        assertThrows(InvalidAddressException.class, () -> facade.getByAddress(address));
+        assertThrows(InvalidAddressException.class, () -> facade.getByAddress(address.getCountry(),
+                address.getCity(),
+                address.getZipCode(),
+                address.getStreet(),
+                address.getBuildingNumber(),
+                address.getApartmentNumber()));
     }
 
     @Test
@@ -119,25 +135,23 @@ class AddressIntegrationTest
                 .withAddressId(1L)
                 .withCountry("Polska")
                 .withCity("Warszawa")
-                .withZipCode("01000")
+                .withZipCode("01-000")
                 .withStreet("Warszawska")
                 .withApartmentNumber(10)
                 .build();
 
-        assertThrows(InvalidAddressException.class, () -> facade.getByAddress(address));
+        assertThrows(InvalidAddressException.class, () -> facade.getByAddress(address.getCountry(),
+                address.getCity(),
+                address.getZipCode(),
+                address.getStreet(),
+                address.getBuildingNumber(),
+                address.getApartmentNumber()));
     }
 
     @Test
     void testAddress_createAddress()
     {
-        final var address = Address.builder()
-                .withAddressId(2L)
-                .withCountry("Polska")
-                .withCity("Warszawa")
-                .withZipCode("01000")
-                .withStreet("Warszawska")
-                .withBuildingNumber("2")
-                .build();
+        final var address = mockNewAddress();
 
         final var result = facade.createAddress(address);
 
@@ -148,15 +162,7 @@ class AddressIntegrationTest
     @Test
     void testAddress_createAddress_Exists()
     {
-        final var address = Address.builder()
-                .withAddressId(1L)
-                .withCountry("Polska")
-                .withCity("Warszawa")
-                .withZipCode("01000")
-                .withStreet("Warszawska")
-                .withBuildingNumber("1")
-                .withApartmentNumber(10)
-                .build();
+        final var address = mockAddress();
 
         final var result = facade.createAddress(address);
 
@@ -165,12 +171,27 @@ class AddressIntegrationTest
     }
 
     @Test
+    void testAddress_createAddress_InvalidZipCode()
+    {
+        final var address = Address.builder()
+                .withAddressId(2L)
+                .withCountry("Polska")
+                .withCity("Warszawa")
+                .withZipCode("01-10")
+                .withStreet("Warszawska")
+                .withBuildingNumber("2")
+                .build();
+
+        assertThrows(BadRequestParameterException.class, () -> facade.createAddress(address));
+    }
+
+    @Test
     void testAddress_createAddress_WithoutRequiredCountryField()
     {
         final var address = Address.builder()
                 .withAddressId(1L)
                 .withCity("Warszawa")
-                .withZipCode("01000")
+                .withZipCode("01-000")
                 .withStreet("Warszawska")
                 .withBuildingNumber("1")
                 .withApartmentNumber(10)
@@ -185,7 +206,7 @@ class AddressIntegrationTest
         final var address = Address.builder()
                 .withAddressId(1L)
                 .withCountry("Polska")
-                .withZipCode("01000")
+                .withZipCode("01-000")
                 .withStreet("Warszawska")
                 .withBuildingNumber("1")
                 .withApartmentNumber(10)
@@ -216,7 +237,7 @@ class AddressIntegrationTest
                 .withAddressId(1L)
                 .withCountry("Polska")
                 .withCity("Warszawa")
-                .withZipCode("01000")
+                .withZipCode("01-000")
                 .withBuildingNumber("1")
                 .withApartmentNumber(10)
                 .build();
@@ -231,11 +252,36 @@ class AddressIntegrationTest
                 .withAddressId(1L)
                 .withCountry("Polska")
                 .withCity("Warszawa")
-                .withZipCode("01000")
+                .withZipCode("01-000")
                 .withStreet("Warszawska")
                 .withApartmentNumber(10)
                 .build();
 
         assertThrows(InvalidAddressException.class, () -> facade.createAddress(address));
+    }
+
+    private Address mockAddress()
+    {
+        return Address.builder()
+                .withAddressId(1L)
+                .withCountry("Polska")
+                .withCity("Warszawa")
+                .withZipCode("01-000")
+                .withStreet("Warszawska")
+                .withBuildingNumber("1")
+                .withApartmentNumber(10)
+                .build();
+    }
+
+    private Address mockNewAddress()
+    {
+        return Address.builder()
+                .withAddressId(2L)
+                .withCountry("Polska")
+                .withCity("Warszawa")
+                .withZipCode("01-000")
+                .withStreet("Warszawska")
+                .withBuildingNumber("2")
+                .build();
     }
 }

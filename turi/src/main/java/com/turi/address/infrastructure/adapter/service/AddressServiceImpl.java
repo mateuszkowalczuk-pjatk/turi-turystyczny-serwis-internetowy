@@ -33,7 +33,7 @@ public class AddressServiceImpl implements AddressService
     @Override
     public Address createAddress(final Address address)
     {
-        final var existingAddress = addressRepository.findByAddress(address);
+        final var existingAddress = getByAddress(address);
 
         if (existingAddress != null)
         {

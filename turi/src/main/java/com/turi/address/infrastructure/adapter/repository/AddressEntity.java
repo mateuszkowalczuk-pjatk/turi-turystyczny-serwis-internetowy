@@ -33,7 +33,7 @@ public final class AddressEntity implements Serializable
     @Column(name = "city", length = 50, nullable = false)
     private String city;
 
-    @Column(name = "zipcode", length = 5, nullable = false)
+    @Column(name = "zipcode", length = 6, nullable = false)
     private String zipCode;
 
     @Column(name = "street", length = 50, nullable = false)

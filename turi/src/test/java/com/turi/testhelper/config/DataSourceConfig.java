@@ -17,7 +17,7 @@ import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.
 
 @Configuration
 @EnableTransactionManagement
-public class TestDataSourceConfig
+public class DataSourceConfig
 {
     @Bean
     DataSource dataSource()

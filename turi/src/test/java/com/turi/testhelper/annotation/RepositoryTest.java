@@ -1,6 +1,6 @@
 package com.turi.testhelper.annotation;
 
-import com.turi.testhelper.config.TestDataSourceConfig;
+import com.turi.testhelper.config.DataSourceConfig;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
@@ -13,8 +13,8 @@ import java.lang.annotation.RetentionPolicy;
 
 @DataJpaTest
 @Transactional
+@Import({DataSourceConfig.class})
 @Retention(RetentionPolicy.RUNTIME)
-@Import({TestDataSourceConfig.class})
 @Sql({"/dbschema.sql", "/dbdata.sql"})
 @ComponentScan({"com.turi.*.infrastructure.adapter.repository"})
 @TestPropertySource(properties = {"spring.flyway.enabled=false"})

@@ -11,7 +11,7 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 @Sql({"/dbschema.sql", "/dbdata.sql"})
 @ComponentScan({"com.turi.*.infrastructure.adapter.repository"})
-public @interface UnitTest
+public @interface ServiceTest
 {
 
 }

@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS address
     addressid       SERIAL      PRIMARY KEY,
     country         VARCHAR(50) NOT NULL,
     city            VARCHAR(50) NOT NULL,
-    zipcode         VARCHAR(5)  NOT NULL,
+    zipcode         VARCHAR(6)  NOT NULL,
     street          VARCHAR(50) NOT NULL,
     buildingnumber  VARCHAR(5)  NOT NULL,
     apartmentnumber INTEGER,
