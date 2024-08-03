@@ -6,6 +6,8 @@ import com.turi.address.infrastructure.adapter.interfaces.AddressFacade;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.testhelper.annotation.RestControllerTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,7 +20,7 @@ class AddressFacadeTest
     private AddressFacade facade;
 
     @Test
-    void testAddress_getByAddress()
+    void testAddress_GetByAddress()
     {
         final var address = mockAddress();
 
@@ -34,7 +36,7 @@ class AddressFacadeTest
     }
 
     @Test
-    void testAddress_getByAddress_NotFound()
+    void testAddress_GetByAddress_NotFound()
     {
         final var address = mockNewAddress();
 
@@ -49,7 +51,7 @@ class AddressFacadeTest
     }
 
     @Test
-    void testAddress_getByAddress_WithoutRequiredCountryField()
+    void testAddress_GetByAddress_WithoutRequiredCountryField()
     {
         final var address = Address.builder()
                 .withAddressId(1L)
@@ -69,7 +71,7 @@ class AddressFacadeTest
     }
 
     @Test
-    void testAddress_getByAddress_WithoutRequiredCityField()
+    void testAddress_GetByAddress_WithoutRequiredCityField()
     {
         final var address = Address.builder()
                 .withAddressId(1L)
@@ -89,7 +91,7 @@ class AddressFacadeTest
     }
 
     @Test
-    void testAddress_getByAddress_WithoutRequiredZipCodeField()
+    void testAddress_GetByAddress_WithoutRequiredZipCodeField()
     {
         final var address = Address.builder()
                 .withAddressId(1L)
@@ -109,7 +111,7 @@ class AddressFacadeTest
     }
 
     @Test
-    void testAddress_getByAddress_WithoutRequiredStreetField()
+    void testAddress_GetByAddress_WithoutRequiredStreetField()
     {
         final var address = Address.builder()
                 .withAddressId(1L)
@@ -129,7 +131,7 @@ class AddressFacadeTest
     }
 
     @Test
-    void testAddress_getByAddress_WithoutRequiredBuildingNumberField()
+    void testAddress_GetByAddress_WithoutRequiredBuildingNumberField()
     {
         final var address = Address.builder()
                 .withAddressId(1L)
@@ -149,7 +151,7 @@ class AddressFacadeTest
     }
 
     @Test
-    void testAddress_createAddress()
+    void testAddress_CreateAddress()
     {
         final var address = mockNewAddress();
 
@@ -160,7 +162,7 @@ class AddressFacadeTest
     }
 
     @Test
-    void testAddress_createAddress_Exists()
+    void testAddress_CreateAddress_Exists()
     {
         final var address = mockAddress();
 
@@ -170,14 +172,15 @@ class AddressFacadeTest
         assertThat(result).isEqualTo(address);
     }
 
-    @Test
-    void testAddress_createAddress_InvalidZipCode()
+    @ParameterizedTest
+    @CsvSource({"01-10", "01000", "0-1000", "0001-1", "-10000"})
+    void testAddress_CreateAddress_InvalidZipCode(final String zipCode)
     {
         final var address = Address.builder()
                 .withAddressId(2L)
                 .withCountry("Polska")
                 .withCity("Warszawa")
-                .withZipCode("01-10")
+                .withZipCode(zipCode)
                 .withStreet("Warszawska")
                 .withBuildingNumber("2")
                 .build();
@@ -186,7 +189,7 @@ class AddressFacadeTest
     }
 
     @Test
-    void testAddress_createAddress_WithoutRequiredCountryField()
+    void testAddress_CreateAddress_WithoutRequiredCountryField()
     {
         final var address = Address.builder()
                 .withAddressId(1L)
@@ -201,7 +204,7 @@ class AddressFacadeTest
     }
 
     @Test
-    void testAddress_createAddress_WithoutRequiredCityField()
+    void testAddress_CreateAddress_WithoutRequiredCityField()
     {
         final var address = Address.builder()
                 .withAddressId(1L)
@@ -216,7 +219,7 @@ class AddressFacadeTest
     }
 
     @Test
-    void testAddress_createAddress_WithoutRequiredZipCodeField()
+    void testAddress_CreateAddress_WithoutRequiredZipCodeField()
     {
         final var address = Address.builder()
                 .withAddressId(1L)
@@ -231,7 +234,7 @@ class AddressFacadeTest
     }
 
     @Test
-    void testAddress_createAddress_WithoutRequiredStreetField()
+    void testAddress_CreateAddress_WithoutRequiredStreetField()
     {
         final var address = Address.builder()
                 .withAddressId(1L)
@@ -246,7 +249,7 @@ class AddressFacadeTest
     }
 
     @Test
-    void testAddress_createAddress_WithoutRequiredBuildingNumberField()
+    void testAddress_CreateAddress_WithoutRequiredBuildingNumberField()
     {
         final var address = Address.builder()
                 .withAddressId(1L)

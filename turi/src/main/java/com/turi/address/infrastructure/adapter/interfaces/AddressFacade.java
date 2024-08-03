@@ -18,7 +18,7 @@ public class AddressFacade
                                 final String zipCode,
                                 final String street,
                                 final String buildingNumber,
-                                final int apartmentNumber)
+                                final Integer apartmentNumber)
     {
         final var address = Address.builder()
                 .withCountry(country)

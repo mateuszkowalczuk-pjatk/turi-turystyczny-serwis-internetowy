@@ -1,16 +1,18 @@
 package com.turi.testhelper.annotation;
 
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.ComponentScan;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.*;
 
-@DataJpaTest
+@Inherited
+@SpringBootTest
+@Target(ElementType.TYPE)
+@ExtendWith(SpringExtension.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Sql({"/dbschema.sql", "/dbdata.sql"})
-@ComponentScan({"com.turi.*.infrastructure.adapter.repository"})
 public @interface ServiceTest
 {
 

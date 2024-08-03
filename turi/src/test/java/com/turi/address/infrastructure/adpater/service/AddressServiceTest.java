@@ -30,7 +30,7 @@ class AddressServiceTest
     }
 
     @Test
-    void testAddress_getById()
+    void testAddress_GetById()
     {
         final var address = mockAddress();
 
@@ -41,19 +41,19 @@ class AddressServiceTest
     }
 
     @Test
-    void testAddress_getById_NotFound()
+    void testAddress_GetById_NotFound()
     {
         assertThrows(AddressNotFoundException.class, () -> service.getById(2L));
     }
 
     @Test
-    void testAddress_getById_IdIsNull()
+    void testAddress_GetById_IdIsNull()
     {
         assertThrows(BadRequestParameterException.class, () -> service.getById(null));
     }
 
     @Test
-    void testAddress_getByAddress()
+    void testAddress_GetByAddress()
     {
         final var address = mockAddress();
 
@@ -64,7 +64,7 @@ class AddressServiceTest
     }
 
     @Test
-    void testAddress_getByAddress_NotFound()
+    void testAddress_GetByAddress_NotFound()
     {
         final var address = mockNewAddress();
 
@@ -74,7 +74,7 @@ class AddressServiceTest
     }
 
     @Test
-    void testAddress_getByAddress_WithoutRequiredCountryField()
+    void testAddress_GetByAddress_WithoutRequiredCountryField()
     {
         final var address = Address.builder()
                 .withCity("Warszawa")
@@ -89,7 +89,7 @@ class AddressServiceTest
     }
 
     @Test
-    void testAddress_getByAddress_WithoutRequiredCityField()
+    void testAddress_GetByAddress_WithoutRequiredCityField()
     {
         final var address = Address.builder()
                 .withCountry("Polska")
@@ -104,7 +104,7 @@ class AddressServiceTest
     }
 
     @Test
-    void testAddress_getByAddress_WithoutRequiredZipCodeField()
+    void testAddress_GetByAddress_WithoutRequiredZipCodeField()
     {
         final var address = Address.builder()
                 .withCountry("Polska")
@@ -119,7 +119,7 @@ class AddressServiceTest
     }
 
     @Test
-    void testAddress_getByAddress_WithoutRequiredStreetField()
+    void testAddress_GetByAddress_WithoutRequiredStreetField()
     {
         final var address = Address.builder()
                 .withCountry("Polska")
@@ -134,7 +134,7 @@ class AddressServiceTest
     }
 
     @Test
-    void testAddress_getByAddress_WithoutRequiredBuildingNumberField()
+    void testAddress_GetByAddress_WithoutRequiredBuildingNumberField()
     {
         final var address = Address.builder()
                 .withCountry("Polska")
@@ -149,7 +149,7 @@ class AddressServiceTest
     }
 
     @Test
-    void testAddress_createAddress()
+    void testAddress_CreateAddress()
     {
         final var address = mockNewAddress();
 
@@ -160,7 +160,7 @@ class AddressServiceTest
     }
 
     @Test
-    void testAddress_createAddress_Exists()
+    void testAddress_CreateAddress_Exists()
     {
         final var address = mockAddress();
 
@@ -171,7 +171,7 @@ class AddressServiceTest
     }
 
     @Test
-    void testAddress_createAddress_WithoutRequiredCountryField()
+    void testAddress_CreateAddress_WithoutRequiredCountryField()
     {
         final var address = Address.builder()
                 .withAddressId(1L)
@@ -186,7 +186,7 @@ class AddressServiceTest
     }
 
     @Test
-    void testAddress_createAddress_WithoutRequiredCityField()
+    void testAddress_CreateAddress_WithoutRequiredCityField()
     {
         final var address = Address.builder()
                 .withAddressId(1L)
@@ -201,7 +201,7 @@ class AddressServiceTest
     }
 
     @Test
-    void testAddress_createAddress_WithoutRequiredZipCodeField()
+    void testAddress_CreateAddress_WithoutRequiredZipCodeField()
     {
         final var address = Address.builder()
                 .withAddressId(1L)
@@ -216,7 +216,7 @@ class AddressServiceTest
     }
 
     @Test
-    void testAddress_createAddress_WithoutRequiredStreetField()
+    void testAddress_CreateAddress_WithoutRequiredStreetField()
     {
         final var address = Address.builder()
                 .withAddressId(1L)
@@ -231,7 +231,7 @@ class AddressServiceTest
     }
 
     @Test
-    void testAddress_createAddress_WithoutRequiredBuildingNumberField()
+    void testAddress_CreateAddress_WithoutRequiredBuildingNumberField()
     {
         final var address = Address.builder()
                 .withAddressId(1L)

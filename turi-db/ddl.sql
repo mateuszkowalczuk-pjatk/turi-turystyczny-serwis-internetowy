@@ -30,15 +30,15 @@ COMMENT ON COLUMN address.apartmentnumber IS 'Optional apartment number, if ther
 CREATE TABLE IF NOT EXISTS account 
 (
     accountid   SERIAL PRIMARY KEY,
-    addressid   INTEGER              UNIQUE,
-    accounttype INTEGER     NOT NULL,
-    login       VARCHAR(50) NOT NULL UNIQUE,
-    email       VARCHAR(50) NOT NULL UNIQUE,
-    password    VARCHAR(50) NOT NULL,
+    addressid   INTEGER               UNIQUE,
+    accounttype INTEGER      NOT NULL,
+    login       VARCHAR(50)  NOT NULL UNIQUE,
+    email       VARCHAR(50)  NOT NULL UNIQUE,
+    password    VARCHAR(255) NOT NULL,
     firstname   VARCHAR(50),
     lastname    VARCHAR(50),
     birthdate   DATE,
-    phonenumber VARCHAR(20)          UNIQUE,
+    phonenumber VARCHAR(20)           UNIQUE,
     gender      INTEGER,
     CONSTRAINT accountaddress FOREIGN KEY (addressid) REFERENCES address (addressid)
 );

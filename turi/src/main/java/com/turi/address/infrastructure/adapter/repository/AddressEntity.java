@@ -43,7 +43,7 @@ public final class AddressEntity implements Serializable
     private String buildingNumber;
 
     @Column(name = "apartmentnumber")
-    private int apartmentNumber;
+    private Integer apartmentNumber;
 
     public static AddressEntity of(final Address address)
     {

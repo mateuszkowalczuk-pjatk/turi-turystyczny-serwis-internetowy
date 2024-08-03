@@ -18,7 +18,7 @@ public class AddressServiceImpl implements AddressService
     {
         if (id == null)
         {
-            throw new BadRequestParameterException("Address ID must not be null!");
+            throw new BadRequestParameterException("Address ID must not be null.");
         }
 
         return addressRepository.findById(id);

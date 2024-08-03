@@ -4,6 +4,8 @@ import com.turi.address.domain.model.Address;
 import com.turi.testhelper.annotation.RestControllerTest;
 import com.turi.testhelper.rest.AbstractRestControllerIntegrationTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.net.URI;
 
@@ -16,7 +18,7 @@ import static org.springframework.web.util.UriComponentsBuilder.fromHttpUrl;
 class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
 {
     @Test
-    void testAddress_createAddress()
+    void testAddress_CreateAddress()
     {
         final var address = Address.builder()
                 .withAddressId(2L)
@@ -44,7 +46,7 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
     }
 
     @Test
-    void testAddress_createAddress_Exists()
+    void testAddress_CreateAddress_Exists()
     {
         final var address = Address.builder()
                 .withCountry("Polska")
@@ -71,14 +73,15 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
         assertThat(result.getBody().getBuildingNumber()).isEqualTo(address.getBuildingNumber());
     }
 
-    @Test
-    void testAddress_createAddress_InvalidZipCode()
+    @ParameterizedTest
+    @CsvSource({"02-20", "02000", "0-2000", "0002-2", "20200-"})
+    void testAddress_CreateAddress_InvalidZipCode(final String zipCode)
     {
         final var address = Address.builder()
                 .withAddressId(2L)
                 .withCountry("Polska")
                 .withCity("Kraków")
-                .withZipCode("02-20")
+                .withZipCode(zipCode)
                 .withStreet("Krakowska")
                 .withBuildingNumber("1")
                 .build();
@@ -93,11 +96,31 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
     }
 
     @Test
-    void testAddress_createAddress_WithoutRequiredCountryField()
+    void testAddress_CreateAddress_WithoutRequiredCountryField()
     {
         final var address = Address.builder()
                 .withAddressId(2L)
                 .withCity("Kraków")
+                .withZipCode("02-100")
+                .withStreet("Krakowska")
+                .withBuildingNumber("1")
+                .build();
+
+        final URI uri = fromHttpUrl(getBaseUrl())
+                .path("/createAddress")
+                .build().toUri();
+
+        final var result = restTemplate.postForEntity(uri, address, Address.class);
+
+        assertTrue(result.getStatusCode().is4xxClientError());
+    }
+
+    @Test
+    void testAddress_CreateAddress_WithoutRequiredCityField()
+    {
+        final var address = Address.builder()
+                .withAddressId(2L)
+                .withCountry("Polska")
                 .withZipCode("02-100")
                 .withStreet("Krakowska")
                 .withBuildingNumber("1")
@@ -113,27 +136,7 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
     }
 
     @Test
-    void testAddress_createAddress_WithoutRequiredCityField()
-    {
-        final var address = Address.builder()
-                .withAddressId(2L)
-                .withCountry("Polska")
-                .withZipCode("02-100")
-                .withStreet("Krakowska")
-                .withBuildingNumber("1")
-                .build();
-
-        final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/createAddress")
-                .build().toUri();
-
-        final var result = restTemplate.postForEntity(uri, address, Address.class);
-
-        assertTrue(result.getStatusCode().is4xxClientError());
-    }
-
-    @Test
-    void testAddress_createAddress_WithoutRequiredZipCodeField()
+    void testAddress_CreateAddress_WithoutRequiredZipCodeField()
     {
         final var address = Address.builder()
                 .withAddressId(2L)
@@ -153,7 +156,7 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
     }
 
     @Test
-    void testAddress_createAddress_WithoutRequiredStreetField()
+    void testAddress_CreateAddress_WithoutRequiredStreetField()
     {
         final var address = Address.builder()
                 .withAddressId(2L)
@@ -173,7 +176,7 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
     }
 
     @Test
-    void testAddress_createAddress_WithoutRequiredBuildingNumberField()
+    void testAddress_CreateAddress_WithoutRequiredBuildingNumberField()
     {
         final var address = Address.builder()
                 .withAddressId(2L)

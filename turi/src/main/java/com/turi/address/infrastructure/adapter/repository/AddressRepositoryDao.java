@@ -13,5 +13,5 @@ public interface AddressRepositoryDao extends JpaRepository<AddressEntity, Long>
                                                                                                        final String zipCode,
                                                                                                        final String street,
                                                                                                        final String buildingNumber,
-                                                                                                       final int apartmentNumber);
+                                                                                                       final Integer apartmentNumber);
 }

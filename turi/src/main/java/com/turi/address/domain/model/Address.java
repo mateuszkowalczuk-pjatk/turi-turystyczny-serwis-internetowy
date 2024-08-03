@@ -18,7 +18,7 @@ public final class Address
     private String zipCode;
     private String street;
     private String buildingNumber;
-    private int apartmentNumber;
+    private Integer apartmentNumber;
 
     public static Address of(final AddressEntity entity)
     {
