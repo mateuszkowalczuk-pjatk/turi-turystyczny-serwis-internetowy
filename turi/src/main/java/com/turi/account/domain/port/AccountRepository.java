@@ -10,11 +10,9 @@ public interface AccountRepository
 
     Account findById(final Long id);
 
+    Account findByUserId(final Long userId);
+
     Account findByAddressId(final Long addressId);
-
-    Account findByLogin(final String login);
-
-    Account findByEmail(final String email);
 
     Account findByPhoneNumber(final String phoneNumber);
 

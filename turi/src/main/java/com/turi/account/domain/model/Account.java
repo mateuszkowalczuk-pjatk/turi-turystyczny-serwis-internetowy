@@ -13,11 +13,9 @@ import java.time.LocalDate;
 public final class Account
 {
     private Long accountId;
+    private Long userId;
     private Long addressId;
     private AccountType accountType;
-    private String login;
-    private String email;
-    private String password;
     private String firstName;
     private String lastName;
     private LocalDate birthDate;
@@ -28,11 +26,9 @@ public final class Account
     {
         return Account.builder()
                 .withAccountId(entity.getAccountId())
+                .withUserId(entity.getUserId())
                 .withAddressId(entity.getAddressId())
                 .withAccountType(AccountType.fromValue(entity.getAccountType()))
-                .withLogin(entity.getLogin())
-                .withEmail(entity.getEmail())
-                .withPassword(entity.getPassword())
                 .withFirstName(entity.getFirstName())
                 .withLastName(entity.getLastName())
                 .withBirthDate(entity.getBirthDate())

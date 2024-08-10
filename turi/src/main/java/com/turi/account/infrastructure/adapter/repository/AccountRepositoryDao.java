@@ -8,11 +8,9 @@ import java.util.Optional;
 @Repository
 public interface AccountRepositoryDao extends JpaRepository<AccountEntity, Long>
 {
+    Optional<AccountEntity> findByUserId(final Long userId);
+
     Optional<AccountEntity> findByAddressId(final Long addressId);
-
-    Optional<AccountEntity> findByLogin(final String login);
-
-    Optional<AccountEntity> findByEmail(final String email);
 
     Optional<AccountEntity> findByPhoneNumber(final String phoneNumber);
 }

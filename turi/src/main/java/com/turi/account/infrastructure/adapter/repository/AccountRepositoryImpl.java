@@ -33,25 +33,17 @@ public class AccountRepositoryImpl implements AccountRepository
     }
 
     @Override
+    public Account findByUserId(final Long userId)
+    {
+        return accountRepositoryDao.findByUserId(userId)
+                .map(Account::of)
+                .orElse(null);
+    }
+
+    @Override
     public Account findByAddressId(final Long addressId)
     {
         return accountRepositoryDao.findByAddressId(addressId)
-                .map(Account::of)
-                .orElse(null);
-    }
-
-    @Override
-    public Account findByLogin(final String login)
-    {
-        return accountRepositoryDao.findByLogin(login)
-                .map(Account::of)
-                .orElse(null);
-    }
-
-    @Override
-    public Account findByEmail(final String email)
-    {
-        return accountRepositoryDao.findByEmail(email)
                 .map(Account::of)
                 .orElse(null);
     }

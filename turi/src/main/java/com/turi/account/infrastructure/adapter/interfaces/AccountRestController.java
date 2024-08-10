@@ -22,35 +22,16 @@ public class AccountRestController
         return ResponseEntity.ok(facade.isAddressExists(country, city, zipCode, street, buildingNumber, apartmentNumber));
     }
 
-    @GetMapping("/isAccountLoginExists")
-    public ResponseEntity<Boolean> isLoginExists(@RequestParam final String login)
-    {
-        return ResponseEntity.ok(facade.isLoginExists(login));
-    }
-
-    @GetMapping("/isAccountEmailExists")
-    public ResponseEntity<Boolean> isEmailExists(@RequestParam final String email)
-    {
-        return ResponseEntity.ok(facade.isEmailExists(email));
-    }
-
     @GetMapping("/isAccountPhoneNumberExists")
     public ResponseEntity<Boolean> isPhoneNumberExists(@RequestParam final String phoneNumber)
     {
         return ResponseEntity.ok(facade.isPhoneNumberExists(phoneNumber));
     }
 
-    @PutMapping("/updateAccountOwnerDetails/{accountId}")
-    public ResponseEntity<Account> updateOwnerDetails(@PathVariable final String accountId,
-                                                      @RequestBody final Account account)
+    @PutMapping("/updateAccount/{accountId}")
+    public ResponseEntity<Account> updateAccount(@PathVariable final String accountId,
+                                                 @RequestBody final Account account)
     {
-        return ResponseEntity.ok(facade.updateOwnerDetails(accountId, account));
-    }
-
-    @PutMapping("/resetAccountPassword/{accountId}")
-    public ResponseEntity<Account> resetPassword(@PathVariable final String accountId,
-                                                 @RequestParam final String password)
-    {
-        return ResponseEntity.ok(facade.resetPassword(accountId, password));
+        return ResponseEntity.ok(facade.updateAccount(accountId, account));
     }
 }

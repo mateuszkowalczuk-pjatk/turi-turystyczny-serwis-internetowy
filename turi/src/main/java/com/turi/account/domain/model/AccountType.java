@@ -9,10 +9,11 @@ import java.util.Arrays;
 @AllArgsConstructor
 public enum AccountType
 {
-    NORMAL(1),
-    PREMIUM(2);
+    NORMAL(1, "NORMAL"),
+    PREMIUM(2, "PREMIUM");
 
     private final int value;
+    private final String name;
 
     public static AccountType fromValue(final int value)
     {

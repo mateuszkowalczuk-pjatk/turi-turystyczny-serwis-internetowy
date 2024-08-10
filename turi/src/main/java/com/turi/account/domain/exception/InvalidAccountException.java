@@ -12,6 +12,6 @@ public final class InvalidAccountException extends ResponseStatusException
 
     public InvalidAccountException()
     {
-        super(HttpStatus.BAD_REQUEST, "The specified account is invalid. Parameters account type, login, email and password are required!");
+        super(HttpStatus.BAD_REQUEST, "The specified account is invalid. Parameters userId and accountType are required!");
     }
 }

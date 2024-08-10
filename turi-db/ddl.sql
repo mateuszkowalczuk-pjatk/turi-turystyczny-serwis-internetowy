@@ -3,6 +3,21 @@ CREATE SCHEMA IF NOT EXISTS turi;
 SET search_path TO turi;
 
 
+CREATE TABLE IF NOT EXISTS user
+(
+    userid   SERIAL PRIMARY KEY,
+    username VARCHAR(50)  NOT NULL UNIQUE,
+    email    VARCHAR(50)  NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+)
+
+COMMENT ON TABLE account IS 'Table to store user details authentication.';
+COMMENT ON COLUMN account.accountid IS 'Unique primary key of the user table.';
+COMMENT ON COLUMN account.login IS 'Unique user username.';
+COMMENT ON COLUMN account.email IS 'Unique user email.';
+COMMENT ON COLUMN account.password IS 'User password.';
+
+
 CREATE TABLE IF NOT EXISTS address 
 (
     addressid       SERIAL PRIMARY KEY,
@@ -30,16 +45,15 @@ COMMENT ON COLUMN address.apartmentnumber IS 'Optional apartment number, if ther
 CREATE TABLE IF NOT EXISTS account 
 (
     accountid   SERIAL PRIMARY KEY,
+    userid      INTEGER               UNIQUE,
     addressid   INTEGER               UNIQUE,
     accounttype INTEGER      NOT NULL,
-    login       VARCHAR(50)  NOT NULL UNIQUE,
-    email       VARCHAR(50)  NOT NULL UNIQUE,
-    password    VARCHAR(255) NOT NULL,
     firstname   VARCHAR(50),
     lastname    VARCHAR(50),
     birthdate   DATE,
     phonenumber VARCHAR(20)           UNIQUE,
     gender      INTEGER,
+    CONSTRAINT accountuser FOREIGN KEY (userid) REFERENCES user (userid),
     CONSTRAINT accountaddress FOREIGN KEY (addressid) REFERENCES address (addressid)
 );
 
@@ -48,18 +62,16 @@ CREATE INDEX IF NOT EXISTS accountloginindex ON account (login);
 CREATE INDEX IF NOT EXISTS accountemailindex ON account (email);
 CREATE INDEX IF NOT EXISTS accountphonenumberindex ON account (phonenumber);
 
-COMMENT ON TABLE account IS 'Table to store account owner details, both for authentication and owner details.';
+COMMENT ON TABLE account IS 'Table to store account user details.';
 COMMENT ON COLUMN account.accountid IS 'Unique primary key of the account table.';
-COMMENT ON COLUMN account.addressid IS 'Unique foreign key address of account owner.';
+COMMENT ON COLUMN account.userid IS 'Unique foreign key of account user.';
+COMMENT ON COLUMN account.addressid IS 'Unique foreign key address of account user.';
 COMMENT ON COLUMN account.accounttype IS 'Type of account (1 - Normal, 2 - Premium).';
-COMMENT ON COLUMN account.login IS 'Unique login of account.';
-COMMENT ON COLUMN account.email IS 'Unique email of account.';
-COMMENT ON COLUMN account.password IS 'Password of account.';
-COMMENT ON COLUMN account.firstname IS 'First name of account owner.';
-COMMENT ON COLUMN account.lastname IS 'Last name of account owner.';
-COMMENT ON COLUMN account.birthdate IS 'Birth date of account owner.';
-COMMENT ON COLUMN account.phonenumber IS 'Unique phone number of account owner.';
-COMMENT ON COLUMN account.gender IS 'Gander of account owner (1 - Male, 2 - Female).';
+COMMENT ON COLUMN account.firstname IS 'First name of account user.';
+COMMENT ON COLUMN account.lastname IS 'Last name of account user.';
+COMMENT ON COLUMN account.birthdate IS 'Birth date of account user.';
+COMMENT ON COLUMN account.phonenumber IS 'Unique phone number of account user.';
+COMMENT ON COLUMN account.gender IS 'Gander of account user (1 - Male, 2 - Female).';
 
 
 -- Table: Attraction

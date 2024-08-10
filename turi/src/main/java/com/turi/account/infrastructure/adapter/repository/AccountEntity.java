@@ -26,6 +26,9 @@ public final class AccountEntity implements Serializable
     @Column(name = "accountid")
     private Long accountId;
 
+    @Column(name = "userid", unique = true)
+    private Long userId;
+
     @Column(name = "addressid", unique = true)
     private Long addressId;
 
@@ -66,11 +69,9 @@ public final class AccountEntity implements Serializable
         final var gender = account.getGender() != null ? account.getGender().getValue() : 0;
 
         return AccountEntity.builder()
+                .withUserId(account.getUserId())
                 .withAddressId(account.getAddressId())
                 .withAccountType(account.getAccountType().getValue())
-                .withLogin(account.getLogin())
-                .withEmail(account.getEmail())
-                .withPassword(account.getPassword())
                 .withFirstName(account.getFirstName())
                 .withLastName(account.getLastName())
                 .withBirthDate(account.getBirthDate())
@@ -81,9 +82,6 @@ public final class AccountEntity implements Serializable
 
     private static boolean validation(final Account account)
     {
-        return account.getAccountType() != null
-                && account.getLogin() != null
-                && account.getEmail() != null
-                && account.getPassword() != null;
+        return account.getUserId() == null && account.getAccountType() != null;
     }
 }
