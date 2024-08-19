@@ -34,7 +34,7 @@ public class SecurityConfig
                 .securityMatchers(matchers -> matchers.requestMatchers("/api/**"))
                 .authorizeHttpRequests(authorize -> authorize.anyRequest().hasRole(AccountType.NORMAL.getName()))
                 .httpBasic(Customizer.withDefaults())
-                .csrf(AbstractHttpConfigurer::disable)
+//                .csrf(crsf -> crsf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
