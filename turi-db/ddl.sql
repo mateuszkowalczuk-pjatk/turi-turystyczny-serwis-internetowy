@@ -1,43 +1,80 @@
--- Schema
 CREATE SCHEMA IF NOT EXISTS turi; 
 
 SET search_path TO turi;
 
--- Table: Account
-CREATE TABLE Account (
-    accountid serial  NOT NULL,
-    accounttypeid int  NOT NULL,
-    addressid int  NULL,
-    login varchar(50)  NOT NULL,
-    email varchar(50)  NOT NULL,
-    password varchar(50)  NOT NULL,
-    username varchar(50)  NULL,
-    firstname varchar(50)  NULL,
-    lastname varchar(50)  NULL,
-    birthdate date  NULL,
-    gender int  NULL,
-    phonenumber varchar(20)  NULL,
-    CONSTRAINT Account_pk PRIMARY KEY (accountid)
+
+CREATE TABLE IF NOT EXISTS "user"
+(
+    userid   SERIAL PRIMARY KEY,
+    username VARCHAR(50)  NOT NULL UNIQUE,
+    email    VARCHAR(50)  NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
 );
 
--- Table: AccountType
-CREATE TABLE AccountType (
-    accounttypeid serial  NOT NULL,
-    name varchar(20)  NOT NULL,
-    CONSTRAINT AccountType_pk PRIMARY KEY (accounttypeid)
+CREATE INDEX IF NOT EXISTS userusernameindex ON "user" (username);
+CREATE INDEX IF NOT EXISTS useremailindex ON "user" (email);
+
+COMMENT ON TABLE "user" IS 'Table to store user details authentication.';
+COMMENT ON COLUMN "user".userid IS 'Unique required primary key of the user table.';
+COMMENT ON COLUMN "user".username IS 'Unique required user username.';
+COMMENT ON COLUMN "user".email IS 'Unique required user email.';
+COMMENT ON COLUMN "user".password IS 'Required user password.';
+
+
+CREATE TABLE IF NOT EXISTS address 
+(
+    addressid       SERIAL PRIMARY KEY,
+    country         VARCHAR(50) NOT NULL,
+    city            VARCHAR(50) NOT NULL,
+    zipcode         VARCHAR(6)  NOT NULL,
+    street          VARCHAR(50) NOT NULL,
+    buildingnumber  VARCHAR(5)  NOT NULL,
+    apartmentnumber INTEGER,
+    CONSTRAINT addressunique UNIQUE (country, city, zipcode, street, buildingnumber, apartmentnumber)
 );
 
--- Table: Address
-CREATE TABLE Address (
-    addressid serial  NOT NULL,
-    country varchar(50)  NOT NULL,
-    city varchar(50)  NOT NULL,
-    zipcode varchar(10)  NOT NULL,
-    street varchar(50)  NOT NULL,
-    buildingnumber varchar(10)  NOT NULL,
-    apartamentnumber varchar(10)  NULL,
-    CONSTRAINT Address_pk PRIMARY KEY (addressid)
+CREATE INDEX IF NOT EXISTS addressindex ON address (country, city, zipcode, street, buildingnumber, apartmentnumber);
+
+COMMENT ON TABLE address IS 'Table to store address for the account and the turistic place, where one address can be for both of them.';
+COMMENT ON COLUMN address.addressid IS 'Unique required primary key of the address table.';
+COMMENT ON COLUMN address.country IS 'Required country of address.';
+COMMENT ON COLUMN address.city IS 'Required city of address.';
+COMMENT ON COLUMN address.zipcode IS 'Required ZIP code of address in format xx-xxx (x is a digit).';
+COMMENT ON COLUMN address.street IS 'Required street name of address.';
+COMMENT ON COLUMN address.buildingnumber IS 'Required building number on street of address.';
+COMMENT ON COLUMN address.apartmentnumber IS 'Optional apartment number, if there is more than one apartment under a building number.';
+
+
+CREATE TABLE IF NOT EXISTS account 
+(
+    accountid   SERIAL PRIMARY KEY,
+    userid      INTEGER      NOT NULL UNIQUE,
+    addressid   INTEGER               UNIQUE,
+    accounttype INTEGER      NOT NULL,
+    firstname   VARCHAR(50),
+    lastname    VARCHAR(50),
+    birthdate   DATE,
+    phonenumber VARCHAR(20)           UNIQUE,
+    gender      INTEGER,
+    CONSTRAINT accountuser FOREIGN KEY (userid) REFERENCES "user" (userid),
+    CONSTRAINT accountaddress FOREIGN KEY (addressid) REFERENCES address (addressid)
 );
+
+CREATE INDEX IF NOT EXISTS accountuserindex ON account (userid);
+CREATE INDEX IF NOT EXISTS accountaddressindex ON account (addressid);
+CREATE INDEX IF NOT EXISTS accountphonenumberindex ON account (phonenumber);
+
+COMMENT ON TABLE account IS 'Table to store account user details.';
+COMMENT ON COLUMN account.accountid IS 'Unique required primary key of the account table.';
+COMMENT ON COLUMN account.userid IS 'Unique required foreign key of account user.';
+COMMENT ON COLUMN account.addressid IS 'Unique foreign key address of account user.';
+COMMENT ON COLUMN account.accounttype IS 'Required type of account (1 - Normal, 2 - Premium).';
+COMMENT ON COLUMN account.firstname IS 'First name of account user.';
+COMMENT ON COLUMN account.lastname IS 'Last name of account user.';
+COMMENT ON COLUMN account.birthdate IS 'Birth date of account user.';
+COMMENT ON COLUMN account.phonenumber IS 'Unique phone number of account user.';
+COMMENT ON COLUMN account.gender IS 'Gander of account user (1 - Male, 2 - Female).';
+
 
 -- Table: Attraction
 CREATE TABLE Attraction (
@@ -254,21 +291,6 @@ CREATE TABLE TuristicPlaceType (
     CONSTRAINT TuristicPlaceType_pk PRIMARY KEY (turisticplacetypeid)
 );
 
--- Reference: Account_AccountType (table: Account)
-ALTER TABLE Account ADD CONSTRAINT Account_AccountType
-    FOREIGN KEY (accounttypeid)
-    REFERENCES AccountType (accounttypeid)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
-;
-
--- Reference: Account_Address (table: Account)
-ALTER TABLE Account ADD CONSTRAINT Account_Address
-    FOREIGN KEY (addressid)
-    REFERENCES Address (addressid)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
-;
 
 -- Reference: Attraction_AttractionDateInterval (table: Attraction)
 ALTER TABLE Attraction ADD CONSTRAINT Attraction_AttractionDateInterval

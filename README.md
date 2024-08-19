@@ -22,7 +22,7 @@ Do pracy nad projektem  w środowisku lokalnym potrzebujemy:
     ```sh
     docker compose down
     ```
-7. Na koniec przywrócenie pliku `docker-compose.yml` do stanu początkowego i wrzucenie zmian brancha.
+7. Na koniec przywrócenie pliku `docker-compose.yml` do stanu początkowego i wrzucenie zmian na brancha.
 
 **Praca z backendem**
 1. Przejście do folderu projektu.
@@ -37,7 +37,7 @@ Do pracy nad projektem  w środowisku lokalnym potrzebujemy:
     ```sh
     docker compose down
     ```
-7. Na koniec przywrócenie pliku `docker-compose.yml` do stanu początkowego i wrzucenie zmian brancha.
+7. Na koniec przywrócenie pliku `docker-compose.yml` do stanu początkowego i wrzucenie zmian na brancha.
 
 **Praca z frontendem**
 1. Przejście do folderu projektu.
@@ -52,7 +52,7 @@ Do pracy nad projektem  w środowisku lokalnym potrzebujemy:
     ```sh
     docker compose down
     ```
-7. Na koniec przywrócenie pliku `docker-compose.yml` do stanu początkowego i wrzucenie zmian brancha.
+7. Na koniec przywrócenie pliku `docker-compose.yml` do stanu początkowego i wrzucenie zmian na brancha.
 
 **Testy**
 1. Otworzenie konsoli i przejście do folderu projektu.
