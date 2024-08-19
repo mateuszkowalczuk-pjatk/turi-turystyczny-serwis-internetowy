@@ -11,6 +11,7 @@ class ObjectIdTest
     void testObjectId()
     {
         final var objectId = ObjectId.of("1");
+
         assertThat(objectId.getValue()).isEqualTo(1);
     }
 
@@ -18,6 +19,7 @@ class ObjectIdTest
     void testObjectId_ToRest()
     {
         final var objectId = ObjectId.of("1");
+
         assertThat(objectId.toRest()).isEqualTo("1");
     }
 

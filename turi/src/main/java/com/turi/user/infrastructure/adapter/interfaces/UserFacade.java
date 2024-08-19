@@ -52,7 +52,7 @@ public class UserFacade
 
         if (password == null || !password.matches(validator))
         {
-            throw new BadRequestParameterException("Invalid account password. Password must be at least 8 characters long, containing at least one lowercase letter, one uppercase letter, one digit, and one special character (!@#$%^&*?).");
+            throw new BadRequestParameterException("Invalid password. Password must be at least 8 characters long, containing at least one lowercase letter, one uppercase letter, one digit, and one special character (!@#$%^&*?).");
         }
     }
 }

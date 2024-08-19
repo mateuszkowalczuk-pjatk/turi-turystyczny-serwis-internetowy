@@ -4,15 +4,17 @@ import com.turi.account.domain.model.Account;
 import com.turi.account.domain.model.AccountType;
 import com.turi.account.domain.model.Gender;
 import com.turi.account.infrastructure.adapter.interfaces.AccountFacade;
+import com.turi.address.domain.model.Address;
+import com.turi.address.infrastructure.adapter.interfaces.AddressFacade;
+import com.turi.infrastructure.rest.ErrorCode;
 import com.turi.testhelper.annotation.RestControllerTest;
 import com.turi.testhelper.rest.AbstractRestControllerIntegrationTest;
+import com.turi.user.domain.model.User;
+import com.turi.user.infrastructure.adapter.interfaces.UserFacade;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.net.URI;
 import java.time.LocalDate;
@@ -28,7 +30,10 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
     private AccountFacade facade;
 
     @Autowired(required = false)
-    private PasswordEncoder passwordEncoder;
+    private AddressFacade addressFacade;
+
+    @Autowired(required = false)
+    private UserFacade userFacade;
 
     @Test
     void testAccount_IsAddressExists()
@@ -69,6 +74,35 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
     }
 
     @Test
+    void testAccount_IsAddressExists_NotExistsForAccount()
+    {
+        final var address = Address.builder()
+                .withCountry("Polska")
+                .withCity("Krakow")
+                .withZipCode("02-000")
+                .withStreet("Krakowska")
+                .withBuildingNumber("1")
+                .build();
+
+        final var insertedAddress = addressFacade.createAddress(address);
+
+        final URI uri = fromHttpUrl(getBaseUrl())
+                .path("/isAccountAddressExists")
+                .queryParam("country", insertedAddress.getCountry())
+                .queryParam("city", insertedAddress.getCity())
+                .queryParam("zipCode", insertedAddress.getZipCode())
+                .queryParam("street", insertedAddress.getStreet())
+                .queryParam("buildingNumber", insertedAddress.getBuildingNumber())
+                .queryParam("apartmentNumber", insertedAddress.getApartmentNumber())
+                .build().toUri();
+
+        final var result = restTemplate.getForEntity(uri, Boolean.class);
+
+        assertTrue(result.getStatusCode().is2xxSuccessful());
+        assertEquals(Boolean.FALSE, result.getBody());
+    }
+
+    @Test
     void testAccount_IsAddressExists_WithoutOptionalApartmentNumber()
     {
         final URI uri = fromHttpUrl(getBaseUrl())
@@ -78,62 +112,6 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
                 .queryParam("zipCode", "02-000")
                 .queryParam("street", "Krakowska")
                 .queryParam("buildingNumber", "1")
-                .build().toUri();
-
-        final var result = restTemplate.getForEntity(uri, Boolean.class);
-
-        assertTrue(result.getStatusCode().is2xxSuccessful());
-        assertEquals(Boolean.FALSE, result.getBody());
-    }
-
-    @Test
-    void testAccount_IsLoginExists()
-    {
-        final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/isAccountLoginExists")
-                .queryParam("login", "Janek")
-                .build().toUri();
-
-        final var result = restTemplate.getForEntity(uri, Boolean.class);
-
-        assertTrue(result.getStatusCode().is2xxSuccessful());
-        assertEquals(Boolean.TRUE, result.getBody());
-    }
-
-    @Test
-    void testAccount_IsLoginExists_NotExists()
-    {
-        final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/isAccountLoginExists")
-                .queryParam("login", "Marek")
-                .build().toUri();
-
-        final var result = restTemplate.getForEntity(uri, Boolean.class);
-
-        assertTrue(result.getStatusCode().is2xxSuccessful());
-        assertEquals(Boolean.FALSE, result.getBody());
-    }
-
-    @Test
-    void testAccount_IsEmailExists()
-    {
-        final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/isAccountEmailExists")
-                .queryParam("email", "jan@gmail.com")
-                .build().toUri();
-
-        final var result = restTemplate.getForEntity(uri, Boolean.class);
-
-        assertTrue(result.getStatusCode().is2xxSuccessful());
-        assertEquals(Boolean.TRUE, result.getBody());
-    }
-
-    @Test
-    void testAccount_IsEmailExists_NotExists()
-    {
-        final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/isAccountEmailExists")
-                .queryParam("email", "marek@wp.com")
                 .build().toUri();
 
         final var result = restTemplate.getForEntity(uri, Boolean.class);
@@ -171,14 +149,14 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
     }
 
     @Test
-    void testAccount_UpdateOwnerDetails()
+    void testAccount_UpdateAccount()
     {
         final var account = mockAccount();
 
-        account.setFirstName("Marek");
+        account.setFirstName(mockNewAccount().getFirstName());
 
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/updateAccountOwnerDetails/{id}")
+                .path("/updateAccount/{id}")
                 .buildAndExpand(account.getAccountId())
                 .toUri();
 
@@ -187,7 +165,9 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
         assertTrue(result.getStatusCode().is2xxSuccessful());
         assertNotNull(result.getBody());
         assertThat(result.getBody().getAccountId()).isEqualTo(account.getAccountId());
+        assertThat(result.getBody().getUserId()).isEqualTo(account.getUserId());
         assertThat(result.getBody().getAddressId()).isEqualTo(account.getAddressId());
+        assertThat(result.getBody().getAccountType()).isEqualTo(account.getAccountType());
         assertThat(result.getBody().getFirstName()).isEqualTo(account.getFirstName());
         assertThat(result.getBody().getLastName()).isEqualTo(account.getLastName());
         assertThat(result.getBody().getBirthDate()).isEqualTo(account.getBirthDate());
@@ -196,24 +176,24 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
     }
 
     @Test
-    void testAccount_UpdateOwnerDetails_AccountNotFound()
+    void testAccount_UpdateAccount_AccountNotFound()
     {
         final var account = mockAccount();
 
-        account.setAccountId(2L);
+        account.setAccountId(mockNewAccount().getAccountId());
 
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/updateAccountOwnerDetails/{accountId}")
+                .path("/updateAccount/{accountId}")
                 .buildAndExpand(account.getAccountId())
                 .toUri();
 
-        final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(account), Account.class);
+        final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(account), ErrorCode.class);
 
         assertTrue(result.getStatusCode().is4xxClientError());
     }
 
     @Test
-    void testAccount_UpdateOwnerDetails_UniqueAddress()
+    void testAccount_UpdateAccount_UniqueAddress()
     {
         final var account = mockNewAccount();
 
@@ -222,17 +202,17 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
         createdAccount.setAddressId(mockAccount().getAddressId());
 
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/updateAccountOwnerDetails/{accountId}")
+                .path("/updateAccount/{accountId}")
                 .buildAndExpand(account.getAccountId())
                 .toUri();
 
-        final var result = restTemplate.postForEntity(uri, account, Account.class);
+        final var result = restTemplate.postForEntity(uri, account, ErrorCode.class);
 
         assertTrue(result.getStatusCode().is4xxClientError());
     }
 
     @Test
-    void testAccount_UpdateOwnerDetails_UniquePhoneNumber()
+    void testAccount_UpdateAccount_UniquePhoneNumber()
     {
         final var account = mockNewAccount();
 
@@ -241,66 +221,11 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
         createdAccount.setPhoneNumber(mockAccount().getPhoneNumber());
 
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/updateAccountOwnerDetails/{accountId}")
+                .path("/updateAccount/{accountId}")
                 .buildAndExpand(account.getAccountId())
                 .toUri();
 
-        final var result = restTemplate.postForEntity(uri, account, Account.class);
-
-        assertTrue(result.getStatusCode().is4xxClientError());
-    }
-
-    @Test
-    void testAccount_ResetPassword()
-    {
-        final var account = mockAccount();
-
-        account.setPassword("Janek123!");
-
-        final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/resetAccountPassword/{id}")
-                .queryParam("password", account.getPassword())
-                .buildAndExpand(account.getAccountId())
-                .toUri();
-
-        final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(account), Account.class);
-
-        assertTrue(result.getStatusCode().is2xxSuccessful());
-        assertNotNull(result.getBody());
-        assertTrue(passwordEncoder.matches(account.getPassword(), result.getBody().getPassword()));
-    }
-
-    @ParameterizedTest
-    @CsvSource({"Marek123", "marekmarek", "marek123", "Marek1", "marek123!"})
-    void testAccount_ResetPassword_InvalidPassword(final String password)
-    {
-        final var account = mockAccount();
-
-        final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/resetAccountPassword/{id}")
-                .queryParam("password", password)
-                .buildAndExpand(account.getAccountId())
-                .toUri();
-
-        final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(account), Account.class);
-
-        assertTrue(result.getStatusCode().is4xxClientError());
-    }
-
-    @Test
-    void testAccount_ResetPassword_AccountNotFound()
-    {
-        final var account = mockNewAccount();
-
-        account.setPassword("Janek12345!");
-
-        final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/resetAccountPassword/{id}")
-                .queryParam("password", account.getPassword())
-                .buildAndExpand(account.getAccountId())
-                .toUri();
-
-        final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(account), Account.class);
+        final var result = restTemplate.postForEntity(uri, account, ErrorCode.class);
 
         assertTrue(result.getStatusCode().is4xxClientError());
     }
@@ -309,11 +234,9 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
     {
         return Account.builder()
                 .withAccountId(1L)
+                .withUserId(1L)
                 .withAddressId(1L)
                 .withAccountType(AccountType.NORMAL)
-                .withLogin("Janek")
-                .withEmail("jan@gmail.com")
-                .withPassword("JanKowalski123")
                 .withFirstName("Jan")
                 .withLastName("Kowalski")
                 .withBirthDate(LocalDate.of(2000,1, 1))
@@ -324,12 +247,18 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
 
     private Account mockNewAccount()
     {
-        return Account.builder()
-                .withAccountId(2L)
-                .withAccountType(AccountType.NORMAL)
-                .withLogin("Marek")
+        final var user = User.builder()
+                .withUsername("Marek")
                 .withEmail("marek@gmail.com")
                 .withPassword("MarekNowak123!")
+                .build();
+
+        final var userId = userFacade.createUser(user).getUserId();
+
+        return Account.builder()
+                .withAccountId(2L)
+                .withUserId(userId)
+                .withAccountType(AccountType.NORMAL)
                 .build();
     }
 }

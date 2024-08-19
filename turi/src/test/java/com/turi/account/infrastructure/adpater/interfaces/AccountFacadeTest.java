@@ -1,6 +1,9 @@
 package com.turi.account.infrastructure.adpater.interfaces;
 
-import com.turi.account.domain.exception.*;
+import com.turi.account.domain.exception.AccountNotFoundException;
+import com.turi.account.domain.exception.AccountUniqueAddressException;
+import com.turi.account.domain.exception.AccountUniquePhoneNumberException;
+import com.turi.account.domain.exception.InvalidAccountException;
 import com.turi.account.domain.model.Account;
 import com.turi.account.domain.model.AccountType;
 import com.turi.account.domain.model.Gender;
@@ -9,11 +12,11 @@ import com.turi.address.domain.model.Address;
 import com.turi.address.infrastructure.adapter.interfaces.AddressFacade;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.testhelper.annotation.RestControllerTest;
+import com.turi.user.domain.model.User;
+import com.turi.user.infrastructure.adapter.interfaces.UserFacade;
+import org.hibernate.exception.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 
@@ -30,7 +33,32 @@ class AccountFacadeTest
     private AddressFacade addressFacade;
 
     @Autowired(required = false)
-    private PasswordEncoder passwordEncoder;
+    private UserFacade userFacade;
+
+    @Test
+    void testAccount_GetByUserId()
+    {
+        final var account = mockAccount();
+
+        final var result = facade.getByUserId(account.getUserId());
+
+        assertNotNull(result);
+        assertThat(result).isEqualTo(account);
+    }
+
+    @Test
+    void testAccount_GetByUserId_NotFound()
+    {
+        final var account = mockNewAccount();
+
+        assertThrows(IllegalArgumentException.class, () -> facade.getByUserId(account.getUserId()));
+    }
+
+    @Test
+    void testAccount_GetByUserId_IdIsNull()
+    {
+        assertThrows(BadRequestParameterException.class, () -> facade.getByUserId(null));
+    }
 
     @Test
     void testAccount_IsAddressExists()
@@ -75,92 +103,6 @@ class AccountFacadeTest
     }
 
     @Test
-    void testAccount_GetByLogin()
-    {
-        final var account = mockAccount();
-
-        final var result = facade.getByLogin(account.getLogin());
-
-        assertNotNull(result);
-        assertThat(result).isEqualTo(account);
-    }
-
-    @Test
-    void testAccount_GetByLogin_NotFound()
-    {
-        final var account = mockNewAccount();
-
-        final var result = facade.getByLogin(account.getLogin());
-
-        assertNull(result);
-    }
-
-    @Test
-    void testAccount_IsLoginExists()
-    {
-        final var account = mockAccount();
-
-        final var result = facade.isLoginExists(account.getLogin());
-
-        assertNotNull(result);
-        assertTrue(result);
-    }
-
-    @Test
-    void testAccount_IsLoginExists_NotExists()
-    {
-        final var account = mockNewAccount();
-
-        final var result = facade.isLoginExists(account.getLogin());
-
-        assertNotNull(result);
-        assertFalse(result);
-    }
-
-    @Test
-    void testAccount_GetByEmail()
-    {
-        final var account = mockAccount();
-
-        final var result = facade.getByEmail(account.getEmail());
-
-        assertNotNull(result);
-        assertThat(result).isEqualTo(account);
-    }
-
-    @Test
-    void testAccount_GetByEmail_NotFound()
-    {
-        final var account = mockNewAccount();
-
-        final var result = facade.getByEmail(account.getEmail());
-
-        assertNull(result);
-    }
-
-    @Test
-    void testAccount_IsEmailExists()
-    {
-        final var account = mockAccount();
-
-        final var result = facade.isEmailExists(account.getEmail());
-
-        assertNotNull(result);
-        assertTrue(result);
-    }
-
-    @Test
-    void testAccount_IsEmailExists_NotExists()
-    {
-        final var account = mockNewAccount();
-
-        final var result = facade.isEmailExists(account.getEmail());
-
-        assertNotNull(result);
-        assertFalse(result);
-    }
-
-    @Test
     void testAccount_IsPhoneNumberExists()
     {
         final var account = mockAccount();
@@ -193,102 +135,72 @@ class AccountFacadeTest
         assertThat(result).isEqualTo(account);
     }
 
-    @ParameterizedTest
-    @CsvSource({"Marek123", "marekmarek", "marek123", "Marek1", "marek123!"})
-    void testAccount_CreateAccount_InvalidPassword(final String password)
+    @Test
+    void testAccount_CreateAccount_WithoutRequiredUserIdField()
     {
         final var account = Account.builder()
                 .withAccountType(AccountType.NORMAL)
-                .withLogin("Marek")
-                .withEmail("marek@gmail.com")
-                .withPassword(password)
                 .build();
 
-        assertThrows(BadRequestParameterException.class, () -> facade.createAccount(account));
-    }
-
-    @Test
-    void testAccount_CreateAccount_UniqueLogin()
-    {
-        final var account = mockNewAccount();
-
-        account.setLogin(mockAccount().getLogin());
-
-        assertThrows(AccountUniqueLoginException.class, () -> facade.createAccount(account));
-    }
-
-    @Test
-    void testAccount_CreateAccount_UniqueEmail()
-    {
-        final var account = mockNewAccount();
-
-        account.setEmail(mockAccount().getEmail());
-
-        assertThrows(AccountUniqueEmailException.class, () -> facade.createAccount(account));
+        assertThrows(InvalidAccountException.class, () -> facade.createAccount(account));
     }
 
     @Test
     void testAccount_CreateAccount_WithoutRequiredAccountTypeField()
     {
         final var account = Account.builder()
-                .withLogin("Marek")
-                .withEmail("marek@gmail.com")
-                .withPassword("MarekNowak123!")
+                .withUserId(1L)
                 .build();
 
         assertThrows(InvalidAccountException.class, () -> facade.createAccount(account));
     }
 
     @Test
-    void testAccount_CreateAccount_WithoutRequiredLoginField()
+    void testAccount_CreateAccount_UniqueUserId()
     {
-        final var account = Account.builder()
-                .withAccountType(AccountType.NORMAL)
-                .withEmail("marek@gmail.com")
-                .withPassword("MarekNowak123!")
-                .build();
+        final var account = mockNewAccount();
 
-        assertThrows(InvalidAccountException.class, () -> facade.createAccount(account));
+        account.setUserId(mockAccount().getUserId());
+
+        assertThrows(ConstraintViolationException.class, () -> facade.createAccount(account));
     }
 
     @Test
-    void testAccount_CreateAccount_WithoutRequiredEmailField()
+    void testAccount_CreateAccount_UniqueAddressId()
     {
-        final var account = Account.builder()
-                .withAccountType(AccountType.NORMAL)
-                .withLogin("Marek")
-                .withPassword("MarekNowak123!")
-                .build();
+        final var account = mockNewAccount();
 
-        assertThrows(InvalidAccountException.class, () -> facade.createAccount(account));
+        account.setAddressId(mockAccount().getAddressId());
+
+        assertThrows(ConstraintViolationException.class, () -> facade.createAccount(account));
     }
 
     @Test
-    void testAccount_CreateAccount_WithoutRequiredPasswordField()
+    void testAccount_CreateAccount_UniquePhoneNumber()
     {
-        final var account = Account.builder()
-                .withAccountType(AccountType.NORMAL)
-                .withLogin("Marek")
-                .withEmail("marek@gmail.com")
-                .build();
+        final var account = mockNewAccount();
 
-        assertThrows(BadRequestParameterException.class, () -> facade.createAccount(account));
+        account.setPhoneNumber(mockAccount().getPhoneNumber());
+
+        assertThrows(ConstraintViolationException.class, () -> facade.createAccount(account));
     }
 
     @Test
-    void testAccount_UpdateOwnerDetails()
+    void testAccount_UpdateAccount()
     {
         final var account = mockAccount();
 
         account.setFirstName("Marek");
 
-        facade.updateOwnerDetails(String.valueOf(account.getAccountId()), account);
+        facade.updateAccount(String.valueOf(account.getAccountId()), account);
 
-        final var result = facade.getByLogin(account.getLogin());
+        final var result = facade.getByUserId(account.getUserId());
 
         assertNotNull(result);
         assertThat(result.getAccountId()).isEqualTo(account.getAccountId());
+        assertThat(result.getUserId()).isEqualTo(account.getUserId());
         assertThat(result.getAddressId()).isEqualTo(account.getAddressId());
+        assertThat(result.getAccountType()).isEqualTo(account.getAccountType());
         assertThat(result.getFirstName()).isEqualTo(account.getFirstName());
         assertThat(result.getLastName()).isEqualTo(account.getLastName());
         assertThat(result.getBirthDate()).isEqualTo(account.getBirthDate());
@@ -297,17 +209,15 @@ class AccountFacadeTest
     }
 
     @Test
-    void testAccount_UpdateOwnerDetails_AccountNotFound()
+    void testAccount_UpdateAccount_AccountNotFound()
     {
-        final var account = mockAccount();
+        final var account = mockNewAccount();
 
-        account.setAccountId(2L);
-
-        assertThrows(AccountNotFoundException.class, () -> facade.updateOwnerDetails(String.valueOf(account.getAccountId()), account));
+        assertThrows(AccountNotFoundException.class, () -> facade.updateAccount(String.valueOf(account.getAccountId()), account));
     }
 
     @Test
-    void testAccount_UpdateOwnerDetails_UniqueAddress()
+    void testAccount_UpdateAccount_UniqueAddress()
     {
         final var account = mockNewAccount();
 
@@ -315,11 +225,11 @@ class AccountFacadeTest
 
         result.setAddressId(mockAccount().getAddressId());
 
-        assertThrows(AccountUniqueAddressException.class, () -> facade.updateOwnerDetails(String.valueOf(result.getAccountId()), result));
+        assertThrows(AccountUniqueAddressException.class, () -> facade.updateAccount(String.valueOf(result.getAccountId()), result));
     }
 
     @Test
-    void testAccount_UpdateOwnerDetails_UniquePhoneNumber()
+    void testAccount_UpdateAccount_UniquePhoneNumber()
     {
         final var account = mockNewAccount();
 
@@ -327,50 +237,16 @@ class AccountFacadeTest
 
         result.setPhoneNumber(mockAccount().getPhoneNumber());
 
-        assertThrows(AccountUniquePhoneNumberException.class, () -> facade.updateOwnerDetails(String.valueOf(result.getAccountId()), result));
-    }
-
-    @Test
-    void testAccount_ResetPassword()
-    {
-        final var account = mockAccount();
-
-        final var newPassword = "Janek12345!";
-
-        final var result = facade.resetPassword(String.valueOf(account.getAccountId()), newPassword);
-
-        assertNotNull(result);
-        assertTrue(passwordEncoder.matches(newPassword, result.getPassword()));
-    }
-
-    @ParameterizedTest
-    @CsvSource({"Marek123", "marekmarek", "marek123", "Marek1", "marek123!"})
-    void testAccount_ResetPassword_InvalidPassword(final String password)
-    {
-        final var account = mockAccount();
-
-        assertThrows(BadRequestParameterException.class, () -> facade.resetPassword(String.valueOf(account.getAccountId()), password));
-    }
-
-    @Test
-    void testAccount_ResetPassword_AccountNotFound()
-    {
-        final var account = mockNewAccount();
-
-        final var newPassword = "Janek12345!";
-
-        assertThrows(AccountNotFoundException.class, () -> facade.resetPassword(String.valueOf(account.getAccountId()), newPassword));
+        assertThrows(AccountUniquePhoneNumberException.class, () -> facade.updateAccount(String.valueOf(result.getAccountId()), result));
     }
 
     private Account mockAccount()
     {
         return Account.builder()
                 .withAccountId(1L)
+                .withUserId(1L)
                 .withAddressId(1L)
                 .withAccountType(AccountType.NORMAL)
-                .withLogin("Janek")
-                .withEmail("jan@gmail.com")
-                .withPassword("JanKowalski123")
                 .withFirstName("Jan")
                 .withLastName("Kowalski")
                 .withBirthDate(LocalDate.of(2000,1, 1))
@@ -381,12 +257,18 @@ class AccountFacadeTest
 
     private Account mockNewAccount()
     {
-        return Account.builder()
-                .withAccountId(2L)
-                .withAccountType(AccountType.NORMAL)
-                .withLogin("Marek")
+        final var user = User.builder()
+                .withUsername("Marek")
                 .withEmail("marek@gmail.com")
                 .withPassword("MarekNowak123!")
+                .build();
+
+        final var userId = userFacade.createUser(user).getUserId();
+
+        return Account.builder()
+                .withAccountId(2L)
+                .withUserId(userId)
+                .withAccountType(AccountType.NORMAL)
                 .build();
     }
 }

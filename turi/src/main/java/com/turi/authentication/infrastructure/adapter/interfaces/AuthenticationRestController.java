@@ -1,6 +1,7 @@
 package com.turi.authentication.infrastructure.adapter.interfaces;
 
 import com.turi.account.domain.model.Account;
+import com.turi.authentication.domain.model.Authentication;
 import com.turi.authentication.infrastructure.adapter.application.queries.authentication.AuthenticationParam;
 import com.turi.authentication.infrastructure.adapter.application.queries.registration.RegistrationParam;
 import lombok.AllArgsConstructor;
@@ -22,7 +23,7 @@ public class AuthenticationRestController
     }
 
     @PostMapping("/signIn")
-    public ResponseEntity<Object> authenticate(@RequestBody final AuthenticationParam params)
+    public ResponseEntity<Authentication> authenticate(@RequestBody final AuthenticationParam params)
     {
         return ResponseEntity.ok(facade.authenticate(params));
     }

@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user")
+@Table(name = "\"user\"")
 @Builder(setterPrefix = "with")
 public final class UserEntity implements Serializable
 {

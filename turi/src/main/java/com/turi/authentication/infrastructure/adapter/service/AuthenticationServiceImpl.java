@@ -3,6 +3,8 @@ package com.turi.authentication.infrastructure.adapter.service;
 import com.turi.account.domain.model.Account;
 import com.turi.account.domain.model.AccountType;
 import com.turi.account.infrastructure.adapter.interfaces.AccountFacade;
+import com.turi.authentication.domain.exception.InvalidLoginException;
+import com.turi.authentication.domain.exception.InvalidPasswordForLoginException;
 import com.turi.authentication.domain.model.Authentication;
 import com.turi.authentication.domain.port.AuthenticationJwtService;
 import com.turi.authentication.domain.port.AuthenticationService;
@@ -13,6 +15,8 @@ import com.turi.user.domain.model.User;
 import com.turi.user.infrastructure.adapter.interfaces.UserFacade;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
@@ -48,13 +52,24 @@ public class AuthenticationServiceImpl implements AuthenticationService
     @Override
     public Authentication authenticate(final AuthenticationParam params)
     {
-        authManager.authenticate(new UsernamePasswordAuthenticationToken(params.getLogin(), params.getPassword()));
+        try
+        {
+            authManager.authenticate(new UsernamePasswordAuthenticationToken(params.getLogin(), params.getPassword()));
 
-        final var token = jwtService.generateToken(params.getPassword());
+            final var token = jwtService.generateToken(params.getLogin());
 
-        return Authentication.builder()
-                .withToken(token)
-                .withExpiresIn(properties.getExpirationTime())
-                .build();
+            return Authentication.builder()
+                    .withToken(token)
+                    .withExpiresIn(properties.getExpirationTime())
+                    .build();
+        }
+        catch (final InternalAuthenticationServiceException ex)
+        {
+            throw new InvalidLoginException(params.getLogin());
+        }
+        catch (final BadCredentialsException ex)
+        {
+            throw new InvalidPasswordForLoginException(params.getLogin());
+        }
     }
 }

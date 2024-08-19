@@ -7,6 +7,8 @@ import com.turi.account.domain.model.AccountType;
 import com.turi.account.domain.model.Gender;
 import com.turi.account.domain.port.AccountRepository;
 import com.turi.testhelper.annotation.RepositoryTest;
+import com.turi.user.domain.model.User;
+import com.turi.user.domain.port.UserRepository;
 import org.hibernate.exception.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class AccountRepositoryTest
 {
     @Autowired
     private AccountRepository repository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Test
     void testAccount_FindAll()
@@ -66,6 +71,27 @@ public class AccountRepositoryTest
     }
 
     @Test
+    void testAccount_FindByUserId()
+    {
+        final var account = mockAccount();
+
+        final var result = repository.findByUserId(account.getUserId());
+
+        assertNotNull(result);
+        assertThat(result).isEqualTo(account);
+    }
+
+    @Test
+    void testAccount_FindUserId_NotFound()
+    {
+        final var account = mockNewAccount();
+
+        final var result = repository.findByUserId(account.getUserId());
+
+        assertNull(result);
+    }
+
+    @Test
     void testAccount_FindByAddressId()
     {
         final var account = mockAccount();
@@ -82,48 +108,6 @@ public class AccountRepositoryTest
         final var account = mockNewAccount();
 
         final var result = repository.findByAddressId(account.getAddressId());
-
-        assertNull(result);
-    }
-
-    @Test
-    void testAccount_FindByLogin()
-    {
-        final var account = mockAccount();
-
-        final var result = repository.findByLogin(account.getLogin());
-
-        assertNotNull(result);
-        assertThat(result).isEqualTo(account);
-    }
-
-    @Test
-    void testAccount_FindByLogin_NotFound()
-    {
-        final var account = mockNewAccount();
-
-        final var result = repository.findByLogin(account.getLogin());
-
-        assertNull(result);
-    }
-
-    @Test
-    void testAccount_FindByEmail()
-    {
-        final var account = mockAccount();
-
-        final var result = repository.findByEmail(account.getEmail());
-
-        assertNotNull(result);
-        assertThat(result).isEqualTo(account);
-    }
-
-    @Test
-    void testAccount_FindByEmail_NotFound()
-    {
-        final var account = mockNewAccount();
-
-        final var result = repository.findByLogin(account.getEmail());
 
         assertNull(result);
     }
@@ -163,81 +147,51 @@ public class AccountRepositoryTest
     }
 
     @Test
+    void testAccount_Insert_WithoutRequiredUserIdField()
+    {
+        final var account = Account.builder()
+                .withAccountType(AccountType.NORMAL)
+                .build();
+
+        assertThrows(InvalidAccountException.class, () -> repository.insert(account));
+    }
+
+    @Test
     void testAccount_Insert_WithoutRequiredAccountTypeField()
     {
         final var account = Account.builder()
-                .withAccountId(2L)
-                .withLogin("Marek")
-                .withEmail("marek@gmail.com")
-                .withPassword("MarekNowak123")
+                .withUserId(1L)
                 .build();
 
         assertThrows(InvalidAccountException.class, () -> repository.insert(account));
     }
 
     @Test
-    void testAccount_Insert_WithoutRequiredLoginField()
+    void testAccount_Insert_UniqueUserId()
     {
-        final var account = Account.builder()
-                .withAccountId(2L)
-                .withAccountType(AccountType.NORMAL)
-                .withEmail("marek@gmail.com")
-                .withPassword("MarekNowak123")
-                .build();
+        final var account = mockNewAccount();
 
-        assertThrows(InvalidAccountException.class, () -> repository.insert(account));
-    }
-
-    @Test
-    void testAccount_Insert_WithoutRequiredEmailField()
-    {
-        final var account = Account.builder()
-                .withAccountId(2L)
-                .withAccountType(AccountType.NORMAL)
-                .withLogin("Marek")
-                .withPassword("MarekNowak123")
-                .build();
-
-        assertThrows(InvalidAccountException.class, () -> repository.insert(account));
-    }
-
-    @Test
-    void testAccount_Insert_WithoutRequiredPasswordField()
-    {
-        final var account = Account.builder()
-                .withAccountId(2L)
-                .withAccountType(AccountType.NORMAL)
-                .withLogin("Marek")
-                .withEmail("marek@gmail.com")
-                .build();
-
-        assertThrows(InvalidAccountException.class, () -> repository.insert(account));
-    }
-
-    @Test
-    void testAccount_Insert_UniqueLogin()
-    {
-        final var account = Account.builder()
-                .withAccountId(2L)
-                .withAccountType(AccountType.NORMAL)
-                .withLogin("Janek")
-                .withEmail("marek@gmail.com")
-                .withPassword("MarekNowak123")
-                .build();
+        account.setUserId(mockAccount().getUserId());
 
         assertThrows(ConstraintViolationException.class, () -> repository.insert(account));
     }
 
     @Test
-    void testAccount_Insert_UniqueEmail()
+    void testAccount_Insert_UniqueAddressId()
     {
-        final var account = Account.builder()
-                .withAccountId(2L)
-                .withAccountType(AccountType.NORMAL)
-                .withLogin("Marek")
-                .withEmail("jan@gmail.com")
-                .withPassword("MarekNowak123")
-                .build();
+        final var account = mockNewAccount();
+
+        account.setAddressId(mockAccount().getAddressId());
+
+        assertThrows(ConstraintViolationException.class, () -> repository.insert(account));
+    }
+
+    @Test
+    void testAccount_Insert_UniquePhoneNumber()
+    {
+        final var account = mockNewAccount();
+
+        account.setPhoneNumber(mockAccount().getPhoneNumber());
 
         assertThrows(ConstraintViolationException.class, () -> repository.insert(account));
     }
@@ -255,11 +209,9 @@ public class AccountRepositoryTest
 
         assertNotNull(result);
         assertThat(result.getAccountId()).isEqualTo(account.getAccountId());
+        assertThat(result.getUserId()).isEqualTo(account.getUserId());
         assertThat(result.getAddressId()).isEqualTo(account.getAddressId());
         assertThat(result.getAccountType()).isEqualTo(account.getAccountType());
-        assertThat(result.getLogin()).isEqualTo(account.getLogin());
-        assertThat(result.getEmail()).isEqualTo(account.getEmail());
-        assertThat(result.getPassword()).isEqualTo(account.getPassword());
         assertThat(result.getFirstName()).isEqualTo(account.getFirstName());
         assertThat(result.getLastName()).isEqualTo(account.getLastName());
         assertThat(result.getBirthDate()).isEqualTo(account.getBirthDate());
@@ -280,6 +232,16 @@ public class AccountRepositoryTest
     }
 
     @Test
+    void testAccount_Update_WithoutRequiredUserIdField()
+    {
+        final var account = mockAccount();
+
+        account.setUserId(null);
+
+        assertThrows(InvalidAccountException.class, () -> repository.update(account.getAccountId(), account));
+    }
+
+    @Test
     void testAccount_Update_WithoutRequiredAccountTypeField()
     {
         final var account = mockAccount();
@@ -290,37 +252,23 @@ public class AccountRepositoryTest
     }
 
     @Test
-    void testAccount_Update_WithoutRequiredLoginField()
+    void testAccount_Update_UniqueUserId()
     {
-        final var account = mockAccount();
+        final var account = mockNewAccount();
 
-        account.setLogin(null);
+        final var accountId = repository.insert(account);
 
-        assertThrows(InvalidAccountException.class, () -> repository.update(account.getAccountId(), account));
+        final var result = repository.findById(accountId);
+
+        System.out.println(result);
+
+        result.setUserId(mockAccount().getUserId());
+
+        assertThrows(ConstraintViolationException.class, () -> repository.update(result.getAccountId(), result));
     }
 
     @Test
-    void testAccount_Update_WithoutRequiredEmailField()
-    {
-        final var account = mockAccount();
-
-        account.setEmail(null);
-
-        assertThrows(InvalidAccountException.class, () -> repository.update(account.getAccountId(), account));
-    }
-
-    @Test
-    void testAccount_Update_WithoutRequiredPasswordField()
-    {
-        final var account = mockAccount();
-
-        account.setPassword(null);
-
-        assertThrows(InvalidAccountException.class, () -> repository.update(account.getAccountId(), account));
-    }
-
-    @Test
-    void testAccount_Update_UniqueAddress()
+    void testAccount_Update_UniqueAddressId()
     {
         final var account = mockNewAccount();
 
@@ -329,34 +277,6 @@ public class AccountRepositoryTest
         final var result = repository.findById(accountId);
 
         result.setAddressId(mockAccount().getAddressId());
-
-        assertThrows(ConstraintViolationException.class, () -> repository.update(result.getAccountId(), result));
-    }
-
-    @Test
-    void testAccount_Update_UniqueLogin()
-    {
-        final var account = mockNewAccount();
-
-        final var accountId = repository.insert(account);
-
-        final var result = repository.findById(accountId);
-
-        result.setLogin(mockAccount().getLogin());
-
-        assertThrows(ConstraintViolationException.class, () -> repository.update(result.getAccountId(), result));
-    }
-
-    @Test
-    void testAccount_Update_UniqueEmail()
-    {
-        final var account = mockNewAccount();
-
-        final var accountId = repository.insert(account);
-
-        final var result = repository.findById(accountId);
-
-        result.setEmail(mockAccount().getEmail());
 
         assertThrows(ConstraintViolationException.class, () -> repository.update(result.getAccountId(), result));
     }
@@ -397,11 +317,9 @@ public class AccountRepositoryTest
     {
         return Account.builder()
                 .withAccountId(1L)
+                .withUserId(1L)
                 .withAddressId(1L)
                 .withAccountType(AccountType.NORMAL)
-                .withLogin("Janek")
-                .withEmail("jan@gmail.com")
-                .withPassword("JanKowalski123")
                 .withFirstName("Jan")
                 .withLastName("Kowalski")
                 .withBirthDate(LocalDate.of(2000,1, 1))
@@ -412,12 +330,18 @@ public class AccountRepositoryTest
 
     private Account mockNewAccount()
     {
+        final var user = User.builder()
+                .withUsername("Marek")
+                .withEmail("marek@gmail.com")
+                .withPassword("MarekNowak123!")
+                .build();
+
+        final var userId = userRepository.insert(user);
+
         return Account.builder()
                 .withAccountId(2L)
+                .withUserId(userId)
                 .withAccountType(AccountType.NORMAL)
-                .withLogin("Marek")
-                .withEmail("marek@gmail.com")
-                .withPassword("MarekNowak123")
                 .build();
     }
 }

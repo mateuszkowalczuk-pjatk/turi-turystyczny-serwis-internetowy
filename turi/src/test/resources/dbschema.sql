@@ -1,5 +1,13 @@
 DROP ALL OBJECTS;
 
+CREATE TABLE IF NOT EXISTS "user"
+(
+    userid   SERIAL       PRIMARY KEY,
+    username VARCHAR(50)  NOT NULL UNIQUE,
+    email    VARCHAR(50)  NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS address
 (
     addressid       SERIAL      PRIMARY KEY,
@@ -15,15 +23,14 @@ CREATE TABLE IF NOT EXISTS address
 CREATE TABLE IF NOT EXISTS account
 (
     accountid   SERIAL       PRIMARY KEY,
+    userid      INTEGER      NOT NULL UNIQUE,
     addressid   INTEGER      UNIQUE,
     accounttype INTEGER      NOT NULL,
-    login       VARCHAR(50)  NOT NULL UNIQUE,
-    email       VARCHAR(50)  NOT NULL UNIQUE,
-    password    VARCHAR(255) NOT NULL,
     firstname   VARCHAR(50),
     lastname    VARCHAR(50),
     birthdate   DATE,
     phonenumber VARCHAR(20)  UNIQUE,
     gender      INTEGER,
+    FOREIGN KEY (userid) REFERENCES "user" (userid),
     FOREIGN KEY (addressid) REFERENCES address (addressid)
 );

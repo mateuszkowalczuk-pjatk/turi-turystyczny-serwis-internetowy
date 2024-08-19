@@ -3,7 +3,6 @@ package com.turi.authentication.infrastructure.adapter.application.queries.authe
 import lombok.*;
 
 @Getter
-@ToString
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor

@@ -57,6 +57,8 @@ public class UserRepositoryImpl implements UserRepository
             e.setUsername(entity.getUsername());
             e.setEmail(entity.getEmail());
             e.setPassword(entity.getPassword());
+
+            userRepositoryDao.saveAndFlush(userEntity);
         });
     }
 

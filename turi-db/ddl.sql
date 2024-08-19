@@ -3,19 +3,22 @@ CREATE SCHEMA IF NOT EXISTS turi;
 SET search_path TO turi;
 
 
-CREATE TABLE IF NOT EXISTS user
+CREATE TABLE IF NOT EXISTS "user"
 (
     userid   SERIAL PRIMARY KEY,
     username VARCHAR(50)  NOT NULL UNIQUE,
     email    VARCHAR(50)  NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL
-)
+);
 
-COMMENT ON TABLE account IS 'Table to store user details authentication.';
-COMMENT ON COLUMN account.accountid IS 'Unique primary key of the user table.';
-COMMENT ON COLUMN account.login IS 'Unique user username.';
-COMMENT ON COLUMN account.email IS 'Unique user email.';
-COMMENT ON COLUMN account.password IS 'User password.';
+CREATE INDEX IF NOT EXISTS userusernameindex ON "user" (username);
+CREATE INDEX IF NOT EXISTS useremailindex ON "user" (email);
+
+COMMENT ON TABLE "user" IS 'Table to store user details authentication.';
+COMMENT ON COLUMN "user".userid IS 'Unique required primary key of the user table.';
+COMMENT ON COLUMN "user".username IS 'Unique required user username.';
+COMMENT ON COLUMN "user".email IS 'Unique required user email.';
+COMMENT ON COLUMN "user".password IS 'Required user password.';
 
 
 CREATE TABLE IF NOT EXISTS address 
@@ -33,19 +36,19 @@ CREATE TABLE IF NOT EXISTS address
 CREATE INDEX IF NOT EXISTS addressindex ON address (country, city, zipcode, street, buildingnumber, apartmentnumber);
 
 COMMENT ON TABLE address IS 'Table to store address for the account and the turistic place, where one address can be for both of them.';
-COMMENT ON COLUMN address.addressid IS 'Unique primary key of the address table.';
-COMMENT ON COLUMN address.country IS 'Country of address.';
-COMMENT ON COLUMN address.city IS 'City of address.';
-COMMENT ON COLUMN address.zipcode IS 'ZIP code of address in format xx-xxx (x is a digit).';
-COMMENT ON COLUMN address.street IS 'Street name of address.';
-COMMENT ON COLUMN address.buildingnumber IS 'Building number on street of address.';
+COMMENT ON COLUMN address.addressid IS 'Unique required primary key of the address table.';
+COMMENT ON COLUMN address.country IS 'Required country of address.';
+COMMENT ON COLUMN address.city IS 'Required city of address.';
+COMMENT ON COLUMN address.zipcode IS 'Required ZIP code of address in format xx-xxx (x is a digit).';
+COMMENT ON COLUMN address.street IS 'Required street name of address.';
+COMMENT ON COLUMN address.buildingnumber IS 'Required building number on street of address.';
 COMMENT ON COLUMN address.apartmentnumber IS 'Optional apartment number, if there is more than one apartment under a building number.';
 
 
 CREATE TABLE IF NOT EXISTS account 
 (
     accountid   SERIAL PRIMARY KEY,
-    userid      INTEGER               UNIQUE,
+    userid      INTEGER      NOT NULL UNIQUE,
     addressid   INTEGER               UNIQUE,
     accounttype INTEGER      NOT NULL,
     firstname   VARCHAR(50),
@@ -53,20 +56,19 @@ CREATE TABLE IF NOT EXISTS account
     birthdate   DATE,
     phonenumber VARCHAR(20)           UNIQUE,
     gender      INTEGER,
-    CONSTRAINT accountuser FOREIGN KEY (userid) REFERENCES user (userid),
+    CONSTRAINT accountuser FOREIGN KEY (userid) REFERENCES "user" (userid),
     CONSTRAINT accountaddress FOREIGN KEY (addressid) REFERENCES address (addressid)
 );
 
+CREATE INDEX IF NOT EXISTS accountuserindex ON account (userid);
 CREATE INDEX IF NOT EXISTS accountaddressindex ON account (addressid);
-CREATE INDEX IF NOT EXISTS accountloginindex ON account (login);
-CREATE INDEX IF NOT EXISTS accountemailindex ON account (email);
 CREATE INDEX IF NOT EXISTS accountphonenumberindex ON account (phonenumber);
 
 COMMENT ON TABLE account IS 'Table to store account user details.';
-COMMENT ON COLUMN account.accountid IS 'Unique primary key of the account table.';
-COMMENT ON COLUMN account.userid IS 'Unique foreign key of account user.';
+COMMENT ON COLUMN account.accountid IS 'Unique required primary key of the account table.';
+COMMENT ON COLUMN account.userid IS 'Unique required foreign key of account user.';
 COMMENT ON COLUMN account.addressid IS 'Unique foreign key address of account user.';
-COMMENT ON COLUMN account.accounttype IS 'Type of account (1 - Normal, 2 - Premium).';
+COMMENT ON COLUMN account.accounttype IS 'Required type of account (1 - Normal, 2 - Premium).';
 COMMENT ON COLUMN account.firstname IS 'First name of account user.';
 COMMENT ON COLUMN account.lastname IS 'Last name of account user.';
 COMMENT ON COLUMN account.birthdate IS 'Birth date of account user.';

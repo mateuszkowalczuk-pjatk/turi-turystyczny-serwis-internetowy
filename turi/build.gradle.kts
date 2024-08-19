@@ -48,6 +48,8 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
     testImplementation("nl.jqno.equalsverifier:equalsverifier:3.16.1")
 
+    implementation("org.apache.httpcomponents.client5:httpclient5")
+    implementation("org.apache.httpcomponents.core5:httpcore5")
 }
 
 tasks.withType<Test> {

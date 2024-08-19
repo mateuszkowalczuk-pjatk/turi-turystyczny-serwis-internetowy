@@ -2,6 +2,7 @@ package com.turi.user.infrastructure.adapter.service;
 
 import com.turi.account.infrastructure.adapter.interfaces.AccountFacade;
 import com.turi.infrastructure.exception.BadRequestParameterException;
+import com.turi.user.domain.exception.UserNotFoundByLoginException;
 import com.turi.user.domain.exception.UserUniqueEmailException;
 import com.turi.user.domain.exception.UserUniqueUsernameException;
 import com.turi.user.domain.model.User;
@@ -16,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -29,6 +29,11 @@ public class UserServiceImpl implements UserService, UserDetailsService
     @Override
     public User getById(final Long id)
     {
+        if (id == null)
+        {
+            throw new BadRequestParameterException("User ID must not be null.");
+        }
+
         return userRepository.findById(id);
     }
 
@@ -67,6 +72,11 @@ public class UserServiceImpl implements UserService, UserDetailsService
         if (isEmailExists(user.getEmail()))
         {
             throw new UserUniqueEmailException(user.getEmail());
+        }
+
+        if (user.getPassword() == null)
+        {
+            throw new BadRequestParameterException("User password must not be null.");
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -125,9 +135,17 @@ public class UserServiceImpl implements UserService, UserDetailsService
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException
     {
-        final var user = Optional.ofNullable(getByUsername(username))
-                .orElse(Optional.ofNullable(getByEmail(username))
-                        .orElseThrow(() -> new BadRequestParameterException("User with login " + username + " not found.")));
+        var user = getByUsername(username);
+
+        if (user == null)
+        {
+            user = getByEmail(username);
+        }
+
+        if (user == null)
+        {
+            throw new UserNotFoundByLoginException(username);
+        }
 
         final var account = accountFacade.getByUserId(user.getUserId());
 

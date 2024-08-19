@@ -53,14 +53,9 @@ class AddressFacadeTest
     @Test
     void testAddress_GetByAddress_WithoutRequiredCountryField()
     {
-        final var address = Address.builder()
-                .withAddressId(1L)
-                .withCity("Warszawa")
-                .withZipCode("01-000")
-                .withStreet("Warszawska")
-                .withBuildingNumber("1")
-                .withApartmentNumber(10)
-                .build();
+        final var address = mockAddress();
+
+        address.setCountry(null);
 
         assertThrows(InvalidAddressException.class, () -> facade.getByAddress(address.getCountry(),
                 address.getCity(),
@@ -73,14 +68,9 @@ class AddressFacadeTest
     @Test
     void testAddress_GetByAddress_WithoutRequiredCityField()
     {
-        final var address = Address.builder()
-                .withAddressId(1L)
-                .withCountry("Polska")
-                .withZipCode("01-000")
-                .withStreet("Warszawska")
-                .withBuildingNumber("1")
-                .withApartmentNumber(10)
-                .build();
+        final var address = mockAddress();
+
+        address.setCity(null);
 
         assertThrows(InvalidAddressException.class, () -> facade.getByAddress(address.getCountry(),
                 address.getCity(),
@@ -93,14 +83,9 @@ class AddressFacadeTest
     @Test
     void testAddress_GetByAddress_WithoutRequiredZipCodeField()
     {
-        final var address = Address.builder()
-                .withAddressId(1L)
-                .withCountry("Polska")
-                .withCity("Warszawa")
-                .withStreet("Warszawska")
-                .withBuildingNumber("1")
-                .withApartmentNumber(10)
-                .build();
+        final var address = mockAddress();
+
+        address.setZipCode(null);
 
         assertThrows(InvalidAddressException.class, () -> facade.getByAddress(address.getCountry(),
                 address.getCity(),
@@ -113,14 +98,9 @@ class AddressFacadeTest
     @Test
     void testAddress_GetByAddress_WithoutRequiredStreetField()
     {
-        final var address = Address.builder()
-                .withAddressId(1L)
-                .withCountry("Polska")
-                .withCity("Warszawa")
-                .withZipCode("01-000")
-                .withBuildingNumber("1")
-                .withApartmentNumber(10)
-                .build();
+        final var address = mockAddress();
+
+        address.setStreet(null);
 
         assertThrows(InvalidAddressException.class, () -> facade.getByAddress(address.getCountry(),
                 address.getCity(),
@@ -133,14 +113,9 @@ class AddressFacadeTest
     @Test
     void testAddress_GetByAddress_WithoutRequiredBuildingNumberField()
     {
-        final var address = Address.builder()
-                .withAddressId(1L)
-                .withCountry("Polska")
-                .withCity("Warszawa")
-                .withZipCode("01-000")
-                .withStreet("Warszawska")
-                .withApartmentNumber(10)
-                .build();
+        final var address = mockAddress();
+
+        address.setBuildingNumber(null);
 
         assertThrows(InvalidAddressException.class, () -> facade.getByAddress(address.getCountry(),
                 address.getCity(),
@@ -176,14 +151,9 @@ class AddressFacadeTest
     @CsvSource({"01-10", "01000", "0-1000", "0001-1", "-10000"})
     void testAddress_CreateAddress_InvalidZipCode(final String zipCode)
     {
-        final var address = Address.builder()
-                .withAddressId(2L)
-                .withCountry("Polska")
-                .withCity("Warszawa")
-                .withZipCode(zipCode)
-                .withStreet("Warszawska")
-                .withBuildingNumber("2")
-                .build();
+        final var address = mockNewAddress();
+
+        address.setZipCode(zipCode);
 
         assertThrows(BadRequestParameterException.class, () -> facade.createAddress(address));
     }
@@ -191,14 +161,9 @@ class AddressFacadeTest
     @Test
     void testAddress_CreateAddress_WithoutRequiredCountryField()
     {
-        final var address = Address.builder()
-                .withAddressId(1L)
-                .withCity("Warszawa")
-                .withZipCode("01-000")
-                .withStreet("Warszawska")
-                .withBuildingNumber("1")
-                .withApartmentNumber(10)
-                .build();
+        final var address = mockNewAddress();
+
+        address.setCountry(null);
 
         assertThrows(InvalidAddressException.class, () -> facade.createAddress(address));
     }
@@ -206,14 +171,9 @@ class AddressFacadeTest
     @Test
     void testAddress_CreateAddress_WithoutRequiredCityField()
     {
-        final var address = Address.builder()
-                .withAddressId(1L)
-                .withCountry("Polska")
-                .withZipCode("01-000")
-                .withStreet("Warszawska")
-                .withBuildingNumber("1")
-                .withApartmentNumber(10)
-                .build();
+        final var address = mockNewAddress();
+
+        address.setCity(null);
 
         assertThrows(InvalidAddressException.class, () -> facade.createAddress(address));
     }
@@ -221,14 +181,9 @@ class AddressFacadeTest
     @Test
     void testAddress_CreateAddress_WithoutRequiredZipCodeField()
     {
-        final var address = Address.builder()
-                .withAddressId(1L)
-                .withCountry("Polska")
-                .withCity("Warszawa")
-                .withStreet("Warszawska")
-                .withBuildingNumber("1")
-                .withApartmentNumber(10)
-                .build();
+        final var address = mockNewAddress();
+
+        address.setZipCode(null);
 
         assertThrows(InvalidAddressException.class, () -> facade.createAddress(address));
     }
@@ -236,14 +191,9 @@ class AddressFacadeTest
     @Test
     void testAddress_CreateAddress_WithoutRequiredStreetField()
     {
-        final var address = Address.builder()
-                .withAddressId(1L)
-                .withCountry("Polska")
-                .withCity("Warszawa")
-                .withZipCode("01-000")
-                .withBuildingNumber("1")
-                .withApartmentNumber(10)
-                .build();
+        final var address = mockNewAddress();
+
+        address.setStreet(null);
 
         assertThrows(InvalidAddressException.class, () -> facade.createAddress(address));
     }
@@ -251,14 +201,9 @@ class AddressFacadeTest
     @Test
     void testAddress_CreateAddress_WithoutRequiredBuildingNumberField()
     {
-        final var address = Address.builder()
-                .withAddressId(1L)
-                .withCountry("Polska")
-                .withCity("Warszawa")
-                .withZipCode("01-000")
-                .withStreet("Warszawska")
-                .withApartmentNumber(10)
-                .build();
+        final var address = mockNewAddress();
+
+        address.setBuildingNumber(null);
 
         assertThrows(InvalidAddressException.class, () -> facade.createAddress(address));
     }

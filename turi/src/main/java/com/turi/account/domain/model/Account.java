@@ -8,6 +8,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @EqualsAndHashCode
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder(setterPrefix = "with")
 public final class Account

@@ -9,6 +9,8 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import static com.turi.account.domain.model.Gender.getValueOrDefault;
+
 @Entity
 @Getter
 @Setter
@@ -26,7 +28,7 @@ public final class AccountEntity implements Serializable
     @Column(name = "accountid")
     private Long accountId;
 
-    @Column(name = "userid", unique = true)
+    @Column(name = "userid", nullable = false, unique = true)
     private Long userId;
 
     @Column(name = "addressid", unique = true)
@@ -34,15 +36,6 @@ public final class AccountEntity implements Serializable
 
     @Column(name = "accounttype", nullable = false)
     private int accountType;
-
-    @Column(name = "login", length = 50, nullable = false, unique = true)
-    private String login;
-
-    @Column(name = "email", length = 50, nullable = false, unique = true)
-    private String email;
-
-    @Column(name = "password", nullable = false)
-    private String password;
 
     @Column(name = "firstname", length = 50)
     private String firstName;
@@ -66,8 +59,6 @@ public final class AccountEntity implements Serializable
             throw new InvalidAccountException();
         }
 
-        final var gender = account.getGender() != null ? account.getGender().getValue() : 0;
-
         return AccountEntity.builder()
                 .withUserId(account.getUserId())
                 .withAddressId(account.getAddressId())
@@ -76,12 +67,12 @@ public final class AccountEntity implements Serializable
                 .withLastName(account.getLastName())
                 .withBirthDate(account.getBirthDate())
                 .withPhoneNumber(account.getPhoneNumber())
-                .withGender(gender)
+                .withGender(getValueOrDefault(account.getGender()))
                 .build();
     }
 
     private static boolean validation(final Account account)
     {
-        return account.getUserId() == null && account.getAccountType() != null;
+        return account.getUserId() != null && account.getAccountType() != null;
     }
 }

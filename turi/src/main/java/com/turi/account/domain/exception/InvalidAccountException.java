@@ -1,17 +1,14 @@
 package com.turi.account.domain.exception;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
-
 import java.io.Serial;
 
-public final class InvalidAccountException extends ResponseStatusException
+public final class InvalidAccountException extends RuntimeException
 {
     @Serial
     private static final long serialVersionUID = 1497362616786599089L;
 
     public InvalidAccountException()
     {
-        super(HttpStatus.BAD_REQUEST, "The specified account is invalid. Parameters userId and accountType are required!");
+        super("The specified account is invalid. Parameters userId and accountType are required!");
     }
 }

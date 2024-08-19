@@ -31,6 +31,11 @@ public class AccountServiceImpl implements AccountService
     @Override
     public Account getByUserId(final Long userId)
     {
+        if (userId == null)
+        {
+            throw new BadRequestParameterException("User ID for account must not be null.");
+        }
+
         return accountRepository.findByUserId(userId);
     }
 
@@ -84,6 +89,7 @@ public class AccountServiceImpl implements AccountService
         }
 
         final var accountToUpdate = Account.builder()
+                .withUserId(currentAccount.getUserId())
                 .withAddressId(account.getAddressId())
                 .withAccountType(currentAccount.getAccountType())
                 .withFirstName(account.getFirstName())

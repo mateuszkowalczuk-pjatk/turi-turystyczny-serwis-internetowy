@@ -1,6 +1,9 @@
 package com.turi.account.infrastructure.adpater.service;
 
-import com.turi.account.domain.exception.*;
+import com.turi.account.domain.exception.AccountNotFoundException;
+import com.turi.account.domain.exception.AccountUniqueAddressException;
+import com.turi.account.domain.exception.AccountUniquePhoneNumberException;
+import com.turi.account.domain.exception.InvalidAccountException;
 import com.turi.account.domain.model.Account;
 import com.turi.account.domain.model.AccountType;
 import com.turi.account.domain.model.Gender;
@@ -9,9 +12,11 @@ import com.turi.address.domain.model.Address;
 import com.turi.address.infrastructure.adapter.interfaces.AddressFacade;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.testhelper.annotation.ServiceTest;
+import com.turi.user.domain.model.User;
+import com.turi.user.infrastructure.adapter.interfaces.UserFacade;
+import org.hibernate.exception.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 
@@ -22,16 +27,16 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AccountServiceTest
 {
     @Autowired
+    private AccountService service;
+
+    @Autowired
     private AddressFacade addressFacade;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private AccountService service;
+    private UserFacade userFacade;
 
     @Test
-    void testAccount_FindById()
+    void testAccount_GetById()
     {
         final var account = mockAccount();
 
@@ -42,7 +47,7 @@ public class AccountServiceTest
     }
 
     @Test
-    void testAccount_FindById_NotFound()
+    void testAccount_GetById_NotFound()
     {
         final var account = mockNewAccount();
 
@@ -50,9 +55,36 @@ public class AccountServiceTest
     }
 
     @Test
-    void testAccount_FindById_IdIsNull()
+    void testAccount_GetById_IdIsNull()
     {
         assertThrows(BadRequestParameterException.class, () -> service.getById(null));
+    }
+
+    @Test
+    void testAccount_GetByUserId()
+    {
+        final var account = mockAccount();
+
+        final var result = service.getByUserId(account.getUserId());
+
+        assertNotNull(result);
+        assertThat(result).isEqualTo(account);
+    }
+
+    @Test
+    void testAccount_GetByUserId_NotFound()
+    {
+        final var account = mockNewAccount();
+
+        final var result = service.getByUserId(account.getUserId());
+
+        assertNull(result);
+    }
+
+    @Test
+    void testAccount_GetByUserId_IdIsNull()
+    {
+        assertThrows(BadRequestParameterException.class, () -> service.getByUserId(null));
     }
 
     @Test
@@ -97,91 +129,6 @@ public class AccountServiceTest
         assertFalse(result);
     }
 
-    @Test
-    void testAccount_GetByLogin()
-    {
-        final var account = mockAccount();
-
-        final var result = service.getByLogin(account.getLogin());
-
-        assertNotNull(result);
-        assertThat(result).isEqualTo(account);
-    }
-
-    @Test
-    void testAccount_GetByLogin_NotFound()
-    {
-        final var account = mockNewAccount();
-
-        final var result = service.getByLogin(account.getLogin());
-
-        assertNull(result);
-    }
-
-    @Test
-    void testAccount_IsLoginExists()
-    {
-        final var account = mockAccount();
-
-        final var result = service.isLoginExists(account.getLogin());
-
-        assertNotNull(result);
-        assertTrue(result);
-    }
-
-    @Test
-    void testAccount_IsLoginExists_NotExists()
-    {
-        final var account = mockNewAccount();
-
-        final var result = service.isLoginExists(account.getLogin());
-
-        assertNotNull(result);
-        assertFalse(result);
-    }
-
-    @Test
-    void testAccount_GetByEmail()
-    {
-        final var account = mockAccount();
-
-        final var result = service.getByEmail(account.getEmail());
-
-        assertNotNull(result);
-        assertThat(result).isEqualTo(account);
-    }
-
-    @Test
-    void testAccount_GetByEmail_NotFound()
-    {
-        final var account = mockNewAccount();
-
-        final var result = service.getByEmail(account.getEmail());
-
-        assertNull(result);
-    }
-
-    @Test
-    void testAccount_IsEmailExists()
-    {
-        final var account = mockAccount();
-
-        final var result = service.isEmailExists(account.getEmail());
-
-        assertNotNull(result);
-        assertTrue(result);
-    }
-
-    @Test
-    void testAccount_IsEmailExists_NotExists()
-    {
-        final var account = mockNewAccount();
-
-        final var result = service.isEmailExists(account.getEmail());
-
-        assertNotNull(result);
-        assertFalse(result);
-    }
 
     @Test
     void testAccount_IsPhoneNumberExists()
@@ -217,87 +164,71 @@ public class AccountServiceTest
     }
 
     @Test
-    void testAccount_CreateAccount_UniqueLogin()
+    void testAccount_CreateAccount_WithoutRequiredUserIdField()
     {
-        final var account = mockNewAccount();
+        final var account = Account.builder()
+                .withAccountType(AccountType.NORMAL)
+                .build();
 
-        account.setLogin(mockAccount().getLogin());
-
-        assertThrows(AccountUniqueLoginException.class, () -> service.createAccount(account));
-    }
-
-    @Test
-    void testAccount_CreateAccount_UniqueEmail()
-    {
-        final var account = mockNewAccount();
-
-        account.setEmail(mockAccount().getEmail());
-
-        assertThrows(AccountUniqueEmailException.class, () -> service.createAccount(account));
+        assertThrows(InvalidAccountException.class, () -> service.createAccount(account));
     }
 
     @Test
     void testAccount_CreateAccount_WithoutRequiredAccountTypeField()
     {
         final var account = Account.builder()
-                .withLogin("Marek")
-                .withEmail("marek@gmail.com")
-                .withPassword("MarekNowak123")
+                .withUserId(1L)
                 .build();
 
         assertThrows(InvalidAccountException.class, () -> service.createAccount(account));
     }
 
     @Test
-    void testAccount_CreateAccount_WithoutRequiredLoginField()
+    void testAccount_CreateAccount_UniqueUserId()
     {
-        final var account = Account.builder()
-                .withAccountType(AccountType.NORMAL)
-                .withEmail("marek@gmail.com")
-                .withPassword("MarekNowak123")
-                .build();
+        final var account = mockNewAccount();
 
-        assertThrows(InvalidAccountException.class, () -> service.createAccount(account));
+        account.setUserId(mockAccount().getUserId());
+
+        assertThrows(ConstraintViolationException.class, () -> service.createAccount(account));
     }
 
     @Test
-    void testAccount_CreateAccount_WithoutRequiredEmailField()
+    void testAccount_CreateAccount_UniqueAddressId()
     {
-        final var account = Account.builder()
-                .withAccountType(AccountType.NORMAL)
-                .withLogin("Marek")
-                .withPassword("MarekNowak123")
-                .build();
+        final var account = mockNewAccount();
 
-        assertThrows(InvalidAccountException.class, () -> service.createAccount(account));
+        account.setAddressId(mockAccount().getAddressId());
+
+        assertThrows(ConstraintViolationException.class, () -> service.createAccount(account));
     }
 
     @Test
-    void testAccount_CreateAccount_WithoutRequiredPasswordField()
+    void testAccount_CreateAccount_UniquePhoneNumber()
     {
-        final var account = Account.builder()
-                .withAccountType(AccountType.NORMAL)
-                .withLogin("Marek")
-                .withEmail("marek@gmail.com")
-                .build();
+        final var account = mockNewAccount();
 
-        assertThrows(InvalidAccountException.class, () -> service.createAccount(account));
+        account.setPhoneNumber(mockAccount().getPhoneNumber());
+
+        assertThrows(ConstraintViolationException.class, () -> service.createAccount(account));
     }
 
     @Test
-    void testAccount_UpdateOwnerDetails()
+    void testAccount_UpdateAccount()
     {
         final var account = mockAccount();
 
         account.setFirstName("Marek");
 
-        service.updateOwnerDetails(account.getAccountId(), account);
+        service.updateAccount(account.getAccountId(), account);
 
         final var result = service.getById(account.getAccountId());
 
         assertNotNull(result);
         assertThat(result.getAccountId()).isEqualTo(account.getAccountId());
+        assertThat(result.getUserId()).isEqualTo(account.getUserId());
         assertThat(result.getAddressId()).isEqualTo(account.getAddressId());
+        assertThat(result.getAccountType()).isEqualTo(account.getAccountType());
         assertThat(result.getFirstName()).isEqualTo(account.getFirstName());
         assertThat(result.getLastName()).isEqualTo(account.getLastName());
         assertThat(result.getBirthDate()).isEqualTo(account.getBirthDate());
@@ -306,17 +237,15 @@ public class AccountServiceTest
     }
 
     @Test
-    void testAccount_UpdateOwnerDetails_AccountNotFound()
+    void testAccount_UpdateAccount_AccountNotFound()
     {
-        final var account = mockAccount();
+        final var account = mockNewAccount();
 
-        account.setAccountId(2L);
-
-        assertThrows(AccountNotFoundException.class, () -> service.updateOwnerDetails(account.getAccountId(), account));
+        assertThrows(AccountNotFoundException.class, () -> service.updateAccount(account.getAccountId(), account));
     }
 
     @Test
-    void testAccount_UpdateOwnerDetails_UniqueAddress()
+    void testAccount_UpdateAccount_UniqueAddress()
     {
         final var account = mockNewAccount();
 
@@ -324,11 +253,11 @@ public class AccountServiceTest
 
         result.setAddressId(mockAccount().getAddressId());
 
-        assertThrows(AccountUniqueAddressException.class, () -> service.updateOwnerDetails(result.getAccountId(), result));
+        assertThrows(AccountUniqueAddressException.class, () -> service.updateAccount(result.getAccountId(), result));
     }
 
     @Test
-    void testAccount_UpdateOwnerDetails_UniquePhoneNumber()
+    void testAccount_UpdateAccount_UniquePhoneNumber()
     {
         final var account = mockNewAccount();
 
@@ -336,41 +265,16 @@ public class AccountServiceTest
 
         result.setPhoneNumber(mockAccount().getPhoneNumber());
 
-        assertThrows(AccountUniquePhoneNumberException.class, () -> service.updateOwnerDetails(result.getAccountId(), result));
-    }
-
-    @Test
-    void testAccount_ResetPassword()
-    {
-        final var account = mockAccount();
-
-        final var newPassword = "Janek12345";
-
-        final var result = service.resetPassword(account.getAccountId(), newPassword);
-
-        assertNotNull(result);
-        assertTrue(passwordEncoder.matches(newPassword, result.getPassword()));
-    }
-
-    @Test
-    void testAccount_ResetPassword_AccountNotFound()
-    {
-        final var account = mockNewAccount();
-
-        final var newPassword = "Marek12345";
-
-        assertThrows(AccountNotFoundException.class, () -> service.resetPassword(account.getAccountId(), newPassword));
+        assertThrows(AccountUniquePhoneNumberException.class, () -> service.updateAccount(result.getAccountId(), result));
     }
 
     private Account mockAccount()
     {
         return Account.builder()
                 .withAccountId(1L)
+                .withUserId(1L)
                 .withAddressId(1L)
                 .withAccountType(AccountType.NORMAL)
-                .withLogin("Janek")
-                .withEmail("jan@gmail.com")
-                .withPassword("JanKowalski123")
                 .withFirstName("Jan")
                 .withLastName("Kowalski")
                 .withBirthDate(LocalDate.of(2000,1, 1))
@@ -381,12 +285,18 @@ public class AccountServiceTest
 
     private Account mockNewAccount()
     {
+        final var user = User.builder()
+                .withUsername("Marek")
+                .withEmail("marek@gmail.com")
+                .withPassword("MarekNowak123!")
+                .build();
+
+        final var userId = userFacade.createUser(user).getUserId();
+
         return Account.builder()
                 .withAccountId(2L)
+                .withUserId(userId)
                 .withAccountType(AccountType.NORMAL)
-                .withLogin("Marek")
-                .withEmail("marek@gmail.com")
-                .withPassword("MarekNowak123")
                 .build();
     }
 }

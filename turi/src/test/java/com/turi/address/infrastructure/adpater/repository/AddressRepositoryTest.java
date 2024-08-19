@@ -60,12 +60,9 @@ class AddressRepositoryTest
     @Test
     void testAddress_FindByAddress_WithoutRequiredCountryField()
     {
-        final var address = Address.builder()
-                .withCity("Warszawa")
-                .withZipCode("01-000")
-                .withStreet("Warszawska")
-                .withBuildingNumber("1")
-                .build();
+        final var address = mockAddress();
+
+        address.setCountry(null);
 
         final var result = repository.findByAddress(address);
 
@@ -75,12 +72,9 @@ class AddressRepositoryTest
     @Test
     void testAddress_FindByAddress_WithoutRequiredCityField()
     {
-        final var address = Address.builder()
-                .withCountry("Polska")
-                .withZipCode("01-000")
-                .withStreet("Warszawska")
-                .withBuildingNumber("1")
-                .build();
+        final var address = mockAddress();
+
+        address.setCity(null);
 
         final var result = repository.findByAddress(address);
 
@@ -90,12 +84,9 @@ class AddressRepositoryTest
     @Test
     void testAddress_FindByAddress_WithoutRequiredZipCodeField()
     {
-        final var address = Address.builder()
-                .withCountry("Polska")
-                .withCity("Warszawa")
-                .withStreet("Warszawska")
-                .withBuildingNumber("1")
-                .build();
+        final var address = mockAddress();
+
+        address.setZipCode(null);
 
         final var result = repository.findByAddress(address);
 
@@ -105,12 +96,9 @@ class AddressRepositoryTest
     @Test
     void testAddress_FindByAddress_WithoutRequiredStreetField()
     {
-        final var address = Address.builder()
-                .withCountry("Polska")
-                .withCity("Warszawa")
-                .withZipCode("01-000")
-                .withBuildingNumber("1")
-                .build();
+        final var address = mockAddress();
+
+        address.setStreet(null);
 
         final var result = repository.findByAddress(address);
 
@@ -120,12 +108,9 @@ class AddressRepositoryTest
     @Test
     void testAddress_FindByAddress_WithoutRequiredBuildingNumberField()
     {
-        final var address = Address.builder()
-                .withCountry("Polska")
-                .withCity("Warszawa")
-                .withZipCode("01-000")
-                .withStreet("Warszawska")
-                .build();
+        final var address = mockAddress();
+
+        address.setBuildingNumber(null);
 
         final var result = repository.findByAddress(address);
 
@@ -148,14 +133,9 @@ class AddressRepositoryTest
     @Test
     void testAddress_Insert_WithoutRequiredCountryField()
     {
-        final var address = Address.builder()
-                .withAddressId(2L)
-                .withCity("Warszawa")
-                .withZipCode("01-000")
-                .withStreet("Warszawska")
-                .withBuildingNumber("2")
-                .withApartmentNumber(1)
-                .build();
+        final var address = mockNewAddress();
+
+        address.setCountry(null);
 
         assertThrows(InvalidAddressException.class, () -> repository.insert(address));
     }
@@ -163,14 +143,9 @@ class AddressRepositoryTest
     @Test
     void testAddress_Insert_WithoutRequiredCityField()
     {
-        final var address = Address.builder()
-                .withAddressId(2L)
-                .withCountry("Polska")
-                .withZipCode("01-000")
-                .withStreet("Warszawska")
-                .withBuildingNumber("2")
-                .withApartmentNumber(1)
-                .build();
+        final var address = mockNewAddress();
+
+        address.setCity(null);
 
         assertThrows(InvalidAddressException.class, () -> repository.insert(address));
     }
@@ -178,14 +153,9 @@ class AddressRepositoryTest
     @Test
     void testAddress_Insert_WithoutRequiredZipCodeField()
     {
-        final var address = Address.builder()
-                .withAddressId(2L)
-                .withCountry("Polska")
-                .withCity("Warszawa")
-                .withStreet("Warszawska")
-                .withBuildingNumber("2")
-                .withApartmentNumber(1)
-                .build();
+        final var address = mockNewAddress();
+
+        address.setZipCode(null);
 
         assertThrows(InvalidAddressException.class, () -> repository.insert(address));
     }
@@ -193,14 +163,9 @@ class AddressRepositoryTest
     @Test
     void testAddress_Insert_WithoutRequiredStreetField()
     {
-        final var address = Address.builder()
-                .withAddressId(2L)
-                .withCountry("Polska")
-                .withCity("Warszawa")
-                .withZipCode("01-000")
-                .withBuildingNumber("2")
-                .withApartmentNumber(1)
-                .build();
+        final var address = mockNewAddress();
+
+        address.setStreet(null);
 
         assertThrows(InvalidAddressException.class, () -> repository.insert(address));
     }
@@ -208,14 +173,9 @@ class AddressRepositoryTest
     @Test
     void testAddress_Insert_WithoutRequiredBuildingNumberField()
     {
-        final var address = Address.builder()
-                .withAddressId(2L)
-                .withCountry("Polska")
-                .withCity("Warszawa")
-                .withZipCode("01-000")
-                .withStreet("Warszawska")
-                .withApartmentNumber(1)
-                .build();
+        final var address = mockNewAddress();
+
+        address.setBuildingNumber(null);
 
         assertThrows(InvalidAddressException.class, () -> repository.insert(address));
     }
@@ -223,14 +183,9 @@ class AddressRepositoryTest
     @Test
     void testAddress_Insert_WithoutOptionalApartmentNumberField()
     {
-        final var address = Address.builder()
-                .withAddressId(2L)
-                .withCountry("Polska")
-                .withCity("Warszawa")
-                .withZipCode("01-000")
-                .withStreet("Warszawska")
-                .withBuildingNumber("2")
-                .build();
+        final var address = mockNewAddress();
+
+        address.setApartmentNumber(null);
 
         final var addressId = repository.insert(address);
 
@@ -243,7 +198,7 @@ class AddressRepositoryTest
     @Test
     void testAddress_Delete()
     {
-        final var address = repository.findById(1L);
+        final var address = repository.findById(mockAddress().getAddressId());
 
         repository.delete(address.getAddressId());
 
@@ -253,7 +208,7 @@ class AddressRepositoryTest
     @Test
     void testAddress_Delete_NothingToDelete()
     {
-        assertThrows(AddressNotFoundException.class, () -> repository.delete(2L));
+        assertThrows(AddressNotFoundException.class, () -> repository.delete(mockNewAddress().getAddressId()));
     }
 
     private Address mockAddress()

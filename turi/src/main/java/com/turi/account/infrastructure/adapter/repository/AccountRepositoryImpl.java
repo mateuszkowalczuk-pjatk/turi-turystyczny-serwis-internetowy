@@ -72,11 +72,9 @@ public class AccountRepositoryImpl implements AccountRepository
         final var entity = AccountEntity.of(account);
 
         Optional.ofNullable(accountEntity).ifPresent(e -> {
+            e.setUserId(entity.getUserId());
             e.setAddressId(entity.getAddressId());
             e.setAccountType(entity.getAccountType());
-            e.setLogin(entity.getLogin());
-            e.setEmail(entity.getEmail());
-            e.setPassword(entity.getPassword());
             e.setFirstName(entity.getFirstName());
             e.setLastName(entity.getLastName());
             e.setBirthDate(entity.getBirthDate());

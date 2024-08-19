@@ -6,6 +6,7 @@ import lombok.*;
 @Getter
 @Setter
 @EqualsAndHashCode
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder(setterPrefix = "with")
 public final class User

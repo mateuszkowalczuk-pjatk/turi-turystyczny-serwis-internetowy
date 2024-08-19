@@ -21,4 +21,9 @@ public enum Gender
                 .findFirst()
                 .orElse(null);
     }
+
+    public static int getValueOrDefault(final Gender gender)
+    {
+        return gender != null ? gender.getValue() : 0;
+    }
 }

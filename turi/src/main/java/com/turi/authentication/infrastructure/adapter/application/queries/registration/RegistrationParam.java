@@ -1,10 +1,9 @@
 package com.turi.authentication.infrastructure.adapter.application.queries.registration;
 
-import com.turi.account.domain.model.AccountType;
 import lombok.*;
 
 @Getter
-@ToString
+@Setter
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor

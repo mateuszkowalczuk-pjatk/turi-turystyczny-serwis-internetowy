@@ -1,13 +1,12 @@
 package com.turi.address.domain.model;
 
 import com.turi.address.infrastructure.adapter.repository.AddressEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.*;
 
 @Getter
+@Setter
 @EqualsAndHashCode
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder(setterPrefix = "with")
 public final class Address
