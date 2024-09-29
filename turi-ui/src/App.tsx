@@ -1,12 +1,13 @@
-import './app.css'
-import OwnerList from './owner/OwnerList.tsx'
+import { BrowserRouter } from 'react-router-dom';
+import AppRoutes from './routes/AppRoutes';
+import './style.css'
 
-export default function App() {
-  return (
-    <>
-      <div>
-        <OwnerList />
-      </div>
-    </>
-  )
+const App = () => {
+    return (
+        <BrowserRouter>
+            <AppRoutes />
+        </BrowserRouter>
+    )
 }
+
+export default App;

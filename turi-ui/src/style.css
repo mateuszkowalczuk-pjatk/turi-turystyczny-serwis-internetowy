@@ -1,0 +1,66 @@
+:root {
+    --white: #FFF9F7;
+    --grey: #E8E8E8;
+    --light-green: #117E1D;
+    --green: #0D5514;
+    --dark-green: #09390E;
+    --dark: #031500;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: Arial, sans-serif;
+    font-size: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+
+
+/*html {*/
+/*    font-size: 100%;*/
+/*}*/
+
+/*body {*/
+/*    font-family: Arial, sens-serif, serif;*/
+/*    line-height: 1.6;*/
+/*    background: var(--white);*/
+/*}*/
+
+/*.container {*/
+/*    max-width: 1200px;*/
+/*    margin: 0 auto;*/
+/*    padding: 0 20px;*/
+/*}*/
+
+/*.row {*/
+/*    display: flex;*/
+/*    flex-wrap: wrap;*/
+/*}*/
+
+/*.col {*/
+/*    flex: 1;*/
+/*    min-width: 300px;*/
+/*    padding: 10px;*/
+/*}*/
+
+/*@media (max-width: 768px) {*/
+/*    .col {*/
+/*        min-width: 100%;  !* Kolumny zajmą całą szerokość ekranu *!*/
+/*    }*/
+
+/*    .container {*/
+/*        padding: 0 10px;  !* Zmniejszenie paddingu na mniejszych ekranach *!*/
+/*    }*/
+/*}*/
