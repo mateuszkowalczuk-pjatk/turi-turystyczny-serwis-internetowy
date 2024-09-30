@@ -1,4 +1,5 @@
 .logo {
-    font-size: 80px;
     color: var(--white);
+    font-size: 5rem;
+    font-weight: 200;
 }

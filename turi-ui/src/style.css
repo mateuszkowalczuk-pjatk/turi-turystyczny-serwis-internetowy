@@ -5,6 +5,45 @@
     --green: #0D5514;
     --dark-green: #09390E;
     --dark: #031500;
+
+    --font-regular: 1.25rem;
+    --font-regular-header: 1.5rem;
+    --font-medium: 1.5rem;
+    --font-medium-header: 2rem;
+    --font-bold: 1.25rem;
+    --font-bold-header: 1.5rem;
+
+    --regular: 400;
+    --medium: 500;
+    --bold: 700;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('./assets/fonts/Inter_28pt-ExtraLight.ttf') format('truetype');
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('./assets/fonts/Inter_28pt-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('./assets/fonts/Inter_28pt-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('./assets/fonts/Inter_28pt-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
 }
 
 * {
@@ -14,53 +53,32 @@
 }
 
 html, body {
-    height: 100%;
-    font-family: Arial, sans-serif;
+    min-height: 100%;
+    font-family: 'Inter', serif;
     font-size: 100%;
+    font-weight: var(--regular);
+    line-height: 1.6;
     overflow-x: hidden;
-}
-
-body {
+    background: var(--white);
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
 }
 
+@media (max-width: 768px) {
+    html {
+        font-size: 90%;
+    }
+    body {
+        flex-direction: column;
+    }
+}
 
-
-/*html {*/
-/*    font-size: 100%;*/
-/*}*/
-
-/*body {*/
-/*    font-family: Arial, sens-serif, serif;*/
-/*    line-height: 1.6;*/
-/*    background: var(--white);*/
-/*}*/
-
-/*.container {*/
-/*    max-width: 1200px;*/
-/*    margin: 0 auto;*/
-/*    padding: 0 20px;*/
-/*}*/
-
-/*.row {*/
-/*    display: flex;*/
-/*    flex-wrap: wrap;*/
-/*}*/
-
-/*.col {*/
-/*    flex: 1;*/
-/*    min-width: 300px;*/
-/*    padding: 10px;*/
-/*}*/
-
-/*@media (max-width: 768px) {*/
-/*    .col {*/
-/*        min-width: 100%;  !* Kolumny zajmą całą szerokość ekranu *!*/
-/*    }*/
-
-/*    .container {*/
-/*        padding: 0 10px;  !* Zmniejszenie paddingu na mniejszych ekranach *!*/
-/*    }*/
-/*}*/
+@media (max-width: 480px) {
+    html {
+        font-size: 85%;
+    }
+    body {
+        flex-direction: column;
+    }
+}
