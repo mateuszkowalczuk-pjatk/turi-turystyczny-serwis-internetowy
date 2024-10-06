@@ -1,0 +1,9 @@
+.calendar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1vw;
+    width: 22%;
+    height: 100%;
+    font-size: 0.9rem;
+}

@@ -1,14 +1,17 @@
+import {useTranslation} from "react-i18next";
 import Button from "../Button";
 import styles from './AuthButtons.module.css'
 
 const AuthButtons = () => {
+    const { t } = useTranslation();
+
     return (
-        <div className={styles.authButtons}>
+        <div className={styles.buttons}>
             <Button
-                text={"Zaloguj się"}
+                text={t('header.sign-in-button')}
             />
             <Button
-                text={"Zarejestruj się"}
+                text={t('header.sign-up-button')}
             />
         </div>
     )

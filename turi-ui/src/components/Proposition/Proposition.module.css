@@ -1,0 +1,40 @@
+.proposition {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70vw;
+    height: 60vh;
+}
+
+.panels {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10%;
+    width: 100%;
+    height: 100%;
+}
+
+.stays {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 40%;
+    background-color: var(--white);
+    border: 5px solid var(--grey);
+    border-radius: 10px;
+}
+
+.attractions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 40%;
+    background-color: var(--white);
+    border: 5px solid var(--grey);
+    border-radius: 10px;
+}
+

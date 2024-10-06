@@ -1,0 +1,25 @@
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 40vh;
+    background: var(--grey);
+}
+
+.panels {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 5%;
+    width: 100%;
+    height: 80%;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    height: 100%;
+}

@@ -1,0 +1,34 @@
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 7vh;
+    width: 100%;
+    height: 60vh;
+    background-color: var(--light-green);
+    background-image: url('../../assets/images/dashboard.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: multiply;
+}
+
+.text {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1vh;
+    width: 100%;
+    height: 23vh;
+}
+
+.search {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.4vh;
+    width: 100%;
+    height: 30vh;
+}

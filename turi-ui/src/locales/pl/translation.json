@@ -1,3 +1,56 @@
 {
-
+    "header": {
+        "sign-in-button": "Zaloguj się",
+        "sign-up-button": "Zarejestruj się"
+    },
+    "dashboard": {
+        "header-text": "Gdzie i w jaki sposób masz ochotę spędzić czas?",
+        "text": "Podaj termin, wprowadź informacje, a także określ jakiego typu oferty chcesz zobaczyć!",
+        "placeholder": "Wprowadź informacje",
+        "search-button": "Szukaj",
+        "all-button": "Wszystko",
+        "stay-button": "Pobyty",
+        "atraction-button": "Atrakcje"
+    },
+    "information": {
+        "header-text": "Nie posiadasz jeszcze konta w Turi?",
+        "sign-up-text": "Załóż konto już dziś, żeby móc rezerwować oferty pobytów oraz atrakcji i spędzać czas w pięknych miejscach na swój ulubiony sposób!",
+        "premium-account-text": "Jeśli posiadasz własne miejsce turystyczne, wykup pakiet premium i udostępniaj jego oferty pobytu oraz atrakcji!"
+    },
+    "proposition": {
+        "stay": "Zobacz najpopularniejsze miejsca pobytów!",
+        "hotels": "Hotele",
+        "houses": "Domki",
+        "apartments": "Apartamenty",
+        "guesthouses": "Pensjonaty",
+        "privates": "Obiekty prywatne",
+        "b&b": "B&B",
+        "attraction": "Daj się porwać swoim ulubionym atrakcjom!",
+        "kayaks": "Kajaki",
+        "ski-slopes": "Stoki narciarskie ",
+        "saunas": "Sauny",
+        "pools": "Baseny",
+        "quads": "Quady",
+        "bicycles": "Rowery"
+    },
+    "footer": {
+        "header": "Witaj na turystycznym serwisie internetowy Turi!",
+        "community": "Zostań członkiem społeczności Turi,",
+        "sign-in": "Zaloguj się",
+        "sign-up": "Zarejestruj się",
+        "premium": "Pakiet premium",
+        "offers": "Przeglądaj oferty",
+        "stays": "Pobyty",
+        "attractions": "Atrakcje",
+        "rating": "Najlepiej oceniane",
+        "more": "Dowiedz się więcej",
+        "about": "O Turi",
+        "conditions": "Warunki użytkowania",
+        "privacy": "Polityka prywatności",
+        "help": "Uzyskaj pomoc",
+        "contact": "Skontaktuj się z nami",
+        "email": "Email: turicontact@turi.pl",
+        "phone-number": "Telefon: +24 123 456 789",
+        "copyright": "Turi © 2024. Wszelkie prawa zastrzeżone."
+    }
 }

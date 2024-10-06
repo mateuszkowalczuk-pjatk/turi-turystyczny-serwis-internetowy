@@ -1,10 +1,24 @@
 .header {
-    background: var(--light-green);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    height: 8rem;
     width: 100%;
-    padding: 0 8rem;
+    height: 10vh;
+    padding: 0 15vw;
+    background: var(--light-green);
+}
+
+@media (max-width: 768px) {
+    .header {
+        height: 8vh;
+        padding: 0 12vw;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        height: 6vh;
+        padding: 0 10vw;
+    }
 }

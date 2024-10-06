@@ -1,3 +1,6 @@
 {
-
+  "header": {
+    "sign-in-button": "Sign in",
+    "sign-up-button": "Sign up"
+  }
 }

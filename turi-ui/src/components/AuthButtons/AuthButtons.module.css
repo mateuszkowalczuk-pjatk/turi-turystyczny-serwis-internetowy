@@ -1,4 +1,19 @@
-.authButtons {
+.buttons {
     display: flex;
-    gap: 40px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 2vw;
+}
+
+@media (max-width: 768px) {
+    .buttons {
+        gap: 1.5vw;
+    }
+}
+
+@media (max-width: 480px) {
+    .buttons {
+        gap: 1vw;
+    }
 }
