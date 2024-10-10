@@ -1,8 +1,11 @@
+import { Route, Routes } from "react-router-dom";
+import SignUpPage from "../pages/SignUpPage";
+
 const SignUpRoutes = () => {
     return (
-        <div>
-
-        </div>
+        <Routes>
+            <Route path="/" element={<SignUpPage />} />
+        </Routes>
     )
 }
 
