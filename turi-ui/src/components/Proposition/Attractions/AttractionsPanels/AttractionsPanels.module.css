@@ -1,0 +1,9 @@
+.panels {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 2%;
+    width: 96%;
+    height: 70%;
+}

@@ -2,10 +2,47 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
     color: var(--white);
-    width: 25%;
-    height: 100%;
+    width: 15vw;
+    height: 18vh;
+    border-radius: 10px;
+    background-color: var(--grey);
     background-size: cover;
     background-position: center;
     background-blend-mode: multiply;
+    filter: grayscale(70%);
+    cursor: pointer;
+}
+
+.panel:hover {
+    filter: grayscale(20%);
+}
+
+.panel:active p {
+    font-size: 1.2rem;
+}
+
+.panel p {
+    color: var(--white);
+}
+
+@media (max-width: 768px) {
+    .panel p {
+        font-size: 0.8rem;
+    }
+
+    .panel:active p {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .panel p {
+        font-size: 0.75rem;
+    }
+
+    .panel:active p {
+        font-size: 0.7rem;
+    }
 }

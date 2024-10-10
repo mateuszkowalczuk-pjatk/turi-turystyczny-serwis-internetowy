@@ -1,0 +1,10 @@
+.text {
+    display: flex;
+    align-items: center;
+    width: 96%;
+    height: 20%;
+}
+
+.text p {
+    color: var(--dark)
+}

@@ -1,0 +1,9 @@
+.more {
+    width: 20%;
+    height: 100%;
+}
+
+.more p {
+    line-height: 1.8;
+    color: var(--dark);
+}

@@ -1,0 +1,36 @@
+.content {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    width: 70%;
+    height: 50%;
+}
+
+
+@media (max-width: 1180px) {
+    .content p {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .content {
+        width: 90%;
+        height: 35%;
+    }
+
+    .content p {
+        font-size: 0.6rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .content {
+        width: 90%;
+    }
+
+    .content p {
+        font-size: 0.4rem;
+    }
+}

@@ -1,36 +1,12 @@
-import {useTranslation} from "react-i18next";
-import ButtonPanel from "../../Panel";
+import StaysText from "./StaysText";
+import StaysPanels from "./StaysPanels";
 import styles from './Stays.module.css';
 
 const Stays = () => {
-    const { t } = useTranslation();
-
     return (
         <div className={styles.stays}>
-            <ButtonPanel
-                text={t('proposition.hotels')}
-                imagePath={'src/assets/images/proposition/stay/hotel.jpeg'}
-            />
-            <ButtonPanel
-                text={t('proposition.houses')}
-                imagePath={'src/assets/images/proposition/stay/house.jpeg'}
-            />
-            <ButtonPanel
-                text={t('proposition.apartments')}
-                imagePath={'src/assets/images/proposition/stay/apartment.jpeg'}
-            />
-            <ButtonPanel
-                text={t('proposition.guesthouses')}
-                imagePath={'src/assets/images/proposition/stay/guesthouse.jpeg'}
-            />
-            <ButtonPanel
-                text={t('proposition.privates')}
-                imagePath={'src/assets/images/proposition/stay/private.jpeg'}
-            />
-            <ButtonPanel
-                text={t('proposition.b&b')}
-                imagePath={'src/assets/images/proposition/stay/b&b.jpeg'}
-            />
+            <StaysText />
+            <StaysPanels />
         </div>
     )
 }

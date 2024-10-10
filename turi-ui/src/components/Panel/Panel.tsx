@@ -1,3 +1,4 @@
+import TextBold from "../Text/TextBold";
 import styles from './Panel.module.css';
 
 interface Props {
@@ -10,8 +11,12 @@ const ButtonPanel = ({ text, imagePath }: Props) => {
         <div
             className={styles.panel}
             style={{ backgroundImage: `url(${imagePath})` }}
+            role="button"
+            tabIndex={0}
         >
-            { text }
+            <TextBold
+                text={text}
+            />
         </div>
     )
 }
