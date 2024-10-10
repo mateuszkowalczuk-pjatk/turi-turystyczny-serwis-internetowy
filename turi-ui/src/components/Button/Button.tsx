@@ -4,12 +4,18 @@ interface Props {
     text: string;
 }
 
-const Button = ({ text }: Props) => {
+export const GreyButton = ({ text }: Props) => {
     return (
-        <button className={styles.button}>
+        <button className={`${styles.button} ${styles.greyButton}`}>
             { text }
         </button>
     )
 }
 
-export default Button;
+export const GreenButton = ({ text }: Props) => {
+    return (
+        <button className={`${styles.button} ${styles.greenButton}`}>
+            { text }
+        </button>
+    )
+}

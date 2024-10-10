@@ -6,16 +6,29 @@
     height: 2.5rem;
     font-size: 1rem;
     text-align: center;
-    color: var(--dark);
-    background-color: var(--white);
-    border: 3px solid var(--grey);
     border-radius: 0.6rem;
     transition: font-size 0.1s;
     cursor: pointer;
 }
 
-.button:hover {
+.greyButton {
+    color: var(--dark);
+    background-color: var(--white);
+    border: 3px solid var(--grey);
+}
+
+.greyButton:hover {
     background-color: var(--grey);
+}
+
+.greenButton {
+    color: var(--white);
+    background-color: var(--green);
+    border: 3px solid var(--dark-green);
+}
+
+.greenButton:hover {
+    background-color: var(--dark-green);
 }
 
 .button:active {
@@ -30,8 +43,12 @@
         border-radius: 0.5rem;
     }
 
-    .button:hover {
+    .greyButton:hover {
         background-color: var(--grey);
+    }
+
+    .greenButton:hover {
+        background-color: var(--dark-green);
     }
 
     .button:active {
@@ -47,8 +64,12 @@
         border-radius: 0.4rem;
     }
 
-    .button:hover {
+    .greyButton:hover {
         background-color: var(--grey);
+    }
+
+    .greenButton:hover {
+        background-color: var(--dark-green);
     }
 
     .button:active {

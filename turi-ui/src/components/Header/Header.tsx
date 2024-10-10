@@ -1,5 +1,5 @@
 import Logo from "../Logo";
-import AuthButtons from "../AuthButtons";
+import AuthButtons from "./AuthButtons";
 import styles from './Header.module.css';
 
 const Header = () => {

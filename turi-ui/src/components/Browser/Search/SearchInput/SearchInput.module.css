@@ -1,0 +1,19 @@
+.input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+}
+
+@media (max-width: 768px) {
+    .input {
+        width: 62%;
+    }
+}
+
+@media (max-width: 480px) {
+    .input {
+        width: 62%;
+    }
+}

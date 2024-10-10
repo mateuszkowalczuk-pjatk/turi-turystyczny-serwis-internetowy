@@ -1,0 +1,15 @@
+import styles from "./TextBold.module.css";
+
+interface Props {
+    text: string;
+}
+
+const TextBold = ({ text }: Props) => {
+    return (
+        <p className={styles.text}>
+            { text }
+        </p>
+    )
+}
+
+export default TextBold;

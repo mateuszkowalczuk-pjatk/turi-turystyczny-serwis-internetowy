@@ -1,0 +1,16 @@
+.map {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.map:hover {
+    color: var(--dark-green);
+}
+
+.map:active {
+    height: 95%;
+}

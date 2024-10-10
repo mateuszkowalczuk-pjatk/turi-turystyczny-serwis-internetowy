@@ -1,1 +1,1 @@
-export { default } from './Button.tsx'
+export { GreyButton, GreenButton } from './Button.tsx'

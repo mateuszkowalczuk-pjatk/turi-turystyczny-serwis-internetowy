@@ -6,6 +6,7 @@
     "dashboard": {
         "header-text": "Gdzie i w jaki sposób masz ochotę spędzić czas?",
         "text": "Podaj termin, wprowadź informacje, a także określ jakiego typu oferty chcesz zobaczyć!",
+        "calendar-default": "data od - data do",
         "placeholder": "Wprowadź informacje",
         "search-button": "Szukaj",
         "all-button": "Wszystko",
