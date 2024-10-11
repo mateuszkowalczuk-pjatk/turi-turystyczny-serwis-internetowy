@@ -1,0 +1,17 @@
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    height: 23%;
+}
+
+.button button {
+    width: 100%;
+    height: 45%;
+    font-size: 1.25rem;
+}
+
+.button button:active {
+    font-size: 1.20rem;
+}

@@ -1,7 +1,7 @@
 import {ReactNode} from "react";
-import styles from "./AuthLayout.module.css"
 import AuthHeader from "../../components/AuthHeader";
 import AuthFooter from "../../components/AuthFooter";
+import styles from "./AuthLayout.module.css"
 
 interface Props {
     content: ReactNode;

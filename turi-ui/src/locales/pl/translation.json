@@ -53,5 +53,14 @@
         "email": "Email: turicontact@turi.pl",
         "phone-number": "Telefon: +24 123 456 789",
         "copyright": "Turi © 2024. Wszelkie prawa zastrzeżone."
+    },
+    "registration": {
+        "header": "Zarejestruj się do Turi",
+        "login": "Login",
+        "email": "Adres email",
+        "password": "Hasło",
+        "re-password": "Powtórz hasło",
+        "signup": "Zarejestruj się",
+        "signin": "Zaloguj się do Turi"
     }
 }
