@@ -1,0 +1,19 @@
+.inputs {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    height: 50%;
+    gap: 3%;
+}
+
+.inputs input {
+    height: 100%;
+    border-radius: 10px;
+    font-size: 1.1rem;
+}
+
+.inputs input::placeholder {
+    font-size: 1.1rem;
+}

@@ -1,17 +1,16 @@
-import {ReactNode} from "react";
-import AuthHeader from "../../components/AuthHeader";
-import AuthFooter from "../../components/AuthFooter";
-import styles from "./AuthLayout.module.css"
+import { Outlet } from 'react-router-dom'
+import AuthHeader from '../../components/AuthHeader'
+import AuthContent from '../../components/AuthContent'
+import AuthFooter from '../../components/AuthFooter'
+import styles from '../Layout.module.css'
 
-interface Props {
-    content: ReactNode;
-}
-
-const AuthLayout = ({ content }: Props) => {
+const AuthLayout = () => {
     return (
-        <div className={styles.auth}>
+        <div className={styles.layout}>
             <AuthHeader />
-            { content }
+            <AuthContent
+                content={ <Outlet /> }
+            />
             <AuthFooter  />
         </div>
     )

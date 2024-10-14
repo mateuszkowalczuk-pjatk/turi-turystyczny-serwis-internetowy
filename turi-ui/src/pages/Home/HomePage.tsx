@@ -1,14 +1,12 @@
-import HomeLayout from "../../layouts/Home/HomeLayout";
-import Header from "../../components/Header";
-import Information from "../../components/Information";
-import Footer from "../../components/Footer";
+import HomeLayout from '../../layouts/Home/HomeLayout'
+import Information from '../../components/Information'
 
 const HomePage = () => {
+    // const { isAuthenticated } = useContext(AuthContext);
+
     return (
         <HomeLayout
-            header={<Header />}
-            information={<Information />}
-            footer={<Footer />}
+            content={<Information />}
         />
     )
 }

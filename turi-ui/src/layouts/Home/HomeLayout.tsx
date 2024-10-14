@@ -1,22 +1,14 @@
-import { ReactNode } from "react";
-import Dashboard from "../../components/Dashboard";
-import Proposition from "../../components/Proposition";
-import styles from './HomeLayout.module.css'
+import { ReactNode } from 'react'
+import Dashboard from '../../components/Dashboard'
+import Proposition from '../../components/Proposition'
+import styles from '../Layout.module.css'
 
-interface Props {
-    header: ReactNode;
-    information: ReactNode;
-    footer: ReactNode;
-}
-
-const HomeLayout = ({ header, information, footer }: Props) => {
+const HomeLayout = ({ content }: { content: ReactNode }) => {
     return (
-        <div className={styles.home}>
-            { header }
+        <div className={styles.layout}>
             <Dashboard />
-            { information }
+            { content }
             <Proposition />
-            { footer }
         </div>
     )
 }
