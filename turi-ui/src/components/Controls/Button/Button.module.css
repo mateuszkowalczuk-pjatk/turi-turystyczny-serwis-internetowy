@@ -1,0 +1,28 @@
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.3rem;
+    transition: font-size 0.1s;
+    cursor: pointer;
+}
+
+.greyButton {
+    color: var(--dark);
+    background-color: var(--white);
+    border: 3px solid var(--grey);
+}
+
+.greyButton:hover {
+    background-color: var(--grey);
+}
+
+.greenButton {
+    color: var(--white);
+    background-color: var(--green);
+    border: 3px solid var(--dark-green);
+}
+
+.greenButton:hover {
+    background-color: var(--dark-green);
+}

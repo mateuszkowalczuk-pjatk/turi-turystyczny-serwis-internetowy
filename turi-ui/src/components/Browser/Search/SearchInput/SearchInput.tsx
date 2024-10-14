@@ -1,6 +1,6 @@
-import { useTranslation } from "react-i18next";
-import Input from "../../../Input";
-import styles from './SearchInput.module.css';
+import { useTranslation } from 'react-i18next'
+import Input from '../../../Controls/Input'
+import styles from './SearchInput.module.css'
 
 const SearchInput = () => {
     const { t } = useTranslation();
@@ -8,7 +8,7 @@ const SearchInput = () => {
     return (
         <div className={styles.input}>
             <Input
-                text={t('dashboard.placeholder')}
+                placeholder={t('dashboard.placeholder')}
             />
         </div>
     )

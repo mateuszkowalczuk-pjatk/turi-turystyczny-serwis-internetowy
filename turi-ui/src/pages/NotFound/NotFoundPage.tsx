@@ -1,7 +1,14 @@
+import AuthHeader from '../../components/Header/AuthHeader'
+import NotFound from '../../components/NotFound/NotFound.tsx'
+import ProfileFooter from '../../components/Footer/ProfileFooter'
+import styles from './NotFoundPage.module.css'
+
 const NotFoundPage = () => {
     return (
-        <div>
-            404 Not Found
+        <div className={styles.notfound}>
+            <AuthHeader />
+            <NotFound />
+            <ProfileFooter />
         </div>
     )
 }

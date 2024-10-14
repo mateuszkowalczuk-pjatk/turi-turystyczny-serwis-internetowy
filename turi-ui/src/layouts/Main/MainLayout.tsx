@@ -1,16 +1,21 @@
+import { useSelector } from 'react-redux'
+import { RootState } from '../../store/store'
 import { Outlet } from 'react-router-dom'
-import Header from '../../components/Header'
-import Footer from '../../components/Footer'
+import UserHeader from '../../components/Header/UserHeader'
+import Header from '../../components/Header/Header'
+import UserFooter from '../../components/Footer/UserFooter'
+import Footer from '../../components/Footer/Footer'
 import styles from '../Layout.module.css'
 
+
 const MainLayout = () => {
-    // const { isAuthenticated } = useContext(AuthContext);
+    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
 
     return (
         <div className={styles.layout}>
-            <Header />
+            {isAuthenticated ? ( <UserHeader /> ) : ( <Header /> )}
             <Outlet />
-            <Footer />
+            {isAuthenticated ? ( <UserFooter /> ) : ( <Footer /> )}
         </div>
     )
 }

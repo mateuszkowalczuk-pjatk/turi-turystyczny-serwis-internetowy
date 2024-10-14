@@ -62,5 +62,14 @@
         "re-password": "Powtórz hasło",
         "signup": "Zarejestruj się",
         "signin": "Zaloguj się do Turi"
+    },
+    "login": {
+        "title": "Zaloguj się do Turi",
+        "login": "Login lub adres email",
+        "password": "Hasło",
+        "button": "Zaloguj się",
+        "google": "Zaloguj się za pomocą konta Google",
+        "reset-password": "Przypomnij hasło",
+        "new-account": "Utwórz nowe konto"
     }
 }

@@ -1,8 +1,15 @@
-import RegistrationVerification from '../../../components/RegistrationVerification'
+import AuthPanel from '../../../components/Auth/AuthPanel'
 
 const SignUpVerificationPage = () => {
     return (
-        <RegistrationVerification />
+        <AuthPanel
+            header={null}
+            option={null}
+            input={null}
+            button={null}
+            top={null}
+            down={null}
+        />
     )
 }
 

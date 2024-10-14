@@ -1,14 +1,14 @@
 import { Outlet } from 'react-router-dom'
+import UserHeader from '../../components/Header/UserHeader'
+import ProfileFooter from '../../components/Footer/ProfileFooter'
 import styles from '../Layout.module.css'
 
 const ProfileLayout = () => {
-    // const { isAuthenticated } = useContext(AuthContext);
-
     return (
         <div className={styles.layout}>
-            {/*Header*/}
+            <UserHeader />
             <Outlet />
-            {/*Footer*/}
+            <ProfileFooter />
         </div>
     )
 }

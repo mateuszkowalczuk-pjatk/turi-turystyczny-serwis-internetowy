@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import Input from '../../Input'
-import styles from './RegistrationInputs.module.css';
+import Input from '../../Controls/Input'
+import styles from './RegistrationInputs.module.css'
 
 const RegistrationInputs = () => {
     const { t } = useTranslation();
@@ -8,16 +8,16 @@ const RegistrationInputs = () => {
     return (
         <div className={styles.inputs}>
             <Input
-                text={t('registration.login')}
+                placeholder={t('registration.login')}
             />
             <Input
-                text={t('registration.email')}
+                placeholder={t('registration.email')}
             />
             <Input
-                text={t('registration.password')}
+                placeholder={t('registration.password')}
             />
             <Input
-                text={t('registration.re-password')}
+                placeholder={t('registration.re-password')}
             />
         </div>
     )

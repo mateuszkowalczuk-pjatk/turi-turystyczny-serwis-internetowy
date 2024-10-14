@@ -1,13 +1,20 @@
-import HomeLayout from '../../layouts/Home/HomeLayout'
-import Information from '../../components/Information'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../store/store.ts'
+import Dashboard from '../../components/Dashboard'
+import UserInformation from '../../components/Information/UserInformation'
+import Information from '../../components/Information/Information'
+import Proposition from '../../components/Proposition'
+import styles from './HomePage.module.css'
 
 const HomePage = () => {
-    // const { isAuthenticated } = useContext(AuthContext);
+    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
 
     return (
-        <HomeLayout
-            content={<Information />}
-        />
+        <div className={styles.home}>
+            <Dashboard />
+            {isAuthenticated ? ( <UserInformation /> ) : ( <Information /> )}
+            <Proposition />
+        </div>
     )
 }
 
