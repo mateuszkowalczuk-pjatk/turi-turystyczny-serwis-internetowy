@@ -1,4 +1,4 @@
-import TextBold from "../Text/TextBold";
+import TextBold from "../Controls/Text/TextBold";
 import styles from './Panel.module.css';
 
 interface Props {

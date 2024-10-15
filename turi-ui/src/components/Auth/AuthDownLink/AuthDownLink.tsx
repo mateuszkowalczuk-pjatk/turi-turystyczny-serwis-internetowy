@@ -1,16 +1,31 @@
+import TextRegular from '../../Controls/Text/TextRegular'
 import styles from './AuthDownLink.module.css'
 
 interface Props {
     firstLink: string;
-    secondLink?: string;
+    secondLink: string;
 }
 
-const AuthDownLink = ({ firstLink, secondLink}: Props) => {
+const AuthDownLink = ({ firstLink, secondLink }: Props) => {
+    const isRight = secondLink === "right";
+    const isCenter = secondLink === "center";
+
     return (
-        <div className={styles.link}>
-            { firstLink }
-            { secondLink }
-            {/* logika czy dwa po bokach, czy jeden po srodku, czy jeden z prawej */}
+        <div className={`${styles.link} ${isCenter ? styles.linkCenter : ''} ${isRight ? styles.linkRight : ''}`}>
+            {!isRight && !isCenter ? (
+                <>
+                    <TextRegular
+                        text={firstLink}
+                    />
+                    <TextRegular
+                        text={secondLink}
+                    />
+                </>
+            ) : (
+                <TextRegular
+                    text={firstLink}
+                />
+            )}
         </div>
     )
 }

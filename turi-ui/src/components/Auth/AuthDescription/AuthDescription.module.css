@@ -1,3 +1,14 @@
 .description {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    height: 4rem;
+}
 
+.description p {
+    color: var(--white);
+    text-align: center;
+    font-size: 0.9rem;
+    line-height: 1.6;
 }

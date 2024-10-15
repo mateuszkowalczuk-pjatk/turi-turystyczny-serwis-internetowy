@@ -1,4 +1,4 @@
-import TextMediumExtra from '../../Text/TextMediumExtra'
+import TextMediumExtra from '../../Controls/Text/TextMediumExtra'
 import styles from './AuthTitle.module.css'
 
 const AuthTitle = ({ text }: { text: string }) => {

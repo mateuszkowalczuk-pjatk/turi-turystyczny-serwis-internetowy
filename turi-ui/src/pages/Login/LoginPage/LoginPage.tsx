@@ -38,8 +38,8 @@ const LoginPage = () => {
             }
             down={
                 <AuthDownLink
-                    firstLink={t('login.reset-password')}
-                    secondLink={t('login.new-account')}
+                    firstLink={t('login.reset')}
+                    secondLink={t('login.signup')}
                 />
             }
         />

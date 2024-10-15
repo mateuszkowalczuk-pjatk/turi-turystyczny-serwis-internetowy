@@ -7,6 +7,7 @@ const ProfileLayout = () => {
     return (
         <div className={styles.layout}>
             <UserHeader />
+            {/*dodanie zagnieżdzenia z ProfileContent*/}
             <Outlet />
             <ProfileFooter />
         </div>

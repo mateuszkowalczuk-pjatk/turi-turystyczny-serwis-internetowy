@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
-import TextMediumExtra from "../../Text/TextMediumExtra";
-import TextExtraLight from "../../Text/TextExtraLight";
+import TextMediumExtra from "../../Controls/Text/TextMediumExtra";
+import TextExtraLight from "../../Controls/Text/TextExtraLight";
 import styles from './Banner.module.css';
 
 const Banner = () => {

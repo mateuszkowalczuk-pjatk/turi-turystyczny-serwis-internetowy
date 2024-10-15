@@ -1,8 +1,21 @@
 .link {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     width: 70%;
-    height: 4rem;
+    height: 3rem;
     border-top: 1px solid var(--white);
+}
+
+.link p {
+    color: white;
+    font-size: 0.9rem;
+}
+
+.linkCenter {
+    justify-content: center;
+}
+
+.linkRight {
+    justify-content: flex-end;
 }

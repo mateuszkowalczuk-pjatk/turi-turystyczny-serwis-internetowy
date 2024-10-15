@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import TextMedium from "../../../Text/TextMedium";
+import TextMedium from "../../../Controls/Text/TextMedium";
 import styles from './StaysText.module.css'
 
 const StaysText = () => {

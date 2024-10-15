@@ -1,18 +1,54 @@
-import RegistrationHeader from '../../../components/Registration/RegistrationHeader'
-import RegistrationInputs from '../../../components/Registration/RegistrationInputs'
-import RegistrationButton from '../../../components/Registration/RegistrationButton'
-import RegistrationLogin from '../../../components/Registration/RegistrationLogin'
-import styles from '../../../components/Registration/Registration.module.css'
+import { useTranslation } from "react-i18next";
+import SignUpPanel from "../../../components/Auth/SignUpPanel/SignUpPanel.tsx";
+import AuthTitle from "../../../components/Auth/AuthTitle";
+import AuthInput from "../../../components/Auth/AuthInput";
+import AuthButton from "../../../components/Auth/AuthButton";
+import AuthTopLink from "../../../components/Auth/AuthTopLink";
+import AuthDownLink from "../../../components/Auth/AuthDownLink";
 
 const SignUpPage = () => {
+    const { t } = useTranslation();
+
     return (
-      //Z registration component na signup
-        <div className={styles.panel}>
-            <RegistrationHeader />
-            <RegistrationInputs />
-            <RegistrationButton />
-            <RegistrationLogin />
-        </div>
+        <SignUpPanel
+            header={
+                <AuthTitle
+                    text={t('signup.title')}
+                />
+            }
+            login={
+                <AuthInput
+                    text={t('signup.login')}
+                />
+            }
+            email={
+                <AuthInput
+                    text={t('signup.email')}
+                />
+            }
+            password={
+                <AuthInput
+                    text={t('signup.password')}
+                />
+            }
+            rePassword={
+                <AuthInput
+                    text={t('signup.re-password')}
+                />
+            }
+            button={
+                <AuthButton
+                    text={t('signup.button')}
+                />
+            }
+            top={ <AuthTopLink /> }
+            down={
+                <AuthDownLink
+                    firstLink={t('signup.signin')}
+                    secondLink={'right'}
+                />
+            }
+        />
     )
 }
 

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import TextExtraLight from '../../../../Text/TextExtraLight'
-import TextRegular from '../../../../Text/TextRegular'
+import TextExtraLight from '../../../../Controls/Text/TextExtraLight'
+import TextRegular from '../../../../Controls/Text/TextRegular'
 import styles from './CommunityContent.module.css'
 
 const CommunityContent = () => {

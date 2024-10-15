@@ -4,20 +4,22 @@
     justify-content: center;
     align-items: center;
     width: 26rem;
-    height: 22rem;
+    height: 30rem;
     border-radius: 10px;
     background: var(--light-green);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 /*@media (max-width: 768px) {*/
-/*    .text {*/
-/*        font-size: 1.25rem;*/
+/*    .panel {*/
+/*        width: 22rem;*/
+/*        height: 28rem;*/
 /*    }*/
 /*}*/
 
 /*@media (max-width: 480px) {*/
-/*    .text {*/
-/*        font-size: 1rem;*/
+/*    .panel {*/
+/*        width: 18rem;*/
+/*        height: 24rem;*/
 /*    }*/
 /*}*/

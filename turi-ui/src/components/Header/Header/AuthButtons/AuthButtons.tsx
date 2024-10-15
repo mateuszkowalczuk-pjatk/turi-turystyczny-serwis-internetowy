@@ -7,7 +7,11 @@ const AuthButtons = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
 
-    const navigateToSignup = () => {
+    const navigateToLogin = () => {
+        navigate('/login');
+    };
+
+    const navigateToSignUp = () => {
         navigate('/signup');
     };
 
@@ -15,10 +19,11 @@ const AuthButtons = () => {
         <div className={styles.buttons}>
             <GreyButton
                 text={t('header.sign-in-button')}
+                onClick={navigateToLogin}
             />
             <GreyButton
                 text={t('header.sign-up-button')}
-                onClick={navigateToSignup}
+                onClick={navigateToSignUp}
             />
         </div>
     )
