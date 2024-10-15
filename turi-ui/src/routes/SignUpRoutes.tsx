@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 import AuthLayout from '../layouts/Auth'
 import SignUpPage from "../pages/SignUp/SignUpPage";
-import SignUpVerificationPage from '../pages/SignUp/SignUpVerificationPage'
-import SignUpPersonalizationPage from '../pages/SignUp/SignUpPersonalizationPage'
+import SignUpVerifyPage from '../pages/SignUp/SignUpVerifyPage'
+import SignUpPersonalPage from '../pages/SignUp/SignUpPersonalPage'
 import NotFoundPage from '../pages/NotFound'
 
 const SignUpRoutes = () => {
@@ -10,8 +10,8 @@ const SignUpRoutes = () => {
         <Routes>
             <Route path="/" element={<AuthLayout />}>
                 <Route index element={<SignUpPage />} />
-                <Route path="/verification" element={<SignUpVerificationPage />} />
-                <Route path="/personalization" element={<SignUpPersonalizationPage />} />
+                <Route path="/verify" element={<SignUpVerifyPage />} />
+                <Route path="/personal" element={<SignUpPersonalPage />} />
             </Route>
             <Route path="*" element={<NotFoundPage />} />
         </Routes>

@@ -7,39 +7,39 @@ import AuthButton from "../../../components/Auth/AuthButton";
 import AuthTopLink from "../../../components/Auth/AuthTopLink";
 import AuthDownLink from "../../../components/Auth/AuthDownLink";
 
-const SignUpVerificationPage = () => {
+const SignUpVerifyPage = () => {
     const { t } = useTranslation();
 
     return (
         <AuthPanel
             header={
                 <AuthTitle
-                    text={t('signup-verification.title')}
+                    text={t('signup-verify.title')}
                 />
             }
             option={
                 <AuthDescription
-                    text={t('signup-verification.description')}
+                    text={t('signup-verify.description')}
                 />
             }
             input={
                 <AuthInput
-                    text={t('signup-verification.code')}
+                    text={t('signup-verify.code')}
                 />
             }
             button={
                 <AuthButton
-                    text={t('signup-verification.button')}
+                    text={t('signup-verify.button')}
                 />
             }
             top={
                 <AuthTopLink
-                    text={t('signup-verification.top')}
+                    text={t('signup-verify.top')}
                 />
             }
             down={
                 <AuthDownLink
-                    firstLink={t('signup.down')}
+                    firstLink={t('signup-verify.down')}
                     secondLink={'center'}
                 />
             }
@@ -47,4 +47,4 @@ const SignUpVerificationPage = () => {
     )
 }
 
-export default SignUpVerificationPage;
+export default SignUpVerifyPage;

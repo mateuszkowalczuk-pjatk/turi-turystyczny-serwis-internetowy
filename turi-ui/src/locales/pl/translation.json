@@ -65,7 +65,7 @@
         "button": "Zarejestruj się",
         "signin": "Zaloguj się do Turi"
     },
-    "signup-verification": {
+    "signup-verify": {
         "title": "Zarejestruj się do Turi",
         "description": "Na twój email wysłaliśmy kod weryfikacyjny. Wprowadź go poniżej.",
         "code": "Kod",
@@ -73,7 +73,7 @@
         "top": "Wyślij kod weryfikacyjny jeszcze raz",
         "down": "Wróć do formularza rejestracji"
     },
-    "signup-personalization": {
+    "signup-personal": {
         "title": "Konfiguracja konta",
         "description": "Wprowadź swoje dane, żeby łatwiej i szybciej dokonywać rezerwacji ofert."
     },

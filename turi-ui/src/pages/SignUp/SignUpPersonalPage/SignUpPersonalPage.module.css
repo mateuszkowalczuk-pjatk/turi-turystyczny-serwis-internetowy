@@ -1,0 +1,10 @@
+.personal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    height: 70vh;
+    border: 3px solid var(--grey);
+    border-radius: 0.6rem;
+}
