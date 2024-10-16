@@ -12,7 +12,7 @@
             "search-button": "Szukaj",
             "all-button": "Wszystko",
             "stay-button": "Pobyty",
-            "atraction-button": "Atrakcje"
+            "attraction-button": "Atrakcje"
         },
         "information": {
             "header-text": "Nie posiadasz jeszcze konta w Turi?",
@@ -75,7 +75,32 @@
     },
     "signup-personal": {
         "title": "Konfiguracja konta",
-        "description": "Wprowadź swoje dane, żeby łatwiej i szybciej dokonywać rezerwacji ofert."
+        "description": "Wprowadź swoje dane, żeby łatwiej i szybciej dokonywać rezerwacji ofert.",
+        "name-surname": "Imię i nazwisko",
+        "name": "Imię",
+        "surname": "Nazwisko",
+        "birthdate": "Data urodzenia",
+        "day": "Dzień",
+        "month": "Miesiąc",
+        "year": "Rok",
+        "gender": "Płeć",
+        "woman": "Kobieta",
+        "man": "Mężczyzna",
+        "phone-number": "Numer telefonu",
+        "address": "Adres zamieszkania",
+        "country": "Kraj",
+        "city": "Miasto",
+        "zipcode": "Kod pocztowy",
+        "street": "Ulica",
+        "building": "Nr budynku",
+        "apartment": "Nr lokalu",
+        "skip": "Pomiń",
+        "next": "Dalej",
+        "skip-header": "Pominięcie konfiguracji konta klienta",
+        "skip-description": "Bez podania wymienionych danych twoje konto klienckie nie będzie w pełni skonfigurowane. Możesz przez to natrafić na utrudnienia podczas rezerwacji ofert, gdzie każdorazowo będziesz proszony o podanie swoich danych.",
+        "skip-decision": "Czy chcesz kontynuować i pominąć konfigurację?",
+        "back": "Wróć",
+        "continue": "Kontynuuj"
     },
     "login": {
         "title": "Zaloguj się do Turi",

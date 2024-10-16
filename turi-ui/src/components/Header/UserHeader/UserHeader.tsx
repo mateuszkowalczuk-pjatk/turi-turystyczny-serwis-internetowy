@@ -1,6 +1,8 @@
+import styles from './UserHeader.module.css'
+
 const UserHeader = () => {
     return (
-        <div>
+        <div className={styles.header}>
 
         </div>
     )
