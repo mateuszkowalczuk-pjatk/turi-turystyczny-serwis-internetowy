@@ -1,0 +1,14 @@
+.description {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+    width: 100%;
+    gap: 1rem;
+}
+
+.description p {
+    color: var(--white);
+    font-size: 1rem;
+}

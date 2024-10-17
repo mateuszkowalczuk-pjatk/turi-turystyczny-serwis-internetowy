@@ -4,4 +4,10 @@
     align-items: center;
     width: 90%;
     height: 50vh;
+    transition: opacity 0.5s ease;
+}
+
+.background {
+    opacity: 0.5;
+    pointer-events: none;
 }

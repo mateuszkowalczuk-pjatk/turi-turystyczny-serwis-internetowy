@@ -1,0 +1,25 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: var(--light-green);
+    width: 32vw;
+    height: 50vh;
+    text-align: center;
+    padding: 1.25rem;
+    border-radius: 0.6rem;
+    box-shadow: 0 0.3rem 1rem rgba(0, 0, 0, 0.2);
+    animation: modalFadeIn 0.5s ease forwards;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

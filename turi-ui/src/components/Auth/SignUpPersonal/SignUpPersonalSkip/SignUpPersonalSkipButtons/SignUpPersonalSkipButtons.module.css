@@ -1,0 +1,19 @@
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1vw;
+    height: 25vh;
+    width: 100%;
+}
+
+.buttons button {
+    font-size: 1rem;
+    height: 2.5rem;
+    width: 30%;
+    border-radius: 0.5rem;
+}
+
+.buttons button:active {
+    font-size: 0.95rem;
+}

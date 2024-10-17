@@ -96,7 +96,7 @@
         "apartment": "Nr lokalu",
         "skip": "Pomiń",
         "next": "Dalej",
-        "skip-header": "Pominięcie konfiguracji konta klienta",
+        "skip-title": "Pominięcie konfiguracji konta klienta",
         "skip-description": "Bez podania wymienionych danych twoje konto klienckie nie będzie w pełni skonfigurowane. Możesz przez to natrafić na utrudnienia podczas rezerwacji ofert, gdzie każdorazowo będziesz proszony o podanie swoich danych.",
         "skip-decision": "Czy chcesz kontynuować i pominąć konfigurację?",
         "back": "Wróć",
