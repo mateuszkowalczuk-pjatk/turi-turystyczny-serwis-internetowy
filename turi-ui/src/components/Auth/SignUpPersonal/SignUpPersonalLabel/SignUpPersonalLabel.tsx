@@ -1,10 +1,10 @@
-import TextMedium from '../../../Controls/Text/TextMedium'
+import TextRegular from '../../../Controls/Text/TextRegular'
 import styles from './SignUpPersonalLabel.module.css'
 
 const SignUpPersonalLabel = ({ text }: { text: string }) => {
     return (
         <div className={styles.label}>
-            <TextMedium
+            <TextRegular
                 text={ text }
             />
         </div>

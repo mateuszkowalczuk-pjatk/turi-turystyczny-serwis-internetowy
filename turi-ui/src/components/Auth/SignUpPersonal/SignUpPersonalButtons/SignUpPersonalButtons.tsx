@@ -9,11 +9,11 @@ const SignUpPersonalButtons = () => {
     return (
         <div className={styles.buttons}>
             <GreenButton
-                text={t('')}
+                text={t('signup-personal.skip')}
                 // onClick={}
             />
             <GreenButton
-              text={t('')}
+              text={t('signup-personal.next')}
               // onClick={}
             />
         </div>

@@ -1,4 +1,5 @@
 import { ReactNode } from 'react'
+import SignUpPersonalInputs from '../SignUpPersonalInputs'
 import styles from './SignUpPersonalPanel.module.css'
 
 interface Props {
@@ -12,15 +13,14 @@ interface Props {
 }
 
 const SignUpPersonalPanel = ({ label, firstInput, secondInput, thirdInput, fourthInput, fifthInput, sixthInput }: Props) => {
+    const inputs = [firstInput, secondInput, thirdInput, fourthInput, fifthInput, sixthInput].filter(Boolean);
+
     return (
         <div className={styles.panel}>
             { label }
-            { firstInput }
-            { secondInput }
-            { thirdInput }
-            { fourthInput }
-            { fifthInput }
-            { sixthInput }
+            <SignUpPersonalInputs
+                inputs={ inputs }
+            />
         </div>
     )
 }

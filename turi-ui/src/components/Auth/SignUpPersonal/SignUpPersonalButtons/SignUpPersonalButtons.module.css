@@ -1,3 +1,18 @@
 .buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 1vw;
+    height: 15vh;
+    width: 100%;
+}
 
+.buttons button {
+    font-size: 1rem;
+    height: 2.5rem;
+    width: 30%;
+}
+
+.buttons button:active {
+    font-size: 0.95rem;
 }

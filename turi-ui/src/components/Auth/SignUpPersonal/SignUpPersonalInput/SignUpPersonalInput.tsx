@@ -1,13 +1,11 @@
 import Input from '../../../Controls/Input'
-import styles from './SignUpPersonalInput.module.css'
+import './SignUpPersonalInput.module.css'
 
 const SignUpPersonalInput = ({ text }: { text: string }) => {
     return (
-        <div className={styles.input}>
-            <Input
-                placeholder={ text }
-            />
-        </div>
+        <Input
+            placeholder={ text }
+        />
     )
 }
 

@@ -1,3 +1,7 @@
 .part {
-
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 45vh;
+    width: 50%;
 }

@@ -1,3 +1,6 @@
 .panel {
-
+    display: flex;
+    flex-direction: column;
+    height: 15vh;
+    width: 100%;
 }
