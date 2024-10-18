@@ -1,0 +1,13 @@
+.item {
+    padding: 1rem;
+    cursor: pointer;
+    border-bottom: 3px solid var(--grey);
+}
+
+.item:hover {
+    background-color: var(--grey);
+}
+
+.item:last-child {
+    border-bottom: none;
+}

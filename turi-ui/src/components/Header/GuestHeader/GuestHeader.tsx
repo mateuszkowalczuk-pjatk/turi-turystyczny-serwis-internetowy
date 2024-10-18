@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import Logo from '../../Logo'
-import HeaderButtons from '../AuthButtons'
+import HeaderButtons from '../HeaderButtons'
 import styles from './GuestHeader.module.css'
 
 const GuestHeader = () => {
@@ -10,8 +10,7 @@ const GuestHeader = () => {
         <div className={styles.header}>
             <Logo />
             <HeaderButtons
-                firstButton={t('header.sign-in-button')}
-                secondButton={t('header.sign-up-button')}
+                text={t('header.sign-in-button')}
             />
         </div>
     )

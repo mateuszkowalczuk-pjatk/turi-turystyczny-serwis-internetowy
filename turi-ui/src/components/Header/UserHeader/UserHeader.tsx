@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import Logo from "../../Logo";
 import HeaderLinks from "../HeaderLinks";
 import TextRegular from "../../Controls/Text/TextRegular";
-import HeaderButtons from "../AuthButtons";
+import HeaderButtons from "../HeaderButtons";
 import styles from './UserHeader.module.css'
 
 const UserHeader = () => {
@@ -29,8 +29,7 @@ const UserHeader = () => {
                 }
             />
             <HeaderButtons
-                firstButton={t('header.premium')}
-                secondButton={t('header.name')}
+                text={t('header.premium')}
             />
         </div>
     )

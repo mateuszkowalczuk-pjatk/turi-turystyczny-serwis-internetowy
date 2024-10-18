@@ -6,7 +6,9 @@
         "stays": "Pobyty",
         "favourites": "Ulubione",
         "premium": "Premium",
-        "name": "user-name"
+        "name": "user-name",
+        "profile": "Profil",
+        "logout": "Wyloguj się "
     },
     "home": {
         "dashboard": {
