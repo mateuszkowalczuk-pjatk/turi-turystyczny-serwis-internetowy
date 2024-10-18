@@ -6,7 +6,7 @@ const ProfileTitle = () => {
 
     return (
         <div className={styles.title}>
-            {t('')}
+            {t('profile.title')}
         </div>
     )
 }
