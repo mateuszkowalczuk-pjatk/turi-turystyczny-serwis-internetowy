@@ -8,13 +8,13 @@ const TypeButtons = () => {
     return (
         <div className={styles.buttons}>
             <GreyButton
-                text={t('dashboard.all-button')}
+                text={t('home.dashboard.all-button')}
             />
             <GreyButton
-                text={t('dashboard.stay-button')}
+                text={t('home.dashboard.stay-button')}
             />
             <GreyButton
-                text={t('dashboard.atraction-button')}
+                text={t('home.dashboard.attraction-button')}
             />
         </div>
     )

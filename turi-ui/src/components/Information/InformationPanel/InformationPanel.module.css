@@ -1,4 +1,4 @@
-.information {
+.panel {
     display: flex;
     justify-content: center;
     align-items: flex-end;
@@ -8,13 +8,13 @@
 }
 
 @media (max-width: 768px) {
-    .information {
+    .panel {
         width: 90vw;
     }
 }
 
 @media (max-width: 480px) {
-    .information {
+    .panel {
         width: 90vw;
         height: 20vh;
     }

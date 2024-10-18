@@ -8,7 +8,7 @@ const AttractionsText = () => {
     return (
         <div className={styles.text}>
             <TextMedium
-                text={t('proposition.attraction')}
+                text={t('home.proposition.attraction')}
             />
         </div>
     )

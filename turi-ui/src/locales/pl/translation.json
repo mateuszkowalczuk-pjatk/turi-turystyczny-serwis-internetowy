@@ -1,7 +1,12 @@
 {
     "header": {
         "sign-in-button": "Zaloguj się",
-        "sign-up-button": "Zarejestruj się"
+        "sign-up-button": "Zarejestruj się",
+        "reservation": "Rezerwacje",
+        "stays": "Pobyty",
+        "favourites": "Ulubione",
+        "premium": "Premium",
+        "name": "user-name"
     },
     "home": {
         "dashboard": {
@@ -17,7 +22,8 @@
         "information": {
             "header-text": "Nie posiadasz jeszcze konta w Turi?",
             "sign-up-text": "Załóż konto już dziś, żeby móc rezerwować oferty pobytów oraz atrakcji i spędzać czas w pięknych miejscach na swój ulubiony sposób!",
-            "premium-account-text": "Jeśli posiadasz własne miejsce turystyczne, wykup pakiet premium i udostępniaj jego oferty pobytu oraz atrakcji!"
+            "premium-account-text": "Jeśli posiadasz własne miejsce turystyczne, wykup pakiet premium i udostępniaj jego oferty pobytu oraz atrakcji!",
+            "reservations": "Sprawdź swoje nadchodzące rezerwacje!"
         },
         "proposition": {
             "stay": "Zobacz najpopularniejsze miejsca pobytów!",

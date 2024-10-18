@@ -9,10 +9,10 @@ const Banner = () => {
     return (
         <div className={styles.banner}>
             <TextMediumExtra
-                text={t('dashboard.header-text')}
+                text={t('home.dashboard.header-text')}
             />
             <TextExtraLight
-                text={t('dashboard.text')}
+                text={t('home.dashboard.text')}
             />
         </div>
     )

@@ -1,10 +1,13 @@
-import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { GreyButton } from '../../../Button'
-import styles from './AuthButtons.module.css'
+import { GreyButton } from '../../Button'
+import styles from './HeaderButtons.module.css'
 
-const AuthButtons = () => {
-    const { t } = useTranslation();
+interface Props {
+    firstButton: string;
+    secondButton: string;
+}
+
+const HeaderButtons = ({ firstButton, secondButton }: Props) => {
     const navigate = useNavigate();
 
     const navigateToLogin = () => {
@@ -18,15 +21,15 @@ const AuthButtons = () => {
     return (
         <div className={styles.buttons}>
             <GreyButton
-                text={t('header.sign-in-button')}
+                text={ firstButton }
                 onClick={navigateToLogin}
             />
             <GreyButton
-                text={t('header.sign-up-button')}
+                text={ secondButton }
                 onClick={navigateToSignUp}
             />
         </div>
     )
 }
 
-export default AuthButtons;
+export default HeaderButtons;

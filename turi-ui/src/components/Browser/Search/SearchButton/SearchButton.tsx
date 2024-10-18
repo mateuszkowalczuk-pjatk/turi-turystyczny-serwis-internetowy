@@ -8,7 +8,7 @@ const SearchButton = () => {
     return (
         <div className={styles.button}>
             <GreenButton
-                text={t('dashboard.search-button')}
+                text={t('home.dashboard.search-button')}
             />
         </div>
     )

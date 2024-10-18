@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../store/store'
 import { Outlet } from 'react-router-dom'
 import UserHeader from '../../components/Header/UserHeader'
-import Header from '../../components/Header/Header'
+import GuestHeader from '../../components/Header/GuestHeader'
 import UserFooter from '../../components/Footer/UserFooter'
 import GuestFooter from '../../components/Footer/GuestFooter'
 import styles from '../Layout.module.css'
@@ -13,7 +13,7 @@ const MainLayout = () => {
 
     return (
         <div className={styles.layout}>
-            {isAuthenticated ? ( <UserHeader /> ) : ( <Header /> )}
+            {isAuthenticated ? ( <UserHeader /> ) : ( <GuestHeader /> )}
             <Outlet />
             {isAuthenticated ? ( <UserFooter /> ) : ( <GuestFooter /> )}
         </div>

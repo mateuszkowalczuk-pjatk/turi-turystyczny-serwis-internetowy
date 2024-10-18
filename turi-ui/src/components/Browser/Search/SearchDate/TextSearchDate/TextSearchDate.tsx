@@ -8,7 +8,7 @@ const TextSearchDate = () => {
     return (
         <div className={styles.text}>
             <TextRegular
-                text={t('dashboard.calendar-default')}
+                text={t('home.dashboard.calendar-default')}
             />
         </div>
     )

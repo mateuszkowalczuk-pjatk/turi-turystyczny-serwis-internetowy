@@ -1,0 +1,12 @@
+.links {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 5vw;
+    height: 100%;
+    width: 30vw;
+}
+
+.links p {
+    color: var(--white);
+}

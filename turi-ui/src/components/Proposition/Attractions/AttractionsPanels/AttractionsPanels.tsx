@@ -8,27 +8,27 @@ const AttractionsPanels = () => {
     return (
         <div className={styles.panels}>
             <ButtonPanel
-                text={t('proposition.kayaks')}
+                text={t('home.proposition.kayaks')}
                 imagePath={'src/assets/images/proposition/attraction/kayak.jpeg'}
             />
             <ButtonPanel
-                text={t('proposition.ski-slopes')}
+                text={t('home.proposition.ski-slopes')}
                 imagePath={'src/assets/images/proposition/attraction/ski-slope.jpeg'}
             />
             <ButtonPanel
-                text={t('proposition.saunas')}
+                text={t('home.proposition.saunas')}
                 imagePath={'src/assets/images/proposition/attraction/sauna.jpeg'}
             />
             <ButtonPanel
-                text={t('proposition.pools')}
+                text={t('home.proposition.pools')}
                 imagePath={'src/assets/images/proposition/attraction/pool.jpeg'}
             />
             <ButtonPanel
-                text={t('proposition.quads')}
+                text={t('home.proposition.quads')}
                 imagePath={'src/assets/images/proposition/attraction/quad.jpeg'}
             />
             <ButtonPanel
-                text={t('proposition.bicycles')}
+                text={t('home.proposition.bicycles')}
                 imagePath={'src/assets/images/proposition/attraction/bicycle.jpeg'}
             />
         </div>

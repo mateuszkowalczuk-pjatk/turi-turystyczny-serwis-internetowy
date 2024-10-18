@@ -8,7 +8,7 @@ const SearchInput = () => {
     return (
         <div className={styles.input}>
             <Input
-                placeholder={t('dashboard.placeholder')}
+                placeholder={t('home.dashboard.placeholder')}
             />
         </div>
     )

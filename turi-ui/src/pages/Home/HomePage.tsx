@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../store/store.ts'
 import Dashboard from '../../components/Dashboard'
 import UserInformation from '../../components/Information/UserInformation'
-import Information from '../../components/Information/Information'
+import GuestInformation from '../../components/Information/GuestInformation'
 import Proposition from '../../components/Proposition'
 import styles from '../Page.module.css'
 
@@ -12,7 +12,7 @@ const HomePage = () => {
     return (
         <div className={styles.page}>
             <Dashboard />
-            {isAuthenticated ? ( <UserInformation /> ) : ( <Information /> )}
+            { isAuthenticated ? ( <UserInformation /> ) : ( <GuestInformation /> ) }
             <Proposition />
         </div>
     )

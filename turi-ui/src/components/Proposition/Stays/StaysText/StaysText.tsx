@@ -8,7 +8,7 @@ const StaysText = () => {
     return (
         <div className={styles.text}>
             <TextMedium
-                text={t('proposition.stay')}
+                text={t('home.proposition.stay')}
             />
         </div>
     )

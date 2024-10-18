@@ -2,9 +2,9 @@ import { useTranslation } from "react-i18next";
 import InformationPanel from "../InformationPanel";
 import InformationContent from "../InformationContent";
 import HeaderInformation from "../HeaderInformation";
-import InformationReservations from "../InformationReservations";
+import InformationText from "../InformationText";
 
-const UserInformation = () => {
+const GuestInformation = () => {
     const { t } = useTranslation();
 
     return (
@@ -13,11 +13,18 @@ const UserInformation = () => {
                 <InformationContent
                     title={
                         <HeaderInformation
-                            text={t('home.information.reservations')}
+                            text={t('home.information.header-text')}
                         />
                     }
                     content={
-                        <InformationReservations />
+                        <InformationText
+                            text={t('home.information.sign-up-text')}
+                        />
+                    }
+                    option={
+                        <InformationText
+                            text={t('home.information.premium-account-text')}
+                        />
                     }
                 />
             }
@@ -25,4 +32,4 @@ const UserInformation = () => {
     )
 }
 
-export default UserInformation;
+export default GuestInformation;

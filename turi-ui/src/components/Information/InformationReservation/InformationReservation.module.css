@@ -1,0 +1,13 @@
+.reservation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 25vw;
+    border-radius: 0.6rem;
+    border: 3px solid var(--grey);
+}
+
+.reservation p {
+    color: var(--dark);
+}
