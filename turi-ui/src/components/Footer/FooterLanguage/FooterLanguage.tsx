@@ -10,6 +10,8 @@ const LANGUAGE = {
 const LABEL = {
     PL: 'Polski',
     EN: 'English (UK)',
+    DIVIDE: ' | ',
+    ENTER: "Enter"
 }
 
 const FooterLanguage = () => {
@@ -23,17 +25,23 @@ const FooterLanguage = () => {
     return (
         <div className={styles.language}>
             <span
-              className={i18n.language === LANGUAGE.PL ? styles.active : ''}
-              onClick={() => changeLanguage(LANGUAGE.PL)}
+                role="button"
+                tabIndex={0}
+                className={i18n.language === LANGUAGE.PL ? styles.active : ''}
+                onClick={() => changeLanguage(LANGUAGE.PL)}
+                onKeyDown={(e) => e.key === LABEL.ENTER && changeLanguage(LANGUAGE.PL)}
             >
                 { LABEL.PL }
             </span>
             <TextRegular
-              text={' | '}
+                text={ LABEL.DIVIDE }
             />
             <span
+                role="button"
+                tabIndex={0}
                 className={i18n.language === LANGUAGE.EN ? styles.active : ''}
                 onClick={() => changeLanguage(LANGUAGE.EN)}
+                onKeyDown={(e) => e.key === LABEL.ENTER && changeLanguage(LANGUAGE.EN)}
             >
                 { LABEL.EN }
             </span>
