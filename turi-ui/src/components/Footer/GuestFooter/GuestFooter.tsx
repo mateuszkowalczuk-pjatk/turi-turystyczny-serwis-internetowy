@@ -5,9 +5,9 @@ import FooterModule from '../FooterModule'
 import TextExtraLight from '../../Controls/Text/TextExtraLight'
 import TextRegular from '../../Controls/Text/TextRegular'
 import FooterCopyright from '../FooterCopyright'
-import styles from './UserFooter.module.css'
+import styles from './GuestFooter.module.css'
 
-const UserFooter = () => {
+const GuestFooter = () => {
     const { t } = useTranslation();
 
     return (
@@ -18,32 +18,22 @@ const UserFooter = () => {
                     <FooterModule
                         title={
                             <TextExtraLight
-                                text={t('footer.your-account')}
+                                text={t('footer.community')}
                             />
                         }
                         firstOption={
                             <TextRegular
-                                text={t('footer.reservations')}
+                                text={t('footer.sign-in')}
                             />
                         }
                         secondOption={
                             <TextRegular
-                                text={t('footer.stays')}
+                                text={t('footer.sign-up')}
                             />
                         }
                         thirdOption={
                             <TextRegular
-                                text={t('footer.favourites')}
-                            />
-                        }
-                        fourthOption={
-                            <TextRegular
                                 text={t('footer.premium')}
-                            />
-                        }
-                        fifthOption={
-                            <TextRegular
-                                text={t('footer.account')}
                             />
                         }
                     />
@@ -51,7 +41,7 @@ const UserFooter = () => {
             />
             <FooterCopyright />
         </div>
-    )
+    );
 }
 
-export default UserFooter;
+export default GuestFooter;

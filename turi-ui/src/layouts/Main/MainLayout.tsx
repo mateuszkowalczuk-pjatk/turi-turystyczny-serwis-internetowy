@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom'
 import UserHeader from '../../components/Header/UserHeader'
 import Header from '../../components/Header/Header'
 import UserFooter from '../../components/Footer/UserFooter'
-import Footer from '../../components/Footer/Footer'
+import GuestFooter from '../../components/Footer/GuestFooter'
 import styles from '../Layout.module.css'
 
 
@@ -15,7 +15,7 @@ const MainLayout = () => {
         <div className={styles.layout}>
             {isAuthenticated ? ( <UserHeader /> ) : ( <Header /> )}
             <Outlet />
-            {isAuthenticated ? ( <UserFooter /> ) : ( <Footer /> )}
+            {isAuthenticated ? ( <UserFooter /> ) : ( <GuestFooter /> )}
         </div>
     )
 }

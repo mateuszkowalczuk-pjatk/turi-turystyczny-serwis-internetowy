@@ -1,9 +1,9 @@
-.more {
-    width: 20%;
+.module {
+    width: 30%;
     height: 100%;
 }
 
-.more p {
+.module p {
     line-height: 1.8;
     color: var(--dark);
 }

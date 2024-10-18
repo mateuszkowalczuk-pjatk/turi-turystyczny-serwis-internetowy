@@ -1,0 +1,19 @@
+.language {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.language span {
+    cursor: pointer;
+}
+
+.language .active {
+    font-weight: bold;
+}
+
+.language span  {
+    font-size: 1.25rem;
+}

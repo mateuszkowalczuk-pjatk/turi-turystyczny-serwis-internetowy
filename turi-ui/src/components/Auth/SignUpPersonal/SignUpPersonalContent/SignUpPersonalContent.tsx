@@ -6,7 +6,7 @@ import SignUpPersonalLabel from '../SignUpPersonalLabel'
 import SignUpPersonalInput from '../SignUpPersonalInput'
 import SignUpPersonalGender from '../SignUpPersonalGender'
 import SignUpPersonalButtons from '../SignUpPersonalButtons'
-import SignUpPersonalSkip from '../SignUpPersonalSkip'
+import SignUpPersonalSkipOverlay from '../SignUpPersonalSkip/SignUpPersonalSkipOverlay'
 import styles from './SignUpPersonalContent.module.css'
 
 const SignUpPersonalContent = () => {
@@ -143,7 +143,7 @@ const SignUpPersonalContent = () => {
                 />
             </div>
             {isPersonalSkip &&
-                <SignUpPersonalSkip
+                <SignUpPersonalSkipOverlay
                     onClick={ handleCloseSkip }
                 />
             }
