@@ -82,7 +82,7 @@
         "title": "Zarejestruj się do Turi",
         "description": "Na twój email wysłaliśmy kod weryfikacyjny. Wprowadź go poniżej.",
         "code": "Kod",
-        "button": "Zaloguj się",
+        "button": "Zarejestruj się",
         "top": "Wyślij kod weryfikacyjny jeszcze raz",
         "down": "Wróć do formularza rejestracji"
     },
