@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
-import SignUpPersonalPart from '../SignUpPersonalPart'
-import SignUpPersonalPanel from '../SignUpPersonalPanel'
-import SignUpPersonalLabel from '../SignUpPersonalLabel'
-import SignUpPersonalInput from '../SignUpPersonalInput'
-import SignUpPersonalGender from '../SignUpPersonalGender'
+import PersonalPart from '../../../Personal/PersonalPart'
+import PersonalPanel from '../../../Personal/PersonalPanel'
+import PersonalLabel from '../../../Personal/PersonalLabel'
+import PersonalInput from '../../../Personal/PersonalInput'
+import PersonalGender from '../../../Personal/PersonalGender'
 import SignUpPersonalButtons from '../SignUpPersonalButtons'
 import SignUpPersonalSkipOverlay from '../SignUpPersonalSkip/SignUpPersonalSkipOverlay'
 import styles from './SignUpPersonalContent.module.css'
@@ -24,112 +24,112 @@ const SignUpPersonalContent = () => {
     return (
         <>
             <div className={`${styles.content} ${isPersonalSkip ? styles.background : ''}`}>
-                <SignUpPersonalPart
+                <PersonalPart
                     firstPanel={
-                        <SignUpPersonalPanel
+                        <PersonalPanel
                             label={
-                                <SignUpPersonalLabel
+                                <PersonalLabel
                                     text={t('signup-personal.name-surname')}
                                 />
                             }
                             firstInput={
-                                <SignUpPersonalInput
+                                <PersonalInput
                                     text={t('signup-personal.name')}
                                 />
                             }
                             secondInput={
-                                <SignUpPersonalInput
+                                <PersonalInput
                                     text={t('signup-personal.surname')}
                                 />
                             }
                         />
                     }
                     secondPanel={
-                        <SignUpPersonalPanel
+                        <PersonalPanel
                             label={
-                                <SignUpPersonalLabel
+                                <PersonalLabel
                                     text={t('signup-personal.birthdate')}
                                 />
                             }
                             firstInput={
-                                <SignUpPersonalInput
+                                <PersonalInput
                                     text={t('signup-personal.day')}
                                 />
                             }
                             secondInput={
-                                <SignUpPersonalInput
+                                <PersonalInput
                                     text={t('signup-personal.month')}
                                 />
                             }
                             thirdInput={
-                                <SignUpPersonalInput
+                                <PersonalInput
                                     text={t('signup-personal.year')}
                                 />
                             }
                         />
                     }
                     option={
-                        <SignUpPersonalPanel
+                        <PersonalPanel
                             label={
-                                <SignUpPersonalLabel
+                                <PersonalLabel
                                     text={t('signup-personal.gender')}
                                 />
                             }
                             firstInput={
-                                <SignUpPersonalGender />
+                                <PersonalGender />
                             }
                         />
                     }
                 />
-                <SignUpPersonalPart
+                <PersonalPart
                     firstPanel={
-                        <SignUpPersonalPanel
+                        <PersonalPanel
                             label={
-                                <SignUpPersonalLabel
+                                <PersonalLabel
                                     text={t('signup-personal.phone-number')}
                                 />
                             }
                             firstInput={
-                                <SignUpPersonalInput
+                                <PersonalInput
                                     text={t('signup-personal.phone-number')}
                                 />
                             }
                         />
                     }
                     secondPanel={
-                        <SignUpPersonalPanel
+                        <PersonalPanel
                             label={
-                                <SignUpPersonalLabel
+                                <PersonalLabel
                                     text={t('signup-personal.address')}
                                 />
                             }
                             firstInput={
-                                <SignUpPersonalInput
+                                <PersonalInput
                                     text={t('signup-personal.country')}
                                 />
                             }
                             secondInput={
-                                <SignUpPersonalInput
+                                <PersonalInput
                                     text={t('signup-personal.city')}
                                 />
                             }
                             thirdInput={
-                                <SignUpPersonalInput
+                                <PersonalInput
                                     text={t('signup-personal.zipcode')}
                                 />
                             }
                             fourthInput={
-                                <SignUpPersonalInput
+                                <PersonalInput
                                     text={t('signup-personal.street')}
                                 />
                             }
                             fifthInput={
-                                <SignUpPersonalInput
+                                <PersonalInput
                                     text={t('signup-personal.building')}
                                 />
                             }
                             sixthInput={
-                                <SignUpPersonalInput
+                                <PersonalInput
                                     text={t('signup-personal.apartment')}
                                 />
                             }

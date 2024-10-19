@@ -1,0 +1,7 @@
+.section {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 40vh;
+    width: 90%;
+}

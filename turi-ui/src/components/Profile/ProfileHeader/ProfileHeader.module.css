@@ -1,0 +1,22 @@
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 13vw;
+    height: 12vh;
+    width: 90%;
+    border-bottom: 1px solid var(--grey);
+}
+
+.header p {
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+
+.header p:hover {
+    color: var(--dark-green);
+}
+
+.header .active {
+    font-weight: bold;
+}

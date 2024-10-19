@@ -1,0 +1,10 @@
+.label {
+    display: flex;
+    align-items: center;
+    height: 5vh;
+    width: 11vw;
+}
+
+.label p {
+    font-size: 1.25rem;
+}
