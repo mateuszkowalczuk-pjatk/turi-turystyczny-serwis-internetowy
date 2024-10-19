@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import AuthPanel from '../../../components/Auth/AuthPanel'
 import AuthTitle from "../../../components/Auth/AuthTitle";
 import AuthDescription from "../../../components/Auth/AuthDescription";
@@ -9,6 +10,11 @@ import AuthDownLink from "../../../components/Auth/AuthDownLink";
 
 const SignUpVerifyPage = () => {
     const { t } = useTranslation();
+    const navigate = useNavigate();
+
+    const navigateToPersonal = () => {
+        navigate('/signup/personal');
+    }
 
     return (
         <AuthPanel
@@ -30,6 +36,7 @@ const SignUpVerifyPage = () => {
             button={
                 <AuthButton
                     text={t('signup-verify.button')}
+                    onClick={navigateToPersonal}
                 />
             }
             top={

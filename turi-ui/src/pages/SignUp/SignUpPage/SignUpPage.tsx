@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import SignUpPanel from "../../../components/Auth/SignUpPanel/SignUpPanel.tsx";
 import AuthTitle from "../../../components/Auth/AuthTitle";
 import AuthInput from "../../../components/Auth/AuthInput";
@@ -8,6 +9,15 @@ import AuthDownLink from "../../../components/Auth/AuthDownLink";
 
 const SignUpPage = () => {
     const { t } = useTranslation();
+    const navigate = useNavigate();
+
+    const navigateToVerify = () => {
+        navigate('/signup/verify');
+    }
+
+    const navigateToLogin = () => {
+        navigate('/login');
+    }
 
     return (
         <SignUpPanel
@@ -39,6 +49,7 @@ const SignUpPage = () => {
             button={
                 <AuthButton
                     text={t('signup.button')}
+                    onClick={navigateToVerify}
                 />
             }
             top={ <AuthTopLink /> }
@@ -46,6 +57,7 @@ const SignUpPage = () => {
                 <AuthDownLink
                     firstLink={t('signup.signin')}
                     secondLink={'right'}
+                    firstOnClick={navigateToLogin}
                 />
             }
         />
