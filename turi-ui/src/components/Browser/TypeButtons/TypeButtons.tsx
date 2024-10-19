@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { GreyButton } from "../../Button";
+import { GreyButton } from "../../Controls/Button";
 import styles from './TypeButtons.module.css';
 
 const TypeButtons = () => {

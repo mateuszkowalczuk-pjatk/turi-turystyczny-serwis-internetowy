@@ -1,7 +1,7 @@
 import { RootState } from "../../../store/store.ts";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from 'react-router-dom'
-import { GreyButton } from '../../Button'
+import { GreyButton } from "../../Controls/Button";
 import { useSelector } from "react-redux";
 import HeaderWrapper from "../HeaderDropDown/HeaderWrapper";
 import styles from './HeaderButtons.module.css'

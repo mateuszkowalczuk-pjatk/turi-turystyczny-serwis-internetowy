@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { GreyButton } from "../../../Button";
+import { GreyButton } from "../../../Controls/Button";
 import HeaderMenu from "../HeaderMenu";
 import styles from './HeaderWrapper.module.css'
 

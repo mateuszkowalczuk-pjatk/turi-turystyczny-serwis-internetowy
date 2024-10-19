@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { GreenButton } from "../../../Button";
+import { GreenButton } from "../../../Controls/Button";
 import styles from './SearchButton.module.css';
 
 const SearchButton = () => {
