@@ -42,15 +42,10 @@
 }
 
 html, body {
-    display: flex;
-    flex-direction: column;
     width: 100vw;
     max-width: 100vw;
     min-width: 320px;
     overflow-x: hidden;
-    height: auto;
-    max-height: none;
-    min-height: 100%;
     overflow-y: auto;
     font-family: 'Inter', serif;
     font-size: 100%;
