@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import AuthPanel from "../../../components/Auth/AuthPanel";
 import AuthTitle from "../../../components/Auth/AuthTitle";
 import AuthInput from "../../../components/Auth/AuthInput";
@@ -8,6 +9,15 @@ import AuthDownLink from "../../../components/Auth/AuthDownLink";
 
 const LoginPasswordResetPage = () => {
     const { t } = useTranslation();
+    const navigate = useNavigate();
+
+    const resetPassword = () => {
+        navigate('/login');
+    }
+
+    const navigateToLogin = () => {
+        navigate('/login');
+    }
 
     return (
         <AuthPanel
@@ -29,6 +39,7 @@ const LoginPasswordResetPage = () => {
             button={
                 <AuthButton
                     text={t('login-reset.button')}
+                    onClick={resetPassword}
                 />
             }
             top={
@@ -38,6 +49,7 @@ const LoginPasswordResetPage = () => {
                 <AuthDownLink
                     firstLink={t('login-reset.down')}
                     secondLink={t('center')}
+                    firstOnClick={navigateToLogin}
                 />
             }
         />

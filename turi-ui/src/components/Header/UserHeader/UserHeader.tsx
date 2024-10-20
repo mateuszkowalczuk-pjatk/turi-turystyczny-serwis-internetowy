@@ -8,6 +8,22 @@ import styles from './UserHeader.module.css'
 const UserHeader = () => {
     const { t } = useTranslation();
 
+    const navigateToReservations = () => {
+        console.log('Reservations')
+    }
+
+    const navigateToStays = () => {
+        console.log('Stays')
+    }
+
+    const navigateToFavourites = () => {
+        console.log('Favourites')
+    }
+
+    const navigateToPremium = () => {
+        console.log('Premium')
+    }
+
     return (
         <div className={styles.header}>
             <Logo />
@@ -15,21 +31,25 @@ const UserHeader = () => {
                 firstLink={
                     <TextRegular
                         text={t('header.reservation')}
+                        onClick={navigateToReservations}
                     />
                 }
                 secondLink={
                     <TextRegular
                         text={t('header.stays')}
+                        onClick={navigateToStays}
                     />
                 }
                 thirdLink={
                     <TextRegular
                         text={t('header.favourites')}
+                        onClick={navigateToFavourites}
                     />
                 }
             />
             <HeaderButtons
                 text={t('header.premium')}
+                firstOnClick={navigateToPremium}
             />
         </div>
     )

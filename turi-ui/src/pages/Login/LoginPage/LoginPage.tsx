@@ -5,9 +5,27 @@ import AuthInput from '../../../components/Auth/AuthInput'
 import AuthButton from '../../../components/Auth/AuthButton'
 import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
+import {useNavigate} from "react-router-dom";
 
 const LoginPage = () => {
     const { t } = useTranslation();
+    const navigate = useNavigate();
+
+    const navigateToHome = () => {
+        navigate('/');
+    }
+
+    const loginByGoogleAccount = () => {
+        console.log('Google account')
+    }
+
+    const navigateToCheck = () => {
+        navigate('/login/check');
+    }
+
+    const navigateToSignUp = () => {
+        navigate('/signup');
+    }
 
     return (
         <AuthPanel
@@ -29,17 +47,21 @@ const LoginPage = () => {
             button={
                 <AuthButton
                     text={t('login.button')}
+                    onClick={navigateToHome}
                 />
             }
             top={
                 <AuthTopLink
                     text={t('login.google')}
+                    onClick={loginByGoogleAccount}
                 />
             }
             down={
                 <AuthDownLink
                     firstLink={t('login.reset')}
                     secondLink={t('login.signup')}
+                    firstOnClick={navigateToCheck}
+                    secondOnClick={navigateToSignUp}
                 />
             }
         />

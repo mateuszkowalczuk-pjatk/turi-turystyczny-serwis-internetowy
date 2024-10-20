@@ -16,6 +16,14 @@ const SignUpVerifyPage = () => {
         navigate('/signup/personal');
     }
 
+    const sendVerifyCodeAgain = () => {
+        console.log('Verify code')
+    }
+
+    const navigateToSignUp = () => {
+        navigate('/signup');
+    }
+
     return (
         <AuthPanel
             header={
@@ -42,12 +50,14 @@ const SignUpVerifyPage = () => {
             top={
                 <AuthTopLink
                     text={t('signup-verify.top')}
+                    onClick={sendVerifyCodeAgain}
                 />
             }
             down={
                 <AuthDownLink
                     firstLink={t('signup-verify.down')}
                     secondLink={'center'}
+                    firstOnClick={navigateToSignUp}
                 />
             }
         />
