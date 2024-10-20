@@ -1,1 +1,1 @@
-export { default } from './SignUpVerifyPage.tsx';
+export { default } from './SignUpVerifyPage'

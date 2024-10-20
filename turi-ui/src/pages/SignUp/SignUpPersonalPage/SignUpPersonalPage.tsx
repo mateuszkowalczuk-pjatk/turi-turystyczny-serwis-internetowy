@@ -1,6 +1,6 @@
-import SignUpPersonalTitle from "../../../components/Auth/SignUpPersonal/SignUpPersonalTitle";
-import SignUpPersonalDescription from "../../../components/Auth/SignUpPersonal/SignUpPersonalDescription";
-import SignUpPersonalContent from "../../../components/Auth/SignUpPersonal/SignUpPersonalContent";
+import SignUpPersonalTitle from '../../../components/Auth/SignUpPersonal/SignUpPersonalTitle'
+import SignUpPersonalDescription from '../../../components/Auth/SignUpPersonal/SignUpPersonalDescription'
+import SignUpPersonalContent from '../../../components/Auth/SignUpPersonal/SignUpPersonalContent'
 import styles from './SignUpPersonalPage.module.css'
 
 const SignUpPersonalPage = () => {
@@ -13,4 +13,4 @@ const SignUpPersonalPage = () => {
     )
 }
 
-export default SignUpPersonalPage;
+export default SignUpPersonalPage

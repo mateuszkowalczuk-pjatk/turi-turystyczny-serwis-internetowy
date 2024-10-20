@@ -1,9 +1,9 @@
-import { useTranslation } from "react-i18next";
-import PersonalPart from "../../../components/Personal/PersonalPart";
-import PersonalPanel from "../../../components/Personal/PersonalPanel";
-import PersonalLabel from "../../../components/Personal/PersonalLabel";
-import PersonalInput from "../../../components/Personal/PersonalInput";
-import PersonalGender from "../../../components/Personal/PersonalGender";
+import { useTranslation } from 'react-i18next'
+import PersonalPart from '../../../components/Personal/PersonalPart'
+import PersonalPanel from '../../../components/Personal/PersonalPanel'
+import PersonalLabel from '../../../components/Personal/PersonalLabel'
+import PersonalInput from '../../../components/Personal/PersonalInput'
+import PersonalGender from '../../../components/Personal/PersonalGender'
 import styles from './ProfilePersonalPage.module.css'
 
 const ProfilePersonalPage = () => {
@@ -127,4 +127,4 @@ const ProfilePersonalPage = () => {
     )
 }
 
-export default ProfilePersonalPage;
+export default ProfilePersonalPage

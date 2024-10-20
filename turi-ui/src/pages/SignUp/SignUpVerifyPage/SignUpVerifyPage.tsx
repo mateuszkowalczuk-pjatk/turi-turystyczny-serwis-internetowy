@@ -1,12 +1,12 @@
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import AuthPanel from '../../../components/Auth/AuthPanel'
-import AuthTitle from "../../../components/Auth/AuthTitle";
-import AuthDescription from "../../../components/Auth/AuthDescription";
-import AuthInput from "../../../components/Auth/AuthInput";
-import AuthButton from "../../../components/Auth/AuthButton";
-import AuthTopLink from "../../../components/Auth/AuthTopLink";
-import AuthDownLink from "../../../components/Auth/AuthDownLink";
+import AuthTitle from '../../../components/Auth/AuthTitle'
+import AuthDescription from '../../../components/Auth/AuthDescription'
+import AuthInput from '../../../components/Auth/AuthInput'
+import AuthButton from '../../../components/Auth/AuthButton'
+import AuthTopLink from '../../../components/Auth/AuthTopLink'
+import AuthDownLink from '../../../components/Auth/AuthDownLink'
 
 const SignUpVerifyPage = () => {
     const { t } = useTranslation();
@@ -64,4 +64,4 @@ const SignUpVerifyPage = () => {
     )
 }
 
-export default SignUpVerifyPage;
+export default SignUpVerifyPage

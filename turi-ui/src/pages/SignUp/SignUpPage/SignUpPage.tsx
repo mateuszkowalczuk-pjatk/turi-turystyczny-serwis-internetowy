@@ -1,11 +1,11 @@
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
-import SignUpPanel from "../../../components/Auth/SignUpPanel/SignUpPanel.tsx";
-import AuthTitle from "../../../components/Auth/AuthTitle";
-import AuthInput from "../../../components/Auth/AuthInput";
-import AuthButton from "../../../components/Auth/AuthButton";
-import AuthTopLink from "../../../components/Auth/AuthTopLink";
-import AuthDownLink from "../../../components/Auth/AuthDownLink";
+import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
+import SignUpPanel from '../../../components/Auth/SignUpPanel'
+import AuthTitle from '../../../components/Auth/AuthTitle'
+import AuthInput from '../../../components/Auth/AuthInput'
+import AuthButton from '../../../components/Auth/AuthButton'
+import AuthTopLink from '../../../components/Auth/AuthTopLink'
+import AuthDownLink from '../../../components/Auth/AuthDownLink'
 
 const SignUpPage = () => {
     const { t } = useTranslation();
@@ -64,4 +64,4 @@ const SignUpPage = () => {
     )
 }
 
-export default SignUpPage;
+export default SignUpPage

@@ -1,23 +1,23 @@
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
-import AuthPanel from "../../../components/Auth/AuthPanel";
-import AuthTitle from "../../../components/Auth/AuthTitle";
-import AuthDescription from "../../../components/Auth/AuthDescription";
-import AuthInput from "../../../components/Auth/AuthInput";
-import AuthButton from "../../../components/Auth/AuthButton";
-import AuthTopLink from "../../../components/Auth/AuthTopLink";
-import AuthDownLink from "../../../components/Auth/AuthDownLink";
+import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
+import AuthPanel from '../../../components/Auth/AuthPanel'
+import AuthTitle from '../../../components/Auth/AuthTitle'
+import AuthDescription from '../../../components/Auth/AuthDescription'
+import AuthInput from '../../../components/Auth/AuthInput'
+import AuthButton from '../../../components/Auth/AuthButton'
+import AuthTopLink from '../../../components/Auth/AuthTopLink'
+import AuthDownLink from '../../../components/Auth/AuthDownLink'
 
 const LoginPasswordCheckPage = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
 
     const navigateToCode  = () => {
-        navigate('/login/code');
+        navigate('/login/code')
     }
 
     const navigateToLogin  = () => {
-        navigate('/login');
+        navigate('/login')
     }
 
     return (
@@ -57,4 +57,4 @@ const LoginPasswordCheckPage = () => {
     )
 }
 
-export default LoginPasswordCheckPage;
+export default LoginPasswordCheckPage

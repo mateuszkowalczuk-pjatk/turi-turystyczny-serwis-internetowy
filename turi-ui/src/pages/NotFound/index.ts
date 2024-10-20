@@ -1,1 +1,1 @@
-export { default } from './NotFoundPage.tsx'
+export { default } from './NotFoundPage'

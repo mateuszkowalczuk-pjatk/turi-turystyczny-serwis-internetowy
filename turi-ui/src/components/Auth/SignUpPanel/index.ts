@@ -1,1 +1,1 @@
-export { default } from './SignUpPanel.module.css'
+export { default } from './SignUpPanel'

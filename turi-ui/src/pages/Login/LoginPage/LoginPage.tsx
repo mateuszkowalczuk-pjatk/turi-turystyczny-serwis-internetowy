@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import AuthPanel from '../../../components/Auth/AuthPanel'
 import AuthTitle from '../../../components/Auth/AuthTitle'
@@ -5,14 +6,13 @@ import AuthInput from '../../../components/Auth/AuthInput'
 import AuthButton from '../../../components/Auth/AuthButton'
 import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
-import {useNavigate} from "react-router-dom";
 
 const LoginPage = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
 
     const navigateToHome = () => {
-        navigate('/');
+        navigate('/')
     }
 
     const loginByGoogleAccount = () => {
@@ -20,11 +20,11 @@ const LoginPage = () => {
     }
 
     const navigateToCheck = () => {
-        navigate('/login/check');
+        navigate('/login/check')
     }
 
     const navigateToSignUp = () => {
-        navigate('/signup');
+        navigate('/signup')
     }
 
     return (
@@ -68,4 +68,4 @@ const LoginPage = () => {
     )
 }
 
-export default LoginPage;
+export default LoginPage

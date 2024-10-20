@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next'
 import ProfileModule from '../../../components/Profile/ProfileModule'
 import styles from './ProfilePage.module.css'
 
@@ -23,4 +23,4 @@ const ProfilePage = () => {
     )
 }
 
-export default ProfilePage;
+export default ProfilePage

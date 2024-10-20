@@ -16,4 +16,4 @@ const ProfileLayout = () => {
     )
 }
 
-export default ProfileLayout;
+export default ProfileLayout

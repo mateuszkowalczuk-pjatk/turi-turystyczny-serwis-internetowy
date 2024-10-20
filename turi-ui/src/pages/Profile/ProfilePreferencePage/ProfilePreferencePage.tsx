@@ -1,4 +1,4 @@
-import ProfileLanguage from "../../../components/Profile/ProfileLanguage";
+import ProfileLanguage from '../../../components/Profile/ProfileLanguage'
 import styles from './ProfilePreferencePage.module.css'
 
 const ProfilePreferencePage = () => {
@@ -9,4 +9,4 @@ const ProfilePreferencePage = () => {
     )
 }
 
-export default ProfilePreferencePage;
+export default ProfilePreferencePage
