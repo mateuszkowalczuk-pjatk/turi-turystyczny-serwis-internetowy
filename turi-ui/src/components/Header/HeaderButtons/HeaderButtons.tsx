@@ -1,8 +1,8 @@
-import { RootState } from "../../../store/store.ts";
-import { useTranslation } from "react-i18next";
-import { GreyButton } from "../../Controls/Button";
-import { useSelector } from "react-redux";
-import HeaderWrapper from "../HeaderDropDown/HeaderWrapper";
+import { useTranslation } from 'react-i18next'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../store/store.ts'
+import { GreyButton } from '../../Controls/Button'
+import HeaderDropDownWrapper from '../HeaderDropDown/HeaderDropDownWrapper'
 import styles from './HeaderButtons.module.css'
 
 interface Props {
@@ -19,18 +19,18 @@ const HeaderButtons = ({ text, firstOnClick, secondOnClick }: Props) => {
         <div className={styles.buttons}>
             <GreyButton
                 text={ text }
-                onClick={firstOnClick}
+                onClick={ firstOnClick }
             />
             {!isAuthenticated ? (
                 <GreyButton
                     text={t('header.sign-up-button')}
-                    onClick={secondOnClick}
+                    onClick={ secondOnClick }
                 />
             ) : (
-                <HeaderWrapper />
+                <HeaderDropDownWrapper />
             )}
         </div>
     )
 }
 
-export default HeaderButtons;
+export default HeaderButtons

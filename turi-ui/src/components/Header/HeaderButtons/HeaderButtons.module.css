@@ -1,28 +1,27 @@
 .buttons {
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 2vw;
+    gap: 1vw;
 }
 
 .buttons button {
     width: 8.5rem;
     height: 2.5rem;
-    font-size: 1rem;
-    border-radius: 0.6rem;
+    font-size: 0.9rem;
+    border-radius: 0.4rem;
+}
+
+.buttons button:active {
+    font-size: 0.85rem;
 }
 
 @media (max-width: 768px) {
-    .buttons {
-        gap: 1.5vw;
-    }
-
     .buttons button {
-        width: 7rem;
+        width: 6rem;
         height: 2rem;
         font-size: 0.8rem;
-        border-radius: 0.5rem;
+        border-radius: 0.3rem;
     }
 
     .buttons button:active {
@@ -32,17 +31,17 @@
 
 @media (max-width: 480px) {
     .buttons {
-        gap: 1vw;
+        flex-direction: column;
     }
 
     .buttons button {
         width: 5.5rem;
         height: 1.5rem;
-        font-size: 0.6rem;
-        border-radius: 0.4rem;
+        font-size: 0.7rem;
+        border-radius: 0.2rem;
     }
 
     .buttons button:active {
-        font-size: 0.55rem;
+        font-size: 0.65rem;
     }
 }

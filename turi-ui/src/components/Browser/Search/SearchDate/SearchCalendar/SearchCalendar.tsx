@@ -1,5 +1,5 @@
-import Calendar from "../../../../Icon/Calendar";
-import styles from './SearchCalendar.module.css';
+import Calendar from '../../../../Controls/Calendar'
+import styles from './SearchCalendar.module.css'
 
 const SearchCalendar = () => {
     function handleOnClick() {}
@@ -11,4 +11,4 @@ const SearchCalendar = () => {
     )
 }
 
-export default SearchCalendar;
+export default SearchCalendar

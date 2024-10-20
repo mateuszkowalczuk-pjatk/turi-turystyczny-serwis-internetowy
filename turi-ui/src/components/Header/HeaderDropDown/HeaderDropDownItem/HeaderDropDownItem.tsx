@@ -1,12 +1,12 @@
-import TextRegular from "../../../Controls/Text/TextRegular";
-import styles from './HeaderItem.module.css'
+import TextRegular from '../../../Controls/Text/TextRegular'
+import styles from './HeaderDropDownItem.module.css'
 
 interface Props {
     onClick: () => void;
     text: string;
 }
 
-const HeaderItem = ({ onClick, text }: Props) => {
+const HeaderDropDownItem = ({ onClick, text }: Props) => {
     return (
         <div
             className={styles.item}
@@ -19,4 +19,4 @@ const HeaderItem = ({ onClick, text }: Props) => {
     )
 }
 
-export default HeaderItem;
+export default HeaderDropDownItem

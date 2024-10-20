@@ -1,22 +1,22 @@
-import { useTranslation } from "react-i18next";
-import HeaderItem from "../HeaderItem";
-import styles from './HeaderMenu.module.css'
+import { useTranslation } from 'react-i18next'
+import HeaderDropDownItem from '../HeaderDropDownItem'
+import styles from './HeaderDropDownMenu.module.css'
 
 interface Props {
     profileOnClick: () => void;
     logoutOnClick: () => void;
 }
 
-const HeaderMenu = ({ profileOnClick, logoutOnClick }: Props) => {
+const HeaderDropDownMenu = ({ profileOnClick, logoutOnClick }: Props) => {
     const { t } = useTranslation();
 
     return (
         <div className={styles.menu}>
-            <HeaderItem
+            <HeaderDropDownItem
                 onClick={profileOnClick}
                 text={t('header.profile')}
             />
-            <HeaderItem
+            <HeaderDropDownItem
                 onClick={logoutOnClick}
                 text={t('header.logout')}
             />
@@ -24,4 +24,4 @@ const HeaderMenu = ({ profileOnClick, logoutOnClick }: Props) => {
     )
 }
 
-export default HeaderMenu;
+export default HeaderDropDownMenu

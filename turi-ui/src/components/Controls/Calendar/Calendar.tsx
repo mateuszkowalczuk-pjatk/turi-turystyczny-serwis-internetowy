@@ -1,5 +1,5 @@
-import { FaRegCalendarAlt } from "react-icons/fa";
-import styles from './Calendar.module.css';
+import { FaRegCalendarAlt } from 'react-icons/fa'
+import styles from './Calendar.module.css'
 
 const Calendar = () => {
     return (
@@ -9,4 +9,4 @@ const Calendar = () => {
     )
 }
 
-export default Calendar;
+export default Calendar

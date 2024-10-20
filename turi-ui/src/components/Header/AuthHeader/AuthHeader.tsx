@@ -1,12 +1,9 @@
-import Logo from '../../Logo'
-import styles from './AuthHeader.module.css'
+import HeaderLayout from '../HeaderLayout'
 
 const AuthHeader = () => {
     return (
-        <div className={styles.header}>
-            <Logo />
-        </div>
+        <HeaderLayout />
     )
 }
 
-export default AuthHeader;
+export default AuthHeader

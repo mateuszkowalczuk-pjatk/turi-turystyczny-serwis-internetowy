@@ -1,9 +1,8 @@
-import { useTranslation } from "react-i18next";
-import Logo from "../../Logo";
-import HeaderLinks from "../HeaderLinks";
-import TextRegular from "../../Controls/Text/TextRegular";
-import HeaderButtons from "../HeaderButtons";
-import styles from './UserHeader.module.css'
+import { useTranslation } from 'react-i18next'
+import HeaderLayout from '../HeaderLayout'
+import HeaderLinks from '../HeaderLinks'
+import TextRegular from '../../Controls/Text/TextRegular'
+import HeaderButtons from '../HeaderButtons'
 
 const UserHeader = () => {
     const { t } = useTranslation();
@@ -25,34 +24,37 @@ const UserHeader = () => {
     }
 
     return (
-        <div className={styles.header}>
-            <Logo />
-            <HeaderLinks
-                firstLink={
-                    <TextRegular
-                        text={t('header.reservation')}
-                        onClick={navigateToReservations}
-                    />
-                }
-                secondLink={
-                    <TextRegular
-                        text={t('header.stays')}
-                        onClick={navigateToStays}
-                    />
-                }
-                thirdLink={
-                    <TextRegular
-                        text={t('header.favourites')}
-                        onClick={navigateToFavourites}
-                    />
-                }
-            />
-            <HeaderButtons
-                text={t('header.premium')}
-                firstOnClick={navigateToPremium}
-            />
-        </div>
+        <HeaderLayout
+            links={
+                <HeaderLinks
+                    firstLink={
+                        <TextRegular
+                            text={t('header.reservation')}
+                            onClick={navigateToReservations}
+                        />
+                    }
+                    secondLink={
+                        <TextRegular
+                            text={t('header.stays')}
+                            onClick={navigateToStays}
+                        />
+                    }
+                    thirdLink={
+                        <TextRegular
+                            text={t('header.favourites')}
+                            onClick={navigateToFavourites}
+                        />
+                    }
+                />
+            }
+            buttons={
+                <HeaderButtons
+                    text={t('header.premium')}
+                    firstOnClick={navigateToPremium}
+                />
+            }
+        />
     )
 }
 
-export default UserHeader;
+export default UserHeader

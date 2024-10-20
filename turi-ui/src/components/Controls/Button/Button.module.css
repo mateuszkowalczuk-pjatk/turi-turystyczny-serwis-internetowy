@@ -3,14 +3,14 @@
     justify-content: center;
     align-items: center;
     border-radius: 0.3rem;
-    transition: font-size 0.1s;
+    transition: font-size 0.1s, background-color 0.3s;
     cursor: pointer;
 }
 
 .greyButton {
     color: var(--dark);
     background-color: var(--white);
-    border: 3px solid var(--grey);
+    border: 2px solid var(--grey);
 }
 
 .greyButton:hover {
@@ -20,7 +20,7 @@
 .greenButton {
     color: var(--white);
     background-color: var(--green);
-    border: 3px solid var(--dark-green);
+    border: 2px solid var(--dark-green);
 }
 
 .greenButton:hover {

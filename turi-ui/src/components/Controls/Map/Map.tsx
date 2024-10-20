@@ -1,5 +1,5 @@
-import { FaMapMarkerAlt } from "react-icons/fa";
-import styles from './Map.module.css';
+import { FaMapMarkerAlt } from 'react-icons/fa'
+import styles from './Map.module.css'
 
 const Map = () => {
     return (
@@ -9,4 +9,4 @@ const Map = () => {
     )
 }
 
-export default Map;
+export default Map

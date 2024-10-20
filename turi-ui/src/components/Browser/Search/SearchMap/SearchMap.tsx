@@ -1,8 +1,10 @@
-import Map from "../../../Icon/Map";
-import styles from './SearchMap.module.css';
+import Map from '../../../Controls/Map'
+import styles from './SearchMap.module.css'
 
 const SearchMap = () => {
-    function handleOnClick() {}
+    function handleOnClick() {
+        console.log('Map')
+    }
 
     return (
         <div className={styles.map} onClick={handleOnClick} role="button" tabIndex={0}>
@@ -11,4 +13,4 @@ const SearchMap = () => {
     )
 }
 
-export default SearchMap;
+export default SearchMap

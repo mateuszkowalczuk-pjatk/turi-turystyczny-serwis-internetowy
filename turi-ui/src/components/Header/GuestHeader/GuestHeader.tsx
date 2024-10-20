@@ -1,8 +1,7 @@
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
-import Logo from '../../Logo'
+import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
+import HeaderLayout from '../HeaderLayout'
 import HeaderButtons from '../HeaderButtons'
-import styles from './GuestHeader.module.css'
 
 const GuestHeader = () => {
     const { t } = useTranslation();
@@ -16,17 +15,17 @@ const GuestHeader = () => {
         navigate('/signup')
     }
 
-
     return (
-        <div className={styles.header}>
-            <Logo />
-            <HeaderButtons
-                text={t('header.sign-in-button')}
-                firstOnClick={navigateToLogin}
-                secondOnClick={navigateToSignUp}
-            />
-        </div>
+        <HeaderLayout
+            buttons={
+                <HeaderButtons
+                    text={t('header.sign-in-button')}
+                    firstOnClick={navigateToLogin}
+                    secondOnClick={navigateToSignUp}
+                />
+            }
+        />
     )
 }
 
-export default GuestHeader;
+export default GuestHeader

@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom'
-import styles from './Logo.module.css'
+import styles from './HeaderLogo.module.css'
 
-const Logo = () => {
+const HeaderLogo = () => {
     const navigate = useNavigate();
 
     const navigateToHome = () => {
-        navigate('/');
-    };
+        navigate('/')
+    }
 
     return (
         <p
@@ -18,4 +18,4 @@ const Logo = () => {
     )
 }
 
-export default Logo;
+export default HeaderLogo

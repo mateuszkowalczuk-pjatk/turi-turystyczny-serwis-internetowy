@@ -4,7 +4,7 @@
     left: 0;
     width: 100%;
     background-color: var(--white);
-    border: 3px solid var(--grey);
-    border-radius: 0.6rem;
+    border: 2px solid var(--grey);
+    border-radius: 0.4rem;
     z-index: 1000;
 }
