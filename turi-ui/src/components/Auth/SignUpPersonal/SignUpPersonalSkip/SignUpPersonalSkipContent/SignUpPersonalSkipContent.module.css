@@ -3,12 +3,13 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: var(--light-green);
-    width: 32vw;
-    height: 50vh;
+    background: var(--white);
+    border: 2px solid var(--grey);
+    width: 29rem;
+    height: 25rem;
     text-align: center;
     padding: 1.25rem;
-    border-radius: 0.6rem;
+    border-radius: 0.4rem;
     box-shadow: 0 0.3rem 1rem rgba(0, 0, 0, 0.2);
     animation: modalFadeIn 0.5s ease forwards;
 }
@@ -21,5 +22,19 @@
     to {
         opacity: 1;
         transform: scale(1);
+    }
+}
+
+@media (max-width: 768px) {
+    .content {
+        width: 25rem;
+        height: 23rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .content {
+        width: 20rem;
+        height: 21rem;
     }
 }

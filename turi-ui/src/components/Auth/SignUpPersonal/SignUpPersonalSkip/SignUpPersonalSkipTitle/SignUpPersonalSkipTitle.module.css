@@ -8,4 +8,17 @@
 
 .title p {
     font-size: 1.4rem;
+    color: var(--light-green);
+}
+
+@media (max-width: 768px) {
+    .title p {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .title p {
+        font-size: 1rem;
+    }
 }

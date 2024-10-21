@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from "react-router-dom";
-import { GreyButton } from '../../../../Controls/Button'
+import { useNavigate } from 'react-router-dom'
+import {GreenButton } from '../../../../Controls/Button'
 import styles from './SignUpPersonalSkipButtons.module.css'
 
 const SignUpPersonalSkipButtons = ({ onClick }: { onClick: () => void }) => {
@@ -13,11 +13,11 @@ const SignUpPersonalSkipButtons = ({ onClick }: { onClick: () => void }) => {
 
     return (
         <div className={styles.buttons}>
-            <GreyButton
+            <GreenButton
                 text={t('signup-personal.back')}
                 onClick={onClick}
             />
-            <GreyButton
+            <GreenButton
                 text={t('signup-personal.continue')}
                 onClick={navigateToHome}
             />
@@ -25,4 +25,4 @@ const SignUpPersonalSkipButtons = ({ onClick }: { onClick: () => void }) => {
     )
 }
 
-export default SignUpPersonalSkipButtons;
+export default SignUpPersonalSkipButtons

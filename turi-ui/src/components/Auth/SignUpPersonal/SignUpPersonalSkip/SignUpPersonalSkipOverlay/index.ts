@@ -1,1 +1,1 @@
-export { default } from './SignUpPersonalSkipOverlay';
+export { default } from './SignUpPersonalSkipOverlay'

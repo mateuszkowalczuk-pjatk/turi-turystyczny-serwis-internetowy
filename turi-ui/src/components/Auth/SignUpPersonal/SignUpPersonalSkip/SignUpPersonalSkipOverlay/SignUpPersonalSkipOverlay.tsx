@@ -11,4 +11,4 @@ const SignUpPersonalSkipOverlay = ({ onClick }: { onClick: () => void }) => {
     )
 }
 
-export default SignUpPersonalSkipOverlay;
+export default SignUpPersonalSkipOverlay

@@ -1,1 +1,1 @@
-export { default } from "./SignUpPersonalSkipDescription.tsx";
+export { default } from './SignUpPersonalSkipDescription'
