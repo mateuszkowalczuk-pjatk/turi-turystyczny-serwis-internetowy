@@ -13,8 +13,8 @@ const PersonalGender = () => {
     const [selectedGender, setSelectedGender] = useState<string | null>(null);
 
     const handleGenderChange = (gender: string) => {
-        setSelectedGender(gender);
-    };
+        setSelectedGender(gender)
+    }
 
     return (
         <div className={styles.gender}>

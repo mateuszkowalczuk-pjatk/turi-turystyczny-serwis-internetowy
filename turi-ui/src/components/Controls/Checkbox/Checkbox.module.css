@@ -39,3 +39,37 @@
 .checkbox .custom:hover {
     border-color: var(--dark);
 }
+
+@media (max-width: 768px) {
+    .checkbox {
+        gap: 0.4rem;
+    }
+
+    .checkbox .custom {
+        height: 1.25rem;
+        width: 1.25rem;
+        border: 3px solid var(--grey);
+    }
+
+    .checkbox input[type="checkbox"]:checked + .custom::after {
+        width: 0.6rem;
+        height: 0.6rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .checkbox {
+        gap: 0.2rem;
+    }
+
+    .checkbox .custom {
+        height: 1rem;
+        width: 1rem;
+        border: 2px solid var(--grey);
+    }
+
+    .checkbox input[type="checkbox"]:checked + .custom::after {
+        width: 0.5rem;
+        height: 0.5rem;
+    }
+}

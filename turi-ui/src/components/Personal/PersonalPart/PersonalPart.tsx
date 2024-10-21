@@ -17,4 +17,4 @@ const PersonalPart = ({ firstPanel, secondPanel, option }: Props) => {
     )
 }
 
-export default PersonalPart;
+export default PersonalPart

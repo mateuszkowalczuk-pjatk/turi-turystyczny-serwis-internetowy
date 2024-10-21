@@ -14,4 +14,4 @@ const SignUpPersonalDescription = () => {
     )
 }
 
-export default SignUpPersonalDescription;
+export default SignUpPersonalDescription

@@ -24,4 +24,4 @@ const Checkbox = ({ checked, onChange, text }: Props) => {
     )
 }
 
-export default Checkbox;
+export default Checkbox

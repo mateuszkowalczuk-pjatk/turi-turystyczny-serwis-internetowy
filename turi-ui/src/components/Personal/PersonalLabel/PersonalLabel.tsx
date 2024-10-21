@@ -11,4 +11,4 @@ const PersonalLabel = ({ text }: { text: string }) => {
     )
 }
 
-export default PersonalLabel;
+export default PersonalLabel

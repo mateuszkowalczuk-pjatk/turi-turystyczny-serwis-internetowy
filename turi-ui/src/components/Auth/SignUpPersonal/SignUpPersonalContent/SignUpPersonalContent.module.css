@@ -3,11 +3,17 @@
     justify-content: center;
     align-items: center;
     width: 90%;
-    height: 50vh;
+    height: 28rem;
     transition: opacity 0.5s ease;
 }
 
 .background {
     opacity: 0.5;
     pointer-events: none;
+}
+
+@media (max-width: 480px) {
+    .content {
+        height: 27rem;
+    }
 }

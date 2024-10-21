@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom'
 import { GreenButton } from '../../../Controls/Button'
 import styles from './SignUpPersonalButtons.module.css'
 
@@ -8,7 +8,7 @@ const SignUpPersonalButtons = ({ skipOnClick }: { skipOnClick: () => void }) => 
     const navigate = useNavigate();
 
     const navigateToHome = () => {
-        navigate('/');
+        navigate('/')
     }
 
     return (
@@ -25,4 +25,4 @@ const SignUpPersonalButtons = ({ skipOnClick }: { skipOnClick: () => void }) => 
     )
 }
 
-export default SignUpPersonalButtons;
+export default SignUpPersonalButtons

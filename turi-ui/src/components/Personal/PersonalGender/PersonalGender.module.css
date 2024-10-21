@@ -3,3 +3,25 @@
     gap: 1.5rem;
     height: 2rem;
 }
+
+@media (max-width: 768px) {
+    .gender {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.25rem;
+    }
+
+    .gender p {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .gender {
+        gap: 1rem;
+    }
+
+    .gender p {
+        font-size: 0.6rem;
+    }
+}

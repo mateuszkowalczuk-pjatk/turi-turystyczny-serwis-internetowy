@@ -1,1 +1,1 @@
-export { default } from './SignUpPersonalButtons';
+export { default } from './SignUpPersonalButtons'

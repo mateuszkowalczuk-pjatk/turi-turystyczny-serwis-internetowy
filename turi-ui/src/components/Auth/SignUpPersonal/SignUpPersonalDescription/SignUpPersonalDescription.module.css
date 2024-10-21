@@ -2,6 +2,16 @@
     display: flex;
     align-items: center;
     width: 90%;
-    height: 6vh;
+    height: 3rem;
     border-bottom: 1px solid var(--dark);
+}
+
+@media (max-width: 480px) {
+    .description {
+        height: 2rem;
+    }
+
+    .description p {
+        font-size: 0.75rem;
+    }
 }

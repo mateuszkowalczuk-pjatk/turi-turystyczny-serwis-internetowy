@@ -1,1 +1,1 @@
-export { default } from './SignUpPersonalTitle.tsx'
+export { default } from './SignUpPersonalTitle'

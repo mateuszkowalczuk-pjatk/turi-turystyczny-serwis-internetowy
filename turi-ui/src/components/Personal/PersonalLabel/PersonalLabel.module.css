@@ -2,10 +2,16 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 4vh;
+    height: 2rem;
     width: 100%;
 }
 
 .label p {
     color: var(--dark);
+}
+
+@media (max-width: 480px) {
+    .label p {
+        font-size: 0.75rem;
+    }
 }

@@ -1,1 +1,1 @@
-export { default } from "./PersonalLabel";
+export { default } from './PersonalLabel'

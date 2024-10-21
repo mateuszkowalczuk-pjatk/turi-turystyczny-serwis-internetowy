@@ -14,4 +14,4 @@ const SignUpPersonalTitle = () => {
     )
 }
 
-export default SignUpPersonalTitle;
+export default SignUpPersonalTitle

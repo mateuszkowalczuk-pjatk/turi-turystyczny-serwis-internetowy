@@ -14,12 +14,12 @@ const SignUpPersonalContent = () => {
     const [ isPersonalSkip, setIsPersonalSkip ] = useState(false);
 
     const handleSkipClick = () => {
-        setIsPersonalSkip(true);
-    };
+        setIsPersonalSkip(true)
+    }
 
     const handleCloseSkip = () => {
-        setIsPersonalSkip(false);
-    };
+        setIsPersonalSkip(false)
+    }
 
     return (
         <>
@@ -144,11 +144,11 @@ const SignUpPersonalContent = () => {
             </div>
             {isPersonalSkip &&
                 <SignUpPersonalSkipOverlay
-                    onClick={ handleCloseSkip }
+                    onClick={handleCloseSkip}
                 />
             }
         </>
     )
 }
 
-export default SignUpPersonalContent;
+export default SignUpPersonalContent
