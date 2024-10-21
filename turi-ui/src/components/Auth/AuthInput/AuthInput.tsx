@@ -11,4 +11,4 @@ const AuthInput = ({ text }: { text: string }) => {
     )
 }
 
-export default AuthInput;
+export default AuthInput

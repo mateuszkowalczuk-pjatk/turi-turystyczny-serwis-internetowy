@@ -21,7 +21,10 @@
 @media (max-width: 768px) {
     .links {
         gap: 3vw;
+    }
 
+    .links p {
+        font-size: 0.75rem;
     }
 }
 
@@ -30,9 +33,5 @@
         align-items: flex-end;
         gap: 2vw;
         width: 50vw;
-    }
-
-    .links p {
-        font-size: 0.75rem;
     }
 }

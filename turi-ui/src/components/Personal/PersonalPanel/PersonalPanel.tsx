@@ -25,4 +25,4 @@ const PersonalPanel = ({ label, firstInput, secondInput, thirdInput, fourthInput
     )
 }
 
-export default PersonalPanel;
+export default PersonalPanel
