@@ -1,4 +1,4 @@
-import TextRegular from "../../Controls/Text/TextRegular";
+import TextRegular from '../../Controls/Text/TextRegular'
 import styles from './AuthDescription.module.css'
 
 const AuthDescription = ({ text }: { text: string }) => {
@@ -11,4 +11,4 @@ const AuthDescription = ({ text }: { text: string }) => {
     )
 }
 
-export default AuthDescription;
+export default AuthDescription

@@ -23,4 +23,4 @@ const AuthPanel = ({ header, option, input, button, top, down }: Props) => {
     )
 }
 
-export default AuthPanel;
+export default AuthPanel

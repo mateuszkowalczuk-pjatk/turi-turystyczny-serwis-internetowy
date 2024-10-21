@@ -5,19 +5,21 @@
     align-items: center;
     width: 26rem;
     height: 22rem;
-    border-radius: 10px;
+    border-radius: 0.4rem;
     background: var(--light-green);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
-/*@media (max-width: 768px) {*/
-/*    .text {*/
-/*        font-size: 1.25rem;*/
-/*    }*/
-/*}*/
+@media (max-width: 768px) {
+    .panel {
+        width: 22rem;
+        height: 20rem;
+    }
+}
 
-/*@media (max-width: 480px) {*/
-/*    .text {*/
-/*        font-size: 1rem;*/
-/*    }*/
-/*}*/
+@media (max-width: 480px) {
+    .panel {
+        width: 18rem;
+        height: 18rem;
+    }
+}

@@ -17,4 +17,4 @@ const AuthButton = ({ text, onClick }: Props) => {
     )
 }
 
-export default AuthButton;
+export default AuthButton

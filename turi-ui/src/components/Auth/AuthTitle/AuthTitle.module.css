@@ -2,6 +2,23 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
     width: 70%;
     height: 4rem;
+}
+
+@media (max-width: 768px) {
+    .title p {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .title {
+        height: 4rem;
+    }
+
+    .title p {
+        font-size: 1.1rem;
+    }
 }

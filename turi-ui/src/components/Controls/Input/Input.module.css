@@ -1,7 +1,7 @@
 input {
     color: var(--dark);
     background-color: var(--white);
-    border: 3px solid var(--grey);
+    border: 2px solid var(--grey);
     border-radius: 0.3rem;
     padding-left: 1rem;
 }
@@ -11,11 +11,11 @@ input::placeholder {
 }
 
 input:hover {
-    border: 3px solid var(--dark);
+    border: 2px solid var(--dark);
 }
 
 input:focus {
     color: var(--dark);
-    border: 3px solid var(--grey);
+    border: 2px solid var(--grey);
     outline: none;
 }

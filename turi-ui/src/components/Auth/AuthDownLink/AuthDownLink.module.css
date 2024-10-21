@@ -20,3 +20,13 @@
 .linkRight {
     justify-content: flex-end;
 }
+
+@media (max-width: 768px) {
+    .link {
+        height: 2rem;
+    }
+
+    .link p {
+        font-size: 0.7rem;
+    }
+}

@@ -35,4 +35,4 @@ const AuthDownLink = ({ firstLink, secondLink, firstOnClick, secondOnClick }: Pr
     )
 }
 
-export default AuthDownLink;
+export default AuthDownLink

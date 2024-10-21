@@ -1,1 +1,1 @@
-export { default } from './AuthTopLink';
+export { default } from './AuthTopLink'

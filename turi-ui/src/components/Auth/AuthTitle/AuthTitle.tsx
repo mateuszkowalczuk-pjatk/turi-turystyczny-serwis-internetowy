@@ -11,4 +11,4 @@ const AuthTitle = ({ text }: { text: string }) => {
     )
 }
 
-export default AuthTitle;
+export default AuthTitle
