@@ -3,5 +3,15 @@
     justify-content: center;
     align-items: center;
     width: 70%;
-    height: 20%;
+    height: 2rem;
+}
+
+@media (max-width: 768px) {
+    .copyright {
+        width: 90%;
+    }
+
+    .copyright p {
+        font-size: 0.8rem;
+    }
 }

@@ -5,7 +5,7 @@ import styles from './FooterLanguage.module.css'
 const LANGUAGE = {
     PL: 'pl',
     EN: 'en',
-};
+}
 
 const LABEL = {
     PL: 'Polski',
@@ -19,8 +19,8 @@ const FooterLanguage = () => {
 
     const changeLanguage = (language: string) => {
         i18n.changeLanguage(language)
-            .catch(error => { console.error(error) });
-    };
+            .catch(error => { console.error(error) })
+    }
 
     return (
         <div className={styles.language}>
@@ -49,4 +49,4 @@ const FooterLanguage = () => {
     )
 }
 
-export default FooterLanguage;
+export default FooterLanguage

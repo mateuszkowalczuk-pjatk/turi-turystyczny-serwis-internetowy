@@ -4,6 +4,18 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 40vh;
+    height: 22rem;
     background: var(--grey);
+}
+
+@media (max-width: 768px) {
+    .footer {
+        height: 16rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer {
+        height: 38rem;
+    }
 }

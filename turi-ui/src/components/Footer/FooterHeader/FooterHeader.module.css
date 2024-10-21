@@ -3,9 +3,26 @@
     justify-content: center;
     align-items: center;
     width: 70%;
-    height: 30%;
+    height: 7rem;
 }
 
 .header p {
     color: var(--dark);
+}
+
+@media (max-width: 768px) {
+    .header {
+        width: 90%;
+        height: 5rem;
+    }
+
+    .header p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .header p {
+        font-size: 0.75rem;
+    }
 }

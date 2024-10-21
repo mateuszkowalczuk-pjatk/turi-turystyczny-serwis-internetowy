@@ -1,1 +1,1 @@
-export { default } from "./FooterLanguage";
+export { default } from './FooterLanguage'

@@ -18,4 +18,4 @@ const AuthFooter = () => {
     )
 }
 
-export default AuthFooter;
+export default AuthFooter
