@@ -7,3 +7,15 @@
     width: 100%;
     padding-left: 5rem;
 }
+
+@media (max-width: 768px) {
+    .page {
+        padding-left: 3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .page {
+        padding-left: 1rem;
+    }
+}

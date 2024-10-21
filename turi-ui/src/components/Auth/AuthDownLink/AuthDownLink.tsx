@@ -4,7 +4,7 @@ import styles from './AuthDownLink.module.css'
 interface Props {
     firstLink: string;
     secondLink: string;
-    firstOnClick?: () => void;
+    firstOnClick: () => void;
     secondOnClick?: () => void;
 }
 

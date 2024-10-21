@@ -1,7 +1,7 @@
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import TextRegular from "../../Controls/Text/TextRegular";
-import styles from './ProfileHeader.module.css';
+import { useNavigate, useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import TextRegular from '../../Controls/Text/TextRegular'
+import styles from './ProfileHeader.module.css'
 
 const ProfileHeader = () => {
     const { t } = useTranslation();
@@ -9,7 +9,7 @@ const ProfileHeader = () => {
     const location = useLocation();
 
     const handleNavigation = (path: string) => {
-        navigate(path);
+        navigate(path)
     }
 
     return (
@@ -33,4 +33,4 @@ const ProfileHeader = () => {
     )
 }
 
-export default ProfileHeader;
+export default ProfileHeader

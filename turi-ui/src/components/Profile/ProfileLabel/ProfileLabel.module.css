@@ -1,10 +1,30 @@
 .label {
     display: flex;
     align-items: center;
-    height: 5vh;
-    width: 11vw;
+    height: 2rem;
+    width: 9rem;
 }
 
 .label p {
     font-size: 1.25rem;
+}
+
+@media (max-width: 768px) {
+    .label {
+        width: 8rem;
+    }
+
+    .label p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .label {
+        width: 7rem;
+    }
+
+    .label p {
+        font-size: 0.75rem;
+    }
 }

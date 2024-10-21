@@ -2,10 +2,16 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    height: 10vh;
     width: 70%;
+    height: 5rem;
 }
 
 .title p {
-    color: var(--light-green)
+    color: var(--light-green);
+}
+
+@media (max-width: 480px) {
+    .title p {
+        font-size: 1.25rem;
+    }
 }

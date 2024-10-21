@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import TextMediumExtra from "../../Controls/Text/TextMediumExtra";
+import TextMediumExtra from '../../Controls/Text/TextMediumExtra'
 import styles from './ProfileTitle.module.css'
 
 const ProfileTitle = () => {
@@ -14,4 +14,4 @@ const ProfileTitle = () => {
     )
 }
 
-export default ProfileTitle;
+export default ProfileTitle

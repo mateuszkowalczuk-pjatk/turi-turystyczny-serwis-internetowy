@@ -2,8 +2,15 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 65vh;
+    height: 32rem;
     width: 70%;
-    border: 3px solid var(--grey);
-    border-radius: 0.6rem;
+    border: 2px solid var(--grey);
+    border-radius: 0.4rem;
+}
+
+@media (max-width: 768px) {
+    .panel {
+        height: 35rem;
+        gap: 2rem;
+    }
 }

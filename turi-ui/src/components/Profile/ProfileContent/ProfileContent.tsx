@@ -1,6 +1,6 @@
-import { ReactNode } from "react";
-import ProfileTitle from "../ProfileTitle";
-import ProfilePanel from "../ProfilePanel";
+import { ReactNode } from 'react'
+import ProfileTitle from '../ProfileTitle'
+import ProfilePanel from '../ProfilePanel'
 import styles from './ProfileContent.module.css'
 
 const ProfileContent = ({ content }: { content: ReactNode }) => {
@@ -14,4 +14,4 @@ const ProfileContent = ({ content }: { content: ReactNode }) => {
     )
 }
 
-export default ProfileContent;
+export default ProfileContent

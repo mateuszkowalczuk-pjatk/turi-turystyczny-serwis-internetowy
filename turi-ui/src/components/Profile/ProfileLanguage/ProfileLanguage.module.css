@@ -4,3 +4,15 @@
     align-items: flex-start;
     gap: 0.8rem;
 }
+
+@media (max-width: 768px) {
+    .language p {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .language p {
+        font-size: 1rem;
+    }
+}

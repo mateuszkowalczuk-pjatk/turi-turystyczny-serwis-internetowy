@@ -2,9 +2,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 13vw;
-    height: 12vh;
+    gap: 11vw;
     width: 90%;
+    height: 6rem;
     border-bottom: 1px solid var(--grey);
 }
 
@@ -19,4 +19,28 @@
 
 .header .active {
     font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .header {
+        height: 5rem;
+        gap: 9vw;
+    }
+
+    .header p {
+        font-size: 0.9rem;
+        cursor: pointer;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        height: 4rem;
+        gap: 8vw;
+    }
+
+    .header p {
+        font-size: 0.7rem;
+        cursor: pointer;
+    }
 }

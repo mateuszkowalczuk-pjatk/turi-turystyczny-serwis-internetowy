@@ -1,5 +1,5 @@
-import ProfileLabel from "../ProfileLabel";
-import ProfileInput from "../ProfileInput";
+import ProfileLabel from '../ProfileLabel'
+import ProfileInput from '../ProfileInput'
 import styles from './ProfileModule.module.css'
 
 const ProfileModule = ({ text }: { text: string }) => {

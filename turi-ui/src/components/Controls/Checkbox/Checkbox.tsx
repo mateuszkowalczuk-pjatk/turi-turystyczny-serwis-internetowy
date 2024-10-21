@@ -18,7 +18,7 @@ const Checkbox = ({ checked, onChange, text }: Props) => {
             />
             <span className={styles.custom}></span>
             <TextRegular
-                text={ text }
+                text={text}
             />
         </label>
     )

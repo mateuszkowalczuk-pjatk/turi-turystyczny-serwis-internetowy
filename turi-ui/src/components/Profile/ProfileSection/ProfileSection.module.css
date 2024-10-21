@@ -2,6 +2,18 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    height: 40vh;
+    height: 20rem;
     width: 90%;
+}
+
+@media (max-width: 768px) {
+    .section {
+        height: 24rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .section {
+        height: 28rem;
+    }
 }

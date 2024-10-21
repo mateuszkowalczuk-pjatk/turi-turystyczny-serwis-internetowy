@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react'
 import styles from './ProfileSection.module.css'
 
 const ProfileSection = ({ content }: { content: ReactNode }) => {
@@ -9,4 +9,4 @@ const ProfileSection = ({ content }: { content: ReactNode }) => {
     )
 }
 
-export default ProfileSection;
+export default ProfileSection

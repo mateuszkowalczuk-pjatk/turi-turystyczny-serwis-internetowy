@@ -2,16 +2,41 @@
     display: flex;
     justify-content: flex-end;
     align-items: flex-start;
-    height: 13vh;
+    height: 6rem;
     width: 90%;
 }
 
 .button button {
-    width: 9vw;
+    width: 8rem;
     height: 2.5rem;
     font-size: 1rem;
 }
 
 .button button:active {
     font-size: 0.95rem;
+}
+
+
+@media (max-width: 768px) {
+    .button button {
+        width: 7rem;
+        height: 2.3rem;
+        font-size: 0.9rem;
+    }
+
+    .button button:active {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .button button {
+        width: 6rem;
+        height: 2.1rem;
+        font-size: 0.8rem;
+    }
+
+    .button button:active {
+        font-size: 0.75rem;
+    }
 }
