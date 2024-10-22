@@ -1,0 +1,30 @@
+.text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35%;
+    height: 100%;
+}
+
+.dash {
+    width: 10%;
+}
+
+.text p {
+    font-size: 0.8rem;
+    color: var(--grey);
+}
+
+@media (max-width: 1080px) {
+    .text p {
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .text {
+        width: 0;
+        height: 0;
+        display: none;
+    }
+}

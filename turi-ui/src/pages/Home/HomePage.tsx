@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store/store.ts'
-import Dashboard from '../../components/Dashboard'
+import HomeDashboard from '../../components/Dashboard/HomeDashboard'
 import UserInformation from '../../components/Information/UserInformation'
 import GuestInformation from '../../components/Information/GuestInformation'
 import Proposition from '../../components/Proposition'
@@ -11,7 +11,7 @@ const HomePage = () => {
 
     return (
         <div className={styles.page}>
-            <Dashboard />
+            <HomeDashboard />
             { isAuthenticated ? ( <UserInformation /> ) : ( <GuestInformation /> ) }
             <Proposition />
         </div>

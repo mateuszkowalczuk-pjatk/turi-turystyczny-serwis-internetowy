@@ -3,12 +3,13 @@ import styles from './Button.module.css'
 interface Props {
     text: string;
     onClick?: () => void;
+    className?: string;
 }
 
-export const GreyButton = ({ text, onClick }: Props) => {
+export const GreyButton = ({ text, onClick, className }: Props) => {
     return (
         <button
-            className={`${styles.button} ${styles.greyButton}`}
+            className={`${styles.button} ${styles.greyButton} ${className ? className : ''}`}
             onClick={onClick}
         >
             { text }
