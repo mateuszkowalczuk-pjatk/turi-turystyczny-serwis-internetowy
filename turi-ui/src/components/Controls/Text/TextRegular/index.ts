@@ -1,1 +1,1 @@
-export { default } from './TextRegular.tsx'
+export { default } from './TextRegular'

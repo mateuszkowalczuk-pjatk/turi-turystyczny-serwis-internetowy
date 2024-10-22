@@ -1,1 +1,1 @@
-export { default } from './TextMediumExtra.tsx'
+export { default } from './TextMediumExtra'

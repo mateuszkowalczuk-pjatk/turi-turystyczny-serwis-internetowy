@@ -1,4 +1,4 @@
-import styles from "./TextMedium.module.css";
+import styles from './TextMedium.module.css'
 
 interface Props {
     text: string;
@@ -12,4 +12,4 @@ const TextMedium = ({ text }: Props) => {
     )
 }
 
-export default TextMedium;
+export default TextMedium

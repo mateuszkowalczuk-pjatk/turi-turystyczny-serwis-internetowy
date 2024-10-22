@@ -14,7 +14,9 @@
         "dashboard": {
             "header-text": "Where and how do you want to spend your time?",
             "text": "Enter a date, information and specify what type of offers you want to see!",
-            "calendar-default": "date from - date to",
+            "calendar-from": "Date from",
+            "calendar-dash": "—",
+            "calendar-to": "Date to",
             "placeholder": "Enter information",
             "search-button": "Search",
             "all-button": "All offers",
@@ -125,14 +127,14 @@
         "signup": "Create a new account"
     },
     "login-check": {
-        "title": "Recover your account password",
+        "title": "Recover your password",
         "description": "Enter your email address to find your account.",
         "email": "Email",
         "button": "Search",
-        "down": "Return to sign in form"
+        "down": "Return to login form"
     },
     "login-code": {
-        "title": "Recover your account password",
+        "title": "Recover your password",
         "description": "We sent a reset code to your email. Enter it below.",
         "code": "Code",
         "button": "Next",
@@ -140,7 +142,7 @@
         "down": "Back to login form"
     },
     "login-reset": {
-        "title": "Recover your account password",
+        "title": "Recover your password",
         "password": "New password",
         "re-password": "Repeat password",
         "button": "Reset",

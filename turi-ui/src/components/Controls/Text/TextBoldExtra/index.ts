@@ -1,1 +1,1 @@
-export { default } from './TextBoldExtra.tsx'
+export { default } from './TextBoldExtra'

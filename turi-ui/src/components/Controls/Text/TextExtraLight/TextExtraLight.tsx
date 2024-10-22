@@ -1,4 +1,4 @@
-import styles from "./TextExtraLight.module.css";
+import styles from './TextExtraLight.module.css'
 
 interface Props {
     text: string;
@@ -12,4 +12,4 @@ const TextExtraLight = ({ text }: Props) => {
     )
 }
 
-export default TextExtraLight;
+export default TextExtraLight

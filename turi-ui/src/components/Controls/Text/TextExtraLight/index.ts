@@ -1,1 +1,1 @@
-export { default } from './TextExtraLight.tsx'
+export { default } from './TextExtraLight'

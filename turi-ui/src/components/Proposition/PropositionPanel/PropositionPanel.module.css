@@ -7,18 +7,18 @@
     color: var(--white);
     flex: 0 0 9rem;
     height: 9rem;
-    background-color: var(--grey);
+    background-color: #808080;
     background-size: cover;
     background-position: center;
     background-blend-mode: multiply;
-    filter: grayscale(70%);
     cursor: pointer;
     overflow: hidden;
     border-radius: 0.4rem;
+    transition: font-size 0.1s, background-color 0.3s;
 }
 
 .panel:hover {
-    filter: grayscale(20%);
+    background-color: var(--grey);
 }
 
 .panel p {

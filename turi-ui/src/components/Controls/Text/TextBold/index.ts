@@ -1,1 +1,1 @@
-export { default } from './TextBold.tsx'
+export { default } from './TextBold'

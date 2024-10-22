@@ -1,4 +1,4 @@
-import styles from "./TextBoldExtra.module.css";
+import styles from './TextBoldExtra.module.css'
 
 interface Props {
     text: string;
@@ -12,4 +12,4 @@ const TextBoldExtra = ({ text }: Props) => {
     )
 }
 
-export default TextBoldExtra;
+export default TextBoldExtra

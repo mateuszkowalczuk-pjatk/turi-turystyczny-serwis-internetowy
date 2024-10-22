@@ -1,10 +1,6 @@
-import styles from "./TextBold.module.css";
+import styles from './TextBold.module.css'
 
-interface Props {
-    text: string;
-}
-
-const TextBold = ({ text }: Props) => {
+const TextBold = ({ text }: { text: string }) => {
     return (
         <p className={styles.text}>
             { text }
@@ -12,4 +8,4 @@ const TextBold = ({ text }: Props) => {
     )
 }
 
-export default TextBold;
+export default TextBold

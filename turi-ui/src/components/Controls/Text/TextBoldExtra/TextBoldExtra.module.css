@@ -3,15 +3,3 @@
     font-weight: 700;
     color: var(--white);
 }
-
-@media (max-width: 768px) {
-    .text {
-        font-size: 1.25rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .text {
-        font-size: 1rem;
-    }
-}

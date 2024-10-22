@@ -1,4 +1,4 @@
-import styles from "./TextRegular.module.css";
+import styles from './TextRegular.module.css'
 
 interface Props {
     text: string;
