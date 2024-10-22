@@ -3,7 +3,7 @@ import styles from './InformationTitle.module.css'
 
 const InformationTitle = ({ text }: { text: string }) => {
     return (
-        <div className={styles.header}>
+        <div className={styles.title}>
             <TextMedium
                 text={ text }
             />

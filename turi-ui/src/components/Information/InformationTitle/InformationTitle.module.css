@@ -1,22 +1,16 @@
-.header {
+.title {
     display: flex;
     align-items: center;
-    width: 95%;
+    width: 96%;
     height: 3rem;
 }
 
-.header p {
+.title p {
     color: var(--dark);
 }
 
-@media (max-width: 768px) {
-    .panel {
-        width: 90vw;
-    }
-}
-
 @media (max-width: 480px) {
-    .header p {
+    .title p {
         font-size: 1rem;
     }
 }

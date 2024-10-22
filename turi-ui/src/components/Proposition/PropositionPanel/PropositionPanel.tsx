@@ -1,5 +1,5 @@
-import TextBold from "../Controls/Text/TextBold";
-import styles from './Panel.module.css';
+import TextBold from '../../Controls/Text/TextBold'
+import styles from './PropositionPanel.module.css'
 
 interface Props {
     text: string;
@@ -21,4 +21,4 @@ const ButtonPanel = ({ text, imagePath }: Props) => {
     )
 }
 
-export default ButtonPanel;
+export default ButtonPanel

@@ -3,7 +3,7 @@ import { RootState } from '../../store/store.ts'
 import HomeDashboard from '../../components/Dashboard/HomeDashboard'
 import UserInformation from '../../components/Information/UserInformation'
 import GuestInformation from '../../components/Information/GuestInformation'
-import Proposition from '../../components/Proposition'
+import HomeProposition from '../../components/Proposition/HomeProposition'
 import styles from '../Page.module.css'
 
 const HomePage = () => {
@@ -13,7 +13,7 @@ const HomePage = () => {
         <div className={styles.page}>
             <HomeDashboard />
             { isAuthenticated ? ( <UserInformation /> ) : ( <GuestInformation /> ) }
-            <Proposition />
+            <HomeProposition />
         </div>
     )
 }

@@ -10,8 +10,8 @@
     text-align: center;
     padding: 1.25rem;
     border-radius: 0.4rem;
-    box-shadow: 0 0.3rem 1rem rgba(0, 0, 0, 0.2);
     animation: modalFadeIn 0.5s ease forwards;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.05);
 }
 
 @keyframes modalFadeIn {

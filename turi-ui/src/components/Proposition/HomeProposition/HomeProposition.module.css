@@ -3,19 +3,13 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 70vw;
-    height: 75vh;
-    gap: 5vh;
+    width: 70%;
+    height: 38rem;
+    gap: 2rem;
 }
 
 @media (max-width: 768px) {
     .proposition {
-        width: 90vw;
-    }
-}
-
-@media (max-width: 480px) {
-    .proposition {
-        width: 90vw;
+        width: 90%;
     }
 }
