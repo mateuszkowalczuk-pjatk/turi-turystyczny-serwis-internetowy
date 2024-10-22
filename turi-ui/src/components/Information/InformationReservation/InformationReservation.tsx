@@ -1,4 +1,4 @@
-import TextRegular from "../../Controls/Text/TextRegular";
+import TextRegular from '../../Controls/Text/TextRegular'
 import styles from './InformationReservation.module.css'
 
 const InformationReservation = () => {
@@ -11,4 +11,4 @@ const InformationReservation = () => {
     )
 }
 
-export default InformationReservation;
+export default InformationReservation

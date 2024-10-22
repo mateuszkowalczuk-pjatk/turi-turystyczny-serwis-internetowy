@@ -1,4 +1,4 @@
-import InformationReservation from "../InformationReservation";
+import InformationReservation from '../InformationReservation'
 import styles from './InformationReservations.module.css'
 
 const InformationReservations = () => {

@@ -11,4 +11,4 @@ const InformationText = ({ text }: { text: string }) => {
     )
 }
 
-export default InformationText;
+export default InformationText

@@ -1,0 +1,22 @@
+.header {
+    display: flex;
+    align-items: center;
+    width: 95%;
+    height: 3rem;
+}
+
+.header p {
+    color: var(--dark);
+}
+
+@media (max-width: 768px) {
+    .panel {
+        width: 90vw;
+    }
+}
+
+@media (max-width: 480px) {
+    .header p {
+        font-size: 1rem;
+    }
+}

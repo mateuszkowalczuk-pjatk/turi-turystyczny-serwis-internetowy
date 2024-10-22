@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react'
 import styles from './InformationPanel.module.css'
 
 const InformationPanel = ({ content }: { content: ReactNode }) => {

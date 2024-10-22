@@ -1,8 +1,8 @@
-import { useTranslation } from "react-i18next";
-import InformationPanel from "../InformationPanel";
-import InformationContent from "../InformationContent";
-import HeaderInformation from "../HeaderInformation";
-import InformationReservations from "../InformationReservations";
+import { useTranslation } from 'react-i18next'
+import InformationPanel from '../InformationPanel'
+import InformationContent from '../InformationContent'
+import InformationTitle from '../InformationTitle'
+import InformationReservations from '../InformationReservations'
 
 const UserInformation = () => {
     const { t } = useTranslation();
@@ -12,7 +12,7 @@ const UserInformation = () => {
             content={
                 <InformationContent
                     title={
-                        <HeaderInformation
+                        <InformationTitle
                             text={t('home.information.reservations')}
                         />
                     }
@@ -25,4 +25,4 @@ const UserInformation = () => {
     )
 }
 
-export default UserInformation;
+export default UserInformation

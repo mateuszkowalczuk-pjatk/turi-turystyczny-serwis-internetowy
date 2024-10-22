@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react'
 import styles from './InformationContent.module.css'
 
 interface Props {
@@ -17,4 +17,4 @@ const InformationContent = ({ title, content, option }: Props) => {
     )
 }
 
-export default InformationContent;
+export default InformationContent

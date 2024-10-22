@@ -1,7 +1,7 @@
 import TextMedium from '../../Controls/Text/TextMedium'
-import styles from './HeaderInformation.module.css'
+import styles from './InformationTitle.module.css'
 
-const HeaderInformation = ({ text }: { text: string }) => {
+const InformationTitle = ({ text }: { text: string }) => {
     return (
         <div className={styles.header}>
             <TextMedium
@@ -11,4 +11,4 @@ const HeaderInformation = ({ text }: { text: string }) => {
     )
 }
 
-export default HeaderInformation;
+export default InformationTitle

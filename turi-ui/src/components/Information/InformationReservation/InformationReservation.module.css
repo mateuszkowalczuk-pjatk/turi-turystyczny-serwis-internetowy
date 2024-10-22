@@ -2,12 +2,19 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
+    width: 23rem;
     height: 100%;
-    width: 25vw;
-    border-radius: 0.6rem;
-    border: 3px solid var(--grey);
+    border-radius: 0.4rem;
+    border: 2px solid var(--dark-green);
 }
 
 .reservation p {
     color: var(--dark);
+}
+
+@media (max-width: 480px) {
+    .reservation p {
+        font-size: 0.75rem;
+    }
 }
