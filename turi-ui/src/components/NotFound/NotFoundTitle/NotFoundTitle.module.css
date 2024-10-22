@@ -1,0 +1,17 @@
+.title {
+    display: flex;
+    align-items: center;
+    width: 90%;
+    height: 5rem;
+    border-bottom: 2px solid var(--light-green);
+}
+
+.title p {
+    color: var(--dark)
+}
+
+@media (max-width: 480px) {
+    .title p {
+        font-size: 1em;
+    }
+}

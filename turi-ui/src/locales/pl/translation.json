@@ -177,5 +177,11 @@
         "building": "Nr budynku",
         "apartment": "Nr lokalu",
         "language": "Język strony"
+    },
+    "not-found": {
+        "404": "404",
+        "title": "Nie znaleziono strony!",
+        "description": "Niestety, nie znaleźliśmy strony, której szukasz. Możliwe, że podałeś niepoprawny adres URL lub strona została usunięta. Wróć na stronę główną Turi i skorzystaj z udostępnianych opcji!",
+        "button": "Turi"
     }
 }
