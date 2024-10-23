@@ -15,26 +15,24 @@ const LABEL = {
 }
 
 const ProfileLanguage = () => {
-    const { t, i18n } = useTranslation();
-    const [selectedLanguage, setSelectedLanguage] = useState<string>(i18n.language);
+    const { t, i18n } = useTranslation()
+    const [selectedLanguage, setSelectedLanguage] = useState<string>(i18n.language)
 
     useEffect(() => {
-        setSelectedLanguage(i18n.language);
-    }, [i18n.language]);
+        setSelectedLanguage(i18n.language)
+    }, [i18n.language])
 
     const changeLanguage = (language: string) => {
         i18n.changeLanguage(language)
             .then(() => setSelectedLanguage(language))
-            .catch(error => {
-                console.error(error);
+            .catch((error) => {
+                console.error(error)
             })
     }
 
     return (
         <div className={styles.language}>
-            <ProfileLabel
-                text={t('profile.language')}
-            />
+            <ProfileLabel text={t('profile.language')} />
             <Checkbox
                 checked={selectedLanguage === LANGUAGE.PL}
                 onChange={() => changeLanguage(LANGUAGE.PL)}
@@ -49,4 +47,4 @@ const ProfileLanguage = () => {
     )
 }
 
-export default ProfileLanguage;
+export default ProfileLanguage

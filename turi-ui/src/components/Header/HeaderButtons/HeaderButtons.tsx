@@ -6,25 +6,25 @@ import HeaderDropDownWrapper from '../HeaderDropDown/HeaderDropDownWrapper'
 import styles from './HeaderButtons.module.css'
 
 interface Props {
-    text: string;
-    firstOnClick: () => void;
-    secondOnClick?: () => void;
+    text: string
+    firstOnClick: () => void
+    secondOnClick?: () => void
 }
 
 const HeaderButtons = ({ text, firstOnClick, secondOnClick }: Props) => {
-    const { t } = useTranslation();
-    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+    const { t } = useTranslation()
+    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
 
     return (
         <div className={styles.buttons}>
             <GreyButton
-                text={ text }
-                onClick={ firstOnClick }
+                text={text}
+                onClick={firstOnClick}
             />
             {!isAuthenticated ? (
                 <GreyButton
                     text={t('header.sign-up-button')}
-                    onClick={ secondOnClick }
+                    onClick={secondOnClick}
                 />
             ) : (
                 <HeaderDropDownWrapper />

@@ -9,7 +9,7 @@ import FooterCopyright from '../FooterCopyright'
 import styles from './GuestFooter.module.css'
 
 const GuestFooter = () => {
-    const { t } = useTranslation();
+    const { t } = useTranslation()
 
     return (
         <FooterLayout
@@ -19,26 +19,10 @@ const GuestFooter = () => {
                     <FooterContent
                         content={
                             <FooterModule
-                                title={
-                                    <TextExtraLight
-                                        text={t('footer.community')}
-                                    />
-                                }
-                                firstOption={
-                                    <TextRegular
-                                        text={t('footer.sign-in')}
-                                    />
-                                }
-                                secondOption={
-                                    <TextRegular
-                                        text={t('footer.sign-up')}
-                                    />
-                                }
-                                thirdOption={
-                                    <TextRegular
-                                        text={t('footer.premium')}
-                                    />
-                                }
+                                title={<TextExtraLight text={t('footer.community')} />}
+                                firstOption={<TextRegular text={t('footer.sign-in')} />}
+                                secondOption={<TextRegular text={t('footer.sign-up')} />}
+                                thirdOption={<TextRegular text={t('footer.premium')} />}
                             />
                         }
                     />
@@ -46,7 +30,7 @@ const GuestFooter = () => {
                 </div>
             }
         />
-    );
+    )
 }
 
-export default GuestFooter;
+export default GuestFooter

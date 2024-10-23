@@ -3,12 +3,12 @@ import HeaderDropDownItem from '../HeaderDropDownItem'
 import styles from './HeaderDropDownMenu.module.css'
 
 interface Props {
-    profileOnClick: () => void;
-    logoutOnClick: () => void;
+    profileOnClick: () => void
+    logoutOnClick: () => void
 }
 
 const HeaderDropDownMenu = ({ profileOnClick, logoutOnClick }: Props) => {
-    const { t } = useTranslation();
+    const { t } = useTranslation()
 
     return (
         <div className={styles.menu}>

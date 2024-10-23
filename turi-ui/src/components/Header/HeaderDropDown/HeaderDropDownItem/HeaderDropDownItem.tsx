@@ -2,8 +2,8 @@ import TextRegular from '../../../Controls/Text/TextRegular'
 import styles from './HeaderDropDownItem.module.css'
 
 interface Props {
-    onClick: () => void;
-    text: string;
+    onClick: () => void
+    text: string
 }
 
 const HeaderDropDownItem = ({ onClick, text }: Props) => {
@@ -12,9 +12,7 @@ const HeaderDropDownItem = ({ onClick, text }: Props) => {
             className={styles.item}
             onClick={onClick}
         >
-            <TextRegular
-                text={text}
-            />
+            <TextRegular text={text} />
         </div>
     )
 }

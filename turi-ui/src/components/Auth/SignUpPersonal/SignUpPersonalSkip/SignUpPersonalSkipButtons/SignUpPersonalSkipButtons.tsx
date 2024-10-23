@@ -1,14 +1,14 @@
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import {GreenButton } from '../../../../Controls/Button'
+import { GreenButton } from '../../../../Controls/Button'
 import styles from './SignUpPersonalSkipButtons.module.css'
 
 const SignUpPersonalSkipButtons = ({ onClick }: { onClick: () => void }) => {
-    const { t } = useTranslation();
-    const navigate = useNavigate();
+    const { t } = useTranslation()
+    const navigate = useNavigate()
 
     const navigateToHome = () => {
-        navigate('/');
+        navigate('/')
     }
 
     return (

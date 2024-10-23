@@ -16,7 +16,6 @@
     font-size: 0.95rem;
 }
 
-
 @media (max-width: 768px) {
     .button button {
         width: 7rem;

@@ -10,8 +10,8 @@ const STATES = {
 }
 
 const BrowserTypeButtons = () => {
-    const { t } = useTranslation();
-    const [selectedButton, setSelectedButton] = useState<string>(STATES.ALL);
+    const { t } = useTranslation()
+    const [selectedButton, setSelectedButton] = useState<string>(STATES.ALL)
 
     const handleButtonClick = (buttonType: string) => {
         setSelectedButton(buttonType)

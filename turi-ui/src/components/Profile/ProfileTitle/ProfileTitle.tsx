@@ -3,13 +3,11 @@ import TextMediumExtra from '../../Controls/Text/TextMediumExtra'
 import styles from './ProfileTitle.module.css'
 
 const ProfileTitle = () => {
-    const { t } = useTranslation();
+    const { t } = useTranslation()
 
     return (
         <div className={styles.title}>
-            <TextMediumExtra
-                text={t('profile.title')}
-            />
+            <TextMediumExtra text={t('profile.title')} />
         </div>
     )
 }

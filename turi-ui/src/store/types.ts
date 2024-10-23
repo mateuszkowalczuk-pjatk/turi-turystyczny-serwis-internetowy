@@ -1,1 +1,1 @@
-export const AUTH_SLICE = 'auth';
+export const AUTH_SLICE = 'auth'

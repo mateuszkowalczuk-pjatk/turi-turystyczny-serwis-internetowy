@@ -1,11 +1,11 @@
 import { useTranslation } from 'react-i18next'
 import { GreenButton } from '../../Controls/Button'
 import styles from './NotFoundButton.module.css'
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const NotFoundButton = () => {
-    const { t } = useTranslation();
-    const navigate = useNavigate();
+    const { t } = useTranslation()
+    const navigate = useNavigate()
 
     const navigateToHome = () => {
         navigate('/')

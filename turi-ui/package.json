@@ -6,10 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
-    "lint:fix": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix",
-    "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,css,md}' && npm run remove-final-newline",
-    "remove-final-newline": "find src -name '*.tsx' -exec sed -i '' -e '$ s/[[:space:]]*$//' {} +"
+    "lint": "eslint 'src/**/*.{ts,tsx}'",
+    "lint:fix": "eslint 'src/**/*.{ts,tsx}' --fix",
+    "format": "prettier --write 'src/**/*.{ts,tsx,css}'"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.8",

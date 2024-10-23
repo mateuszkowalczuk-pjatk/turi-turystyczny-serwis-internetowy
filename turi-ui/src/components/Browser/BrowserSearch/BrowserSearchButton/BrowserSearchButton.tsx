@@ -3,13 +3,11 @@ import { GreenButton } from '../../../Controls/Button'
 import styles from './BrowserSearchButton.module.css'
 
 const BrowserSearchButton = () => {
-    const { t } = useTranslation();
+    const { t } = useTranslation()
 
     return (
         <div className={styles.button}>
-            <GreenButton
-                text={t('home.dashboard.search-button')}
-            />
+            <GreenButton text={t('home.dashboard.search-button')} />
         </div>
     )
 }

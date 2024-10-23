@@ -5,7 +5,7 @@ import TextRegular from '../../Controls/Text/TextRegular'
 import HeaderButtons from '../HeaderButtons'
 
 const UserHeader = () => {
-    const { t } = useTranslation();
+    const { t } = useTranslation()
 
     const navigateToReservations = () => {
         console.log('Reservations')

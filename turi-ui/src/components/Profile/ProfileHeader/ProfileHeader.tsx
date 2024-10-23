@@ -4,9 +4,9 @@ import TextRegular from '../../Controls/Text/TextRegular'
 import styles from './ProfileHeader.module.css'
 
 const ProfileHeader = () => {
-    const { t } = useTranslation();
-    const navigate = useNavigate();
-    const location = useLocation();
+    const { t } = useTranslation()
+    const navigate = useNavigate()
+    const location = useLocation()
 
     const handleNavigation = (path: string) => {
         navigate(path)

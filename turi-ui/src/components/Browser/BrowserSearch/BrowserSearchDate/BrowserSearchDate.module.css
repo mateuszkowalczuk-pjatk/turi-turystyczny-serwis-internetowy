@@ -8,7 +8,9 @@
     color: var(--grey);
     border-radius: 0.3rem;
     cursor: pointer;
-    transition: font-size 0.1s, background-color 0.3s;
+    transition:
+        font-size 0.1s,
+        background-color 0.3s;
 }
 
 .date:hover {

@@ -7,9 +7,7 @@ const ProfileContent = ({ content }: { content: ReactNode }) => {
     return (
         <div className={styles.content}>
             <ProfileTitle />
-            <ProfilePanel
-                content={content}
-            />
+            <ProfilePanel content={content} />
         </div>
     )
 }

@@ -4,9 +4,7 @@ import styles from './InformationReservation.module.css'
 const InformationReservation = () => {
     return (
         <div className={styles.reservation}>
-            <TextRegular
-                text={'Nie posiadasz aktualnie rezerwacji'}
-            />
+            <TextRegular text={'Nie posiadasz aktualnie rezerwacji'} />
         </div>
     )
 }

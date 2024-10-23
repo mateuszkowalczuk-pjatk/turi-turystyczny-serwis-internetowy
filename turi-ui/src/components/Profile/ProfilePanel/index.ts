@@ -1,1 +1,1 @@
-export { default } from './ProfilePanel';
+export { default } from './ProfilePanel'

@@ -4,16 +4,12 @@ import TextExtraLight from '../../Controls/Text/TextExtraLight'
 import styles from './DashboardBanner.module.css'
 
 const DashboardBanner = () => {
-    const { t } = useTranslation();
+    const { t } = useTranslation()
 
     return (
         <div className={styles.banner}>
-            <TextMediumExtra
-                text={t('home.dashboard.header-text')}
-            />
-            <TextExtraLight
-                text={t('home.dashboard.text')}
-            />
+            <TextMediumExtra text={t('home.dashboard.header-text')} />
+            <TextExtraLight text={t('home.dashboard.text')} />
         </div>
     )
 }

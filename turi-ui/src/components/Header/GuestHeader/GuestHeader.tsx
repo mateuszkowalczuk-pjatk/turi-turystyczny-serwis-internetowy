@@ -4,8 +4,8 @@ import HeaderLayout from '../HeaderLayout'
 import HeaderButtons from '../HeaderButtons'
 
 const GuestHeader = () => {
-    const { t } = useTranslation();
-    const navigate = useNavigate();
+    const { t } = useTranslation()
+    const navigate = useNavigate()
 
     const navigateToLogin = () => {
         navigate('/login')

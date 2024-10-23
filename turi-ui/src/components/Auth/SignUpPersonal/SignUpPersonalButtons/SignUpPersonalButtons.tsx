@@ -4,8 +4,8 @@ import { GreenButton } from '../../../Controls/Button'
 import styles from './SignUpPersonalButtons.module.css'
 
 const SignUpPersonalButtons = ({ skipOnClick }: { skipOnClick: () => void }) => {
-    const { t } = useTranslation();
-    const navigate = useNavigate();
+    const { t } = useTranslation()
+    const navigate = useNavigate()
 
     const navigateToHome = () => {
         navigate('/')

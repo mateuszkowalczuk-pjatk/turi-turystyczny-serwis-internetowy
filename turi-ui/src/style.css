@@ -1,9 +1,9 @@
 :root {
-    --white: #FFF9F7;
-    --grey: #E8E8E8;
-    --light-green: #117E1D;
-    --green: #0D5514;
-    --dark-green: #09390E;
+    --white: #fff9f7;
+    --grey: #e8e8e8;
+    --light-green: #117e1d;
+    --green: #0d5514;
+    --dark-green: #09390e;
     --dark: #031500;
 }
 
@@ -41,7 +41,8 @@
     box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
     width: 100vw;
     min-width: 320px;
     overflow-x: hidden;

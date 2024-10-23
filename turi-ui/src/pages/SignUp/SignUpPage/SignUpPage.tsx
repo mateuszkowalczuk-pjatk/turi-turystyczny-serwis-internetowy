@@ -1,9 +1,7 @@
 import SignUpPanel from '../../../components/Auth/SignUpPanel'
 
 const SignUpPage = () => {
-    return (
-        <SignUpPanel />
-    )
+    return <SignUpPanel />
 }
 
 export default SignUpPage

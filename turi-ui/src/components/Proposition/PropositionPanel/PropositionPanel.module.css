@@ -14,7 +14,9 @@
     cursor: pointer;
     overflow: hidden;
     border-radius: 0.4rem;
-    transition: font-size 0.1s, background-color 0.3s;
+    transition:
+        font-size 0.1s,
+        background-color 0.3s;
 }
 
 .panel:hover {

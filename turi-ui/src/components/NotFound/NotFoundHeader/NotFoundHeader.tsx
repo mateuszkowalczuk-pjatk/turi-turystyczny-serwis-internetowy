@@ -3,13 +3,11 @@ import TextMediumExtra from '../../Controls/Text/TextMediumExtra'
 import styles from './NotFoundHeader.module.css'
 
 const NotFoundHeader = () => {
-    const { t } = useTranslation();
+    const { t } = useTranslation()
 
     return (
         <div className={styles.header}>
-            <TextMediumExtra
-                text={t('not-found.404')}
-            />
+            <TextMediumExtra text={t('not-found.404')} />
         </div>
     )
 }

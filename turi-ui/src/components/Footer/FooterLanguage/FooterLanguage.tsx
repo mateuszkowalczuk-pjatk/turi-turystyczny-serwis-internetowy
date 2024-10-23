@@ -4,22 +4,23 @@ import styles from './FooterLanguage.module.css'
 
 const LANGUAGE = {
     PL: 'pl',
-    EN: 'en',
+    EN: 'en'
 }
 
 const LABEL = {
     PL: 'Polski',
     EN: 'English (UK)',
     DIVIDE: ' | ',
-    ENTER: "Enter"
+    ENTER: 'Enter'
 }
 
 const FooterLanguage = () => {
-    const { i18n } = useTranslation();
+    const { i18n } = useTranslation()
 
     const changeLanguage = (language: string) => {
-        i18n.changeLanguage(language)
-            .catch(error => { console.error(error) })
+        i18n.changeLanguage(language).catch((error) => {
+            console.error(error)
+        })
     }
 
     return (
@@ -31,11 +32,9 @@ const FooterLanguage = () => {
                 onClick={() => changeLanguage(LANGUAGE.PL)}
                 onKeyDown={(e) => e.key === LABEL.ENTER && changeLanguage(LANGUAGE.PL)}
             >
-                { LABEL.PL }
+                {LABEL.PL}
             </span>
-            <TextRegular
-                text={ LABEL.DIVIDE }
-            />
+            <TextRegular text={LABEL.DIVIDE} />
             <span
                 role="button"
                 tabIndex={0}
@@ -43,7 +42,7 @@ const FooterLanguage = () => {
                 onClick={() => changeLanguage(LANGUAGE.EN)}
                 onKeyDown={(e) => e.key === LABEL.ENTER && changeLanguage(LANGUAGE.EN)}
             >
-                { LABEL.EN }
+                {LABEL.EN}
             </span>
         </div>
     )

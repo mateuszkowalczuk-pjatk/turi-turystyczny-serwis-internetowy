@@ -3,7 +3,9 @@
     justify-content: center;
     align-items: center;
     border-radius: 0.3rem;
-    transition: font-size 0.1s, background-color 0.3s;
+    transition:
+        font-size 0.1s,
+        background-color 0.3s;
     cursor: pointer;
 }
 

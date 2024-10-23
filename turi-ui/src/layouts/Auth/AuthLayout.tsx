@@ -8,9 +8,7 @@ const AuthLayout = () => {
     return (
         <div className={styles.layout}>
             <AuthHeader />
-            <AuthContent
-                content={ <Outlet /> }
-            />
+            <AuthContent content={<Outlet />} />
             <AuthFooter />
         </div>
     )

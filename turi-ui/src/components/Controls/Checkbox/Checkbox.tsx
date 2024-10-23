@@ -2,9 +2,9 @@ import TextRegular from '../Text/TextRegular'
 import styles from './Checkbox.module.css'
 
 interface Props {
-    checked: boolean;
-    onChange: () => void;
-    text: string;
+    checked: boolean
+    onChange: () => void
+    text: string
 }
 
 const Checkbox = ({ checked, onChange, text }: Props) => {
@@ -16,9 +16,7 @@ const Checkbox = ({ checked, onChange, text }: Props) => {
                 type="checkbox"
             />
             <span className={styles.custom}></span>
-            <TextRegular
-                text={text}
-            />
+            <TextRegular text={text} />
         </label>
     )
 }

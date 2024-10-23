@@ -3,13 +3,11 @@ import TextRegular from '../../Controls/Text/TextRegular'
 import styles from './NotFoundDescription.module.css'
 
 const NotFoundDescription = () => {
-    const { t } = useTranslation();
+    const { t } = useTranslation()
 
     return (
         <div className={styles.description}>
-            <TextRegular
-                text={t('not-found.description')}
-            />
+            <TextRegular text={t('not-found.description')} />
         </div>
     )
 }

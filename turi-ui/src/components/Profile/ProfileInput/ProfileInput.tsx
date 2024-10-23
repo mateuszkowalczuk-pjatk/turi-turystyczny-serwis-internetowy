@@ -1,12 +1,10 @@
 import styles from './ProfileInput.module.css'
-import Input from "../../Controls/Input";
+import Input from '../../Controls/Input'
 
 const ProfileInput = ({ text }: { text: string }) => {
     return (
         <div className={styles.input}>
-            <Input
-                placeholder={text}
-            />
+            <Input placeholder={text} />
         </div>
     )
 }

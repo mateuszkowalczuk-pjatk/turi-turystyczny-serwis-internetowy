@@ -8,8 +8,8 @@ import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
 
 const LoginPasswordResetPage = () => {
-    const { t } = useTranslation();
-    const navigate = useNavigate();
+    const { t } = useTranslation()
+    const navigate = useNavigate()
 
     const resetPassword = () => {
         navigate('/login')
@@ -21,30 +21,16 @@ const LoginPasswordResetPage = () => {
 
     return (
         <AuthPanel
-            header={
-                <AuthTitle
-                    text={t('login-reset.title')}
-                />
-            }
-            option={
-                <AuthInput
-                    text={t('login-reset.password')}
-                />
-            }
-            input={
-                <AuthInput
-                    text={t('login-reset.re-password')}
-                />
-            }
+            header={<AuthTitle text={t('login-reset.title')} />}
+            option={<AuthInput text={t('login-reset.password')} />}
+            input={<AuthInput text={t('login-reset.re-password')} />}
             button={
                 <AuthButton
                     text={t('login-reset.button')}
                     onClick={resetPassword}
                 />
             }
-            top={
-                <AuthTopLink />
-            }
+            top={<AuthTopLink />}
             down={
                 <AuthDownLink
                     firstLink={t('login-reset.down')}

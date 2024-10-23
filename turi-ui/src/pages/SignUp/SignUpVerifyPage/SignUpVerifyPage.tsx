@@ -9,11 +9,11 @@ import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
 
 const SignUpVerifyPage = () => {
-    const { t } = useTranslation();
-    const navigate = useNavigate();
+    const { t } = useTranslation()
+    const navigate = useNavigate()
 
     const navigateToPersonal = () => {
-        navigate('/signup/personal');
+        navigate('/signup/personal')
     }
 
     const sendVerifyCodeAgain = () => {
@@ -21,26 +21,14 @@ const SignUpVerifyPage = () => {
     }
 
     const navigateToSignUp = () => {
-        navigate('/signup');
+        navigate('/signup')
     }
 
     return (
         <AuthPanel
-            header={
-                <AuthTitle
-                    text={t('signup-verify.title')}
-                />
-            }
-            option={
-                <AuthDescription
-                    text={t('signup-verify.description')}
-                />
-            }
-            input={
-                <AuthInput
-                    text={t('signup-verify.code')}
-                />
-            }
+            header={<AuthTitle text={t('signup-verify.title')} />}
+            option={<AuthDescription text={t('signup-verify.description')} />}
+            input={<AuthInput text={t('signup-verify.code')} />}
             button={
                 <AuthButton
                     text={t('signup-verify.button')}

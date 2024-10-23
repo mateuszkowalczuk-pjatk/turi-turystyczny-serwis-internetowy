@@ -5,27 +5,15 @@ import InformationTitle from '../InformationTitle'
 import InformationText from '../InformationText'
 
 const GuestInformation = () => {
-    const { t } = useTranslation();
+    const { t } = useTranslation()
 
     return (
         <InformationPanel
             content={
                 <InformationContent
-                    title={
-                        <InformationTitle
-                            text={t('home.information.header-text')}
-                        />
-                    }
-                    content={
-                        <InformationText
-                            text={t('home.information.sign-up-text')}
-                        />
-                    }
-                    option={
-                        <InformationText
-                            text={t('home.information.premium-account-text')}
-                        />
-                    }
+                    title={<InformationTitle text={t('home.information.header-text')} />}
+                    content={<InformationText text={t('home.information.sign-up-text')} />}
+                    option={<InformationText text={t('home.information.premium-account-text')} />}
                 />
             }
         />

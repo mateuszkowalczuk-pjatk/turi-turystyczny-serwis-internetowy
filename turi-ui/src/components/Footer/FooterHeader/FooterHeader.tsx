@@ -3,15 +3,13 @@ import TextExtraLight from '../../Controls/Text/TextExtraLight'
 import styles from './FooterHeader.module.css'
 
 const FooterHeader = () => {
-    const { t } = useTranslation();
+    const { t } = useTranslation()
 
     return (
         <div className={styles.header}>
-            <TextExtraLight
-                text={t('footer.header')}
-            />
+            <TextExtraLight text={t('footer.header')} />
         </div>
     )
 }
 
-export default FooterHeader;
+export default FooterHeader

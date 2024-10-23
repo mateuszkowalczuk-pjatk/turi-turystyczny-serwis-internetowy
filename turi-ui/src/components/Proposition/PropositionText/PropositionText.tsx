@@ -4,9 +4,7 @@ import styles from './PropositionText.module.css'
 const PropositionText = ({ text }: { text: string }) => {
     return (
         <div className={styles.text}>
-            <TextMedium
-                text={ text }
-            />
+            <TextMedium text={text} />
         </div>
     )
 }

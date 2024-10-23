@@ -2,15 +2,15 @@ import { ReactNode } from 'react'
 import styles from './PropositionContent.module.css'
 
 interface Props {
-    title: ReactNode;
-    panels: ReactNode;
+    title: ReactNode
+    panels: ReactNode
 }
 
-const PropositionContent = ({ title, panels}: Props) => {
+const PropositionContent = ({ title, panels }: Props) => {
     return (
         <div className={styles.content}>
-            { title }
-            { panels }
+            {title}
+            {panels}
         </div>
     )
 }

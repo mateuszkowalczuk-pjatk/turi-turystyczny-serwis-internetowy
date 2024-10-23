@@ -4,9 +4,7 @@ import styles from './PersonalLabel.module.css'
 const PersonalLabel = ({ text }: { text: string }) => {
     return (
         <div className={styles.label}>
-            <TextRegular
-                text={ text }
-            />
+            <TextRegular text={text} />
         </div>
     )
 }

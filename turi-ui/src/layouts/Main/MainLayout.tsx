@@ -7,15 +7,14 @@ import UserFooter from '../../components/Footer/UserFooter'
 import GuestFooter from '../../components/Footer/GuestFooter'
 import styles from '../Layout.module.css'
 
-
 const MainLayout = () => {
-    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
 
     return (
         <div className={styles.layout}>
-            {isAuthenticated ? ( <UserHeader /> ) : ( <GuestHeader /> )}
+            {isAuthenticated ? <UserHeader /> : <GuestHeader />}
             <Outlet />
-            {isAuthenticated ? ( <UserFooter /> ) : ( <GuestFooter /> )}
+            {isAuthenticated ? <UserFooter /> : <GuestFooter />}
         </div>
     )
 }

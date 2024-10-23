@@ -8,12 +8,12 @@
 
 .header p {
     font-size: 9rem;
-    color: var(--light-green)
+    color: var(--light-green);
 }
 
 @media (max-width: 480px) {
     .header p {
         font-size: 6em;
-        color: var(--light-green)
+        color: var(--light-green);
     }
 }

@@ -3,11 +3,11 @@ import authReducer from './slices/auth.ts'
 
 const store = configureStore({
     reducer: {
-        auth: authReducer,
-    },
-});
+        auth: authReducer
+    }
+})
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
 
-export default store;
+export default store

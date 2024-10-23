@@ -6,9 +6,9 @@ import HeaderDropDownMenu from '../HeaderDropDownMenu'
 import styles from './HeaderDropDownWrapper.module.css'
 
 const HeaderDropDownWrapper = () => {
-    const { t } = useTranslation();
-    const navigate = useNavigate();
-    const [ isVisible, setIsVisible ] = useState(false);
+    const { t } = useTranslation()
+    const navigate = useNavigate()
+    const [isVisible, setIsVisible] = useState(false)
 
     const setDropdown = () => {
         setIsVisible(!isVisible)
@@ -28,7 +28,7 @@ const HeaderDropDownWrapper = () => {
                 text={t('header.name')}
                 onClick={setDropdown}
             />
-            { isVisible && (
+            {isVisible && (
                 <HeaderDropDownMenu
                     profileOnClick={handleProfileClick}
                     logoutOnClick={handleLogoutClick}

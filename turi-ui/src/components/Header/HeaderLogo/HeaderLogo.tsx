@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import styles from './HeaderLogo.module.css'
 
 const HeaderLogo = () => {
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
     const navigateToHome = () => {
         navigate('/')

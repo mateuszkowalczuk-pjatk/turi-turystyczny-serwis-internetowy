@@ -4,9 +4,7 @@ import styles from './AuthInput.module.css'
 const AuthInput = ({ text }: { text: string }) => {
     return (
         <div className={styles.input}>
-            <Input
-                placeholder={ text }
-            />
+            <Input placeholder={text} />
         </div>
     )
 }

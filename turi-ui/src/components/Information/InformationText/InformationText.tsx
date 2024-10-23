@@ -4,9 +4,7 @@ import styles from './InformationText.module.css'
 const InformationText = ({ text }: { text: string }) => {
     return (
         <div className={styles.text}>
-            <TextRegular
-                text={ text }
-            />
+            <TextRegular text={text} />
         </div>
     )
 }

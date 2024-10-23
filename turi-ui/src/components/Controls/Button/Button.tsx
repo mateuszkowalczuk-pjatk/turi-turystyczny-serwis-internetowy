@@ -1,9 +1,9 @@
 import styles from './Button.module.css'
 
 interface Props {
-    text: string;
-    onClick?: () => void;
-    className?: string;
+    text: string
+    onClick?: () => void
+    className?: string
 }
 
 export const GreyButton = ({ text, onClick, className }: Props) => {
@@ -12,7 +12,7 @@ export const GreyButton = ({ text, onClick, className }: Props) => {
             className={`${styles.button} ${styles.greyButton} ${className ? className : ''}`}
             onClick={onClick}
         >
-            { text }
+            {text}
         </button>
     )
 }
@@ -23,7 +23,7 @@ export const GreenButton = ({ text, onClick }: Props) => {
             className={`${styles.button} ${styles.greenButton}`}
             onClick={onClick}
         >
-            { text }
+            {text}
         </button>
     )
 }

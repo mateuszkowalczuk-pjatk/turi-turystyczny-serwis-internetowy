@@ -1,9 +1,9 @@
 import styles from './TextRegular.module.css'
 
 interface Props {
-    text: string;
-    className?: string;
-    onClick?: () => void;
+    text: string
+    className?: string
+    onClick?: () => void
 }
 
 const TextRegular = ({ text, className, onClick }: Props) => {

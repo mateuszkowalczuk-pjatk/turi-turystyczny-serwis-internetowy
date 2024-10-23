@@ -9,43 +9,29 @@ import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
 
 const LoginPasswordCheckPage = () => {
-    const { t } = useTranslation();
-    const navigate = useNavigate();
+    const { t } = useTranslation()
+    const navigate = useNavigate()
 
-    const navigateToCode  = () => {
+    const navigateToCode = () => {
         navigate('/login/code')
     }
 
-    const navigateToLogin  = () => {
+    const navigateToLogin = () => {
         navigate('/login')
     }
 
     return (
         <AuthPanel
-            header={
-                <AuthTitle
-                    text={t('login-check.title')}
-                />
-            }
-            option={
-                <AuthDescription
-                    text={t('login-check.description')}
-                />
-            }
-            input={
-                <AuthInput
-                    text={t('login-check.email')}
-                />
-            }
+            header={<AuthTitle text={t('login-check.title')} />}
+            option={<AuthDescription text={t('login-check.description')} />}
+            input={<AuthInput text={t('login-check.email')} />}
             button={
                 <AuthButton
                     text={t('login-check.button')}
                     onClick={navigateToCode}
                 />
             }
-            top={
-                <AuthTopLink />
-            }
+            top={<AuthTopLink />}
             down={
                 <AuthDownLink
                     firstLink={t('login-check.down')}

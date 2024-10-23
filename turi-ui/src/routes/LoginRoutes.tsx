@@ -9,15 +9,33 @@ import NotFoundPage from '../pages/NotFound'
 const LoginRoutes = () => {
     return (
         <Routes>
-            <Route path="/" element={<AuthLayout />}>
-                <Route index element={<LoginPage />} />
-                <Route path="/check" element={<LoginPasswordCheckPage />} />
-                <Route path="/code" element={<LoginPasswordCodePage />} />
-                <Route path="/reset" element={<LoginPasswordResetPage />} />
+            <Route
+                path="/"
+                element={<AuthLayout />}
+            >
+                <Route
+                    index
+                    element={<LoginPage />}
+                />
+                <Route
+                    path="/check"
+                    element={<LoginPasswordCheckPage />}
+                />
+                <Route
+                    path="/code"
+                    element={<LoginPasswordCodePage />}
+                />
+                <Route
+                    path="/reset"
+                    element={<LoginPasswordResetPage />}
+                />
             </Route>
-            <Route path="*" element={<NotFoundPage />} />
+            <Route
+                path="*"
+                element={<NotFoundPage />}
+            />
         </Routes>
     )
 }
 
-export default LoginRoutes;
+export default LoginRoutes

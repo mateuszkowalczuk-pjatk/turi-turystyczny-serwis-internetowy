@@ -1,1 +1,1 @@
-export { default } from "./ProfileFooter";
+export { default } from './ProfileFooter'

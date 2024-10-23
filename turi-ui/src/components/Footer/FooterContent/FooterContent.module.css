@@ -6,7 +6,6 @@
     height: 11rem;
 }
 
-
 @media (max-width: 1180px) {
     .content p {
         font-size: 0.8rem;
@@ -31,6 +30,5 @@
         gap: 0.5rem;
         height: 31rem;
         width: 90%;
-
     }
 }

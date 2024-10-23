@@ -9,8 +9,8 @@ import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
 
 const LoginPasswordCodePage = () => {
-    const { t } = useTranslation();
-    const navigate = useNavigate();
+    const { t } = useTranslation()
+    const navigate = useNavigate()
 
     const navigateToReset = () => {
         navigate('/login/reset')
@@ -26,21 +26,9 @@ const LoginPasswordCodePage = () => {
 
     return (
         <AuthPanel
-            header={
-                <AuthTitle
-                    text={t('login-code.title')}
-                />
-            }
-            option={
-                <AuthDescription
-                    text={t('login-code.description')}
-                />
-            }
-            input={
-                <AuthInput
-                    text={t('login-code.code')}
-                />
-            }
+            header={<AuthTitle text={t('login-code.title')} />}
+            option={<AuthDescription text={t('login-code.description')} />}
+            input={<AuthInput text={t('login-code.code')} />}
             button={
                 <AuthButton
                     text={t('login-code.button')}

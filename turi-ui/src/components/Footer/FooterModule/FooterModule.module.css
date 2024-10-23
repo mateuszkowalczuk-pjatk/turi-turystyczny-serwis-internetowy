@@ -8,7 +8,6 @@
     color: var(--dark);
 }
 
-
 @media (max-width: 480px) {
     .module {
         width: 50%;

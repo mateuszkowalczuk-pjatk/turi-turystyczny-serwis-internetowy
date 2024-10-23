@@ -7,12 +7,12 @@ import HomeProposition from '../../components/Proposition/HomeProposition'
 import styles from '../Page.module.css'
 
 const HomePage = () => {
-    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
 
     return (
         <div className={styles.page}>
             <HomeDashboard />
-            { isAuthenticated ? ( <UserInformation /> ) : ( <GuestInformation /> ) }
+            {isAuthenticated ? <UserInformation /> : <GuestInformation />}
             <HomeProposition />
         </div>
     )

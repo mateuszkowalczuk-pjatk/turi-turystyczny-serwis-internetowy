@@ -8,8 +8,8 @@ import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
 
 const LoginPage = () => {
-    const { t } = useTranslation();
-    const navigate = useNavigate();
+    const { t } = useTranslation()
+    const navigate = useNavigate()
 
     const navigateToHome = () => {
         navigate('/')
@@ -29,21 +29,9 @@ const LoginPage = () => {
 
     return (
         <AuthPanel
-            header={
-                <AuthTitle
-                    text={t('login.title')}
-                />
-            }
-            option={
-                <AuthInput
-                    text={t('login.login')}
-                />
-            }
-            input={
-                <AuthInput
-                    text={t('login.password')}
-                />
-            }
+            header={<AuthTitle text={t('login.title')} />}
+            option={<AuthInput text={t('login.login')} />}
+            input={<AuthInput text={t('login.password')} />}
             button={
                 <AuthButton
                     text={t('login.button')}

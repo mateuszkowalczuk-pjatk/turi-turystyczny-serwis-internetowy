@@ -8,8 +8,8 @@ import AuthDownLink from '../AuthDownLink'
 import styles from './SignUpPanel.module.css'
 
 const SignUpPanel = () => {
-    const { t } = useTranslation();
-    const navigate = useNavigate();
+    const { t } = useTranslation()
+    const navigate = useNavigate()
 
     const navigateToVerify = () => {
         navigate('/signup/verify')
@@ -21,21 +21,11 @@ const SignUpPanel = () => {
 
     return (
         <div className={styles.panel}>
-            <AuthTitle
-                text={t('signup.title')}
-            />
-            <AuthInput
-                text={t('signup.login')}
-            />
-            <AuthInput
-                text={t('signup.email')}
-            />
-            <AuthInput
-                text={t('signup.password')}
-            />
-            <AuthInput
-                text={t('signup.re-password')}
-            />
+            <AuthTitle text={t('signup.title')} />
+            <AuthInput text={t('signup.login')} />
+            <AuthInput text={t('signup.email')} />
+            <AuthInput text={t('signup.password')} />
+            <AuthInput text={t('signup.re-password')} />
             <AuthButton
                 text={t('signup.button')}
                 onClick={navigateToVerify}

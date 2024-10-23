@@ -5,14 +5,12 @@ import FooterCopyright from '../FooterCopyright'
 import styles from './AuthFooter.module.css'
 
 const AuthFooter = () => {
-    const { t } = useTranslation();
+    const { t } = useTranslation()
 
     return (
         <div className={styles.footer}>
             <FooterLanguage />
-            <TextRegular
-                text={t('footer.description')}
-            />
+            <TextRegular text={t('footer.description')} />
             <FooterCopyright />
         </div>
     )

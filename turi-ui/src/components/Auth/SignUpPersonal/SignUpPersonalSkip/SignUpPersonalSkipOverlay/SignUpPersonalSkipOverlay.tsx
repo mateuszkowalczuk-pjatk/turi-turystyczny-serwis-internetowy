@@ -4,9 +4,7 @@ import styles from './SignUpPersonalSkipOverlay.module.css'
 const SignUpPersonalSkipOverlay = ({ onClick }: { onClick: () => void }) => {
     return (
         <div className={styles.overlay}>
-            <SignUpPersonalSkipContent
-                onClick={ onClick }
-            />
+            <SignUpPersonalSkipContent onClick={onClick} />
         </div>
     )
 }

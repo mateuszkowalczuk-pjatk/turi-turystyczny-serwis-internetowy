@@ -8,9 +8,7 @@ const ProfileLayout = () => {
     return (
         <div className={styles.layout}>
             <UserHeader />
-            <ProfileContent
-                content={ <Outlet /> }
-            />
+            <ProfileContent content={<Outlet />} />
             <ProfileFooter />
         </div>
     )

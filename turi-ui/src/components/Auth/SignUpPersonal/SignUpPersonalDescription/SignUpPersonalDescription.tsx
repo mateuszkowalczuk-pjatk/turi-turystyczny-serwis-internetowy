@@ -3,13 +3,11 @@ import TextRegular from '../../../Controls/Text/TextRegular'
 import styles from './SignUpPersonalDescription.module.css'
 
 const SignUpPersonalDescription = () => {
-    const { t } = useTranslation();
+    const { t } = useTranslation()
 
     return (
         <div className={styles.description}>
-            <TextRegular
-                text={t('signup-personal.description')}
-            />
+            <TextRegular text={t('signup-personal.description')} />
         </div>
     )
 }

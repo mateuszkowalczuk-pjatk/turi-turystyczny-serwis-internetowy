@@ -5,12 +5,12 @@ import styles from './PersonalGender.module.css'
 
 const GENDER = {
     MAN: 'man',
-    WOMAN: 'woman',
-};
+    WOMAN: 'woman'
+}
 
 const PersonalGender = () => {
-    const { t } = useTranslation();
-    const [selectedGender, setSelectedGender] = useState<string | null>(null);
+    const { t } = useTranslation()
+    const [selectedGender, setSelectedGender] = useState<string | null>(null)
 
     const handleGenderChange = (gender: string) => {
         setSelectedGender(gender)
@@ -29,7 +29,7 @@ const PersonalGender = () => {
                 text={t('signup-personal.man')}
             />
         </div>
-    );
+    )
 }
 
 export default PersonalGender

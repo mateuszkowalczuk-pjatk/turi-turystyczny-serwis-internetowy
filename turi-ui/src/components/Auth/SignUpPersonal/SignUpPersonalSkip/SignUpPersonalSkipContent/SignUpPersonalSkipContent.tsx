@@ -8,9 +8,7 @@ const SignUpPersonalSkipContent = ({ onClick }: { onClick: () => void }) => {
         <div className={styles.content}>
             <SignUpPersonalSkipTitle />
             <SignUpPersonalSkipDescription />
-            <SignUpPersonalSkipButtons
-                onClick={ onClick }
-            />
+            <SignUpPersonalSkipButtons onClick={onClick} />
         </div>
     )
 }

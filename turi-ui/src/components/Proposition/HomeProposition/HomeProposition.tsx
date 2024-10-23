@@ -5,16 +5,12 @@ import PropositionPanels from '../PropositionPanels'
 import styles from './HomeProposition.module.css'
 
 const HomeProposition = () => {
-    const { t } = useTranslation();
+    const { t } = useTranslation()
 
     return (
         <div className={styles.proposition}>
             <PropositionContent
-                title={
-                    <PropositionText
-                        text={t('home.proposition.stay')}
-                    />
-                }
+                title={<PropositionText text={t('home.proposition.stay')} />}
                 panels={
                     <PropositionPanels
                         firstText={t('home.proposition.hotels')}
@@ -33,11 +29,7 @@ const HomeProposition = () => {
                 }
             />
             <PropositionContent
-                title={
-                    <PropositionText
-                        text={t('home.proposition.attraction')}
-                    />
-                }
+                title={<PropositionText text={t('home.proposition.attraction')} />}
                 panels={
                     <PropositionPanels
                         firstText={t('home.proposition.kayaks')}

@@ -6,7 +6,7 @@
 }
 
 .title p {
-    color: var(--dark)
+    color: var(--dark);
 }
 
 @media (max-width: 480px) {

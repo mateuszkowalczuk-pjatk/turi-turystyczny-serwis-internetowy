@@ -3,8 +3,8 @@ import HeaderContent from '../HeaderContent'
 import styles from './HeaderLayout.module.css'
 
 interface Props {
-    links?: ReactNode;
-    buttons?: ReactNode;
+    links?: ReactNode
+    buttons?: ReactNode
 }
 
 const HeaderLayout = ({ links, buttons }: Props) => {
