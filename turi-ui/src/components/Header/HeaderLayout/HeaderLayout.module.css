@@ -1,29 +1,4 @@
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     width: 100%;
-    height: 5rem;
-    padding: 0 15vw;
     background: var(--light-green);
-}
-
-@media (max-width: 1024px) {
-    .header {
-        padding: 0 5vw;
-    }
-}
-
-@media (max-width: 768px) {
-    .header {
-        height: 4rem;
-        padding: 0 1vw;
-    }
-}
-
-@media (max-width: 480px) {
-    .header {
-        height: 5rem;
-        padding: 0 3vw;
-    }
 }

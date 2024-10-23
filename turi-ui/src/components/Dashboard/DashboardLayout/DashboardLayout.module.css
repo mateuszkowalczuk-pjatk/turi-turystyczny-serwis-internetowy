@@ -1,0 +1,8 @@
+.layout {
+    width: 100%;
+    background-color: #444444;
+    background-image: url('../../../assets/images/dashboard.jpg');
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: multiply;
+}

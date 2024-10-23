@@ -3,13 +3,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 70%;
+    width: 100%;
+    max-width: 1440px;
     height: 38rem;
     gap: 2rem;
-}
-
-@media (max-width: 768px) {
-    .proposition {
-        width: 90%;
-    }
+    margin: 0 auto;
 }

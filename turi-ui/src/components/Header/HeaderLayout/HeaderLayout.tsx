@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import HeaderLogo from '../HeaderLogo'
+import HeaderContent from '../HeaderContent'
 import styles from './HeaderLayout.module.css'
 
 interface Props {
@@ -10,9 +10,10 @@ interface Props {
 const HeaderLayout = ({ links, buttons }: Props) => {
     return (
         <div className={styles.header}>
-            <HeaderLogo />
-            { links }
-            { buttons }
+            <HeaderContent
+                links={links}
+                buttons={buttons}
+            />
         </div>
     )
 }

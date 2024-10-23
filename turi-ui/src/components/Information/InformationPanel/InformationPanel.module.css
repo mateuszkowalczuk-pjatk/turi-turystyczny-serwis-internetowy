@@ -2,13 +2,9 @@
     display: flex;
     justify-content: center;
     align-items: flex-end;
-    width: 70vw;
+    width: 100%;
+    max-width: 1440px;
     height: 12.5rem;
+    margin: 0 auto;
     background: var(--white);
-}
-
-@media (max-width: 768px) {
-    .panel {
-        width: 90vw;
-    }
 }
