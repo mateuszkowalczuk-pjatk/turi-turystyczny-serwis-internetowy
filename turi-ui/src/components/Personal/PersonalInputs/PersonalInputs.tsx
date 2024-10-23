@@ -7,6 +7,7 @@ const PersonalInputs = ({ inputs }: { inputs: ReactNode[] }) => {
         <div className={styles.inputs}>
             {inputs.map((input, index) => (
                 <PersonalItem
+                    key={index}
                     index={index}
                     input={input}
                 />

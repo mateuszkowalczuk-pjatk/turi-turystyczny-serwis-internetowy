@@ -9,7 +9,6 @@ interface Props {
 
 const Checkbox = ({ checked, onChange, text }: Props) => {
     return (
-        // eslint-disable-next-line jsx-a11y/label-has-associated-control
         <label className={styles.checkbox}>
             <input
                 checked={checked}
