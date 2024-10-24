@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { setCookie } from '../../../utils/cookie'
 import TextRegular from '../../Controls/Text/TextRegular'
 import styles from './FooterLanguage.module.css'
 
@@ -18,9 +19,13 @@ const FooterLanguage = () => {
     const { i18n } = useTranslation()
 
     const changeLanguage = (language: string) => {
-        i18n.changeLanguage(language).catch((error) => {
-            console.error(error)
-        })
+        i18n.changeLanguage(language)
+            .then(() => {
+                setCookie('language', language)
+            })
+            .catch((error) => {
+                console.error(error)
+            })
     }
 
     return (

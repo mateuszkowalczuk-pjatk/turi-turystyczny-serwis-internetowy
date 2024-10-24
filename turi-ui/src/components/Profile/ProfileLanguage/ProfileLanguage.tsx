@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { setCookie } from '../../../utils/cookie'
 import ProfileLabel from '../ProfileLabel'
 import Checkbox from '../../Controls/Checkbox'
 import styles from './ProfileLanguage.module.css'
@@ -24,6 +25,9 @@ const ProfileLanguage = () => {
 
     const changeLanguage = (language: string) => {
         i18n.changeLanguage(language)
+            .then(() => {
+                setCookie('language', language)
+            })
             .then(() => setSelectedLanguage(language))
             .catch((error) => {
                 console.error(error)
