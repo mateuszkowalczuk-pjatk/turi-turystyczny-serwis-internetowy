@@ -39,7 +39,7 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
     void testAccount_IsAddressExists()
     {
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/isAccountAddressExists")
+                .path("/account/isAddressExists")
                 .queryParam("country", "Polska")
                 .queryParam("city", "Warszawa")
                 .queryParam("zipCode", "01-000")
@@ -58,7 +58,7 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
     void testAccount_IsAddressExists_NotExists()
     {
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/isAccountAddressExists")
+                .path("/account/isAddressExists")
                 .queryParam("country", "Polska")
                 .queryParam("city", "Krakow")
                 .queryParam("zipCode", "02-000")
@@ -87,7 +87,7 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
         final var insertedAddress = addressFacade.createAddress(address);
 
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/isAccountAddressExists")
+                .path("/account/isAddressExists")
                 .queryParam("country", insertedAddress.getCountry())
                 .queryParam("city", insertedAddress.getCity())
                 .queryParam("zipCode", insertedAddress.getZipCode())
@@ -106,7 +106,7 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
     void testAccount_IsAddressExists_WithoutOptionalApartmentNumber()
     {
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/isAccountAddressExists")
+                .path("/account/isAddressExists")
                 .queryParam("country", "Polska")
                 .queryParam("city", "Krakow")
                 .queryParam("zipCode", "02-000")
@@ -124,7 +124,7 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
     void testAccount_IsPhoneNumberExists()
     {
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/isAccountPhoneNumberExists")
+                .path("/account/isPhoneNumberExists")
                 .queryParam("phoneNumber", "710212453")
                 .build().toUri();
 
@@ -138,7 +138,7 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
     void testAccount_IsPhoneNumberExists_NotExists()
     {
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/isAccountPhoneNumberExists")
+                .path("/account/isPhoneNumberExists")
                 .queryParam("phoneNumber", "927182948")
                 .build().toUri();
 
@@ -156,7 +156,7 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
         account.setFirstName(mockNewAccount().getFirstName());
 
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/updateAccount/{id}")
+                .path("/account/updateAccount/{id}")
                 .buildAndExpand(account.getAccountId())
                 .toUri();
 
@@ -183,7 +183,7 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
         account.setAccountId(mockNewAccount().getAccountId());
 
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/updateAccount/{accountId}")
+                .path("/account/updateAccount/{accountId}")
                 .buildAndExpand(account.getAccountId())
                 .toUri();
 
@@ -202,7 +202,7 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
         createdAccount.setAddressId(mockAccount().getAddressId());
 
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/updateAccount/{accountId}")
+                .path("/account/updateAccount/{accountId}")
                 .buildAndExpand(account.getAccountId())
                 .toUri();
 
@@ -221,7 +221,7 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
         createdAccount.setPhoneNumber(mockAccount().getPhoneNumber());
 
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/updateAccount/{accountId}")
+                .path("/account/updateAccount/{accountId}")
                 .buildAndExpand(account.getAccountId())
                 .toUri();
 

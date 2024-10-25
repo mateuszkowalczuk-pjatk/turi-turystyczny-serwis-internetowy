@@ -7,11 +7,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping("/account")
 public class AccountRestController
 {
     private final AccountFacade facade;
 
-    @GetMapping("/isAccountAddressExists")
+    @GetMapping("/isAddressExists")
     public ResponseEntity<Boolean> isAddressExists(@RequestParam final String country,
                                                    @RequestParam final String city,
                                                    @RequestParam final String zipCode,
@@ -22,7 +23,7 @@ public class AccountRestController
         return ResponseEntity.ok(facade.isAddressExists(country, city, zipCode, street, buildingNumber, apartmentNumber));
     }
 
-    @GetMapping("/isAccountPhoneNumberExists")
+    @GetMapping("/isPhoneNumberExists")
     public ResponseEntity<Boolean> isPhoneNumberExists(@RequestParam final String phoneNumber)
     {
         return ResponseEntity.ok(facade.isPhoneNumberExists(phoneNumber));

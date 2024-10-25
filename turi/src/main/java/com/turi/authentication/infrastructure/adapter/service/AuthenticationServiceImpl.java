@@ -47,6 +47,8 @@ public class AuthenticationServiceImpl implements AuthenticationService
                 .build();
 
         return accountFacade.createAccount(account);
+
+        //ToDo - po pomyślnym zarejestrowaniu konta, autoryzacja i zwrócenie tokenów
     }
 
     @Override
@@ -71,5 +73,7 @@ public class AuthenticationServiceImpl implements AuthenticationService
         {
             throw new InvalidPasswordForLoginException(params.getLogin());
         }
+
+        //ToDo - rozszerzenie o zwracanie refresh tokena
     }
 }

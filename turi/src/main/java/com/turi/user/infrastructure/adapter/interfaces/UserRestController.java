@@ -7,37 +7,38 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping("/user")
 public class UserRestController
 {
     private final UserFacade facade;
 
-    @GetMapping("/isUserUsernameExists")
+    @GetMapping("/isUsernameExists")
     public ResponseEntity<Boolean> isUsernameExists(@RequestParam final String username)
     {
         return ResponseEntity.ok(facade.isUsernameExists(username));
     }
 
-    @GetMapping("/isUserEmailExists")
+    @GetMapping("/isEmailExists")
     public ResponseEntity<Boolean> isEmailExists(@RequestParam final String email)
     {
         return ResponseEntity.ok(facade.isEmailExists(email));
     }
 
-    @PutMapping("/changeUserUsername/{userId}")
+    @PutMapping("/changeUsername/{userId}")
     public ResponseEntity<User> changeUsername(@PathVariable final Long userId,
                                                @RequestParam final String username)
     {
         return ResponseEntity.ok(facade.changeUsername(userId, username));
     }
 
-    @PutMapping("/changeUserEmail/{userId}")
+    @PutMapping("/changeEmail/{userId}")
     public ResponseEntity<User> changeEmail(@PathVariable final Long userId,
                                             @RequestParam final String email)
     {
         return ResponseEntity.ok(facade.changeEmail(userId, email));
     }
 
-    @PutMapping("/changeUserPassword/{userId}")
+    @PutMapping("/changePassword/{userId}")
     public ResponseEntity<User> changePassword(@PathVariable final Long userId,
                                                @RequestParam final String password)
     {

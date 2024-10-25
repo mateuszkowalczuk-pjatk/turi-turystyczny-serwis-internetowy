@@ -42,7 +42,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
         final var params = mockRegistration();
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/signUp")
+                .path("/auth/register")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, params, Account.class);
@@ -68,7 +68,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
         params.setUsername(null);
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/signUp")
+                .path("/auth/register")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, params, Account.class);
@@ -84,7 +84,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
         params.setEmail(null);
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/signUp")
+                .path("/auth/register")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, params, Account.class);
@@ -100,7 +100,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
         params.setPassword(null);
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/signUp")
+                .path("/auth/register")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, params, Account.class);
@@ -116,7 +116,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
         params.setUsername(mockUser().getUsername());
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/signUp")
+                .path("/auth/register")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, params, Account.class);
@@ -132,7 +132,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
         params.setEmail(mockUser().getEmail());
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/signUp")
+                .path("/auth/register")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, params, Account.class);
@@ -149,7 +149,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
         params.setPassword(password);
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/signUp")
+                .path("/auth/register")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, params, Account.class);
@@ -163,7 +163,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
         final var params = mockRegistration();
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/signUp")
+                .path("/auth/register")
                 .build().toUri();
 
         restTemplate.postForEntity(uri, params, Account.class);
@@ -174,7 +174,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
                 .build();
 
         final var authenticateUri = fromHttpUrl(getBaseUrl())
-                .path("/signIn")
+                .path("/auth/login")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(authenticateUri, authenticationParams, Authentication.class);
@@ -204,7 +204,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
                 .build();
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/signIn")
+                .path("/auth/login")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, authenticationParams, ErrorCode.class);
@@ -218,7 +218,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
         final var params = mockRegistration();
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/signUp")
+                .path("/auth/register")
                 .build().toUri();
 
         restTemplate.postForEntity(uri, params, Account.class);
@@ -229,7 +229,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
                 .build();
 
         final var authenticateUri = fromHttpUrl(getBaseUrl())
-                .path("/signIn")
+                .path("/auth/login")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(authenticateUri, authenticationParams, ErrorCode.class);
@@ -252,7 +252,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
                 .build();
 
         final var authenticateUri = fromHttpUrl(getBaseUrl())
-                .path("/signIn")
+                .path("/auth/login")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(authenticateUri, authenticationParams, Authentication.class);
@@ -273,7 +273,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
                 .build();
 
         final var authenticateUri = fromHttpUrl(getBaseUrl())
-                .path("/signIn")
+                .path("/auth/login")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(authenticateUri, authenticationParams, Authentication.class);
@@ -287,7 +287,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
         final var params = mockRegistration();
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/signUp")
+                .path("/auth/register")
                 .build().toUri();
 
         restTemplate.postForEntity(uri, params, Account.class);
@@ -298,7 +298,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
                 .build();
 
         final var authenticateUri = fromHttpUrl(getBaseUrl())
-                .path("/signIn")
+                .path("/auth/login")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(authenticateUri, authenticationParams, Authentication.class);
@@ -328,7 +328,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
                 .build();
 
         final var authenticateUri = fromHttpUrl(getBaseUrl())
-                .path("/signIn")
+                .path("/auth/login")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(authenticateUri, authenticationParams, ErrorCode.class);
@@ -342,7 +342,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
         final var params = mockRegistration();
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/signUp")
+                .path("/auth/register")
                 .build().toUri();
 
         restTemplate.postForEntity(uri, params, Account.class);
@@ -353,7 +353,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
                 .build();
 
         final var authenticateUri = fromHttpUrl(getBaseUrl())
-                .path("/signIn")
+                .path("/auth/login")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(authenticateUri, authenticationParams, ErrorCode.class);
@@ -374,7 +374,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
                 .build();
 
         final var authenticateUri = fromHttpUrl(getBaseUrl())
-                .path("/signIn")
+                .path("/auth/login")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(authenticateUri, authenticationParams, Authentication.class);
@@ -395,7 +395,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
                 .build();
 
         final var authenticateUri = fromHttpUrl(getBaseUrl())
-                .path("/signIn")
+                .path("/auth/login")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(authenticateUri, authenticationParams, Authentication.class);

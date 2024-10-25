@@ -33,7 +33,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         final var user = mockUser();
 
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/isUserUsernameExists")
+                .path("/user/isUsernameExists")
                 .queryParam("username", user.getUsername())
                 .build().toUri();
 
@@ -49,7 +49,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         final var user = mockNewUser();
 
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/isUserUsernameExists")
+                .path("/user/isUsernameExists")
                 .queryParam("username", user.getUsername())
                 .build().toUri();
 
@@ -65,7 +65,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         final var user = mockUser();
 
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/isUserEmailExists")
+                .path("/user/isEmailExists")
                 .queryParam("email", user.getEmail())
                 .build().toUri();
 
@@ -81,7 +81,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         final var user = mockNewUser();
 
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/isUserEmailExists")
+                .path("/user/isEmailExists")
                 .queryParam("email", user.getEmail())
                 .build().toUri();
 
@@ -99,7 +99,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         user.setUsername(mockNewUser().getUsername());
 
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/changeUserUsername/{userId}")
+                .path("/user/changeUsername/{userId}")
                 .queryParam("username", user.getUsername())
                 .buildAndExpand(user.getUserId())
                 .toUri();
@@ -122,7 +122,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         user.setUsername(mockUser().getUsername());
 
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/changeUserUsername/{userId}")
+                .path("/user/changeUsername/{userId}")
                 .queryParam("username", user.getUsername())
                 .buildAndExpand(user.getUserId())
                 .toUri();
@@ -138,7 +138,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         final var user = mockNewUser();
 
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/changeUserUsername/{userId}")
+                .path("/user/changeUsername/{userId}")
                 .queryParam("username", user.getUsername())
                 .buildAndExpand(user.getUserId())
                 .toUri();
@@ -156,7 +156,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         user.setEmail(mockNewUser().getEmail());
 
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/changeUserEmail/{userId}")
+                .path("/user/changeEmail/{userId}")
                 .queryParam("email", user.getEmail())
                 .buildAndExpand(user.getUserId())
                 .toUri();
@@ -179,7 +179,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         user.setEmail(mockUser().getEmail());
 
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/changeUserEmail/{userId}")
+                .path("/user/changeEmail/{userId}")
                 .queryParam("email", user.getEmail())
                 .buildAndExpand(user.getUserId())
                 .toUri();
@@ -195,7 +195,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         final var user = mockNewUser();
 
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/changeUserEmail/{userId}")
+                .path("/user/changeEmail/{userId}")
                 .queryParam("email", user.getEmail())
                 .buildAndExpand(user.getUserId())
                 .toUri();
@@ -213,7 +213,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         user.setPassword(mockNewUser().getPassword());
 
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/changeUserPassword/{userId}")
+                .path("/user/changePassword/{userId}")
                 .queryParam("password", user.getPassword())
                 .buildAndExpand(user.getUserId())
                 .toUri();
@@ -237,7 +237,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         user.setPassword(password);
 
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/changeUserPassword/{userId}")
+                .path("/user/changePassword/{userId}")
                 .queryParam("password", user.getPassword())
                 .buildAndExpand(user.getUserId())
                 .toUri();
@@ -253,7 +253,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         final var user = mockNewUser();
 
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/changeUserPassword/{userId}")
+                .path("/user/changePassword/{userId}")
                 .queryParam("password", user.getPassword())
                 .buildAndExpand(user.getUserId())
                 .toUri();

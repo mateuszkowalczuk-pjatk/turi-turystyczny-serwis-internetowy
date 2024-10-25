@@ -6,25 +6,31 @@ import com.turi.authentication.infrastructure.adapter.application.queries.authen
 import com.turi.authentication.infrastructure.adapter.application.queries.registration.RegistrationParam;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping("/auth")
 public class AuthenticationRestController
 {
     private final AuthenticationFacade facade;
 
-    @PostMapping("/signUp")
+    @PostMapping("/register")
     public ResponseEntity<Account> register(@RequestBody final RegistrationParam params)
     {
         return ResponseEntity.ok(facade.register(params));
     }
 
-    @PostMapping("/signIn")
+    @PostMapping("/login")
     public ResponseEntity<Authentication> authenticate(@RequestBody final AuthenticationParam params)
     {
         return ResponseEntity.ok(facade.authenticate(params));
+    }
+
+    @DeleteMapping("/logout")
+    public ResponseEntity<Account> logout()
+    {
+        //ToDo - dodanie endpointu do wylogowywania usera, czyli do usuwania tokena z bazy
+        return null;
     }
 }

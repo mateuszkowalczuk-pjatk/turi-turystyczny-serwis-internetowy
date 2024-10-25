@@ -24,7 +24,7 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
         final var address = mockNewAddress();
 
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/createAddress")
+                .path("/address/createAddress")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, address, Address.class);
@@ -45,7 +45,7 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
         final var address = mockAddress();
 
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/createAddress")
+                .path("/address/createAddress")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, address, Address.class);
@@ -69,7 +69,7 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
         address.setZipCode(zipCode);
 
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/createAddress")
+                .path("/address/createAddress")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, address, ErrorCode.class);
@@ -85,7 +85,7 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
         address.setCountry(null);
 
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/createAddress")
+                .path("/address/createAddress")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, address, ErrorCode.class);
@@ -101,7 +101,7 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
         address.setCity(null);
 
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/createAddress")
+                .path("/address/createAddress")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, address, ErrorCode.class);
@@ -117,7 +117,7 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
         address.setZipCode(null);
 
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/createAddress")
+                .path("/address/createAddress")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, address, ErrorCode.class);
@@ -133,7 +133,7 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
         address.setStreet(null);
 
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/createAddress")
+                .path("/address/createAddress")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, address, ErrorCode.class);
@@ -149,7 +149,7 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
         address.setBuildingNumber(null);
 
         final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/createAddress")
+                .path("/address/createAddress")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, address, ErrorCode.class);
