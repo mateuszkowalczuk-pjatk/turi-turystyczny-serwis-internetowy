@@ -3,15 +3,17 @@ import styles from './AuthButton.module.css'
 
 interface Props {
     text: string
-    onClick: () => void
+    onClick?: () => void
+    type?: 'button' | 'submit' | 'reset'
 }
 
-const AuthButton = ({ text, onClick }: Props) => {
+const AuthButton = ({ text, onClick, type }: Props) => {
     return (
         <div className={styles.button}>
             <GreenButton
                 text={text}
                 onClick={onClick}
+                type={type}
             />
         </div>
     )

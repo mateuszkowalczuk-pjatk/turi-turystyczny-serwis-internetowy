@@ -48,7 +48,7 @@
     },
     "footer": {
         "header": "Welcome to Turi's tourist website!",
-        "community": "Become a member of the community",
+        "community": "Become a member of the Turi",
         "sign-in": "Sign in",
         "sign-up": "Sign up",
         "premium": "Premium",
@@ -78,7 +78,14 @@
         "password": "Password",
         "re-password": "Repeat password",
         "button": "Sign up",
-        "signin": "Sign in to Turi"
+        "signin": "Sign in to Turi",
+        "error-mismatch-password": "Passwords are not the s!",
+        "error-weak-password-lowercase": "Password must contain at least one lowercase letter!",
+        "error-weak-password-uppercase": "Password must contain at least one uppercase letter!",
+        "error-weak-password-number": "Password must contain at least one digit!",
+        "error-weak-password-special": "Password must contain at least one special character!",
+        "error-username-exists": "Such a login for the account already exists!",
+        "error-email-exists": "Such an email for the account already exists!"
     },
     "signup-verify": {
         "title": "Sign up to Turi",

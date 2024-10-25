@@ -78,7 +78,14 @@
         "password": "Hasło",
         "re-password": "Powtórz hasło",
         "button": "Zarejestruj się",
-        "signin": "Zaloguj się do Turi"
+        "signin": "Zaloguj się do Turi",
+        "error-mismatch-password": "Hasła nie są takie same!",
+        "error-weak-password-lowercase": "Hasło musi zawierać co najmniej jedną małą literę!",
+        "error-weak-password-uppercase": "Hasło musi zawierać co najmniej jedną wielką literę!",
+        "error-weak-password-number": "Hasło musi zawierać co najmniej jedną cyfrę!",
+        "error-weak-password-special": "Hasło musi zawierać co najmniej jeden znak specjalny!",
+        "error-username-exists": "Taki login dla konta już istnieje!",
+        "error-email-exists": "Taki email dla konta już istnieje!"
     },
     "signup-verify": {
         "title": "Zarejestruj się do Turi",

@@ -4,6 +4,7 @@ interface Props {
     text: string
     onClick?: () => void
     className?: string
+    type?: 'button' | 'submit' | 'reset'
 }
 
 export const GreyButton = ({ text, onClick, className }: Props) => {
@@ -17,11 +18,12 @@ export const GreyButton = ({ text, onClick, className }: Props) => {
     )
 }
 
-export const GreenButton = ({ text, onClick }: Props) => {
+export const GreenButton = ({ text, onClick, type }: Props) => {
     return (
         <button
             className={`${styles.button} ${styles.greenButton}`}
             onClick={onClick}
+            type={type}
         >
             {text}
         </button>
