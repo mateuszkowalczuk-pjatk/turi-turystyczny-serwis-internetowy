@@ -10,7 +10,6 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,9 +31,24 @@ public class SecurityConfig
     {
         return http
                 .securityMatchers(matchers -> matchers.requestMatchers("/api/**"))
-                .authorizeHttpRequests(authorize -> authorize.anyRequest().hasRole(AccountType.NORMAL.getName()))
+                .authorizeHttpRequests(authorize -> {
+                    authorize.requestMatchers(
+                            "/auth/register",
+                            "/auth/login",
+                            "/auth/refresh",
+                            "/user/sendResetPasswordCode",
+                            "/user/resetPassword"
+                    ).permitAll();
+                    authorize.requestMatchers("/auth/logout").authenticated();
+                    authorize.requestMatchers(
+                            "/account/activate",
+                            "/account/resendActivateCode"
+                    ).hasRole(AccountType.INACTIVE.getName());
+//                    authorize.requestMatchers("/x/**").hasRole(AccountType.PREMIUM.getName());
+                    authorize.requestMatchers("/**").hasAnyRole(AccountType.NORMAL.getName(), AccountType.PREMIUM.getName());
+                    authorize.anyRequest().authenticated();
+                })
                 .httpBasic(Customizer.withDefaults())
-//                .csrf(crsf -> crsf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

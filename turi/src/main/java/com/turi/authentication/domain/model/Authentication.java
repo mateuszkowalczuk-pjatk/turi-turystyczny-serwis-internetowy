@@ -11,6 +11,8 @@ import lombok.*;
 @Builder(setterPrefix = "with")
 public final class Authentication
 {
-    private String token;
-    private Long expiresIn;
+    private String accessToken;
+    private String refreshToken;
+    private Long accessTokenExpiresIn;
+    private Long refreshTokenExpiresIn;
 }

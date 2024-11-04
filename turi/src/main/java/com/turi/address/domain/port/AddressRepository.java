@@ -4,11 +4,11 @@ import com.turi.address.domain.model.Address;
 
 public interface AddressRepository
 {
-    Address findById(final Long addressId);
+    Address findById(final Long id);
 
     Address findByAddress(final Address address);
 
     Long insert(final Address address);
 
-    void delete(final Long addressId);
+    void delete(final Long id);
 }

@@ -13,35 +13,45 @@ public class UserRestController
     private final UserFacade facade;
 
     @GetMapping("/isUsernameExists")
-    public ResponseEntity<Boolean> isUsernameExists(@RequestParam final String username)
+    public ResponseEntity<Boolean> isUserUsernameExists(@RequestParam final String username)
     {
-        return ResponseEntity.ok(facade.isUsernameExists(username));
+        return facade.isUserUsernameExists(username);
     }
 
     @GetMapping("/isEmailExists")
-    public ResponseEntity<Boolean> isEmailExists(@RequestParam final String email)
+    public ResponseEntity<Boolean> isUserEmailExists(@RequestParam final String email)
     {
-        return ResponseEntity.ok(facade.isEmailExists(email));
+        return facade.isUserEmailExists(email);
     }
 
-    @PutMapping("/changeUsername/{userId}")
-    public ResponseEntity<User> changeUsername(@PathVariable final Long userId,
-                                               @RequestParam final String username)
+    @PostMapping("/sendResetPasswordCode")
+    public ResponseEntity<?> sendResetUserPasswordCode(@RequestParam final String email)
     {
-        return ResponseEntity.ok(facade.changeUsername(userId, username));
+        return facade.sendResetUserPasswordCode(email);
     }
 
-    @PutMapping("/changeEmail/{userId}")
-    public ResponseEntity<User> changeEmail(@PathVariable final Long userId,
-                                            @RequestParam final String email)
+    @PostMapping("/resetPassword")
+    public ResponseEntity<?> resetUserPassword(@CookieValue(value = "resetToken") final String resetToken,
+                                               @RequestParam final String code)
     {
-        return ResponseEntity.ok(facade.changeEmail(userId, email));
+        return facade.resetUserPassword(resetToken, code);
     }
 
-    @PutMapping("/changePassword/{userId}")
-    public ResponseEntity<User> changePassword(@PathVariable final Long userId,
-                                               @RequestParam final String password)
+    @PutMapping("/changeUsername")
+    public ResponseEntity<User> changeUserUsername(@RequestParam final String username)
     {
-        return ResponseEntity.ok(facade.changePassword(userId, password));
+        return facade.changeUserUsername(username);
+    }
+
+    @PutMapping("/changeEmail")
+    public ResponseEntity<User> changeUserEmail(@RequestParam final String email)
+    {
+        return facade.changeUserEmail(email);
+    }
+
+    @PutMapping("/changePassword")
+    public ResponseEntity<User> changeUserPassword(@RequestParam final String password)
+    {
+        return facade.changeUserPassword(password);
     }
 }

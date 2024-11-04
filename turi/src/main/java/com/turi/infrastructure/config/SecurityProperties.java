@@ -10,5 +10,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class SecurityProperties
 {
     private String secretKey;
-    private Long expirationTime;
+    private Long accessTokenExpirationTime;
+    private Long refreshTokenExpirationTime;
 }

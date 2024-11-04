@@ -3,21 +3,24 @@ package com.turi.address.infrastructure.adapter.interfaces;
 import com.turi.address.domain.model.Address;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping("/address")
 public class AddressRestController
 {
-    private final AddressFacade addressFacade;
+    private final AddressFacade facade;
 
-    @PostMapping("/createAddress")
+    @GetMapping("/getById/{addressId}")
+    public ResponseEntity<?> getAddressById(@PathVariable final String addressId)
+    {
+        return facade.getAddressById(addressId);
+    }
+
+    @PostMapping("/create")
     public ResponseEntity<Address> createAddress(@RequestBody final Address address)
     {
-        return ResponseEntity.ok(addressFacade.createAddress(address));
+        return facade.createAddress(address);
     }
 }

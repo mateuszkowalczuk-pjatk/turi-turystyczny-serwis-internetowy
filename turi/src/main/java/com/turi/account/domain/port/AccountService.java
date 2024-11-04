@@ -17,7 +17,11 @@ public interface AccountService
 
     Boolean isPhoneNumberExists(final String phoneNumber);
 
-    Account createAccount(final Account account);
+    void activate(final Long id, final Integer code);
 
-    Account updateAccount(final Long accountId, final Account account);
+    void sendActivateCode(final Long id);
+
+    Account create(final Account account);
+
+    Account update(final Long id, final Account account);
 }

@@ -12,27 +12,44 @@ public class AccountRestController
 {
     private final AccountFacade facade;
 
-    @GetMapping("/isAddressExists")
-    public ResponseEntity<Boolean> isAddressExists(@RequestParam final String country,
-                                                   @RequestParam final String city,
-                                                   @RequestParam final String zipCode,
-                                                   @RequestParam final String street,
-                                                   @RequestParam final String buildingNumber,
-                                                   @RequestParam(required = false) final Integer apartmentNumber)
+    @GetMapping("/getById")
+    public ResponseEntity<Account> getAccountById()
     {
-        return ResponseEntity.ok(facade.isAddressExists(country, city, zipCode, street, buildingNumber, apartmentNumber));
+        return facade.getAccountById();
+    }
+
+    @GetMapping("/isAddressExists")
+    public ResponseEntity<Boolean> isAccountAddressExists(@RequestParam final String country,
+                                                          @RequestParam final String city,
+                                                          @RequestParam final String zipCode,
+                                                          @RequestParam final String street,
+                                                          @RequestParam final String buildingNumber,
+                                                          @RequestParam(required = false) final String apartmentNumber)
+    {
+        return facade.isAccountAddressExists(country, city, zipCode, street, buildingNumber, apartmentNumber);
     }
 
     @GetMapping("/isPhoneNumberExists")
-    public ResponseEntity<Boolean> isPhoneNumberExists(@RequestParam final String phoneNumber)
+    public ResponseEntity<Boolean> isAccountPhoneNumberExists(@RequestParam final String phoneNumber)
     {
-        return ResponseEntity.ok(facade.isPhoneNumberExists(phoneNumber));
+        return facade.isAccountPhoneNumberExists(phoneNumber);
     }
 
-    @PutMapping("/updateAccount/{accountId}")
-    public ResponseEntity<Account> updateAccount(@PathVariable final String accountId,
-                                                 @RequestBody final Account account)
+    @PostMapping("/activate")
+    public ResponseEntity<?> activateAccount(@RequestParam final String code)
     {
-        return ResponseEntity.ok(facade.updateAccount(accountId, account));
+        return facade.activateAccount(code);
+    }
+
+    @PostMapping("/resendActivateCode")
+    public ResponseEntity<?> resendAccountActivationCode()
+    {
+        return facade.sendAccountActivateCode();
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<Account> updateAccount(@RequestBody final Account account)
+    {
+        return facade.updateAccount(account);
     }
 }

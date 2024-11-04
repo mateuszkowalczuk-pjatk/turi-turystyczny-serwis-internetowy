@@ -1,6 +1,6 @@
 package com.turi.authentication.infrastructure.adapter.service;
 
-import com.turi.authentication.domain.port.AuthenticationJwtService;
+import com.turi.authentication.domain.port.JwtService;
 import com.turi.infrastructure.config.SecurityProperties;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import io.jsonwebtoken.Jwts;
@@ -9,35 +9,33 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.stereotype.Service;
 
-import java.util.Base64;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Objects;
 
 @Getter
 @Service
 @AllArgsConstructor
-public class AuthenticationJwtServiceImpl implements AuthenticationJwtService
+public class JwtServiceImpl implements JwtService
 {
     private final SecurityProperties properties;
 
     @Override
-    public String generateToken(final String subject)
+    public String generateToken(final Long subject, final String role)
     {
-        if (Objects.isNull(subject) || subject.isBlank())
+        if (subject == null)
         {
-            throw new BadRequestParameterException("Subject must not be null or empty.");
+            throw new BadRequestParameterException("Subject must not be null.");
         }
 
         final var currentTime = System.currentTimeMillis();
 
-        final var key = Keys.hmacShaKeyFor(Base64.getDecoder().decode(properties.getSecretKey()));
+        final var key = Keys.hmacShaKeyFor(properties.getSecretKey().getBytes(StandardCharsets.UTF_8));
 
         return Jwts.builder()
-                .setClaims(new HashMap<String, String>())
-                .setSubject(subject)
+                .setSubject(String.valueOf(subject))
+                .claim("role", role)
                 .setIssuedAt(new Date(currentTime))
-                .setExpiration(new Date(currentTime + properties.getExpirationTime()))
+                .setExpiration(new Date(currentTime + properties.getAccessTokenExpirationTime()))
                 .signWith(key)
                 .compact();
     }

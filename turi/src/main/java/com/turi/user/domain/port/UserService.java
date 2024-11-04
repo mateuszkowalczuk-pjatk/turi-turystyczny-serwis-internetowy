@@ -1,5 +1,7 @@
 package com.turi.user.domain.port;
 
+import com.turi.user.domain.model.RefreshToken;
+import com.turi.user.domain.model.ResetToken;
 import com.turi.user.domain.model.User;
 
 public interface UserService
@@ -8,17 +10,27 @@ public interface UserService
 
     User getByUsername(final String username);
 
-    Boolean isUsernameExists(final String username);
-
     User getByEmail(final String email);
+
+    User getByPasswordResetToken(final String resetToken);
+
+    Long getUserIdByLogin(final String login);
+
+    Boolean isUsernameExists(final String username);
 
     Boolean isEmailExists(final String email);
 
-    User createUser(final User user);
+    ResetToken sendResetPasswordCode(final String email);
 
-    User changeUsername(final Long userId, final String username);
+    RefreshToken resetPassword(final String resetToken, final Integer code);
 
-    User changeEmail(final Long userId, final String email);
+    User create(final User user);
 
-    User changePassword(final Long userId, final String password);
+    User changeUsername(final Long id, final String username);
+
+    User changeEmail(final Long id, final String email);
+
+    User changePassword(final Long id, final String password);
+
+    void deleteAllPasswordResetDetails();
 }

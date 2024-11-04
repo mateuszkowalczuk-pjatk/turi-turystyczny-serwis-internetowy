@@ -1,6 +1,7 @@
 package com.turi.infrastructure.config;
 
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,11 +9,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 
 @Component
@@ -32,29 +35,38 @@ public class JwtFilter extends OncePerRequestFilter
         {
             final var token = header.substring(7);
 
-            try {
+            try
+            {
+                final var key = Keys.hmacShaKeyFor(properties.getSecretKey().getBytes(StandardCharsets.UTF_8));
+
                 final var claims = Jwts.parserBuilder()
-                        .setSigningKey(properties.getSecretKey().getBytes())
+                        .setSigningKey(key)
                         .build()
                         .parseClaimsJws(token)
                         .getBody();
 
-                final var username = claims.getSubject();
+                final var id = claims.getSubject();
 
-                if (username != null)
+                final var role = claims.get("role", String.class);
+
+                if (id != null && role != null)
                 {
-                    final var auth = new UsernamePasswordAuthenticationToken(
-                            username,
+                    final var authentication = new UsernamePasswordAuthenticationToken(
+                            id,
                             null,
-                            Collections.emptyList()
+                            Collections.singletonList(new SimpleGrantedAuthority(role))
                     );
 
-                    SecurityContextHolder.getContext().setAuthentication(auth);
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             }
-            catch (final Exception e)
+            catch (final Exception ex)
             {
                 SecurityContextHolder.clearContext();
+
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+
+                return;
             }
         }
 

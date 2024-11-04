@@ -3,8 +3,11 @@ package com.turi.address.infrastructure.adapter.interfaces;
 import com.turi.address.domain.exception.InvalidAddressException;
 import com.turi.address.domain.model.Address;
 import com.turi.address.domain.port.AddressService;
+import com.turi.infrastructure.common.ObjectId;
 import com.turi.infrastructure.exception.BadRequestParameterException;
+import com.turi.infrastructure.exception.BadRequestResponseException;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,12 +16,24 @@ public class AddressFacade
 {
     private final AddressService service;
 
-    public Address getByAddress(final String country,
-                                final String city,
-                                final String zipCode,
-                                final String street,
-                                final String buildingNumber,
-                                final Integer apartmentNumber)
+    public ResponseEntity<Address> getAddressById(final String id)
+    {
+        if (id == null)
+        {
+            throw new BadRequestParameterException("Parameter id must not be null.");
+        }
+
+        final var addressId = ObjectId.of(id).getValue();
+
+        return AddressResponse.of(service.getById(addressId));
+    }
+
+    public Address getAddressByAddress(final String country,
+                                       final String city,
+                                       final String zipCode,
+                                       final String street,
+                                       final String buildingNumber,
+                                       final Integer apartmentNumber)
     {
         final var address = Address.builder()
                 .withCountry(country)
@@ -31,16 +46,23 @@ public class AddressFacade
 
         validation(address);
 
-        return service.getByAddress(address);
+        final var result = service.getByAddress(address);
+
+        if (result == null)
+        {
+            throw new BadRequestResponseException("Address response must not be null.");
+        }
+
+        return result;
     }
 
-    public Address createAddress(final Address address)
+    public ResponseEntity<Address> createAddress(final Address address)
     {
         validation(address);
 
         zipCodeValidation(address.getZipCode());
 
-        return AddressResponse.of(service.createAddress(address));
+        return AddressResponse.of(service.create(address));
     }
 
     private void validation(final Address address)
@@ -61,5 +83,15 @@ public class AddressFacade
         {
             throw new BadRequestParameterException("Zip code is invalid. Zip code must be in format xx-xxx (x is a digit).");
         }
+    }
+
+    public void deleteAddressById(final Long id)
+    {
+        if (id == null)
+        {
+            throw new BadRequestParameterException("Parameter id must not be null.");
+        }
+
+        service.deleteById(id);
     }
 }
