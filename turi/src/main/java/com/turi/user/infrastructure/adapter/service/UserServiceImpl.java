@@ -119,6 +119,11 @@ public class UserServiceImpl implements UserService, UserDetailsService
     {
         final var user = getByPasswordResetToken(resetToken);
 
+        if (user == null)
+        {
+            throw new UserNotFoundByResetTokenException(resetToken);
+        }
+
         if (!user.getPasswordResetCode().equals(code))
         {
             throw new BadRequestParameterException("Invalid user reset code.");
@@ -158,7 +163,7 @@ public class UserServiceImpl implements UserService, UserDetailsService
 
         if (user.getPassword() == null)
         {
-            throw new BadRequestParameterException("User password must not be null.");
+            throw new BadRequestParameterException("Parameter password is required.");
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -215,7 +220,7 @@ public class UserServiceImpl implements UserService, UserDetailsService
     }
 
     @Override
-    public void deleteAllPasswordResetDetails()
+    public void deleteAllExpiredPasswordResetDetails()
     {
         repository.findAll().stream()
                 .filter(user -> user.getPasswordResetExpiresAt() != null && user.getPasswordResetExpiresAt().isBefore(LocalDateTime.now()))

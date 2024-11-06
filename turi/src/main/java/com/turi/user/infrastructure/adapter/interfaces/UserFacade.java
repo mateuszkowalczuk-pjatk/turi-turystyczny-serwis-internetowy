@@ -2,7 +2,6 @@ package com.turi.user.infrastructure.adapter.interfaces;
 
 import com.turi.infrastructure.common.ContextHandler;
 import com.turi.infrastructure.exception.BadRequestParameterException;
-import com.turi.infrastructure.exception.BadRequestResponseException;
 import com.turi.user.domain.model.User;
 import com.turi.user.domain.port.UserService;
 import lombok.AllArgsConstructor;
@@ -32,14 +31,7 @@ public class UserFacade
             throw new BadRequestParameterException("Parameter login must not be null.");
         }
 
-        final var user = service.getUserIdByLogin(login);
-
-        if (user == null)
-        {
-            throw new BadRequestResponseException("User response must not be null.");
-        }
-
-        return user;
+        return service.getUserIdByLogin(login);
     }
 
     public ResponseEntity<Boolean> isUserUsernameExists(final String username)
@@ -74,7 +66,7 @@ public class UserFacade
 
     public ResponseEntity<?> resetUserPassword(final String resetToken, final String code)
     {
-        if (code == null)
+        if (resetToken == null || code == null)
         {
             throw new BadRequestParameterException("Parameters resetToken and code must not be null.");
         }
@@ -93,14 +85,7 @@ public class UserFacade
 
         passwordValidation(user.getPassword());
 
-        final var result = service.create(user);
-
-        if (result == null)
-        {
-            throw new BadRequestResponseException("User response must not be null.");
-        }
-
-        return result;
+        return service.create(user);
     }
 
     public ResponseEntity<User> changeUserUsername(final String username)

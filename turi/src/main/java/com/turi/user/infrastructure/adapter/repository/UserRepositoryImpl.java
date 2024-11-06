@@ -81,4 +81,12 @@ public class UserRepositoryImpl implements UserRepository
             repositoryDao.saveAndFlush(userEntity);
         });
     }
+
+    @Override
+    public void delete(final Long id)
+    {
+        final var user = findById(id);
+
+        repositoryDao.deleteById(user.getUserId());
+    }
 }

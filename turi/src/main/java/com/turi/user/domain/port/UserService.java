@@ -32,5 +32,5 @@ public interface UserService
 
     User changePassword(final Long id, final String password);
 
-    void deleteAllPasswordResetDetails();
+    void deleteAllExpiredPasswordResetDetails();
 }

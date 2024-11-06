@@ -121,6 +121,12 @@ public final class RestControllerErrorHandler extends ErrorHandler
         return createResponse(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
+    @ExceptionHandler(UserNotFoundByResetTokenException.class)
+    public ResponseEntity<ErrorCode> handleUserNotFoundByResetTokenException(final UserNotFoundByResetTokenException ex)
+    {
+        return createResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorCode> handleUserNotFoundException(final UserNotFoundException ex)
     {

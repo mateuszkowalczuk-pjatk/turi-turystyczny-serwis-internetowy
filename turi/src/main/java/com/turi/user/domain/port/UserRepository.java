@@ -19,4 +19,6 @@ public interface UserRepository
     Long insert(final User user);
 
     void update(final Long id, final User user);
+
+    void delete(final Long id);
 }

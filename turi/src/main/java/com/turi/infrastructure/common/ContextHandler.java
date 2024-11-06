@@ -12,7 +12,7 @@ public final class ContextHandler
     {
         final var authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication == null)
+        if (authentication == null || authentication.getPrincipal() == null)
         {
             throw new BadRequestParameterException("Invalid request for account.");
         }

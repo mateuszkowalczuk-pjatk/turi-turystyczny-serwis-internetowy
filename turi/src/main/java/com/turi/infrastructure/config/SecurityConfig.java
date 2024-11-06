@@ -37,7 +37,9 @@ public class SecurityConfig
                             "/auth/login",
                             "/auth/refresh",
                             "/user/sendResetPasswordCode",
-                            "/user/resetPassword"
+                            "/user/resetPassword",
+                            "/user/isUsernameExists",
+                            "/user/isEmailExists"
                     ).permitAll();
                     authorize.requestMatchers("/auth/logout").authenticated();
                     authorize.requestMatchers(

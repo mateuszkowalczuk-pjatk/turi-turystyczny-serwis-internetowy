@@ -7,13 +7,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
-public class UserPasswordResetDetailsCleaningSchedule
+public class UserExpiredPasswordResetDetailsCleaningSchedule
 {
     private final UserService service;
 
     @Scheduled(cron = "0 0 0 * * ?")
-    public void deleteAllUserPasswordResetDetails()
+    public void deleteAllUserExpiredPasswordResetDetails()
     {
-        service.deleteAllPasswordResetDetails();
+        service.deleteAllExpiredPasswordResetDetails();
     }
 }

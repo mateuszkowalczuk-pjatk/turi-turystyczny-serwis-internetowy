@@ -8,6 +8,9 @@ import com.turi.user.domain.port.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,6 +19,29 @@ class UserRepositoryTest
 {
     @Autowired
     private UserRepository repository;
+
+    @Test
+    void testUser_FindAll()
+    {
+        final var result = repository.findAll();
+
+        final var user = mockUser();
+
+        assertNotNull(result);
+        assertThat(result).isEqualTo(List.of(user));
+    }
+
+    @Test
+    void testUser_FindAll_NothingFound()
+    {
+        final var users = repository.findAll();
+
+        users.forEach(user -> repository.delete(user.getUserId()));
+
+        final var result = repository.findAll();
+
+        assertThat(result).isEmpty();
+    }
 
     @Test
     void testUser_FindById()
@@ -79,11 +105,34 @@ class UserRepositoryTest
     }
 
     @Test
+    void testUser_FindByPasswordResetToken()
+    {
+        final var user = mockUser();
+
+        final var result = repository.findByPasswordResetToken(user.getPasswordResetToken());
+
+        assertNotNull(result);
+        assertThat(result).isEqualTo(user);
+    }
+
+    @Test
+    void testUser_FindByPasswordResetToken_NotFound()
+    {
+        final var user = mockNewUser();
+
+        final var result = repository.findByPasswordResetToken(user.getPasswordResetToken());
+
+        assertNull(result);
+    }
+
+    @Test
     void testUser_Insert()
     {
         final var user = mockNewUser();
 
         final var userId = repository.insert(user);
+
+        user.setUserId(userId);
 
         final var result = repository.findById(userId);
 
@@ -199,8 +248,11 @@ class UserRepositoryTest
         return User.builder()
                 .withUserId(1L)
                 .withUsername("Janek")
-                .withEmail("jan@gmail.com")
+                .withEmail("jan@turi.com")
                 .withPassword("JanKowalski123!")
+                .withPasswordResetCode(123456)
+                .withPasswordResetToken("sample-password-reset-token")
+                .withPasswordResetExpiresAt(LocalDateTime.of(2024, 1, 1, 12, 0, 0))
                 .build();
     }
 
@@ -209,8 +261,11 @@ class UserRepositoryTest
         return User.builder()
                 .withUserId(2L)
                 .withUsername("Marek")
-                .withEmail("marek@gmail.com")
+                .withEmail("marek@turi.com")
                 .withPassword("MarekNowak123!")
+                .withPasswordResetCode(999999)
+                .withPasswordResetToken("password-reset-token")
+                .withPasswordResetExpiresAt(LocalDateTime.of(2024, 2, 2, 0, 0, 0))
                 .build();
     }
 }
