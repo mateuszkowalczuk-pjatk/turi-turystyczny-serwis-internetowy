@@ -6,6 +6,7 @@ import com.turi.account.infrastructure.adapter.interfaces.AccountFacade;
 import com.turi.authentication.domain.exception.InvalidLoginException;
 import com.turi.authentication.domain.exception.InvalidPasswordForLoginException;
 import com.turi.authentication.domain.exception.RefreshTokenExpiredException;
+import com.turi.authentication.domain.exception.RefreshTokenNotFoundByTokenException;
 import com.turi.authentication.domain.model.Authentication;
 import com.turi.authentication.domain.port.AuthenticationService;
 import com.turi.authentication.domain.port.JwtService;
@@ -112,6 +113,11 @@ public class AuthenticationServiceImpl implements AuthenticationService
     public Authentication refresh(final RefreshParam params)
     {
         final var refreshToken = refreshTokenService.getByToken(params.getRefreshToken());
+
+        if (refreshToken == null)
+        {
+            throw new RefreshTokenNotFoundByTokenException(params.getRefreshToken());
+        }
 
         if (refreshTokenService.isRefreshTokenExpired(refreshToken))
         {

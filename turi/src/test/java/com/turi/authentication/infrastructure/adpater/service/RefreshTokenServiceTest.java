@@ -5,7 +5,6 @@ import com.turi.authentication.domain.exception.RefreshTokenExpiredException;
 import com.turi.authentication.domain.exception.RefreshTokenNotFoundException;
 import com.turi.authentication.domain.model.RefreshToken;
 import com.turi.authentication.domain.port.RefreshTokenService;
-import com.turi.infrastructure.common.HashToken;
 import com.turi.infrastructure.config.SecurityProperties;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.testhelper.annotation.ServiceTest;
@@ -202,7 +201,7 @@ class RefreshTokenServiceTest
         final var refreshToken = mockNewRefreshToken();
 
         final var token = properties.getSecretKey() + "-" + refreshToken.getUserId() + "-" + UUID.randomUUID();
-        refreshToken.setToken(HashToken.hash(token));
+        refreshToken.setToken(token);
         refreshToken.setExpiresAt(LocalDateTime.now().plusMinutes(1));
 
         final var result = service.create(refreshToken);

@@ -91,6 +91,12 @@ public final class RestControllerErrorHandler extends ErrorHandler
         return createResponse(HttpStatus.UNAUTHORIZED, ex.getMessage());
     }
 
+    @ExceptionHandler(RefreshTokenNotFoundByTokenException.class)
+    public ResponseEntity<ErrorCode> handleRefreshTokenNotFoundByTokenException(final RefreshTokenNotFoundByTokenException ex)
+    {
+        return createResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
     @ExceptionHandler(RefreshTokenNotFoundException.class)
     public ResponseEntity<ErrorCode> handleRefreshTokenNotFoundException(final RefreshTokenNotFoundException ex)
     {

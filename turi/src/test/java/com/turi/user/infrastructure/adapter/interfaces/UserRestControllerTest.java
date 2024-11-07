@@ -16,7 +16,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.net.URI;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;

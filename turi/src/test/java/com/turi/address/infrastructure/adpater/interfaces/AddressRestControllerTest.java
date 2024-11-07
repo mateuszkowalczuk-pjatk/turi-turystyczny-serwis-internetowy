@@ -110,8 +110,6 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
 
         final var result = restTemplate.postForEntity(uri, new HttpEntity<>(address, headers), Address.class);
 
-        System.out.println(result);
-
         assertTrue(result.getStatusCode().is2xxSuccessful());
         assertNotNull(result.getBody());
         assertThat(result.getBody().getAddressId()).isEqualTo(1L);

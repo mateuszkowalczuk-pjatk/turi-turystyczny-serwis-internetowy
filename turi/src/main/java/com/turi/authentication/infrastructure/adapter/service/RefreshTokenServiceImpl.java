@@ -55,7 +55,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService
     {
         if (token == null)
         {
-            throw new BadRequestParameterException("UserId must not be null.");
+            throw new BadRequestParameterException("Token must not be null.");
         }
 
         return repository.findByToken(token);
@@ -106,14 +106,12 @@ public class RefreshTokenServiceImpl implements RefreshTokenService
             throw new BadRequestParameterException("Token must not be null.");
         }
 
-        final var hashToken = HashToken.hash(token);
-
-        if (getByToken(hashToken) == null)
+        if (getByToken(token) == null || isRefreshTokenExpired(getByToken(token)))
         {
             throw new RefreshTokenExpiredException();
         }
 
-        repository.deleteByToken(hashToken);
+        repository.deleteByToken(token);
     }
 
     @Override

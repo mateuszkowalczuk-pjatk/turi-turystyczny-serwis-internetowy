@@ -7,9 +7,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@ToString
 @EqualsAndHashCode
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder(setterPrefix = "with")
 public final class RefreshToken
