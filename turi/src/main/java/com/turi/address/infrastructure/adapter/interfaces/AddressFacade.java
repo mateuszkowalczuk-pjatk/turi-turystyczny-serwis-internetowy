@@ -5,7 +5,6 @@ import com.turi.address.domain.model.Address;
 import com.turi.address.domain.port.AddressService;
 import com.turi.infrastructure.common.ObjectId;
 import com.turi.infrastructure.exception.BadRequestParameterException;
-import com.turi.infrastructure.exception.BadRequestResponseException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -46,18 +45,16 @@ public class AddressFacade
 
         validation(address);
 
-        final var result = service.getByAddress(address);
-
-        if (result == null)
-        {
-            throw new BadRequestResponseException("Address response must not be null.");
-        }
-
-        return result;
+        return service.getByAddress(address);
     }
 
     public ResponseEntity<Address> createAddress(final Address address)
     {
+        if (address == null)
+        {
+            throw new BadRequestParameterException("Parameter address must not be null.");
+        }
+
         validation(address);
 
         zipCodeValidation(address.getZipCode());

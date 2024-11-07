@@ -45,8 +45,10 @@ public class AddressRepositoryImpl implements AddressRepository
     }
 
     @Override
-    public void delete(final Long id)
+    public void deleteById(final Long id)
     {
-        repositoryDao.deleteById(id);
+        final var address = findById(id);
+
+        repositoryDao.deleteById(address.getAddressId());
     }
 }

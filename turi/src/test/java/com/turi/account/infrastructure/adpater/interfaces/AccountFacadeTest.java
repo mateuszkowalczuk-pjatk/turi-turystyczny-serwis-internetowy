@@ -1,9 +1,6 @@
 package com.turi.account.infrastructure.adpater.interfaces;
 
-import com.turi.account.domain.exception.AccountNotFoundException;
-import com.turi.account.domain.exception.AccountUniqueAddressException;
-import com.turi.account.domain.exception.AccountUniquePhoneNumberException;
-import com.turi.account.domain.exception.InvalidAccountException;
+import com.turi.account.domain.exception.*;
 import com.turi.account.domain.model.Account;
 import com.turi.account.domain.model.AccountType;
 import com.turi.account.domain.model.Gender;
@@ -11,14 +8,17 @@ import com.turi.account.infrastructure.adapter.interfaces.AccountFacade;
 import com.turi.address.domain.model.Address;
 import com.turi.address.infrastructure.adapter.interfaces.AddressFacade;
 import com.turi.infrastructure.exception.BadRequestParameterException;
+import com.turi.infrastructure.exception.BadRequestResponseException;
 import com.turi.testhelper.annotation.RestControllerTest;
+import com.turi.testhelper.utils.ContextHelper;
 import com.turi.user.domain.model.User;
 import com.turi.user.infrastructure.adapter.interfaces.UserFacade;
-import org.hibernate.exception.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,50 +36,79 @@ class AccountFacadeTest
     private UserFacade userFacade;
 
     @Test
-    void testAccount_GetByUserId()
+    void testAccount_GetAccountById()
     {
         final var account = mockAccount();
 
-        final var result = facade.getByUserId(account.getUserId());
+        ContextHelper.setContextUserId(account.getAccountId());
+
+        final var result = facade.getAccountById().getBody();
 
         assertNotNull(result);
         assertThat(result).isEqualTo(account);
     }
 
     @Test
-    void testAccount_GetByUserId_NotFound()
+    void testAccount_GetAccountById_ContextAccountIdIsNull()
+    {
+        assertThrows(BadRequestParameterException.class, () -> facade.getAccountById());
+    }
+
+    @Test
+    void testAccount_GetAccountById_NotFound()
     {
         final var account = mockNewAccount();
 
-        assertThrows(IllegalArgumentException.class, () -> facade.getByUserId(account.getUserId()));
+        ContextHelper.setContextUserId(account.getAccountId());
+
+        assertThrows(AccountNotFoundException.class, () -> facade.getAccountById());
     }
 
     @Test
-    void testAccount_GetByUserId_IdIsNull()
+    void testAccount_GetAccountByUserId()
     {
-        assertThrows(BadRequestParameterException.class, () -> facade.getByUserId(null));
+        final var account = mockAccount();
+
+        final var result = facade.getAccountByUserId(account.getUserId());
+
+        assertNotNull(result);
+        assertThat(result).isEqualTo(account);
     }
 
     @Test
-    void testAccount_IsAddressExists()
+    void testAccount_GetAccountByUserId_NotFound()
     {
-        final var result = facade.isAddressExists("Polska", "Warszawa", "01-000", "Warszawska", "1", 10);
+        final var account = mockNewAccount();
+
+        assertThrows(BadRequestResponseException.class, () -> facade.getAccountByUserId(account.getUserId()));
+    }
+
+    @Test
+    void testAccount_GetAccountByUserId_IdIsNull()
+    {
+        assertThrows(BadRequestParameterException.class, () -> facade.getAccountByUserId(null));
+    }
+
+    @Test
+    void testAccount_IsAccountAddressExists()
+    {
+        final var result = facade.isAccountAddressExists("Polska", "Warszawa", "01-000", "Warszawska", "1", "10").getBody();
 
         assertNotNull(result);
         assertTrue(result);
     }
 
     @Test
-    void testAccount_IsAddressExists_NotExists()
+    void testAccount_IsAccountAddressExists_NotExists()
     {
-        final var result = facade.isAddressExists("Polska", "Kraków", "02-000", "Krakowska", "1", 0);
+        final var result = facade.isAccountAddressExists("Polska", "Kraków", "02-000", "Krakowska", "1", "0").getBody();
 
         assertNotNull(result);
         assertFalse(result);
     }
 
     @Test
-    void testAccount_IsAddressExists_NotExistsForAccount()
+    void testAccount_IsAccountAddressExists_NotExistsForAccount()
     {
         final var address = Address.builder()
                 .withCountry("Polska")
@@ -89,39 +118,178 @@ class AccountFacadeTest
                 .withBuildingNumber("1")
                 .build();
 
-        final var insertedAddress = addressFacade.createAddress(address);
+        final var insertedAddress = addressFacade.createAddress(address).getBody();
 
-        final var result = facade.isAddressExists(insertedAddress.getCountry(),
+        assertNotNull(insertedAddress);
+
+        final var result = facade.isAccountAddressExists(
+                insertedAddress.getCountry(),
                 insertedAddress.getCity(),
                 insertedAddress.getZipCode(),
                 insertedAddress.getStreet(),
                 insertedAddress.getBuildingNumber(),
-                insertedAddress.getApartmentNumber());
+                null)
+                .getBody();
 
         assertNotNull(result);
         assertFalse(result);
     }
 
     @Test
-    void testAccount_IsPhoneNumberExists()
+    void testAccount_IsAccountAddressExists_WithoutRequiredParameters()
+    {
+        assertThrows(BadRequestParameterException.class, () -> facade.isAccountAddressExists("Polska", "Warszawa", "01-000", null , "1", null).getBody());
+    }
+
+    @Test
+    void testAccount_IsAccountPhoneNumberExists()
     {
         final var account = mockAccount();
 
-        final var result = facade.isPhoneNumberExists(account.getPhoneNumber());
+        final var result = facade.isAccountPhoneNumberExists(account.getPhoneNumber()).getBody();
 
         assertNotNull(result);
         assertTrue(result);
     }
 
     @Test
-    void testAccount_IsPhoneNumberExists_NotExists()
+    void testAccount_IsAccountPhoneNumberExists_NotExists()
     {
-        final var account = mockNewAccount();
-
-        final var result = facade.isPhoneNumberExists(account.getPhoneNumber());
+        final var result = facade.isAccountPhoneNumberExists("510212451").getBody();
 
         assertNotNull(result);
         assertFalse(result);
+    }
+
+    @Test
+    void testAccount_IsAccountPhoneNumberExists_PhoneNumberIsNull()
+    {
+        assertThrows(BadRequestParameterException.class, () -> facade.isAccountPhoneNumberExists(null));
+    }
+
+    @Test
+    void testAccount_ActivateAccount()
+    {
+        final var account = mockAccount();
+
+        ContextHelper.setContextUserId(account.getAccountId());
+
+        facade.sendAccountActivateCode();
+
+        facade.activateAccount(String.valueOf(Objects.requireNonNull(facade.getAccountById().getBody()).getActivationCode()));
+
+        final var result = facade.getAccountById().getBody();
+
+        assertNotNull(result);
+        assertThat(result.getAccountType()).isEqualTo(AccountType.NORMAL);
+    }
+
+    @Test
+    void testAccount_ActivateAccount_ContextAccountIdIsNull()
+    {
+        assertThrows(BadRequestParameterException.class, () -> facade.activateAccount(String.valueOf(mockAccount().getActivationCode())));
+    }
+
+    @Test
+    void testAccount_ActivateAccount_CodeIsNull()
+    {
+        assertThrows(BadRequestParameterException.class, () -> facade.activateAccount(null));
+    }
+
+    @Test
+    void testAccount_ActivateAccount_AccountNotFound()
+    {
+        ContextHelper.setContextUserId(mockNewAccount().getAccountId());
+
+        assertThrows(AccountNotFoundException.class, () -> facade.activateAccount(String.valueOf(mockAccount().getActivationCode())));
+    }
+
+    @Test
+    void testAccount_ActivateAccount_InvalidActivationCode()
+    {
+        ContextHelper.setContextUserId(mockAccount().getAccountId());
+
+        assertThrows(BadRequestParameterException.class, () -> facade.activateAccount(String.valueOf(654321)));
+    }
+
+    @Test
+    void testAccount_ActivateAccount_ActivationCodeExpired()
+    {
+        final var account = mockAccount();
+
+        ContextHelper.setContextUserId(account.getAccountId());
+
+        assertThrows(AccountActivationCodeExpiredException.class, () -> facade.activateAccount(String.valueOf(account.getActivationCode())));
+    }
+
+    @Test
+    void testAccount_SendAccountActivateCode()
+    {
+        final var account = mockNewAccount();
+
+        final var result = facade.createAccount(account);
+
+        assertNotNull(result);
+        assertThat(result.getAccountId()).isEqualTo(account.getAccountId());
+        assertThat(result.getAccountType()).isEqualTo(AccountType.INACTIVE);
+        assertNotNull(result.getActivationCode());
+        assertNotNull(result.getActivationCodeExpiresAt());
+    }
+
+    @Test
+    void testAccount_SendActivateCode_Resend()
+    {
+        final var account = mockAccount();
+
+        ContextHelper.setContextUserId(account.getAccountId());
+
+        facade.sendAccountActivateCode();
+
+        final var result = facade.getAccountById().getBody();
+
+        assertNotNull(result);
+        assertThat(result.getAccountId()).isEqualTo(account.getAccountId());
+        assertThat(result.getAccountType()).isEqualTo(AccountType.INACTIVE);
+        assertNotNull(result.getActivationCode());
+        assertNotNull(result.getActivationCodeExpiresAt());
+    }
+
+    @Test
+    void testAccount_SendActivateCode_AccountNotFound()
+    {
+        ContextHelper.setContextUserId(mockNewAccount().getAccountId());
+
+        assertThrows(AccountNotFoundException.class, () -> facade.sendAccountActivateCode());
+    }
+
+    @Test
+    void testAccount_SendActivateCode_ActivationCodeRecentlySent()
+    {
+        final var account = mockAccount();
+
+        ContextHelper.setContextUserId(account.getAccountId());
+
+        facade.sendAccountActivateCode();
+
+        assertThrows(AccountActivationCodeRecentlySentException.class, () -> facade.sendAccountActivateCode());
+    }
+
+    @Test
+    void testAccount_SendActivateCode_AccountAlreadyActivated()
+    {
+        final var account = mockAccount();
+
+        ContextHelper.setContextUserId(account.getAccountId());
+
+        facade.sendAccountActivateCode();
+
+        final var result = facade.getAccountById().getBody();
+
+        assertNotNull(result);
+
+        facade.activateAccount(String.valueOf(result.getActivationCode()));
+
+        assertThrows(BadRequestParameterException.class, () -> facade.sendAccountActivateCode());
     }
 
     @Test
@@ -132,14 +300,24 @@ class AccountFacadeTest
         final var result = facade.createAccount(account);
 
         assertNotNull(result);
-        assertThat(result).isEqualTo(account);
+        assertThat(result.getAccountId()).isEqualTo(account.getAccountId());
+        assertThat(result.getUserId()).isEqualTo(account.getUserId());
+        assertThat(result.getAccountType()).isEqualTo(account.getAccountType());
+        assertNotNull(result.getActivationCode());
+        assertNotNull(result.getActivationCodeExpiresAt());
+    }
+
+    @Test
+    void testAccount_CreateAccount_AccountIsNull()
+    {
+        assertThrows(BadRequestParameterException.class, () -> facade.createAccount(null));
     }
 
     @Test
     void testAccount_CreateAccount_WithoutRequiredUserIdField()
     {
         final var account = Account.builder()
-                .withAccountType(AccountType.NORMAL)
+                .withAccountType(mockNewAccount().getAccountType())
                 .build();
 
         assertThrows(InvalidAccountException.class, () -> facade.createAccount(account));
@@ -149,7 +327,7 @@ class AccountFacadeTest
     void testAccount_CreateAccount_WithoutRequiredAccountTypeField()
     {
         final var account = Account.builder()
-                .withUserId(1L)
+                .withUserId(mockNewAccount().getUserId())
                 .build();
 
         assertThrows(InvalidAccountException.class, () -> facade.createAccount(account));
@@ -162,27 +340,7 @@ class AccountFacadeTest
 
         account.setUserId(mockAccount().getUserId());
 
-        assertThrows(ConstraintViolationException.class, () -> facade.createAccount(account));
-    }
-
-    @Test
-    void testAccount_CreateAccount_UniqueAddressId()
-    {
-        final var account = mockNewAccount();
-
-        account.setAddressId(mockAccount().getAddressId());
-
-        assertThrows(ConstraintViolationException.class, () -> facade.createAccount(account));
-    }
-
-    @Test
-    void testAccount_CreateAccount_UniquePhoneNumber()
-    {
-        final var account = mockNewAccount();
-
-        account.setPhoneNumber(mockAccount().getPhoneNumber());
-
-        assertThrows(ConstraintViolationException.class, () -> facade.createAccount(account));
+        assertThrows(AccountUniqueUserIdException.class, () -> facade.createAccount(account));
     }
 
     @Test
@@ -190,22 +348,28 @@ class AccountFacadeTest
     {
         final var account = mockAccount();
 
-        account.setFirstName("Marek");
+        account.setFirstName(mockAccount().getFirstName());
 
-        facade.updateAccount(String.valueOf(account.getAccountId()), account);
+        ContextHelper.setContextUserId(account.getAccountId());
 
-        final var result = facade.getByUserId(account.getUserId());
+        facade.updateAccount(account);
+
+        final var result = facade.getAccountByUserId(account.getUserId());
 
         assertNotNull(result);
-        assertThat(result.getAccountId()).isEqualTo(account.getAccountId());
-        assertThat(result.getUserId()).isEqualTo(account.getUserId());
-        assertThat(result.getAddressId()).isEqualTo(account.getAddressId());
-        assertThat(result.getAccountType()).isEqualTo(account.getAccountType());
-        assertThat(result.getFirstName()).isEqualTo(account.getFirstName());
-        assertThat(result.getLastName()).isEqualTo(account.getLastName());
-        assertThat(result.getBirthDate()).isEqualTo(account.getBirthDate());
-        assertThat(result.getPhoneNumber()).isEqualTo(account.getPhoneNumber());
-        assertThat(result.getGender()).isEqualTo(account.getGender());
+        assertThat(result).isEqualTo(account);
+    }
+
+    @Test
+    void testAccount_UpdateAccount_ContextAccountIdIsNull()
+    {
+        assertThrows(BadRequestParameterException.class, () -> facade.updateAccount(mockNewAccount()));
+    }
+
+    @Test
+    void testAccount_UpdateAccount_AccountIsNull()
+    {
+        assertThrows(BadRequestParameterException.class, () -> facade.updateAccount(null));
     }
 
     @Test
@@ -213,7 +377,9 @@ class AccountFacadeTest
     {
         final var account = mockNewAccount();
 
-        assertThrows(AccountNotFoundException.class, () -> facade.updateAccount(String.valueOf(account.getAccountId()), account));
+        ContextHelper.setContextUserId(account.getAccountId());
+
+        assertThrows(AccountNotFoundException.class, () -> facade.updateAccount(account));
     }
 
     @Test
@@ -223,9 +389,13 @@ class AccountFacadeTest
 
         final var result = facade.createAccount(account);
 
+        assertNotNull(result);
+
+        ContextHelper.setContextUserId(result.getAccountId());
+
         result.setAddressId(mockAccount().getAddressId());
 
-        assertThrows(AccountUniqueAddressException.class, () -> facade.updateAccount(String.valueOf(result.getAccountId()), result));
+        assertThrows(AccountUniqueAddressException.class, () -> facade.updateAccount(result));
     }
 
     @Test
@@ -237,7 +407,9 @@ class AccountFacadeTest
 
         result.setPhoneNumber(mockAccount().getPhoneNumber());
 
-        assertThrows(AccountUniquePhoneNumberException.class, () -> facade.updateAccount(String.valueOf(result.getAccountId()), result));
+        ContextHelper.setContextUserId(account.getAccountId());
+
+        assertThrows(AccountUniquePhoneNumberException.class, () -> facade.updateAccount(result));
     }
 
     private Account mockAccount()
@@ -246,7 +418,9 @@ class AccountFacadeTest
                 .withAccountId(1L)
                 .withUserId(1L)
                 .withAddressId(1L)
-                .withAccountType(AccountType.NORMAL)
+                .withAccountType(AccountType.INACTIVE)
+                .withActivationCode(123456)
+                .withActivationCodeExpiresAt(LocalDateTime.of(2024, 1, 1, 12, 0, 0))
                 .withFirstName("Jan")
                 .withLastName("Kowalski")
                 .withBirthDate(LocalDate.of(2000,1, 1))
@@ -268,7 +442,7 @@ class AccountFacadeTest
         return Account.builder()
                 .withAccountId(2L)
                 .withUserId(userId)
-                .withAccountType(AccountType.NORMAL)
+                .withAccountType(AccountType.INACTIVE)
                 .build();
     }
 }

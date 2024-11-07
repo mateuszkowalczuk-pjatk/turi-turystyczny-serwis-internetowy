@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/account")
+@RequestMapping(value = "/account", produces = "application/json")
 public class AccountRestController
 {
     private final AccountFacade facade;

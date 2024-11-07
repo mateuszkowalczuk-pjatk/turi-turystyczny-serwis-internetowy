@@ -22,9 +22,9 @@ public class JwtServiceImpl implements JwtService
     @Override
     public String generateToken(final Long subject, final String role)
     {
-        if (subject == null)
+        if (subject == null || role == null)
         {
-            throw new BadRequestParameterException("Subject must not be null.");
+            throw new BadRequestParameterException("Subject and role must not be null.");
         }
 
         final var currentTime = System.currentTimeMillis();

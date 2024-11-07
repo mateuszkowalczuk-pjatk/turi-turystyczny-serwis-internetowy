@@ -10,5 +10,5 @@ public interface AddressRepository
 
     Long insert(final Address address);
 
-    void delete(final Long id);
+    void deleteById(final Long id);
 }

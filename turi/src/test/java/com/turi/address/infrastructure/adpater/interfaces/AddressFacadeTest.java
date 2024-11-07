@@ -1,5 +1,6 @@
 package com.turi.address.infrastructure.adpater.interfaces;
 
+import com.turi.address.domain.exception.AddressNotFoundException;
 import com.turi.address.domain.exception.InvalidAddressException;
 import com.turi.address.domain.model.Address;
 import com.turi.address.infrastructure.adapter.interfaces.AddressFacade;
@@ -20,11 +21,35 @@ class AddressFacadeTest
     private AddressFacade facade;
 
     @Test
-    void testAddress_GetByAddress()
+    void testAddress_GetAddressById()
     {
         final var address = mockAddress();
 
-        final var result = facade.getByAddress(address.getCountry(),
+        final var result = facade.getAddressById(String.valueOf(address.getAddressId()));
+
+        assertNotNull(result);
+        assertTrue(result.getStatusCode().is2xxSuccessful());
+        assertThat(result.getBody()).isEqualTo(address);
+    }
+
+    @Test
+    void testAddress_GetAddressById_IdIsNull()
+    {
+        assertThrows(BadRequestParameterException.class, () -> facade.getAddressById(null));
+    }
+
+    @Test
+    void testAddress_GetAddressById_NotFound()
+    {
+        assertThrows(AddressNotFoundException.class, () -> facade.getAddressById(String.valueOf(mockNewAddress().getAddressId())));
+    }
+
+    @Test
+    void testAddress_GetAddressByAddress()
+    {
+        final var address = mockAddress();
+
+        final var result = facade.getAddressByAddress(address.getCountry(),
                 address.getCity(),
                 address.getZipCode(),
                 address.getStreet(),
@@ -36,11 +61,11 @@ class AddressFacadeTest
     }
 
     @Test
-    void testAddress_GetByAddress_NotFound()
+    void testAddress_GetAddressByAddress_NotFound()
     {
         final var address = mockNewAddress();
 
-        final var result = facade.getByAddress(address.getCountry(),
+        final var result = facade.getAddressByAddress(address.getCountry(),
                 address.getCity(),
                 address.getZipCode(),
                 address.getStreet(),
@@ -51,13 +76,13 @@ class AddressFacadeTest
     }
 
     @Test
-    void testAddress_GetByAddress_WithoutRequiredCountryField()
+    void testAddress_GetAddressByAddress_WithoutRequiredCountryField()
     {
         final var address = mockAddress();
 
         address.setCountry(null);
 
-        assertThrows(InvalidAddressException.class, () -> facade.getByAddress(address.getCountry(),
+        assertThrows(InvalidAddressException.class, () -> facade.getAddressByAddress(address.getCountry(),
                 address.getCity(),
                 address.getZipCode(),
                 address.getStreet(),
@@ -66,13 +91,13 @@ class AddressFacadeTest
     }
 
     @Test
-    void testAddress_GetByAddress_WithoutRequiredCityField()
+    void testAddress_GetAddressByAddress_WithoutRequiredCityField()
     {
         final var address = mockAddress();
 
         address.setCity(null);
 
-        assertThrows(InvalidAddressException.class, () -> facade.getByAddress(address.getCountry(),
+        assertThrows(InvalidAddressException.class, () -> facade.getAddressByAddress(address.getCountry(),
                 address.getCity(),
                 address.getZipCode(),
                 address.getStreet(),
@@ -81,13 +106,13 @@ class AddressFacadeTest
     }
 
     @Test
-    void testAddress_GetByAddress_WithoutRequiredZipCodeField()
+    void testAddress_GetAddressByAddress_WithoutRequiredZipCodeField()
     {
         final var address = mockAddress();
 
         address.setZipCode(null);
 
-        assertThrows(InvalidAddressException.class, () -> facade.getByAddress(address.getCountry(),
+        assertThrows(InvalidAddressException.class, () -> facade.getAddressByAddress(address.getCountry(),
                 address.getCity(),
                 address.getZipCode(),
                 address.getStreet(),
@@ -96,13 +121,13 @@ class AddressFacadeTest
     }
 
     @Test
-    void testAddress_GetByAddress_WithoutRequiredStreetField()
+    void testAddress_GetAddressByAddress_WithoutRequiredStreetField()
     {
         final var address = mockAddress();
 
         address.setStreet(null);
 
-        assertThrows(InvalidAddressException.class, () -> facade.getByAddress(address.getCountry(),
+        assertThrows(InvalidAddressException.class, () -> facade.getAddressByAddress(address.getCountry(),
                 address.getCity(),
                 address.getZipCode(),
                 address.getStreet(),
@@ -111,13 +136,13 @@ class AddressFacadeTest
     }
 
     @Test
-    void testAddress_GetByAddress_WithoutRequiredBuildingNumberField()
+    void testAddress_GetAddressByAddress_WithoutRequiredBuildingNumberField()
     {
         final var address = mockAddress();
 
         address.setBuildingNumber(null);
 
-        assertThrows(InvalidAddressException.class, () -> facade.getByAddress(address.getCountry(),
+        assertThrows(InvalidAddressException.class, () -> facade.getAddressByAddress(address.getCountry(),
                 address.getCity(),
                 address.getZipCode(),
                 address.getStreet(),
@@ -133,7 +158,14 @@ class AddressFacadeTest
         final var result = facade.createAddress(address);
 
         assertNotNull(result);
-        assertThat(result).isEqualTo(address);
+        assertTrue(result.getStatusCode().is2xxSuccessful());
+        assertThat(result.getBody()).isEqualTo(address);
+    }
+
+    @Test
+    void testAddress_CreateAddress_AddressIsNull()
+    {
+        assertThrows(BadRequestParameterException.class, () -> facade.createAddress(null));
     }
 
     @Test
@@ -144,7 +176,8 @@ class AddressFacadeTest
         final var result = facade.createAddress(address);
 
         assertNotNull(result);
-        assertThat(result).isEqualTo(address);
+        assertTrue(result.getStatusCode().is2xxSuccessful());
+        assertThat(result.getBody()).isEqualTo(address);
     }
 
     @ParameterizedTest
@@ -206,6 +239,30 @@ class AddressFacadeTest
         address.setBuildingNumber(null);
 
         assertThrows(InvalidAddressException.class, () -> facade.createAddress(address));
+    }
+
+    @Test
+    void testAddress_DeleteById()
+    {
+        final var address = facade.getAddressById(String.valueOf(mockAddress().getAddressId())).getBody();
+
+        assertNotNull(address);
+
+        facade.deleteAddressById(address.getAddressId());
+
+        assertThrows(AddressNotFoundException.class, () -> facade.getAddressById(String.valueOf(address.getAddressId())));
+    }
+
+    @Test
+    void testAddress_DeleteById_NothingToDelete()
+    {
+        assertThrows(AddressNotFoundException.class, () -> facade.deleteAddressById(mockNewAddress().getAddressId()));
+    }
+
+    @Test
+    void testAddress_DeleteById_IdIsNull()
+    {
+        assertThrows(BadRequestParameterException.class, () -> facade.deleteAddressById(null));
     }
 
     private Address mockAddress()

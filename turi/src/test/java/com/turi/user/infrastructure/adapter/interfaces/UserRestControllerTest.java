@@ -133,7 +133,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
                 .queryParam("email", user.getEmail())
                 .build().toUri();
 
-        final var result = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(new HttpHeaders()), User.class);
+        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(new HttpHeaders()), User.class);
 
         assertTrue(result.getStatusCode().is2xxSuccessful());
 
@@ -154,7 +154,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
                 .path("/user/sendResetPasswordCode")
                 .build().toUri();
 
-        final var result = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(new HttpHeaders()), User.class);
+        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(new HttpHeaders()), User.class);
 
         assertTrue(result.getStatusCode().is4xxClientError());
     }
@@ -167,7 +167,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
                 .queryParam("email", mockNewUser().getEmail())
                 .build().toUri();
 
-        final var result = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(new HttpHeaders()), User.class);
+        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(new HttpHeaders()), User.class);
 
         assertTrue(result.getStatusCode().is4xxClientError());
     }
@@ -185,7 +185,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
                 .queryParam("email", user.getEmail())
                 .build().toUri();
 
-        final var result = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(new HttpHeaders()), User.class);
+        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(new HttpHeaders()), User.class);
 
         assertTrue(result.getStatusCode().is4xxClientError());
     }
@@ -204,10 +204,9 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
                 .queryParam("code", user.getPasswordResetCode())
                 .build().toUri();
 
-        final var headers = new HttpHeaders();
         headers.add("Cookie", "resetToken=" + user.getPasswordResetToken());
 
-        final var result = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>("", headers), User.class);
+        final var result = restTemplate.postForEntity(uri, new HttpEntity<>("", headers), User.class);
 
         assertTrue(result.getStatusCode().is2xxSuccessful());
 
@@ -235,7 +234,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
                 .queryParam("code", user.getPasswordResetCode())
                 .build().toUri();
 
-        final var result = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>("", new HttpHeaders()), User.class);
+        final var result = restTemplate.postForEntity(uri, new HttpEntity<>("", new HttpHeaders()), User.class);
 
         assertTrue(result.getStatusCode().is4xxClientError());
     }
@@ -253,10 +252,9 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
                 .path("/user/resetPassword")
                 .build().toUri();
 
-        final var headers = new HttpHeaders();
         headers.add("Cookie", "resetToken=" + user.getPasswordResetToken());
 
-        final var result = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>("", headers), User.class);
+        final var result = restTemplate.postForEntity(uri, new HttpEntity<>("", headers), User.class);
 
         assertTrue(result.getStatusCode().is4xxClientError());
     }
@@ -275,10 +273,9 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
                 .queryParam("code", user.getPasswordResetCode())
                 .build().toUri();
 
-        final var headers = new HttpHeaders();
         headers.add("Cookie", "resetToken=" + mock.getPasswordResetToken());
 
-        final var result = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>("", headers), User.class);
+        final var result = restTemplate.postForEntity(uri, new HttpEntity<>("", headers), User.class);
 
         assertTrue(result.getStatusCode().is4xxClientError());
     }
@@ -300,7 +297,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         final var headers = new HttpHeaders();
         headers.add("Cookie", "resetToken=" + user.getPasswordResetToken());
 
-        final var result = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>("", headers), User.class);
+        final var result = restTemplate.postForEntity(uri, new HttpEntity<>("", headers), User.class);
 
         assertTrue(result.getStatusCode().is4xxClientError());
     }
@@ -318,10 +315,9 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
                 .queryParam("code", user.getPasswordResetCode())
                 .build().toUri();
 
-        final var headers = new HttpHeaders();
         headers.add("Cookie", "resetToken=" + user.getPasswordResetToken());
 
-        final var result = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>("", headers), User.class);
+        final var result = restTemplate.postForEntity(uri, new HttpEntity<>("", headers), User.class);
 
         assertTrue(result.getStatusCode().is4xxClientError());
     }
@@ -338,7 +334,6 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
                 .queryParam("username", user.getUsername())
                 .build().toUri();
 
-        final var headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + jwtService.generateToken(user.getUserId(), AccountType.NORMAL.getName()));
 
         final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(headers), User.class);
@@ -358,7 +353,6 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
                 .path("/user/changeUsername")
                 .build().toUri();
 
-        final var headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + jwtService.generateToken(mockUser().getUserId(), AccountType.NORMAL.getName()));
 
         final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(headers), User.class);
@@ -391,7 +385,6 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
                 .queryParam("username", user.getUsername())
                 .build().toUri();
 
-        final var headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + jwtService.generateToken(user.getUserId(), AccountType.NORMAL.getName()));
 
         final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(headers), ErrorCode.class);
@@ -409,7 +402,6 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
                 .queryParam("username", user.getUsername())
                 .build().toUri();
 
-        final var headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + jwtService.generateToken(user.getUserId(), AccountType.NORMAL.getName()));
 
         final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(headers), ErrorCode.class);
@@ -424,12 +416,11 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
 
         user.setEmail(mockNewUser().getEmail());
 
-        final URI uri = fromHttpUrl(getBaseUrl())
+        final var uri = fromHttpUrl(getBaseUrl())
                 .path("/user/changeEmail")
                 .queryParam("email", user.getEmail())
                 .build().toUri();
 
-        final var headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + jwtService.generateToken(user.getUserId(), AccountType.NORMAL.getName()));
 
         final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(headers), User.class);
@@ -449,7 +440,6 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
                 .path("/user/changeEmail")
                 .build().toUri();
 
-        final var headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + jwtService.generateToken(mockUser().getUserId(), AccountType.NORMAL.getName()));
 
         final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(headers), User.class);
@@ -474,12 +464,11 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
     @CsvSource({"marek@", "@", "marek", "@marek", "@marek@"})
     void testUser_ChangeUserEmail_InvalidEmail(final String email)
     {
-        final URI uri = fromHttpUrl(getBaseUrl())
+        final var uri = fromHttpUrl(getBaseUrl())
                 .path("/user/changeEmail")
                 .queryParam("email", email)
                 .build().toUri();
 
-        final var headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + jwtService.generateToken(mockUser().getUserId(), AccountType.NORMAL.getName()));
 
         final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(headers), User.class);
@@ -499,7 +488,6 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
                 .queryParam("email", user.getEmail())
                 .build().toUri();
 
-        final var headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + jwtService.generateToken(user.getUserId(), AccountType.NORMAL.getName()));
 
         final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(headers), ErrorCode.class);
@@ -517,7 +505,6 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
                 .queryParam("email", user.getEmail())
                 .build().toUri();
 
-        final var headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + jwtService.generateToken(user.getUserId(), AccountType.NORMAL.getName()));
 
         final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(headers), ErrorCode.class);
@@ -537,7 +524,6 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
                 .queryParam("password", user.getPassword())
                 .build().toUri();
 
-        final var headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + jwtService.generateToken(user.getUserId(), AccountType.NORMAL.getName()));
 
         final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(headers), User.class);
@@ -557,7 +543,6 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
                 .path("/user/changePassword")
                 .build().toUri();
 
-        final var headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + jwtService.generateToken(mockUser().getUserId(), AccountType.NORMAL.getName()));
 
         final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(headers), User.class);
@@ -587,7 +572,6 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
                 .queryParam("password", password)
                 .build().toUri();
 
-        final var headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + jwtService.generateToken(mockUser().getUserId(), AccountType.NORMAL.getName()));
 
         final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(headers), User.class);
@@ -605,7 +589,6 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
                 .queryParam("password", user.getPassword())
                 .build().toUri();
 
-        final var headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + jwtService.generateToken(user.getUserId(), AccountType.NORMAL.getName()));
 
         final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(headers), ErrorCode.class);

@@ -43,6 +43,12 @@ public final class RestControllerErrorHandler extends ErrorHandler
         return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
+    @ExceptionHandler(AccountUniqueUserIdException.class)
+    public ResponseEntity<ErrorCode> handleAccountUniqueUserIdException(final AccountUniqueUserIdException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
     @ExceptionHandler(InvalidAccountException.class)
     public ResponseEntity<ErrorCode> handleInvalidAccountException(final InvalidAccountException ex)
     {

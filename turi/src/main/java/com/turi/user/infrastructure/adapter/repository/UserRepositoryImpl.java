@@ -83,7 +83,7 @@ public class UserRepositoryImpl implements UserRepository
     }
 
     @Override
-    public void delete(final Long id)
+    public void deleteById(final Long id)
     {
         final var user = findById(id);
 

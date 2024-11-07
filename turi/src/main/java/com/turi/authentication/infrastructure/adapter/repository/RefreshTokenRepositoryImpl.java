@@ -5,6 +5,7 @@ import com.turi.authentication.domain.model.RefreshToken;
 import com.turi.authentication.domain.port.RefreshTokenRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -39,17 +40,21 @@ public class RefreshTokenRepositoryImpl implements RefreshTokenRepository
     }
 
     @Override
-    public void delete(final Long id)
+    public void deleteById(final Long id)
     {
-        repositoryDao.deleteById(id);
+        final var refreshToken = findById(id);
+
+        repositoryDao.deleteById(refreshToken.getRefreshTokenId());
     }
 
+    @Transactional
     @Override
     public void deleteByToken(final String token)
     {
         repositoryDao.deleteByToken(token);
     }
 
+    @Transactional
     @Override
     public void deleteAllExpiredRefreshTokens()
     {

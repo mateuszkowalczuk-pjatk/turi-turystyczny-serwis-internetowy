@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/auth")
+@RequestMapping(value = "/auth", produces = "application/json")
 public class AuthenticationRestController
 {
     private final AuthenticationFacade facade;

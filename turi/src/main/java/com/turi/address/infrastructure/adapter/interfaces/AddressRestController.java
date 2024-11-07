@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/address")
+@RequestMapping(value = "/address", produces = "application/json")
 public class AddressRestController
 {
     private final AddressFacade facade;

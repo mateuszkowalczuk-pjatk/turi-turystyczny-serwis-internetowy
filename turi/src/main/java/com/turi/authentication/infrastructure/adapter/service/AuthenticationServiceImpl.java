@@ -115,7 +115,7 @@ public class AuthenticationServiceImpl implements AuthenticationService
 
         if (refreshTokenService.isRefreshTokenExpired(refreshToken))
         {
-            refreshTokenService.delete(refreshToken.getRefreshTokenId());
+            refreshTokenService.deleteById(refreshToken.getRefreshTokenId());
 
             throw new RefreshTokenExpiredException();
         }

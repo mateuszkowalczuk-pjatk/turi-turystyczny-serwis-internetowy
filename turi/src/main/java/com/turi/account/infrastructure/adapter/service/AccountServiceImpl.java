@@ -1,9 +1,6 @@
 package com.turi.account.infrastructure.adapter.service;
 
-import com.turi.account.domain.exception.AccountActivationCodeExpiredException;
-import com.turi.account.domain.exception.AccountActivationCodeRecentlySentException;
-import com.turi.account.domain.exception.AccountUniqueAddressException;
-import com.turi.account.domain.exception.AccountUniquePhoneNumberException;
+import com.turi.account.domain.exception.*;
 import com.turi.account.domain.model.Account;
 import com.turi.account.domain.model.AccountType;
 import com.turi.account.domain.port.AccountRepository;
@@ -94,10 +91,13 @@ public class AccountServiceImpl implements AccountService
     {
         final var account = getById(id);
 
-        if ((account.getActivationCodeExpiresAt() == null
-                || account.getActivationCodeExpiresAt().minusMinutes(10).isBefore(LocalDateTime.now()))
-                && account.getAccountType().equals(AccountType.INACTIVE))
+        if (account.getActivationCodeExpiresAt() == null || account.getActivationCodeExpiresAt().minusMinutes(10).isBefore(LocalDateTime.now()))
         {
+            if (!account.getAccountType().equals(AccountType.INACTIVE))
+            {
+                throw new BadRequestParameterException("Account already activated.");
+            }
+
             final var code = CodeGenerator.generateCode();
 
             account.setActivationCode(code);
@@ -118,6 +118,11 @@ public class AccountServiceImpl implements AccountService
     @Override
     public Account create(final Account account)
     {
+        if (getByUserId(account.getUserId()) != null)
+        {
+            throw new AccountUniqueUserIdException(account.getUserId());
+        }
+
         final var accountId = repository.insert(account);
 
         sendActivateCode(accountId);

@@ -10,7 +10,7 @@ public interface RefreshTokenRepository
 
     Long insert(final RefreshToken refreshToken);
 
-    void delete(final Long id);
+    void deleteById(final Long id);
 
     void deleteByToken(final String token);
 

@@ -56,7 +56,7 @@ public class AccountFacade
                 zipCode,
                 street,
                 buildingNumber,
-                Integer.valueOf(apartmentNumber)));
+                apartmentNumber != null ? Integer.valueOf(apartmentNumber) : null));
     }
 
     public ResponseEntity<Boolean> isAccountPhoneNumberExists(final String phoneNumber)
@@ -99,14 +99,7 @@ public class AccountFacade
             throw new BadRequestParameterException("Parameter account must not be null.");
         }
 
-        final var result = service.create(account);
-
-        if (result == null)
-        {
-            throw new BadRequestResponseException("Account response must not be null.");
-        }
-
-        return result;
+        return service.create(account);
     }
 
     public ResponseEntity<Account> updateAccount(final Account account)

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/user")
+@RequestMapping(value = "/user", produces = "application/json")
 public class UserRestController
 {
     private final UserFacade facade;

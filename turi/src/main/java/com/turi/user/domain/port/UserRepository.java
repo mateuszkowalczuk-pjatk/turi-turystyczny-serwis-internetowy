@@ -20,5 +20,5 @@ public interface UserRepository
 
     void update(final Long id, final User user);
 
-    void delete(final Long id);
+    void deleteById(final Long id);
 }

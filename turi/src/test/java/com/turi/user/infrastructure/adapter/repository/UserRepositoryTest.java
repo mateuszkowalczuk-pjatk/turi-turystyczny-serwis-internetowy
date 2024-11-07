@@ -36,7 +36,7 @@ class UserRepositoryTest
     {
         final var users = repository.findAll();
 
-        users.forEach(user -> repository.delete(user.getUserId()));
+        users.forEach(user -> repository.deleteById(user.getUserId()));
 
         final var result = repository.findAll();
 
@@ -57,9 +57,7 @@ class UserRepositoryTest
     @Test
     void testUser_FindById_NotFound()
     {
-        final var user = mockNewUser();
-
-        assertThrows(UserNotFoundException.class, () -> repository.findById(user.getUserId()));
+        assertThrows(UserNotFoundException.class, () -> repository.findById(mockNewUser().getUserId()));
     }
 
     @Test
@@ -76,9 +74,7 @@ class UserRepositoryTest
     @Test
     void testUser_FindByUsername_NotFound()
     {
-        final var user = mockNewUser();
-
-        final var result = repository.findByUsername(user.getUsername());
+        final var result = repository.findByUsername(mockNewUser().getUsername());
 
         assertNull(result);
     }
@@ -226,21 +222,21 @@ class UserRepositoryTest
     }
 
     @Test
-    void testUser_Delete()
+    void testUser_DeleteById()
     {
         final var user = mockUser();
 
-        repository.delete(user.getUserId());
+        repository.deleteById(user.getUserId());
 
         assertThrows(UserNotFoundException.class, () -> repository.findById(user.getUserId()));
     }
 
     @Test
-    void testUser_Delete_NothingToDelete()
+    void testUser_DeleteById_NothingToDelete()
     {
         final var user = mockNewUser();
 
-        assertThrows(UserNotFoundException.class, () -> repository.delete(user.getUserId()));
+        assertThrows(UserNotFoundException.class, () -> repository.deleteById(user.getUserId()));
     }
 
     private User mockUser()
