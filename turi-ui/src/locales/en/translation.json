@@ -1,6 +1,6 @@
 {
     "header": {
-        "sign-in-button": "Sign in",
+        "sign-in-button": "Log in",
         "sign-up-button": "Sign up",
         "reservation": "Reservations",
         "stays": "Stays",
@@ -49,7 +49,7 @@
     "footer": {
         "header": "Welcome to Turi's tourist website!",
         "community": "Become a member of the Turi",
-        "sign-in": "Sign in",
+        "sign-in": "Log in",
         "sign-up": "Sign up",
         "premium": "Premium",
         "your-account": "Account",
@@ -78,8 +78,8 @@
         "password": "Password",
         "re-password": "Repeat password",
         "button": "Sign up",
-        "signin": "Sign in to Turi",
-        "error-mismatch-password": "Passwords are not the s!",
+        "signin": "Log in to Turi",
+        "error-mismatch-password": "Passwords are not the same!",
         "error-weak-password-lowercase": "Password must contain at least one lowercase letter!",
         "error-weak-password-uppercase": "Password must contain at least one uppercase letter!",
         "error-weak-password-number": "Password must contain at least one digit!",
@@ -125,11 +125,11 @@
         "continue": "Continue"
     },
     "login": {
-        "title": "Sign in to Turi",
+        "title": "Log in to Turi",
         "login": "Login or email",
         "password": "Password",
-        "button": "Sign in",
-        "google": "Sign in with your Google account",
+        "button": "Log in",
+        "google": "Log in with your Google account",
         "reset": "Recover password",
         "signup": "Create a new account"
     },

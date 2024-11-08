@@ -30,8 +30,8 @@ const LoginPage = () => {
     return (
         <AuthPanel
             header={<AuthTitle text={t('login.title')} />}
-            option={<AuthInput text={t('login.login')} />}
-            input={<AuthInput text={t('login.password')} />}
+            option={<AuthInput placeholder={t('login.login')} />}
+            input={<AuthInput placeholder={t('login.password')} />}
             button={
                 <AuthButton
                     text={t('login.button')}

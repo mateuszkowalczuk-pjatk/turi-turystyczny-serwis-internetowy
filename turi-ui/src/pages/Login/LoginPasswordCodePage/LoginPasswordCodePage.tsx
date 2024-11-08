@@ -28,7 +28,7 @@ const LoginPasswordCodePage = () => {
         <AuthPanel
             header={<AuthTitle text={t('login-code.title')} />}
             option={<AuthDescription text={t('login-code.description')} />}
-            input={<AuthInput text={t('login-code.code')} />}
+            input={<AuthInput placeholder={t('login-code.code')} />}
             button={
                 <AuthButton
                     text={t('login-code.button')}

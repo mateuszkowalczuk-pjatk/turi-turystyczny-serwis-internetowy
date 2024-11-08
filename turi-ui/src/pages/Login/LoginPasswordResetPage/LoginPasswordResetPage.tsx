@@ -22,8 +22,8 @@ const LoginPasswordResetPage = () => {
     return (
         <AuthPanel
             header={<AuthTitle text={t('login-reset.title')} />}
-            option={<AuthInput text={t('login-reset.password')} />}
-            input={<AuthInput text={t('login-reset.re-password')} />}
+            option={<AuthInput placeholder={t('login-reset.password')} />}
+            input={<AuthInput placeholder={t('login-reset.re-password')} />}
             button={
                 <AuthButton
                     text={t('login-reset.button')}

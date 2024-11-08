@@ -24,7 +24,7 @@ const LoginPasswordCheckPage = () => {
         <AuthPanel
             header={<AuthTitle text={t('login-check.title')} />}
             option={<AuthDescription text={t('login-check.description')} />}
-            input={<AuthInput text={t('login-check.email')} />}
+            input={<AuthInput placeholder={t('login-check.email')} />}
             button={
                 <AuthButton
                     text={t('login-check.button')}
