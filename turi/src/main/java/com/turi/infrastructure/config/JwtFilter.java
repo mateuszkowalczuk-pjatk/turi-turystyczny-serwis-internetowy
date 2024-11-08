@@ -1,5 +1,6 @@
 package com.turi.infrastructure.config;
 
+import com.turi.infrastructure.exception.UnauthorizedException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.FilterChain;
@@ -29,6 +30,15 @@ public class JwtFilter extends OncePerRequestFilter
                                     @NotNull final HttpServletResponse response,
                                     @NotNull final FilterChain filterChain) throws ServletException, IOException
     {
+//        final var path = request.getRequestURI();
+//
+//        if (path.equals("/") || path.startsWith("/swagger-ui") || path.startsWith("/v3/api-docs"))
+//        {
+//            filterChain.doFilter(request, response);
+//
+//            return;
+//        }
+
         final var header = request.getHeader("Authorization");
 
         if (header != null && header.startsWith("Bearer "))
@@ -64,11 +74,16 @@ public class JwtFilter extends OncePerRequestFilter
             {
                 SecurityContextHolder.clearContext();
 
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-
-                return;
+                throw new UnauthorizedException(ex.getMessage());
             }
         }
+//        else
+//        {
+//            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+//            response.getWriter().write("Unauthorized: No Authorization header provided");
+//
+//            return;
+//        }
 
         filterChain.doFilter(request, response);
     }

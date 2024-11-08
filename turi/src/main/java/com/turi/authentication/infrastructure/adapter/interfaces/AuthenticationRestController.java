@@ -29,7 +29,7 @@ public class AuthenticationRestController
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<?> refresh(@CookieValue(value = "refreshToken") final String refreshToken)
+    public ResponseEntity<?> refresh(@CookieValue(value = "refreshToken", required = false) final String refreshToken)
     {
         final var params = RefreshParam.builder()
                 .withRefreshToken(refreshToken)
@@ -39,7 +39,7 @@ public class AuthenticationRestController
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(@CookieValue(value = "refreshToken") final String refreshToken, final HttpServletResponse response)
+    public ResponseEntity<?> logout(@CookieValue(value = "refreshToken", required = false) final String refreshToken, final HttpServletResponse response)
     {
         final var params = LogoutParam.builder()
                 .withRefreshToken(refreshToken)

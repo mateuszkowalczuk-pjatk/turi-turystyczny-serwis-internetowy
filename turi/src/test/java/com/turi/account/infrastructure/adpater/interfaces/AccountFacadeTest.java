@@ -433,7 +433,7 @@ class AccountFacadeTest
     {
         final var user = User.builder()
                 .withUsername("Marek")
-                .withEmail("marek@gmail.com")
+                .withEmail("marek@turi.com")
                 .withPassword("MarekNowak123!")
                 .build();
 

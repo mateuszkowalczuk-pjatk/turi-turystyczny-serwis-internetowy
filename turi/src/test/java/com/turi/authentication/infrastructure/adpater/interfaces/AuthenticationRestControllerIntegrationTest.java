@@ -160,6 +160,23 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
     }
 
     @ParameterizedTest
+    @CsvSource({"marek@", "@", "marek", "@marek", "@marek@"})
+    void testAuthentication_Register_InvalidEmail(final String email)
+    {
+        final var params = mockRegisterParams();
+
+        params.setEmail(email);
+
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/auth/register")
+                .build().toUri();
+
+        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(params), ErrorCode.class);
+
+        assertTrue(result.getStatusCode().is4xxClientError());
+    }
+
+    @ParameterizedTest
     @CsvSource({"Marek123", "marekmarek", "marek123", "Marek1", "marek123!"})
     void testAuthentication_Register_InvalidPassword(final String password)
     {
@@ -550,7 +567,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
     {
         return RegistrationParam.builder()
                 .withUsername("Marek")
-                .withEmail("marek@gmail.com")
+                .withEmail("marek@turi.com")
                 .withPassword("MarekNowak123!")
                 .build();
     }

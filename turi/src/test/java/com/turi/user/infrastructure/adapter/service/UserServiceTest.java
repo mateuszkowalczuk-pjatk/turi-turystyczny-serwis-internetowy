@@ -397,7 +397,7 @@ class UserServiceTest
     @Test
     void testUser_ChangeEmail_UserNotFound()
     {
-        assertThrows(UserNotFoundException.class, () -> service.changeEmail(mockNewUser().getUserId(), "jano@gmail.com"));
+        assertThrows(UserNotFoundException.class, () -> service.changeEmail(mockNewUser().getUserId(), "jano@turi.com"));
     }
 
     @Test

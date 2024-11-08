@@ -59,13 +59,21 @@ public final class AuthenticationResponse
 
     public static ResponseEntity<?> of(final HttpServletResponse response)
     {
-        final var cookie = new Cookie("refreshToken", null);
-        cookie.setHttpOnly(true);
-        cookie.setSecure(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(0);
+        final var accessToken = new Cookie("accessToken", null);
+        accessToken.setHttpOnly(true);
+        accessToken.setSecure(true);
+        accessToken.setPath("/");
+        accessToken.setMaxAge(0);
 
-        response.addCookie(cookie);
+        response.addCookie(accessToken);
+
+        final var refreshTokenCookie = new Cookie("refreshToken", null);
+        refreshTokenCookie.setHttpOnly(true);
+        refreshTokenCookie.setSecure(true);
+        refreshTokenCookie.setPath("/");
+        refreshTokenCookie.setMaxAge(0);
+
+        response.addCookie(refreshTokenCookie);
 
         return ResponseEntity.ok().build();
     }

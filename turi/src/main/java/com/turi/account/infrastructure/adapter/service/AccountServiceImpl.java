@@ -65,6 +65,11 @@ public class AccountServiceImpl implements AccountService
     {
         final var account = getById(id);
 
+        if (account.getActivationCode() == null)
+        {
+            throw new BadRequestParameterException("Account already activated.");
+        }
+
         if (!account.getActivationCode().equals(code))
         {
             throw new BadRequestParameterException("Invalid account activation code.");
