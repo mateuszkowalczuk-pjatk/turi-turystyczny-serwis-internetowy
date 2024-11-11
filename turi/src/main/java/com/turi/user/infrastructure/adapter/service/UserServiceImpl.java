@@ -52,6 +52,22 @@ public class UserServiceImpl implements UserService, UserDetailsService
     }
 
     @Override
+    public String getUsername(final Long id)
+    {
+        final var user = getById(id);
+
+        return user.getUsername();
+    }
+
+    @Override
+    public String getEmail(final Long id)
+    {
+        final var user = getById(id);
+
+        return user.getEmail();
+    }
+
+    @Override
     public User getByPasswordResetToken(final String passwordResetToken)
     {
         return repository.findByPasswordResetToken(passwordResetToken);

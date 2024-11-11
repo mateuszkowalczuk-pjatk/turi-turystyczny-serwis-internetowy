@@ -52,7 +52,10 @@ public class AccountFacade
             throw new BadRequestParameterException("Parameters country, city, zipCode, street and buildingNumber must not be null.");
         }
 
-        return AccountResponse.of(service.isAddressExists(country,
+        final var accountId = ContextHandler.getIdFromContext();
+
+        return AccountResponse.of(service.isAddressExists(accountId,
+                country,
                 city,
                 zipCode,
                 street,
@@ -67,7 +70,9 @@ public class AccountFacade
             throw new BadRequestParameterException("Parameter phoneNumber must not be null.");
         }
 
-        return AccountResponse.of(service.isPhoneNumberExists(phoneNumber));
+        final var accountId = ContextHandler.getIdFromContext();
+
+        return AccountResponse.of(service.isPhoneNumberExists(accountId, phoneNumber));
     }
 
     public ResponseEntity<?> activateAccount(final String code, final HttpServletResponse response)

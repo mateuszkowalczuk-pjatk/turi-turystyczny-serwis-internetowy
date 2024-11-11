@@ -15,6 +15,16 @@ import org.springframework.http.ResponseEntity;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class UserResponse
 {
+    public static ResponseEntity<String> of(final String content)
+    {
+        if (content == null)
+        {
+            throw new BadRequestResponseException("User content must not be null.");
+        }
+
+        return ResponseEntity.ok(content);
+    }
+
     public static ResponseEntity<?> of(final User user)
     {
         if (user == null)

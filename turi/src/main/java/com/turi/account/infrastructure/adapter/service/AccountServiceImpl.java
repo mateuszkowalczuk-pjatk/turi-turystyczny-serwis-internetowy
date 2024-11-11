@@ -37,7 +37,8 @@ public class AccountServiceImpl implements AccountService
     }
 
     @Override
-    public Boolean isAddressExists(final String country,
+    public Boolean isAddressExists(final Long accountId,
+                                   final String country,
                                    final String city,
                                    final String zipCode,
                                    final String street,
@@ -46,7 +47,7 @@ public class AccountServiceImpl implements AccountService
     {
         final var address = addressFacade.getAddressByAddress(country, city, zipCode, street, buildingNumber, apartmentNumber);
 
-        if (address == null)
+        if (address == null || getById(accountId).getAddressId().equals(address.getAddressId()))
         {
             return false;
         }
@@ -55,9 +56,11 @@ public class AccountServiceImpl implements AccountService
     }
 
     @Override
-    public Boolean isPhoneNumberExists(final String phoneNumber)
+    public Boolean isPhoneNumberExists(final Long accountId, final String phoneNumber)
     {
-        return repository.findByPhoneNumber(phoneNumber) != null;
+        final var account = repository.findByPhoneNumber(phoneNumber);
+
+        return account != null && !account.getAccountId().equals(accountId);
     }
 
     @Override
@@ -146,7 +149,7 @@ public class AccountServiceImpl implements AccountService
             throw new AccountUniqueAddressException(account.getAddressId());
         }
 
-        if (account.getPhoneNumber() != null && isPhoneNumberExists(account.getPhoneNumber()) &&
+        if (account.getPhoneNumber() != null && isPhoneNumberExists(account.getAccountId(), account.getPhoneNumber()) &&
                 (currentAccount.getPhoneNumber() == null || !currentAccount.getPhoneNumber().equals(account.getPhoneNumber())))
         {
             throw new AccountUniquePhoneNumberException(account.getPhoneNumber());

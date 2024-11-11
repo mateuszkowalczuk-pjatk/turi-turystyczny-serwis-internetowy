@@ -12,6 +12,18 @@ public class UserRestController
 {
     private final UserFacade facade;
 
+    @GetMapping("/getUsername")
+    public ResponseEntity<String> getUserUsername()
+    {
+        return facade.getUserUsername();
+    }
+
+    @GetMapping("/getEmail")
+    public ResponseEntity<String> getUserEmail()
+    {
+        return facade.getUserEmail();
+    }
+
     @GetMapping("/isUsernameExists")
     public ResponseEntity<Boolean> isUserUsernameExists(@RequestParam final String username)
     {

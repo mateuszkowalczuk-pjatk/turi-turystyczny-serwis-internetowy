@@ -35,6 +35,20 @@ public class UserFacade
         return service.getUserIdByLogin(login);
     }
 
+    public ResponseEntity<String> getUserUsername()
+    {
+        final var userId = ContextHandler.getIdFromContext();
+
+        return UserResponse.of(service.getUsername(userId));
+    }
+
+    public ResponseEntity<String> getUserEmail()
+    {
+        final var userId = ContextHandler.getIdFromContext();
+
+        return UserResponse.of(service.getEmail(userId));
+    }
+
     public ResponseEntity<Boolean> isUserUsernameExists(final String username)
     {
         if (username == null)

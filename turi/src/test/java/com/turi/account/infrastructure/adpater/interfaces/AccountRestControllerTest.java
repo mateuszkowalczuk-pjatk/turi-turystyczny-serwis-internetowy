@@ -104,7 +104,7 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
         final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), Boolean.class);
 
         assertTrue(result.getStatusCode().is2xxSuccessful());
-        assertEquals(Boolean.TRUE, result.getBody());
+        assertEquals(Boolean.FALSE, result.getBody());
     }
 
     @Test
@@ -168,7 +168,7 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
                 .queryParam("phoneNumber", mockAccount().getPhoneNumber())
                 .build().toUri();
 
-        headers.set("Authorization", "Bearer " + jwtService.generateToken(mockAccount().getAccountId(), AccountType.NORMAL.getName()));
+        headers.set("Authorization", "Bearer " + jwtService.generateToken(mockNewAccount().getAccountId(), AccountType.NORMAL.getName()));
 
         final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), Boolean.class);
 

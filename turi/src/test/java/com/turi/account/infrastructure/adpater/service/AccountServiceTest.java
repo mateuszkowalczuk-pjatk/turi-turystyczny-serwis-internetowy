@@ -73,16 +73,16 @@ public class AccountServiceTest
     @Test
     void testAccount_IsAddressExists()
     {
-        final var result = service.isAddressExists("Polska", "Warszawa", "01-000", "Warszawska", "1", 10);
+        final var result = service.isAddressExists(mockAccount().getAccountId(), "Polska", "Warszawa", "01-000", "Warszawska", "1", 10);
 
         assertNotNull(result);
-        assertTrue(result);
+        assertFalse(result);
     }
 
     @Test
     void testAccount_IsAddressExists_NotExists()
     {
-        final var result = service.isAddressExists("Polska", "Kraków", "02-000", "Krakowska", "1", null);
+        final var result = service.isAddressExists(mockAccount().getAccountId(), "Polska", "Kraków", "02-000", "Krakowska", "1", null);
 
         assertNotNull(result);
         assertFalse(result);
@@ -103,7 +103,7 @@ public class AccountServiceTest
 
         assertNotNull(insertedAddress);
 
-        final var result = service.isAddressExists(insertedAddress.getCountry(),
+        final var result = service.isAddressExists(mockAccount().getAccountId(), insertedAddress.getCountry(),
                 insertedAddress.getCity(),
                 insertedAddress.getZipCode(),
                 insertedAddress.getStreet(),
@@ -120,7 +120,7 @@ public class AccountServiceTest
     {
         final var account = mockAccount();
 
-        final var result = service.isPhoneNumberExists(account.getPhoneNumber());
+        final var result = service.isPhoneNumberExists(mockNewAccount().getAccountId(), account.getPhoneNumber());
 
         assertNotNull(result);
         assertTrue(result);
@@ -131,7 +131,7 @@ public class AccountServiceTest
     {
         final var account = mockNewAccount();
 
-        final var result = service.isPhoneNumberExists(account.getPhoneNumber());
+        final var result = service.isPhoneNumberExists(mockAccount().getAccountId(), account.getPhoneNumber());
 
         assertNotNull(result);
         assertFalse(result);

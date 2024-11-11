@@ -94,15 +94,19 @@ class AccountFacadeTest
     @Test
     void testAccount_IsAccountAddressExists()
     {
+        ContextHelper.setContextUserId(mockAccount().getAccountId());
+
         final var result = facade.isAccountAddressExists("Polska", "Warszawa", "01-000", "Warszawska", "1", "10").getBody();
 
         assertNotNull(result);
-        assertTrue(result);
+        assertFalse(result);
     }
 
     @Test
     void testAccount_IsAccountAddressExists_NotExists()
     {
+        ContextHelper.setContextUserId(mockAccount().getAccountId());
+
         final var result = facade.isAccountAddressExists("Polska", "Kraków", "02-000", "Krakowska", "1", "0").getBody();
 
         assertNotNull(result);
@@ -123,6 +127,8 @@ class AccountFacadeTest
         final var insertedAddress = addressFacade.createAddress(address).getBody();
 
         assertNotNull(insertedAddress);
+
+        ContextHelper.setContextUserId(mockAccount().getAccountId());
 
         final var result = facade.isAccountAddressExists(
                 insertedAddress.getCountry(),
@@ -146,9 +152,9 @@ class AccountFacadeTest
     @Test
     void testAccount_IsAccountPhoneNumberExists()
     {
-        final var account = mockAccount();
+        ContextHelper.setContextUserId(mockNewAccount().getAccountId());
 
-        final var result = facade.isAccountPhoneNumberExists(account.getPhoneNumber()).getBody();
+        final var result = facade.isAccountPhoneNumberExists(mockAccount().getPhoneNumber()).getBody();
 
         assertNotNull(result);
         assertTrue(result);
@@ -157,6 +163,8 @@ class AccountFacadeTest
     @Test
     void testAccount_IsAccountPhoneNumberExists_NotExists()
     {
+        ContextHelper.setContextUserId(mockAccount().getAccountId());
+
         final var result = facade.isAccountPhoneNumberExists("510212451").getBody();
 
         assertNotNull(result);

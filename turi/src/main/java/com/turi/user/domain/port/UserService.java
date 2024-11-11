@@ -12,6 +12,10 @@ public interface UserService
 
     User getByEmail(final String email);
 
+    String getUsername(final Long id);
+
+    String getEmail(final Long id);
+
     User getByPasswordResetToken(final String resetToken);
 
     Long getUserIdByLogin(final String login);
