@@ -151,7 +151,10 @@
         "description": "Enter your email address to find your account.",
         "email": "Email",
         "button": "Search",
-        "down": "Return to login form"
+        "down": "Return to login form",
+        "error-code-recently-send": "Reset code was recently sent!",
+        "error-not-found-by-email": "Account not found!",
+        "error-default": "Password reset failed!"
     },
     "login-code": {
         "title": "Recover your password",
@@ -159,14 +162,19 @@
         "code": "Code",
         "button": "Next",
         "top": "Send reset code again",
-        "down": "Back to login form"
+        "down": "Back to login form",
+        "error-reset-code-expired": "Reset code expired!",
+        "error-not-found-by-token": "Invalid reset code!",
+        "error-default": "Password reset failed!"
     },
     "login-reset": {
         "title": "Recover your password",
         "password": "New password",
         "re-password": "Repeat password",
         "button": "Reset",
-        "down": "Return to login form"
+        "top": "Move to home page",
+        "down": "Return to login form",
+        "error-default": "Password reset failed!"
     },
     "profile": {
         "title": "Profile personalization",

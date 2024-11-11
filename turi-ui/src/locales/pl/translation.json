@@ -151,7 +151,10 @@
         "description": "Wprowadź adres email, żeby znaleźć konto.",
         "email": "Adres email",
         "button": "Szukaj",
-        "down": "Wróć do formularza logowania"
+        "down": "Wróć do formularza logowania",
+        "error-code-recently-send": "Kod został przed chwilą wysłany",
+        "error-not-found-by-email": "Nie znaleziono konta",
+        "error-default": "Nie udało się znaleźć konta"
     },
     "login-code": {
         "title": "Odzyskaj hasło do konta",
@@ -159,14 +162,19 @@
         "code": "Kod",
         "button": "Dalej",
         "top": "Wyślij kod resetujący jeszcze raz",
-        "down": "Wróć do formularza logowania"
+        "down": "Wróć do formularza logowania",
+        "error-reset-code-expired": "Kod do resetu hasła wygasł",
+        "error-not-found-by-token": "Niepoprawny kod do resetu hasła",
+        "error-default": "Nie udało się potwierdzić kodu"
     },
     "login-reset": {
         "title": "Odzyskaj hasło do konta",
         "password": "Nowe hasło",
         "re-password": "Powtórz hasło",
         "button": "Resetuj",
-        "down": "Wróć do formularza logowania"
+        "top": "Przejdź na stronę główną",
+        "down": "Wróć do formularza logowania",
+        "error-default": "Nie udało się zmienić hasła"
     },
     "profile": {
         "title": "Personalizacja profilu",

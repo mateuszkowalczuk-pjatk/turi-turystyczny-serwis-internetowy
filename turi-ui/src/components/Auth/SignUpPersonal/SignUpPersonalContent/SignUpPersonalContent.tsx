@@ -231,7 +231,6 @@ const SignUpPersonalContent = () => {
                 setError(t('signup-personal.error-general'))
             }
         } catch (error) {
-            console.error('Error during account update:', error)
             setError(t('signup-personal.error-general'))
         } finally {
             setLoading(false)
