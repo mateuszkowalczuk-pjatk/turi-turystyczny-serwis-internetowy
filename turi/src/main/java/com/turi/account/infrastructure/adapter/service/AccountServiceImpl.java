@@ -72,7 +72,7 @@ public class AccountServiceImpl implements AccountService
 
         if (!account.getActivationCode().equals(code))
         {
-            throw new BadRequestParameterException("Invalid account activation code.");
+            throw new InvalidAccountActivationCode();
         }
 
         if (account.getActivationCodeExpiresAt().isAfter(LocalDateTime.now()))

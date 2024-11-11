@@ -97,7 +97,7 @@ public class UserServiceImpl implements UserService, UserDetailsService
 
             user.setPasswordResetCode(code);
             user.setPasswordResetToken(HashToken.hash(token));
-            user.setPasswordResetExpiresAt(LocalDateTime.now().plusMinutes(15));
+            user.setPasswordResetExpiresAt(LocalDateTime.now().plusSeconds(properties.getAccessTokenExpirationTime()));
 
             repository.update(user.getUserId(), user);
 

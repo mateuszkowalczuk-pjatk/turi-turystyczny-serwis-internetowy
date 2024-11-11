@@ -10,6 +10,7 @@ import com.turi.address.domain.model.Address;
 import com.turi.address.infrastructure.adapter.interfaces.AddressFacade;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.testhelper.annotation.ServiceTest;
+import com.turi.testhelper.utils.ContextHelper;
 import com.turi.user.domain.model.User;
 import com.turi.user.infrastructure.adapter.interfaces.UserFacade;
 import org.junit.jupiter.api.Test;
@@ -143,6 +144,8 @@ public class AccountServiceTest
 
         service.sendActivateCode(account.getAccountId());
 
+        ContextHelper.setContextUserId(account.getAccountId());
+
         service.activate(account.getAccountId(), service.getById(account.getAccountId()).getActivationCode());
 
         final var result = service.getById(account.getAccountId());
@@ -160,7 +163,7 @@ public class AccountServiceTest
     @Test
     void testAccount_Activate_InvalidActivationCode()
     {
-        assertThrows(BadRequestParameterException.class, () -> service.activate(mockAccount().getAccountId(), 654321));
+        assertThrows(InvalidAccountActivationCode.class, () -> service.activate(mockAccount().getAccountId(), 654321));
     }
 
     @Test

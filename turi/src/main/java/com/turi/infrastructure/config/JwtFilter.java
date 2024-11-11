@@ -1,6 +1,5 @@
 package com.turi.infrastructure.config;
 
-import com.turi.infrastructure.exception.UnauthorizedException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.FilterChain;
@@ -30,21 +29,76 @@ public class JwtFilter extends OncePerRequestFilter
                                     @NotNull final HttpServletResponse response,
                                     @NotNull final FilterChain filterChain) throws ServletException, IOException
     {
-//        final var path = request.getRequestURI();
-//
-//        if (path.equals("/") || path.startsWith("/swagger-ui") || path.startsWith("/v3/api-docs"))
-//        {
-//            filterChain.doFilter(request, response);
-//
-//            return;
-//        }
+        final String path = request.getRequestURI();
+
+        if (path.startsWith("/api/auth/register")
+                || path.startsWith("/api/auth/login")
+                || path.startsWith("/api/auth/refresh")
+                || path.startsWith("/api/user/sendResetPasswordCode")
+                || path.startsWith("/api/user/resetPassword")
+                || path.startsWith("/api/user/isUsernameExists")
+                || path.startsWith("/api/user/isEmailExists"))
+        {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        String token = null;
 
         final var header = request.getHeader("Authorization");
-
         if (header != null && header.startsWith("Bearer "))
         {
-            final var token = header.substring(7);
+            token = header.substring(7);
+        }
 
+        if (token == null && (path.startsWith("/api/account/activate")))
+        {
+            final var cookies = request.getCookies();
+            if (cookies != null)
+            {
+                for (final var cookie : cookies)
+                {
+                    if ("activateToken".equals(cookie.getName()))
+                    {
+                        token = cookie.getValue();
+                        break;
+                    }
+                }
+            }
+
+            if (token == null)
+            {
+                SecurityContextHolder.clearContext();
+
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Authorization token is required to activate account.");
+
+                return;
+            }
+        }
+
+        if (token == null)
+        {
+            final var cookies = request.getCookies();
+            if (cookies != null)
+            {
+                for (final var cookie : cookies)
+                {
+                    if ("accessToken".equals(cookie.getName()))
+                    {
+                        token = cookie.getValue();
+                        break;
+                    }
+                    else if ("activateToken".equals(cookie.getName()))
+                    {
+                        token = cookie.getValue();
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (token != null)
+        {
             try
             {
                 final var key = Keys.hmacShaKeyFor(properties.getSecretKey().getBytes(StandardCharsets.UTF_8));
@@ -64,7 +118,7 @@ public class JwtFilter extends OncePerRequestFilter
                     final var authentication = new UsernamePasswordAuthenticationToken(
                             id,
                             null,
-                            Collections.singletonList(new SimpleGrantedAuthority(role))
+                            Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role))
                     );
 
                     SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -74,16 +128,19 @@ public class JwtFilter extends OncePerRequestFilter
             {
                 SecurityContextHolder.clearContext();
 
-                throw new UnauthorizedException(ex.getMessage());
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
+
+                return;
             }
         }
-//        else
-//        {
-//            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-//            response.getWriter().write("Unauthorized: No Authorization header provided");
-//
-//            return;
-//        }
+        else
+        {
+            SecurityContextHolder.clearContext();
+
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authorization token is required to access this resource.");
+
+            return;
+        }
 
         filterChain.doFilter(request, response);
     }

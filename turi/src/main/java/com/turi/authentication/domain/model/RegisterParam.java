@@ -1,14 +1,13 @@
-package com.turi.authentication.infrastructure.adapter.application.queries.registration;
+package com.turi.authentication.domain.model;
 
 import lombok.*;
 
 @Getter
 @Setter
-@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(setterPrefix = "with")
-public final class RegistrationParam
+public final class RegisterParam
 {
     private String username;
     private String email;

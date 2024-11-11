@@ -1,13 +1,13 @@
 package com.turi.user.infrastructure.adapter.interfaces;
 
-import com.turi.user.domain.model.User;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping(value = "/user", produces = "application/json")
+@RequestMapping(value = "/api/user", produces = "application/json")
 public class UserRestController
 {
     private final UserFacade facade;
@@ -32,25 +32,26 @@ public class UserRestController
 
     @PostMapping("/resetPassword")
     public ResponseEntity<?> resetUserPassword(@CookieValue(value = "resetToken") final String resetToken,
-                                               @RequestParam final String code)
+                                               @RequestParam final String code,
+                                               final HttpServletResponse response)
     {
-        return facade.resetUserPassword(resetToken, code);
+        return facade.resetUserPassword(resetToken, code, response);
     }
 
     @PutMapping("/changeUsername")
-    public ResponseEntity<User> changeUserUsername(@RequestParam final String username)
+    public ResponseEntity<?> changeUserUsername(@RequestParam final String username)
     {
         return facade.changeUserUsername(username);
     }
 
     @PutMapping("/changeEmail")
-    public ResponseEntity<User> changeUserEmail(@RequestParam final String email)
+    public ResponseEntity<?> changeUserEmail(@RequestParam final String email)
     {
         return facade.changeUserEmail(email);
     }
 
     @PutMapping("/changePassword")
-    public ResponseEntity<User> changeUserPassword(@RequestParam final String password)
+    public ResponseEntity<?> changeUserPassword(@RequestParam final String password)
     {
         return facade.changeUserPassword(password);
     }

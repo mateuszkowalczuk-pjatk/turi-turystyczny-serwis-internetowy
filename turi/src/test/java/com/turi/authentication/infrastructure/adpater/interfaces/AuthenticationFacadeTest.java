@@ -6,11 +6,11 @@ import com.turi.authentication.domain.exception.InvalidLoginException;
 import com.turi.authentication.domain.exception.InvalidPasswordForLoginException;
 import com.turi.authentication.domain.exception.RefreshTokenExpiredException;
 import com.turi.authentication.domain.exception.RefreshTokenNotFoundByTokenException;
+import com.turi.authentication.domain.model.LoginParam;
+import com.turi.authentication.domain.model.LogoutParam;
+import com.turi.authentication.domain.model.RefreshParam;
+import com.turi.authentication.domain.model.RegisterParam;
 import com.turi.authentication.domain.port.RefreshTokenService;
-import com.turi.authentication.infrastructure.adapter.application.queries.authentication.AuthenticationParam;
-import com.turi.authentication.infrastructure.adapter.application.queries.logout.LogoutParam;
-import com.turi.authentication.infrastructure.adapter.application.queries.refresh.RefreshParam;
-import com.turi.authentication.infrastructure.adapter.application.queries.registration.RegistrationParam;
 import com.turi.authentication.infrastructure.adapter.interfaces.AuthenticationFacade;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.testhelper.annotation.RestControllerTest;
@@ -61,7 +61,7 @@ class AuthenticationFacadeTest
 
         assertNotNull(cookie);
         assertTrue(cookie.get(0).contains("activateToken="));
-        assertTrue(cookie.get(0).contains("Max-Age=900000"));
+        assertTrue(cookie.get(0).contains("Max-Age=900"));
         assertTrue(cookie.get(0).contains("Secure"));
         assertTrue(cookie.get(0).contains("HttpOnly"));
         assertTrue(cookie.get(0).contains("SameSite=Strict"));
@@ -155,7 +155,7 @@ class AuthenticationFacadeTest
     }
 
     @Test
-    void testAuthentication_Authenticate_ByUsername()
+    void testAuthentication_Login_ByUsername()
     {
         final var params = mockRegisterParams();
 
@@ -163,12 +163,12 @@ class AuthenticationFacadeTest
 
         accountService.activate(2L, accountService.getById(2L).getActivationCode());
 
-        final var authParams = AuthenticationParam.builder()
+        final var authParams = LoginParam.builder()
                 .withLogin(params.getUsername())
                 .withPassword(params.getPassword())
                 .build();
 
-        final var result = facade.authenticate(authParams);
+        final var result = facade.login(authParams);
 
         assertNotNull(result);
         assertTrue(result.getStatusCode().is2xxSuccessful());
@@ -178,7 +178,7 @@ class AuthenticationFacadeTest
         assertNotNull(cookie);
 
         assertTrue(cookie.get(0).contains("accessToken="));
-        assertTrue(cookie.get(0).contains("Max-Age=900000"));
+        assertTrue(cookie.get(0).contains("Max-Age=900"));
         assertTrue(cookie.get(0).contains("Secure"));
         assertTrue(cookie.get(0).contains("HttpOnly"));
         assertTrue(cookie.get(0).contains("SameSite=Strict"));
@@ -191,35 +191,35 @@ class AuthenticationFacadeTest
     }
 
     @Test
-    void testAuthentication_Authenticate_ByUsername_UserNotFound()
+    void testAuthentication_Login_ByUsername_UserNotFound()
     {
         final var params = mockRegisterParams();
 
-        final var authParams = AuthenticationParam.builder()
+        final var authParams = LoginParam.builder()
                 .withLogin(params.getUsername())
                 .withPassword(params.getPassword())
                 .build();
 
-        assertThrows(InvalidLoginException.class, () -> facade.authenticate(authParams));
+        assertThrows(InvalidLoginException.class, () -> facade.login(authParams));
     }
 
     @Test
-    void testAuthentication_Authenticate_ByUsername_WrongPassword()
+    void testAuthentication_Login_ByUsername_WrongPassword()
     {
         final var params = mockRegisterParams();
 
         facade.register(params);
 
-        final var authenticationParams = AuthenticationParam.builder()
+        final var authenticationParams = LoginParam.builder()
                 .withLogin(params.getUsername())
                 .withPassword(mockUser().getPassword())
                 .build();
 
-        assertThrows(InvalidPasswordForLoginException.class, () -> facade.authenticate(authenticationParams));
+        assertThrows(InvalidPasswordForLoginException.class, () -> facade.login(authenticationParams));
     }
 
     @Test
-    void testAuthentication_Authenticate_ByEmail()
+    void testAuthentication_Login_ByEmail()
     {
         final var params = mockRegisterParams();
 
@@ -227,12 +227,12 @@ class AuthenticationFacadeTest
 
         accountService.activate(2L, accountService.getById(2L).getActivationCode());
 
-        final var authParams = AuthenticationParam.builder()
+        final var authParams = LoginParam.builder()
                 .withLogin(params.getEmail())
                 .withPassword(params.getPassword())
                 .build();
 
-        final var result = facade.authenticate(authParams);
+        final var result = facade.login(authParams);
 
         assertNotNull(result);
         assertTrue(result.getStatusCode().is2xxSuccessful());
@@ -242,7 +242,7 @@ class AuthenticationFacadeTest
         assertNotNull(cookie);
 
         assertTrue(cookie.get(0).contains("accessToken="));
-        assertTrue(cookie.get(0).contains("Max-Age=900000"));
+        assertTrue(cookie.get(0).contains("Max-Age=900"));
         assertTrue(cookie.get(0).contains("Secure"));
         assertTrue(cookie.get(0).contains("HttpOnly"));
         assertTrue(cookie.get(0).contains("SameSite=Strict"));
@@ -255,53 +255,53 @@ class AuthenticationFacadeTest
     }
 
     @Test
-    void testAuthentication_Authenticate_ByEmail_UserNotFound()
+    void testAuthentication_Login_ByEmail_UserNotFound()
     {
         final var params = mockRegisterParams();
 
-        final var authenticationParams = AuthenticationParam.builder()
+        final var authenticationParams = LoginParam.builder()
                 .withLogin(params.getEmail())
                 .withPassword(params.getPassword())
                 .build();
 
-        assertThrows(InvalidLoginException.class, () -> facade.authenticate(authenticationParams));
+        assertThrows(InvalidLoginException.class, () -> facade.login(authenticationParams));
     }
 
     @Test
-    void testAuthentication_Authenticate_ByEmail_WrongPassword()
+    void testAuthentication_Login_ByEmail_WrongPassword()
     {
         final var params = mockRegisterParams();
 
         facade.register(params);
 
-        final var authenticationParams = AuthenticationParam.builder()
+        final var authenticationParams = LoginParam.builder()
                 .withLogin(params.getEmail())
                 .withPassword(mockUser().getPassword())
                 .build();
 
-        assertThrows(InvalidPasswordForLoginException.class, () -> facade.authenticate(authenticationParams));
+        assertThrows(InvalidPasswordForLoginException.class, () -> facade.login(authenticationParams));
     }
 
     @Test
-    void testAuthentication_Authenticate_WithoutRequiredLoginField()
+    void testAuthentication_Login_WithoutRequiredLoginField()
     {
-        final var authenticationParams = AuthenticationParam.builder()
+        final var authenticationParams = LoginParam.builder()
                 .withLogin(null)
                 .withPassword(mockUser().getPassword())
                 .build();
 
-        assertThrows(BadRequestParameterException.class, () -> facade.authenticate(authenticationParams));
+        assertThrows(BadRequestParameterException.class, () -> facade.login(authenticationParams));
     }
 
     @Test
-    void testAuthentication_Authenticate_WithoutRequiredPasswordField()
+    void testAuthentication_Login_WithoutRequiredPasswordField()
     {
-        final var authenticationParams = AuthenticationParam.builder()
+        final var authenticationParams = LoginParam.builder()
                 .withLogin(mockUser().getUsername())
                 .withPassword(null)
                 .build();
 
-        assertThrows(BadRequestParameterException.class, () -> facade.authenticate(authenticationParams));
+        assertThrows(BadRequestParameterException.class, () -> facade.login(authenticationParams));
     }
 
     @Test
@@ -313,12 +313,12 @@ class AuthenticationFacadeTest
 
         accountService.activate(2L, accountService.getById(2L).getActivationCode());
 
-        final var authParams = AuthenticationParam.builder()
+        final var authParams = LoginParam.builder()
                 .withLogin(params.getUsername())
                 .withPassword(params.getPassword())
                 .build();
 
-        final var authentication = facade.authenticate(authParams);
+        final var authentication = facade.login(authParams);
 
         final var cookie = authentication.getHeaders().get("Set-Cookie");
 
@@ -337,7 +337,7 @@ class AuthenticationFacadeTest
         assertNotNull(resultCookie);
 
         assertTrue(resultCookie.get(0).contains("accessToken="));
-        assertTrue(resultCookie.get(0).contains("Max-Age=900000"));
+        assertTrue(resultCookie.get(0).contains("Max-Age=900"));
         assertTrue(resultCookie.get(0).contains("Secure"));
         assertTrue(resultCookie.get(0).contains("HttpOnly"));
         assertTrue(resultCookie.get(0).contains("SameSite=Strict"));
@@ -386,19 +386,18 @@ class AuthenticationFacadeTest
 
         accountService.activate(2L, accountService.getById(2L).getActivationCode());
 
-        final var authParams = AuthenticationParam.builder()
+        final var authParams = LoginParam.builder()
                 .withLogin(params.getUsername())
                 .withPassword(params.getPassword())
                 .build();
 
-        final var authentication = facade.authenticate(authParams);
+        final var authentication = facade.login(authParams);
 
         final var cookie = authentication.getHeaders().get("Set-Cookie");
 
         assertNotNull(cookie);
 
         final var refreshToken = cookie.get(1).split("Token=")[1].split(";")[0];
-
 
         final var response = Mockito.mock(HttpServletResponse.class);
 
@@ -438,20 +437,9 @@ class AuthenticationFacadeTest
         assertThrows(BadRequestParameterException.class, () -> facade.logout(logoutParams));
     }
 
-    @Test
-    void testAuthentication_Logout_WithoutRequiredResponseField()
+    private RegisterParam mockRegisterParams()
     {
-        final var logoutParams = LogoutParam.builder()
-                .withRefreshToken("other-refresh-token")
-                .withResponse(null)
-                .build();
-
-        assertThrows(BadRequestParameterException.class, () -> facade.logout(logoutParams));
-    }
-
-    private RegistrationParam mockRegisterParams()
-    {
-        return RegistrationParam.builder()
+        return RegisterParam.builder()
                 .withUsername("Marek")
                 .withEmail("marek@turi.com")
                 .withPassword("MarekNowak123!")

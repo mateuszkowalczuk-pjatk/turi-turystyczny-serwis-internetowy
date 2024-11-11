@@ -6,7 +6,6 @@ import com.turi.address.domain.exception.InvalidAddressException;
 import com.turi.authentication.domain.exception.*;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.infrastructure.exception.BadRequestResponseException;
-import com.turi.infrastructure.exception.UnauthorizedException;
 import com.turi.user.domain.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -106,6 +105,12 @@ public final class RestControllerErrorHandler extends ErrorHandler
         return createResponse(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ErrorCode> handleUnauthorizedException(final UnauthorizedException ex)
+    {
+        return createResponse(HttpStatus.UNAUTHORIZED, ex.getMessage());
+    }
+
     @ExceptionHandler(BadRequestParameterException.class)
     public ResponseEntity<ErrorCode> handleBadRequestParameterException(final BadRequestParameterException ex)
     {
@@ -116,12 +121,6 @@ public final class RestControllerErrorHandler extends ErrorHandler
     public ResponseEntity<ErrorCode> handleBadRequestResponseException(final BadRequestResponseException ex)
     {
         return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
-    }
-
-    @ExceptionHandler(UnauthorizedException.class)
-    public ResponseEntity<ErrorCode> handleUnauthorizedException(final UnauthorizedException ex)
-    {
-        return createResponse(HttpStatus.UNAUTHORIZED, ex.getMessage());
     }
 
     @ExceptionHandler(InvalidUserException.class)

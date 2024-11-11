@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping(value = "/address", produces = "application/json")
+@RequestMapping(value = "/api/address", produces = "application/json")
 public class AddressRestController
 {
     private final AddressFacade facade;
 
     @GetMapping("/getById/{addressId}")
-    public ResponseEntity<?> getAddressById(@PathVariable final String addressId)
+    public ResponseEntity<Address> getAddressById(@PathVariable final String addressId)
     {
         return facade.getAddressById(addressId);
     }

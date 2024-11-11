@@ -1,11 +1,9 @@
-package com.turi.authentication.infrastructure.adapter.application.queries.logout;
+package com.turi.authentication.domain.model;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.*;
 
 @Getter
-@EqualsAndHashCode
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder(setterPrefix = "with")
 public final class LogoutParam

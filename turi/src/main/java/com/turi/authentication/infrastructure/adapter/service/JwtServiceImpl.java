@@ -35,7 +35,7 @@ public class JwtServiceImpl implements JwtService
                 .setSubject(String.valueOf(subject))
                 .claim("role", role)
                 .setIssuedAt(new Date(currentTime))
-                .setExpiration(new Date(currentTime + properties.getAccessTokenExpirationTime()))
+                .setExpiration(new Date(currentTime + (properties.getAccessTokenExpirationTime()) * 1000))
                 .signWith(key)
                 .compact();
     }

@@ -1,5 +1,6 @@
 package com.turi.authentication.infrastructure.adapter.interfaces;
 
+import com.turi.authentication.domain.exception.UnauthorizedException;
 import com.turi.authentication.domain.model.Authentication;
 import com.turi.infrastructure.exception.BadRequestResponseException;
 import jakarta.servlet.http.Cookie;
@@ -24,7 +25,7 @@ public final class AuthenticationResponse
         {
             final var activateTokenCookie = prepareCookie("activateToken", authentication.getAccessToken(), authentication.getRefreshTokenExpiresIn());
 
-            return ResponseEntity.ok()
+            return ResponseEntity.accepted()
                     .header(HttpHeaders.SET_COOKIE, activateTokenCookie.toString())
                     .build();
         }
@@ -57,23 +58,41 @@ public final class AuthenticationResponse
                 .build();
     }
 
+    public static ResponseEntity<?> of(final Boolean condition)
+    {
+        if (condition == null)
+        {
+            throw new BadRequestResponseException("Authentication condition must not be null.");
+        }
+
+        if (!condition)
+        {
+            throw new UnauthorizedException();
+        }
+
+        return ResponseEntity.ok().build();
+    }
+
     public static ResponseEntity<?> of(final HttpServletResponse response)
     {
-        final var accessToken = new Cookie("accessToken", null);
-        accessToken.setHttpOnly(true);
-        accessToken.setSecure(true);
-        accessToken.setPath("/");
-        accessToken.setMaxAge(0);
+        if (response != null)
+        {
+            final var accessToken = new Cookie("accessToken", null);
+            accessToken.setHttpOnly(true);
+            accessToken.setSecure(true);
+            accessToken.setPath("/");
+            accessToken.setMaxAge(0);
 
-        response.addCookie(accessToken);
+            response.addCookie(accessToken);
 
-        final var refreshTokenCookie = new Cookie("refreshToken", null);
-        refreshTokenCookie.setHttpOnly(true);
-        refreshTokenCookie.setSecure(true);
-        refreshTokenCookie.setPath("/");
-        refreshTokenCookie.setMaxAge(0);
+            final var refreshToken = new Cookie("refreshToken", null);
+            refreshToken.setHttpOnly(true);
+            refreshToken.setSecure(true);
+            refreshToken.setPath("/");
+            refreshToken.setMaxAge(0);
 
-        response.addCookie(refreshTokenCookie);
+            response.addCookie(refreshToken);
+        }
 
         return ResponseEntity.ok().build();
     }

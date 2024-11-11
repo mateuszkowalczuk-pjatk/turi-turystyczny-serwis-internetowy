@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 
-import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -47,7 +46,7 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
         final var account = mockAccount();
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/account/getById")
+                .path("/api/account/getById")
                 .build().toUri();
 
         headers.set("Authorization", "Bearer " + jwtService.generateToken(account.getAccountId(), AccountType.NORMAL.getName()));
@@ -63,10 +62,10 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
     void testAccount_GetAccountById_ContextAccountIdIsNull()
     {
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/account/getById")
+                .path("/api/account/getById")
                 .build().toUri();
 
-        final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), Account.class);
+        final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), ErrorCode.class);
 
         assertTrue(result.getStatusCode().is4xxClientError());
     }
@@ -77,7 +76,7 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
         final var account = mockNewAccount();
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/account/getById")
+                .path("/api/account/getById")
                 .build().toUri();
 
         headers.set("Authorization", "Bearer " + jwtService.generateToken(account.getAccountId(), AccountType.NORMAL.getName()));
@@ -91,7 +90,7 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
     void testAccount_IsAccountAddressExists()
     {
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/account/isAddressExists")
+                .path("/api/account/isAddressExists")
                 .queryParam("country", "Polska")
                 .queryParam("city", "Warszawa")
                 .queryParam("zipCode", "01-000")
@@ -112,7 +111,7 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
     void testAccount_IsAccountAddressExists_NotExists()
     {
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/account/isAddressExists")
+                .path("/api/account/isAddressExists")
                 .queryParam("country", "Polska")
                 .queryParam("city", "Krakow")
                 .queryParam("zipCode", "02-000")
@@ -145,7 +144,7 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
         assertNotNull(insertedAddress);
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/account/isAddressExists")
+                .path("/api/account/isAddressExists")
                 .queryParam("country", insertedAddress.getCountry())
                 .queryParam("city", insertedAddress.getCity())
                 .queryParam("zipCode", insertedAddress.getZipCode())
@@ -165,7 +164,7 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
     void testAccount_IsAccountPhoneNumberExists()
     {
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/account/isPhoneNumberExists")
+                .path("/api/account/isPhoneNumberExists")
                 .queryParam("phoneNumber", mockAccount().getPhoneNumber())
                 .build().toUri();
 
@@ -181,7 +180,7 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
     void testAccount_IsAccountPhoneNumberExists_NotExists()
     {
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/account/isPhoneNumberExists")
+                .path("/api/account/isPhoneNumberExists")
                 .queryParam("phoneNumber", "927182948")
                 .build().toUri();
 
@@ -197,7 +196,7 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
     void testAccount_IsAccountPhoneNumberExists_PhoneNumberIsNull()
     {
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/account/isPhoneNumberExists")
+                .path("/api/account/isPhoneNumberExists")
                 .build().toUri();
 
         headers.set("Authorization", "Bearer " + jwtService.generateToken(mockAccount().getAccountId(), AccountType.NORMAL.getName()));
@@ -214,18 +213,18 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
 
         ContextHelper.setContextUserId(mock.getAccountId());
 
-        facade.sendAccountActivateCode();
+        facade.sendAccountActivateCode(mock.getAccountId());
 
         final var account = facade.getAccountById().getBody();
 
         assertNotNull(account);
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/account/activate")
+                .path("/api/account/activate")
                 .queryParam("code", account.getActivationCode())
                 .build().toUri();
 
-        headers.set("Authorization", "Bearer " + jwtService.generateToken(account.getAccountId(), AccountType.NORMAL.getName()));
+        headers.set("Authorization", "Bearer " + jwtService.generateToken(account.getAccountId(), AccountType.INACTIVE.getName()));
 
         final var result = restTemplate.postForEntity(uri, new HttpEntity<>(headers), Account.class);
 
@@ -239,11 +238,11 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
         final var account = mockAccount();
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/account/activate")
+                .path("/api/account/activate")
                 .queryParam("code", account.getActivationCode())
                 .build().toUri();
 
-        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(headers), Account.class);
+        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(headers), ErrorCode.class);
 
         assertTrue(result.getStatusCode().is4xxClientError());
     }
@@ -252,7 +251,7 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
     void testAccount_ActivateAccount_CodeIsNull()
     {
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/account/activate")
+                .path("/api/account/activate")
                 .build().toUri();
 
         headers.set("Authorization", "Bearer " + jwtService.generateToken(mockAccount().getAccountId(), AccountType.NORMAL.getName()));
@@ -266,7 +265,7 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
     void testAccount_ActivateAccount_AccountNotFound()
     {
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/account/activate")
+                .path("/api/account/activate")
                 .queryParam("code", mockAccount().getActivationCode())
                 .build().toUri();
 
@@ -281,7 +280,7 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
     void testAccount_ActivateAccount_InvalidActivationCode()
     {
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/account/activate")
+                .path("/api/account/activate")
                 .queryParam("code", 111111)
                 .build().toUri();
 
@@ -298,87 +297,11 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
         final var account = mockAccount();
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/account/activate")
+                .path("/api/account/activate")
                 .queryParam("code", account.getActivationCode())
                 .build().toUri();
 
         headers.set("Authorization", "Bearer " + jwtService.generateToken(account.getAccountId(), AccountType.NORMAL.getName()));
-
-        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(headers), Account.class);
-
-        assertTrue(result.getStatusCode().is4xxClientError());
-    }
-
-    @Test
-    void testAccount_ResendAccountActivateCode()
-    {
-        final var account = mockAccount();
-
-        final var uri = fromHttpUrl(getBaseUrl())
-                .path("/account/resendActivateCode")
-                .build().toUri();
-
-        headers.set("Authorization", "Bearer " + jwtService.generateToken(account.getAccountId(), AccountType.NORMAL.getName()));
-
-        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(headers), Account.class);
-
-        assertTrue(result.getStatusCode().is2xxSuccessful());
-    }
-
-    @Test
-    void testAccount_ResendActivateCode_AccountNotFound()
-    {
-        final var uri = fromHttpUrl(getBaseUrl())
-                .path("/account/resendActivateCode")
-                .build().toUri();
-
-        headers.set("Authorization", "Bearer " + jwtService.generateToken(mockNewAccount().getAccountId(), AccountType.NORMAL.getName()));
-
-        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(headers), Account.class);
-
-        assertTrue(result.getStatusCode().is4xxClientError());
-    }
-
-    @Test
-    void testAccount_ResendActivateCode_ActivationCodeRecentlySent()
-    {
-        final var account = mockAccount();
-
-        ContextHelper.setContextUserId(account.getAccountId());
-
-        facade.sendAccountActivateCode();
-
-        final var uri = fromHttpUrl(getBaseUrl())
-                .path("/account/resendActivateCode")
-                .build().toUri();
-
-        headers.set("Authorization", "Bearer " + jwtService.generateToken(account.getAccountId(), AccountType.NORMAL.getName()));
-
-        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(headers), Account.class);
-
-        assertTrue(result.getStatusCode().is4xxClientError());
-    }
-
-    @Test
-    void testAccount_ResendActivateCode_AccountAlreadyActivated()
-    {
-        final var mock = mockAccount();
-
-        ContextHelper.setContextUserId(mock.getAccountId());
-
-        facade.sendAccountActivateCode();
-
-        final var account = facade.getAccountById().getBody();
-
-        assertNotNull(account);
-
-        facade.activateAccount(String.valueOf(account.getActivationCode()));
-
-        final var uri = fromHttpUrl(getBaseUrl())
-                .path("/account/resendActivateCode")
-                .build().toUri();
-
-        headers.set("Authorization", "Bearer " + jwtService.generateToken(mock.getAccountId(), AccountType.NORMAL.getName()));
 
         final var result = restTemplate.postForEntity(uri, new HttpEntity<>(headers), Account.class);
 
@@ -393,7 +316,7 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
         account.setFirstName(mockNewAccount().getFirstName());
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/account/update")
+                .path("/api/account/update")
                 .buildAndExpand(account.getAccountId())
                 .toUri();
 
@@ -414,11 +337,11 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
         account.setFirstName(mockNewAccount().getFirstName());
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/account/update")
+                .path("/api/account/update")
                 .buildAndExpand(account.getAccountId())
                 .toUri();
 
-        final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(account, headers), Account.class);
+        final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(account, headers), ErrorCode.class);
 
         assertTrue(result.getStatusCode().is4xxClientError());
     }
@@ -431,7 +354,7 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
         account.setFirstName(mockNewAccount().getFirstName());
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/account/update")
+                .path("/api/account/update")
                 .buildAndExpand(account.getAccountId())
                 .toUri();
 
@@ -452,7 +375,7 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
         account.setFirstName(mock.getFirstName());
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/account/update")
+                .path("/api/account/update")
                 .build().toUri();
 
         headers.set("Authorization", "Bearer " + jwtService.generateToken(mock.getAccountId(), AccountType.NORMAL.getName()));
@@ -472,7 +395,7 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
         createdAccount.setAddressId(mockAccount().getAddressId());
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/account/update")
+                .path("/api/account/update")
                 .build().toUri();
 
         headers.set("Authorization", "Bearer " + jwtService.generateToken(createdAccount.getAccountId(), AccountType.NORMAL.getName()));
@@ -492,7 +415,7 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
         createdAccount.setPhoneNumber(mockAccount().getPhoneNumber());
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/account/update")
+                .path("/api/account/update")
                 .build().toUri();
 
         headers.set("Authorization", "Bearer " + jwtService.generateToken(createdAccount.getAccountId(), AccountType.NORMAL.getName()));

@@ -4,6 +4,7 @@ import com.turi.infrastructure.common.ContextHandler;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.user.domain.model.User;
 import com.turi.user.domain.port.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -64,14 +65,14 @@ public class UserFacade
         return UserResponse.of(service.sendResetPasswordCode(email));
     }
 
-    public ResponseEntity<?> resetUserPassword(final String resetToken, final String code)
+    public ResponseEntity<?> resetUserPassword(final String resetToken, final String code, final HttpServletResponse response)
     {
         if (resetToken == null || code == null)
         {
             throw new BadRequestParameterException("Parameters resetToken and code must not be null.");
         }
 
-        return UserResponse.of(service.resetPassword(resetToken, Integer.valueOf(code)));
+        return UserResponse.of(service.resetPassword(resetToken, Integer.valueOf(code)), response);
     }
 
     public User createUser(final User user)
@@ -88,7 +89,7 @@ public class UserFacade
         return service.create(user);
     }
 
-    public ResponseEntity<User> changeUserUsername(final String username)
+    public ResponseEntity<?> changeUserUsername(final String username)
     {
         if (username == null)
         {
@@ -100,7 +101,7 @@ public class UserFacade
         return UserResponse.of(service.changeUsername(userId, username));
     }
 
-    public ResponseEntity<User> changeUserEmail(final String email)
+    public ResponseEntity<?> changeUserEmail(final String email)
     {
         if (email == null)
         {
@@ -114,7 +115,7 @@ public class UserFacade
         return UserResponse.of(service.changeEmail(userId, email));
     }
 
-    public ResponseEntity<User> changeUserPassword(final String password)
+    public ResponseEntity<?> changeUserPassword(final String password)
     {
         if (password == null)
         {

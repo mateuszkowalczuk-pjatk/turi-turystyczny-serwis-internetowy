@@ -5,6 +5,7 @@ import com.turi.account.domain.port.AccountService;
 import com.turi.infrastructure.common.ContextHandler;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.infrastructure.exception.BadRequestResponseException;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -69,7 +70,7 @@ public class AccountFacade
         return AccountResponse.of(service.isPhoneNumberExists(phoneNumber));
     }
 
-    public ResponseEntity<?> activateAccount(final String code)
+    public ResponseEntity<?> activateAccount(final String code, final HttpServletResponse response)
     {
         if (code == null)
         {
@@ -80,16 +81,12 @@ public class AccountFacade
 
         service.activate(accountId, Integer.valueOf(code));
 
-        return ResponseEntity.ok().build();
+        return AccountResponse.of(response);
     }
 
-    public ResponseEntity<?> sendAccountActivateCode()
+    public void sendAccountActivateCode(final Long accountId)
     {
-        final var accountId = ContextHandler.getIdFromContext();
-
         service.sendActivateCode(accountId);
-
-        return ResponseEntity.ok().build();
     }
 
     public Account createAccount(final Account account)

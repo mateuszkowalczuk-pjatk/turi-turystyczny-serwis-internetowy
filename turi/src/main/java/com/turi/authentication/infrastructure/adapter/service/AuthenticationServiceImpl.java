@@ -1,5 +1,6 @@
 package com.turi.authentication.infrastructure.adapter.service;
 
+import com.turi.account.domain.exception.AccountNotFoundException;
 import com.turi.account.domain.model.Account;
 import com.turi.account.domain.model.AccountType;
 import com.turi.account.infrastructure.adapter.interfaces.AccountFacade;
@@ -7,14 +8,10 @@ import com.turi.authentication.domain.exception.InvalidLoginException;
 import com.turi.authentication.domain.exception.InvalidPasswordForLoginException;
 import com.turi.authentication.domain.exception.RefreshTokenExpiredException;
 import com.turi.authentication.domain.exception.RefreshTokenNotFoundByTokenException;
-import com.turi.authentication.domain.model.Authentication;
+import com.turi.authentication.domain.model.*;
 import com.turi.authentication.domain.port.AuthenticationService;
 import com.turi.authentication.domain.port.JwtService;
 import com.turi.authentication.domain.port.RefreshTokenService;
-import com.turi.authentication.infrastructure.adapter.application.queries.authentication.AuthenticationParam;
-import com.turi.authentication.infrastructure.adapter.application.queries.logout.LogoutParam;
-import com.turi.authentication.infrastructure.adapter.application.queries.refresh.RefreshParam;
-import com.turi.authentication.infrastructure.adapter.application.queries.registration.RegistrationParam;
 import com.turi.infrastructure.config.SecurityProperties;
 import com.turi.user.domain.model.User;
 import com.turi.user.infrastructure.adapter.interfaces.UserFacade;
@@ -38,7 +35,7 @@ public class AuthenticationServiceImpl implements AuthenticationService
     private final RefreshTokenService refreshTokenService;
 
     @Override
-    public Authentication register(final RegistrationParam params)
+    public Authentication register(final RegisterParam params)
     {
         final var user = User.builder()
                 .withUsername(params.getUsername())
@@ -59,7 +56,7 @@ public class AuthenticationServiceImpl implements AuthenticationService
     }
 
     @Override
-    public Authentication authenticate(final AuthenticationParam params)
+    public Authentication login(final LoginParam params)
     {
         try
         {
@@ -75,6 +72,8 @@ public class AuthenticationServiceImpl implements AuthenticationService
 
             if (role.equals(AccountType.INACTIVE.getName()))
             {
+                accountFacade.sendAccountActivateCode(account.getAccountId());
+
                 return getActivateToken(account.getAccountId(), role);
             }
 
@@ -107,6 +106,21 @@ public class AuthenticationServiceImpl implements AuthenticationService
                 .withAccessToken(activateToken)
                 .withRefreshTokenExpiresIn(properties.getAccessTokenExpirationTime())
                 .build();
+    }
+
+    @Override
+    public Boolean authorize()
+    {
+        try
+        {
+            accountFacade.getAccountById();
+        }
+        catch (final AccountNotFoundException ex)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     @Override

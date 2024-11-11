@@ -2,13 +2,16 @@ package com.turi.authentication.infrastructure.adpater.service;
 
 import com.turi.account.domain.model.AccountType;
 import com.turi.account.domain.port.AccountService;
-import com.turi.authentication.domain.exception.*;
+import com.turi.authentication.domain.exception.InvalidLoginException;
+import com.turi.authentication.domain.exception.InvalidPasswordForLoginException;
+import com.turi.authentication.domain.exception.RefreshTokenExpiredException;
+import com.turi.authentication.domain.exception.RefreshTokenNotFoundByTokenException;
+import com.turi.authentication.domain.model.LoginParam;
+import com.turi.authentication.domain.model.LogoutParam;
+import com.turi.authentication.domain.model.RefreshParam;
+import com.turi.authentication.domain.model.RegisterParam;
 import com.turi.authentication.domain.port.AuthenticationService;
 import com.turi.authentication.domain.port.RefreshTokenService;
-import com.turi.authentication.infrastructure.adapter.application.queries.authentication.AuthenticationParam;
-import com.turi.authentication.infrastructure.adapter.application.queries.logout.LogoutParam;
-import com.turi.authentication.infrastructure.adapter.application.queries.refresh.RefreshParam;
-import com.turi.authentication.infrastructure.adapter.application.queries.registration.RegistrationParam;
 import com.turi.infrastructure.config.SecurityProperties;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.testhelper.annotation.ServiceTest;
@@ -147,7 +150,7 @@ class AuthenticationServiceTest
     }
 
     @Test
-    void testAuthentication_Authenticate_ByUsername()
+    void testAuthentication_login_ByUsername()
     {
         final var params = mockRegisterParams();
 
@@ -155,12 +158,12 @@ class AuthenticationServiceTest
 
         accountService.activate(2L, accountService.getById(2L).getActivationCode());
 
-        final var authParams = AuthenticationParam.builder()
+        final var authParams = LoginParam.builder()
                 .withLogin(params.getUsername())
                 .withPassword(params.getPassword())
                 .build();
 
-        final var result = service.authenticate(authParams);
+        final var result = service.login(authParams);
 
         assertNotNull(result);
         assertNotNull(result.getAccessToken());
@@ -170,35 +173,35 @@ class AuthenticationServiceTest
     }
 
     @Test
-    void testAuthentication_Authenticate_ByUsername_UserNotFound()
+    void testAuthentication_login_ByUsername_UserNotFound()
     {
         final var params = mockRegisterParams();
 
-        final var authParams = AuthenticationParam.builder()
+        final var authParams = LoginParam.builder()
                 .withLogin(params.getUsername())
                 .withPassword(params.getPassword())
                 .build();
 
-        assertThrows(InvalidLoginException.class, () -> service.authenticate(authParams));
+        assertThrows(InvalidLoginException.class, () -> service.login(authParams));
     }
 
     @Test
-    void testAuthentication_Authenticate_ByUsername_WrongPassword()
+    void testAuthentication_login_ByUsername_WrongPassword()
     {
         final var params = mockRegisterParams();
 
         service.register(params);
 
-        final var authenticationParams = AuthenticationParam.builder()
+        final var authenticationParams = LoginParam.builder()
                 .withLogin(params.getUsername())
                 .withPassword(mockUser().getPassword())
                 .build();
 
-        assertThrows(InvalidPasswordForLoginException.class, () -> service.authenticate(authenticationParams));
+        assertThrows(InvalidPasswordForLoginException.class, () -> service.login(authenticationParams));
     }
 
     @Test
-    void testAuthentication_Authenticate_ByEmail()
+    void testAuthentication_login_ByEmail()
     {
         final var params = mockRegisterParams();
 
@@ -206,12 +209,12 @@ class AuthenticationServiceTest
 
         accountService.activate(2L, accountService.getById(2L).getActivationCode());
 
-        final var authParams = AuthenticationParam.builder()
+        final var authParams = LoginParam.builder()
                 .withLogin(params.getEmail())
                 .withPassword(params.getPassword())
                 .build();
 
-        final var result = service.authenticate(authParams);
+        final var result = service.login(authParams);
 
         assertNotNull(result);
         assertNotNull(result.getAccessToken());
@@ -221,31 +224,31 @@ class AuthenticationServiceTest
     }
 
     @Test
-    void testAuthentication_Authenticate_ByEmail_UserNotFound()
+    void testAuthentication_login_ByEmail_UserNotFound()
     {
         final var params = mockRegisterParams();
 
-        final var authenticationParams = AuthenticationParam.builder()
+        final var authenticationParams = LoginParam.builder()
                 .withLogin(params.getEmail())
                 .withPassword(params.getPassword())
                 .build();
 
-        assertThrows(InvalidLoginException.class, () -> service.authenticate(authenticationParams));
+        assertThrows(InvalidLoginException.class, () -> service.login(authenticationParams));
     }
 
     @Test
-    void testAuthentication_Authenticate_ByEmail_WrongPassword()
+    void testAuthentication_login_ByEmail_WrongPassword()
     {
         final var params = mockRegisterParams();
 
         service.register(params);
 
-        final var authenticationParams = AuthenticationParam.builder()
+        final var authenticationParams = LoginParam.builder()
                 .withLogin(params.getEmail())
                 .withPassword(mockUser().getPassword())
                 .build();
 
-        assertThrows(InvalidPasswordForLoginException.class, () -> service.authenticate(authenticationParams));
+        assertThrows(InvalidPasswordForLoginException.class, () -> service.login(authenticationParams));
     }
 
     @Test
@@ -257,12 +260,12 @@ class AuthenticationServiceTest
 
         accountService.activate(2L, accountService.getById(2L).getActivationCode());
 
-        final var authParams = AuthenticationParam.builder()
+        final var authParams = LoginParam.builder()
                 .withLogin(params.getUsername())
                 .withPassword(params.getPassword())
                 .build();
 
-        final var authentication = service.authenticate(authParams);
+        final var authentication = service.login(authParams);
 
         final var refreshParams = RefreshParam.builder()
                 .withRefreshToken(authentication.getRefreshToken())
@@ -318,12 +321,12 @@ class AuthenticationServiceTest
 
         accountService.activate(2L, accountService.getById(2L).getActivationCode());
 
-        final var authParams = AuthenticationParam.builder()
+        final var authParams = LoginParam.builder()
                 .withLogin(params.getUsername())
                 .withPassword(params.getPassword())
                 .build();
 
-        final var authentication = service.authenticate(authParams);
+        final var authentication = service.login(authParams);
 
         final var logoutParams = LogoutParam.builder()
                 .withRefreshToken(authentication.getRefreshToken())
@@ -354,9 +357,9 @@ class AuthenticationServiceTest
         assertThrows(BadRequestParameterException.class, () -> service.logout(logoutParams));
     }
 
-    private RegistrationParam mockRegisterParams()
+    private RegisterParam mockRegisterParams()
     {
-        return RegistrationParam.builder()
+        return RegisterParam.builder()
                 .withUsername("Marek")
                 .withEmail("marek@turi.com")
                 .withPassword("MarekNowak123!")

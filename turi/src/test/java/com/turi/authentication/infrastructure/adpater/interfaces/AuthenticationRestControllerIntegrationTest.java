@@ -2,8 +2,9 @@ package com.turi.authentication.infrastructure.adpater.interfaces;
 
 import com.turi.account.domain.model.AccountType;
 import com.turi.account.domain.port.AccountService;
-import com.turi.authentication.infrastructure.adapter.application.queries.authentication.AuthenticationParam;
-import com.turi.authentication.infrastructure.adapter.application.queries.registration.RegistrationParam;
+import com.turi.authentication.domain.model.LoginParam;
+import com.turi.authentication.domain.model.RegisterParam;
+import com.turi.authentication.domain.port.JwtService;
 import com.turi.authentication.infrastructure.adapter.interfaces.AuthenticationFacade;
 import com.turi.infrastructure.rest.ErrorCode;
 import com.turi.testhelper.annotation.RestControllerTest;
@@ -38,6 +39,9 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
     private AccountService accountService;
 
     @Autowired(required = false)
+    private JwtService jwtService;
+
+    @Autowired(required = false)
     private PasswordEncoder passwordEncoder;
 
     @Test
@@ -46,7 +50,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
         final var params = mockRegisterParams();
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/auth/register")
+                .path("/api/auth/register")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, new HttpEntity<>(params), ResponseEntity.class);
@@ -56,9 +60,11 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
 
         final var cookie = result.getHeaders().get("Set-Cookie");
 
+        System.out.println(cookie);
+
         assertNotNull(cookie);
         assertTrue(cookie.get(0).contains("activateToken="));
-        assertTrue(cookie.get(0).contains("Max-Age=900000"));
+        assertTrue(cookie.get(0).contains("Max-Age=900"));
         assertTrue(cookie.get(0).contains("Secure"));
         assertTrue(cookie.get(0).contains("HttpOnly"));
         assertTrue(cookie.get(0).contains("SameSite=Strict"));
@@ -87,7 +93,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
         params.setUsername(null);
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/auth/register")
+                .path("/api/auth/register")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, new HttpEntity<>(params), ErrorCode.class);
@@ -103,7 +109,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
         params.setEmail(null);
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/auth/register")
+                .path("/api/auth/register")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, new HttpEntity<>(params), ErrorCode.class);
@@ -119,7 +125,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
         params.setPassword(null);
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/auth/register")
+                .path("/api/auth/register")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, new HttpEntity<>(params), ErrorCode.class);
@@ -135,7 +141,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
         params.setUsername(mockUser().getUsername());
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/auth/register")
+                .path("/api/auth/register")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, new HttpEntity<>(params), ErrorCode.class);
@@ -151,7 +157,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
         params.setEmail(mockUser().getEmail());
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/auth/register")
+                .path("/api/auth/register")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, new HttpEntity<>(params), ErrorCode.class);
@@ -168,7 +174,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
         params.setEmail(email);
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/auth/register")
+                .path("/api/auth/register")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, new HttpEntity<>(params), ErrorCode.class);
@@ -185,7 +191,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
         params.setPassword(password);
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/auth/register")
+                .path("/api/auth/register")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, new HttpEntity<>(params), ErrorCode.class);
@@ -202,13 +208,13 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
 
         accountService.activate(2L, accountService.getById(2L).getActivationCode());
 
-        final var authParams = AuthenticationParam.builder()
+        final var authParams = LoginParam.builder()
                 .withLogin(params.getUsername())
                 .withPassword(params.getPassword())
                 .build();
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/auth/login")
+                .path("/api/auth/login")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, new HttpEntity<>(authParams), ResponseEntity.class);
@@ -221,7 +227,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
         assertNotNull(cookie);
 
         assertTrue(cookie.get(0).contains("accessToken="));
-        assertTrue(cookie.get(0).contains("Max-Age=900000"));
+        assertTrue(cookie.get(0).contains("Max-Age=900"));
         assertTrue(cookie.get(0).contains("Secure"));
         assertTrue(cookie.get(0).contains("HttpOnly"));
         assertTrue(cookie.get(0).contains("SameSite=Strict"));
@@ -238,13 +244,13 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
     {
         final var params = mockRegisterParams();
 
-        final var authParams = AuthenticationParam.builder()
+        final var authParams = LoginParam.builder()
                 .withLogin(params.getUsername())
                 .withPassword(params.getPassword())
                 .build();
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/auth/login")
+                .path("/api/auth/login")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, new HttpEntity<>(authParams), ErrorCode.class);
@@ -260,13 +266,13 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
 
         facade.register(params);
 
-        final var authParams = AuthenticationParam.builder()
+        final var authParams = LoginParam.builder()
                 .withLogin(params.getUsername())
                 .withPassword(mockUser().getPassword())
                 .build();
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/auth/login")
+                .path("/api/auth/login")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, new HttpEntity<>(authParams), ErrorCode.class);
@@ -284,13 +290,13 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
 
         accountService.activate(2L, accountService.getById(2L).getActivationCode());
 
-        final var authParams = AuthenticationParam.builder()
+        final var authParams = LoginParam.builder()
                 .withLogin(params.getEmail())
                 .withPassword(params.getPassword())
                 .build();
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/auth/login")
+                .path("/api/auth/login")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, new HttpEntity<>(authParams), ResponseEntity.class);
@@ -303,7 +309,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
         assertNotNull(cookie);
 
         assertTrue(cookie.get(0).contains("accessToken="));
-        assertTrue(cookie.get(0).contains("Max-Age=900000"));
+        assertTrue(cookie.get(0).contains("Max-Age=900"));
         assertTrue(cookie.get(0).contains("Secure"));
         assertTrue(cookie.get(0).contains("HttpOnly"));
         assertTrue(cookie.get(0).contains("SameSite=Strict"));
@@ -320,13 +326,13 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
     {
         final var params = mockRegisterParams();
 
-        final var authParams = AuthenticationParam.builder()
+        final var authParams = LoginParam.builder()
                 .withLogin(params.getEmail())
                 .withPassword(params.getPassword())
                 .build();
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/auth/login")
+                .path("/api/auth/login")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, new HttpEntity<>(authParams), ErrorCode.class);
@@ -342,13 +348,13 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
 
         facade.register(params);
 
-        final var authParams = AuthenticationParam.builder()
+        final var authParams = LoginParam.builder()
                 .withLogin(params.getEmail())
                 .withPassword(mockUser().getPassword())
                 .build();
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/auth/login")
+                .path("/api/auth/login")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, new HttpEntity<>(authParams), ErrorCode.class);
@@ -360,13 +366,13 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
     @Test
     void testAuthentication_Authenticate_WithoutRequiredLoginField()
     {
-        final var authParams = AuthenticationParam.builder()
+        final var authParams = LoginParam.builder()
                 .withLogin(null)
                 .withPassword(mockUser().getPassword())
                 .build();
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/auth/login")
+                .path("/api/auth/login")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, new HttpEntity<>(authParams), ErrorCode.class);
@@ -378,13 +384,13 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
     @Test
     void testAuthentication_Authenticate_WithoutRequiredPasswordField()
     {
-        final var authParams = AuthenticationParam.builder()
+        final var authParams = LoginParam.builder()
                 .withLogin(mockUser().getUsername())
                 .withPassword(null)
                 .build();
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/auth/login")
+                .path("/api/auth/login")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, new HttpEntity<>(authParams), ErrorCode.class);
@@ -402,12 +408,12 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
 
         accountService.activate(2L, accountService.getById(2L).getActivationCode());
 
-        final var authParams = AuthenticationParam.builder()
+        final var authParams = LoginParam.builder()
                 .withLogin(params.getUsername())
                 .withPassword(params.getPassword())
                 .build();
 
-        final var authentication = facade.authenticate(authParams);
+        final var authentication = facade.login(authParams);
 
         final var cookie = authentication.getHeaders().get("Set-Cookie");
 
@@ -416,7 +422,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
         final var refreshToken = cookie.get(1).split("Token=")[1].split(";")[0];
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/auth/refresh")
+                .path("/api/auth/refresh")
                 .build().toUri();
 
         headers.add("Cookie", "refreshToken=" + refreshToken);
@@ -428,7 +434,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
         assertNotNull(resultCookie);
 
         assertTrue(resultCookie.get(0).contains("accessToken="));
-        assertTrue(resultCookie.get(0).contains("Max-Age=900000"));
+        assertTrue(resultCookie.get(0).contains("Max-Age=900"));
         assertTrue(resultCookie.get(0).contains("Secure"));
         assertTrue(resultCookie.get(0).contains("HttpOnly"));
         assertTrue(resultCookie.get(0).contains("SameSite=Strict"));
@@ -438,7 +444,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
     void testAuthentication_Refresh_RefreshTokenExpired()
     {
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/auth/refresh")
+                .path("/api/auth/refresh")
                 .build().toUri();
 
         headers.add("Cookie", "refreshToken=sample-refresh-token");
@@ -453,7 +459,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
     void testAuthentication_Refresh_RefreshTokenNotFound()
     {
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/auth/refresh")
+                .path("/api/auth/refresh")
                 .build().toUri();
 
         headers.add("Cookie", "refreshToken=other-refresh-token");
@@ -468,7 +474,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
     void testAuthentication_Refresh_WithoutRequiredRefreshTokenField()
     {
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/auth/refresh")
+                .path("/api/auth/refresh")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, new HttpEntity<>(headers), ErrorCode.class);
@@ -486,12 +492,12 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
 
         accountService.activate(2L, accountService.getById(2L).getActivationCode());
 
-        final var authParams = AuthenticationParam.builder()
+        final var authParams = LoginParam.builder()
                 .withLogin(params.getUsername())
                 .withPassword(params.getPassword())
                 .build();
 
-        final var authentication = facade.authenticate(authParams);
+        final var authentication = facade.login(authParams);
 
         final var cookie = authentication.getHeaders().get("Set-Cookie");
 
@@ -502,10 +508,11 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
         final var response = Mockito.mock(HttpServletResponse.class);
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/auth/logout")
+                .path("/api/auth/logout")
                 .queryParam("response", response)
                 .build().toUri();
 
+        headers.set("Authorization", "Bearer " + jwtService.generateToken(mockUser().getUserId(), AccountType.NORMAL.getName()));
         headers.add("Cookie", "refreshToken=" + refreshToken);
 
         final var result = restTemplate.postForEntity(uri, new HttpEntity<>(headers), ResponseEntity.class);
@@ -520,10 +527,11 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
         final var response = Mockito.mock(HttpServletResponse.class);
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/auth/logout")
+                .path("/api/auth/logout")
                 .queryParam("response", response)
                 .build().toUri();
 
+        headers.set("Authorization", "Bearer " + jwtService.generateToken(mockUser().getUserId(), AccountType.NORMAL.getName()));
         headers.add("Cookie", "refreshToken=sample-refresh-token");
 
         final var result = restTemplate.postForEntity(uri, new HttpEntity<>(headers), ErrorCode.class);
@@ -538,9 +546,11 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
         final var response = Mockito.mock(HttpServletResponse.class);
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/auth/logout")
+                .path("/api/auth/logout")
                 .queryParam("response", response)
                 .build().toUri();
+
+        headers.set("Authorization", "Bearer " + jwtService.generateToken(mockUser().getUserId(), AccountType.NORMAL.getName()));
 
         final var result = restTemplate.postForEntity(uri, new HttpEntity<>(headers), ErrorCode.class);
 
@@ -552,9 +562,10 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
     void testAuthentication_Logout_WithoutRequiredResponseField()
     {
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/auth/logout")
+                .path("/api/auth/logout")
                 .build().toUri();
 
+        headers.set("Authorization", "Bearer " + jwtService.generateToken(mockUser().getUserId(), AccountType.NORMAL.getName()));
         headers.add("Cookie", "refreshToken=other-refresh-token");
 
         final var result = restTemplate.postForEntity(uri, new HttpEntity<>(headers), ErrorCode.class);
@@ -563,9 +574,9 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
         assertTrue(result.getStatusCode().is4xxClientError());
     }
 
-    private RegistrationParam mockRegisterParams()
+    private RegisterParam mockRegisterParams()
     {
-        return RegistrationParam.builder()
+        return RegisterParam.builder()
                 .withUsername("Marek")
                 .withEmail("marek@turi.com")
                 .withPassword("MarekNowak123!")
@@ -575,6 +586,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
     private User mockUser()
     {
         return User.builder()
+                .withUserId(1L)
                 .withUsername("Janek")
                 .withEmail("jan@turi.com")
                 .withPassword("JanKowalski123!")

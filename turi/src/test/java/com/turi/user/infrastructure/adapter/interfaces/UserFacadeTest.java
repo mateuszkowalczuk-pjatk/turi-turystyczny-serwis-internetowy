@@ -4,11 +4,12 @@ import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.testhelper.annotation.RestControllerTest;
 import com.turi.user.domain.exception.*;
 import com.turi.user.domain.model.User;
+import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 
@@ -21,9 +22,6 @@ class UserFacadeTest
 {
     @Autowired(required = false)
     private UserFacade facade;
-
-    @Autowired(required = false)
-    private PasswordEncoder passwordEncoder;
 
     @Test
     void testUser_GetUserById()
@@ -131,7 +129,7 @@ class UserFacadeTest
 
         assertNotNull(cookie);
         assertTrue(cookie.get(0).contains("resetToken="));
-        assertTrue(cookie.get(0).contains("Max-Age=900000"));
+        assertTrue(cookie.get(0).contains("Max-Age=900"));
         assertTrue(cookie.get(0).contains("Secure"));
         assertTrue(cookie.get(0).contains("HttpOnly"));
         assertTrue(cookie.get(0).contains("SameSite=Strict"));
@@ -169,7 +167,9 @@ class UserFacadeTest
 
         final var user = facade.getUserById(mock.getUserId());
 
-        final var result = facade.resetUserPassword(user.getPasswordResetToken(), String.valueOf(user.getPasswordResetCode()));
+        final var response = Mockito.mock(HttpServletResponse.class);
+
+        final var result = facade.resetUserPassword(user.getPasswordResetToken(), String.valueOf(user.getPasswordResetCode()), response);
 
         assertNotNull(result);
         assertTrue(result.getStatusCode().is2xxSuccessful());
@@ -187,21 +187,27 @@ class UserFacadeTest
     @Test
     void testUser_ResetUserPassword_ResetTokenIsNull()
     {
-        assertThrows(BadRequestParameterException.class, () -> facade.resetUserPassword(null, String.valueOf(mockUser().getPasswordResetCode())));
+        final var response = Mockito.mock(HttpServletResponse.class);
+
+        assertThrows(BadRequestParameterException.class, () -> facade.resetUserPassword(null, String.valueOf(mockUser().getPasswordResetCode()), response));
     }
 
     @Test
     void testUser_ResetUserPassword_CodeIsNull()
     {
-        assertThrows(BadRequestParameterException.class, () -> facade.resetUserPassword(mockUser().getPasswordResetToken(), null));
+        final var response = Mockito.mock(HttpServletResponse.class);
+
+        assertThrows(BadRequestParameterException.class, () -> facade.resetUserPassword(mockUser().getPasswordResetToken(), null, response));
     }
 
     @Test
     void testUser_ResetUserPassword_UserNotFound()
     {
+        final var response = Mockito.mock(HttpServletResponse.class);
+
         final var user = mockNewUser();
 
-        assertThrows(UserNotFoundByResetTokenException.class, () -> facade.resetUserPassword(user.getPasswordResetToken(), String.valueOf(user.getPasswordResetCode())));
+        assertThrows(UserNotFoundByResetTokenException.class, () -> facade.resetUserPassword(user.getPasswordResetToken(), String.valueOf(user.getPasswordResetCode()), response));
     }
 
     @Test
@@ -213,7 +219,9 @@ class UserFacadeTest
 
         final var user = facade.getUserById(mock.getUserId());
 
-        assertThrows(BadRequestParameterException.class, () -> facade.resetUserPassword(user.getPasswordResetToken(), String.valueOf(mockNewUser().getPasswordResetCode())));
+        final var response = Mockito.mock(HttpServletResponse.class);
+
+        assertThrows(BadRequestParameterException.class, () -> facade.resetUserPassword(user.getPasswordResetToken(), String.valueOf(mockNewUser().getPasswordResetCode()), response));
     }
 
     @Test
@@ -224,7 +232,9 @@ class UserFacadeTest
 
         final var user = facade.createUser(mock);
 
-        assertThrows(UserResetCodeExpiredException.class, () -> facade.resetUserPassword(user.getPasswordResetToken(), String.valueOf(user.getPasswordResetCode())));
+        final var response = Mockito.mock(HttpServletResponse.class);
+
+        assertThrows(UserResetCodeExpiredException.class, () -> facade.resetUserPassword(user.getPasswordResetToken(), String.valueOf(user.getPasswordResetCode()), response));
     }
 
     @Test
@@ -305,11 +315,10 @@ class UserFacadeTest
 
         setContextUserId(user.getUserId());
 
-        final var result = facade.changeUserUsername(user.getUsername()).getBody();
+        final var result = facade.changeUserUsername(user.getUsername());
 
         assertNotNull(result);
-        assertThat(result.getUserId()).isEqualTo(user.getUserId());
-        assertThat(result.getUsername()).isEqualTo(user.getUsername());
+        assertTrue(result.getStatusCode().is2xxSuccessful());
     }
 
     @Test
@@ -357,11 +366,10 @@ class UserFacadeTest
 
         setContextUserId(user.getUserId());
 
-        final var result = facade.changeUserEmail(user.getEmail()).getBody();
+        final var result = facade.changeUserEmail(user.getEmail());
 
         assertNotNull(result);
-        assertThat(result.getUserId()).isEqualTo(user.getUserId());
-        assertThat(result.getEmail()).isEqualTo(user.getEmail());
+        assertTrue(result.getStatusCode().is2xxSuccessful());
     }
 
     @Test
@@ -416,11 +424,10 @@ class UserFacadeTest
 
         setContextUserId(user.getUserId());
 
-        final var result = facade.changeUserPassword(user.getPassword()).getBody();
+        final var result = facade.changeUserPassword(user.getPassword());
 
         assertNotNull(result);
-        assertThat(result.getUserId()).isEqualTo(user.getUserId());
-        assertTrue(passwordEncoder.matches(user.getPassword(), result.getPassword()));
+        assertTrue(result.getStatusCode().is2xxSuccessful());
     }
 
     @Test

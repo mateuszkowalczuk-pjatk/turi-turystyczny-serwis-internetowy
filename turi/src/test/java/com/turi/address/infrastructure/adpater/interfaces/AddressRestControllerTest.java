@@ -29,7 +29,7 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
         final var address = mockAddress();
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/address/getById/{addressId}")
+                .path("/api/address/getById/{addressId}")
                 .buildAndExpand(address.getAddressId())
                 .toUri();
 
@@ -46,7 +46,7 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
     void testAddress_GetAddressById_IdIsNull()
     {
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/address/getById/{addressId}")
+                .path("/api/address/getById/{addressId}")
                 .buildAndExpand((Object) null)
                 .toUri();
 
@@ -63,7 +63,7 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
         final var address = mockNewAddress();
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/address/getById/{addressId}")
+                .path("/api/address/getById/{addressId}")
                 .buildAndExpand(address.getAddressId())
                 .toUri();
 
@@ -80,7 +80,7 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
         final var address = mockNewAddress();
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/address/create")
+                .path("/api/address/create")
                 .build().toUri();
 
         headers.set("Authorization", "Bearer " + getToken());
@@ -103,7 +103,7 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
         final var address = mockAddress();
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/address/create")
+                .path("/api/address/create")
                 .build().toUri();
 
         headers.set("Authorization", "Bearer " + getToken());
@@ -129,7 +129,7 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
         address.setZipCode(zipCode);
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/address/create")
+                .path("/api/address/create")
                 .build().toUri();
 
         headers.set("Authorization", "Bearer " + getToken());
@@ -147,7 +147,7 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
         address.setCountry(null);
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/address/create")
+                .path("/api/address/create")
                 .build().toUri();
 
         headers.set("Authorization", "Bearer " + getToken());
@@ -165,7 +165,7 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
         address.setCity(null);
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/address/create")
+                .path("/api/address/create")
                 .build().toUri();
 
         headers.set("Authorization", "Bearer " + getToken());
@@ -183,7 +183,7 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
         address.setZipCode(null);
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/address/create")
+                .path("/api/address/create")
                 .build().toUri();
 
         headers.set("Authorization", "Bearer " + getToken());
@@ -201,7 +201,7 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
         address.setStreet(null);
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/address/create")
+                .path("/api/address/create")
                 .build().toUri();
 
         headers.set("Authorization", "Bearer " + getToken());
@@ -219,7 +219,7 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
         address.setBuildingNumber(null);
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/address/create")
+                .path("/api/address/create")
                 .build().toUri();
 
         headers.set("Authorization", "Bearer " + getToken());

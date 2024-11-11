@@ -1,13 +1,12 @@
-package com.turi.authentication.infrastructure.adapter.application.queries.authentication;
+package com.turi.authentication.domain.model;
 
 import lombok.*;
 
 @Getter
-@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(setterPrefix = "with")
-public final class AuthenticationParam
+public final class LoginParam
 {
     private String login;
     private String password;

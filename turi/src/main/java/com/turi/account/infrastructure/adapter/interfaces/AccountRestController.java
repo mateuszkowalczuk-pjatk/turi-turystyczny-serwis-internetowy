@@ -1,13 +1,14 @@
 package com.turi.account.infrastructure.adapter.interfaces;
 
 import com.turi.account.domain.model.Account;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping(value = "/account", produces = "application/json")
+@RequestMapping(value = "/api/account", produces = "application/json")
 public class AccountRestController
 {
     private final AccountFacade facade;
@@ -36,15 +37,9 @@ public class AccountRestController
     }
 
     @PostMapping("/activate")
-    public ResponseEntity<?> activateAccount(@RequestParam final String code)
+    public ResponseEntity<?> activateAccount(@RequestParam final String code, final HttpServletResponse response)
     {
-        return facade.activateAccount(code);
-    }
-
-    @PostMapping("/resendActivateCode")
-    public ResponseEntity<?> resendAccountActivationCode()
-    {
-        return facade.sendAccountActivateCode();
+        return facade.activateAccount(code, response);
     }
 
     @PutMapping("/update")

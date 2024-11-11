@@ -1,9 +1,9 @@
 package com.turi.authentication.infrastructure.adapter.interfaces;
 
-import com.turi.authentication.infrastructure.adapter.application.queries.authentication.AuthenticationParam;
-import com.turi.authentication.infrastructure.adapter.application.queries.logout.LogoutParam;
-import com.turi.authentication.infrastructure.adapter.application.queries.refresh.RefreshParam;
-import com.turi.authentication.infrastructure.adapter.application.queries.registration.RegistrationParam;
+import com.turi.authentication.domain.model.LoginParam;
+import com.turi.authentication.domain.model.LogoutParam;
+import com.turi.authentication.domain.model.RefreshParam;
+import com.turi.authentication.domain.model.RegisterParam;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -11,21 +11,27 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping(value = "/auth", produces = "application/json")
+@RequestMapping(value = "/api/auth", produces = "application/json")
 public class AuthenticationRestController
 {
     private final AuthenticationFacade facade;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody final RegistrationParam params)
+    public ResponseEntity<?> register(@RequestBody final RegisterParam params)
     {
         return facade.register(params);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticate(@RequestBody final AuthenticationParam params)
+    public ResponseEntity<?> login(@RequestBody final LoginParam params)
     {
-        return facade.authenticate(params);
+        return facade.login(params);
+    }
+
+    @PostMapping("/authorize")
+    public ResponseEntity<?> authorize()
+    {
+        return facade.authorize();
     }
 
     @PostMapping("/refresh")

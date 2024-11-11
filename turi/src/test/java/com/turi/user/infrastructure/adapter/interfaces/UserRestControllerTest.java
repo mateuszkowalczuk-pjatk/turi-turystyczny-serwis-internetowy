@@ -14,11 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.web.util.UriComponentsBuilder.fromHttpUrl;
 
@@ -29,9 +27,6 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
     private UserFacade facade;
 
     @Autowired(required = false)
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired(required = false)
     private JwtService jwtService;
 
     @Test
@@ -40,7 +35,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         final var user = mockUser();
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/isUsernameExists")
+                .path("/api/user/isUsernameExists")
                 .queryParam("username", user.getUsername())
                 .build().toUri();
 
@@ -56,7 +51,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         final var user = mockNewUser();
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/isUsernameExists")
+                .path("/api/user/isUsernameExists")
                 .queryParam("username", user.getUsername())
                 .build().toUri();
 
@@ -70,7 +65,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
     void testUser_IsUserUsernameExists_UsernameIsNull()
     {
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/isUsernameExists")
+                .path("/api/user/isUsernameExists")
                 .build().toUri();
 
         final var result = restTemplate.getForEntity(uri, BadRequestParameterException.class);
@@ -84,7 +79,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         final var user = mockUser();
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/isEmailExists")
+                .path("/api/user/isEmailExists")
                 .queryParam("email", user.getEmail())
                 .build().toUri();
 
@@ -100,7 +95,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         final var user = mockNewUser();
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/isEmailExists")
+                .path("/api/user/isEmailExists")
                 .queryParam("email", user.getEmail())
                 .build().toUri();
 
@@ -114,7 +109,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
     void testUser_IsUserEmailExists_EmailIsNull()
     {
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/IsUserEmailExists")
+                .path("/api/user/IsUserEmailExists")
                 .build().toUri();
 
         final var result = restTemplate.getForEntity(uri, BadRequestParameterException.class);
@@ -128,7 +123,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         final var user = mockUser();
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/sendResetPasswordCode")
+                .path("/api/user/sendResetPasswordCode")
                 .queryParam("email", user.getEmail())
                 .build().toUri();
 
@@ -140,7 +135,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
 
         assertNotNull(cookie);
         assertTrue(cookie.get(0).contains("resetToken="));
-        assertTrue(cookie.get(0).contains("Max-Age=900000"));
+        assertTrue(cookie.get(0).contains("Max-Age=900"));
         assertTrue(cookie.get(0).contains("Secure"));
         assertTrue(cookie.get(0).contains("HttpOnly"));
         assertTrue(cookie.get(0).contains("SameSite=Strict"));
@@ -150,7 +145,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
     void testUser_SendResetUserPasswordCode_EmailIsNull()
     {
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/sendResetPasswordCode")
+                .path("/api/user/sendResetPasswordCode")
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, new HttpEntity<>(new HttpHeaders()), User.class);
@@ -162,7 +157,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
     void testUser_SendResetUserPasswordCode_UserNotFound()
     {
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/sendResetPasswordCode")
+                .path("/api/user/sendResetPasswordCode")
                 .queryParam("email", mockNewUser().getEmail())
                 .build().toUri();
 
@@ -180,7 +175,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         final var user = facade.createUser(mock);
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/sendResetPasswordCode")
+                .path("/api/user/sendResetPasswordCode")
                 .queryParam("email", user.getEmail())
                 .build().toUri();
 
@@ -199,7 +194,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         final var user = facade.getUserById(mock.getUserId());
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/resetPassword")
+                .path("/api/user/resetPassword")
                 .queryParam("code", user.getPasswordResetCode())
                 .build().toUri();
 
@@ -211,12 +206,14 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
 
         final var cookie = result.getHeaders().get("Set-Cookie");
 
+        System.out.println(cookie);
+
         assertNotNull(cookie);
-        assertTrue(cookie.get(0).contains("refreshToken="));
-        assertTrue(cookie.get(0).contains("Max-Age=604800"));
-        assertTrue(cookie.get(0).contains("Secure"));
-        assertTrue(cookie.get(0).contains("HttpOnly"));
-        assertTrue(cookie.get(0).contains("SameSite=Strict"));
+        assertTrue(cookie.get(1).contains("refreshToken="));
+        assertTrue(cookie.get(1).contains("Max-Age=604800"));
+        assertTrue(cookie.get(1).contains("Secure"));
+        assertTrue(cookie.get(1).contains("HttpOnly"));
+        assertTrue(cookie.get(1).contains("SameSite=Strict"));
     }
 
     @Test
@@ -229,7 +226,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         final var user = facade.getUserById(mock.getUserId());
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/resetPassword")
+                .path("/api/user/resetPassword")
                 .queryParam("code", user.getPasswordResetCode())
                 .build().toUri();
 
@@ -248,7 +245,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         final var user = facade.getUserById(mock.getUserId());
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/resetPassword")
+                .path("/api/user/resetPassword")
                 .build().toUri();
 
         headers.add("Cookie", "resetToken=" + user.getPasswordResetToken());
@@ -268,7 +265,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         final var user = facade.getUserById(mock.getUserId());
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/resetPassword")
+                .path("/api/user/resetPassword")
                 .queryParam("code", user.getPasswordResetCode())
                 .build().toUri();
 
@@ -289,7 +286,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         final var user = facade.getUserById(mock.getUserId());
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/resetPassword")
+                .path("/api/user/resetPassword")
                 .queryParam("code", mock.getPasswordResetCode())
                 .build().toUri();
 
@@ -310,7 +307,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         final var user = facade.createUser(mock);
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/resetPassword")
+                .path("/api/user/resetPassword")
                 .queryParam("code", user.getPasswordResetCode())
                 .build().toUri();
 
@@ -329,7 +326,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         user.setUsername(mockNewUser().getUsername());
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/changeUsername")
+                .path("/api/user/changeUsername")
                 .queryParam("username", user.getUsername())
                 .build().toUri();
 
@@ -337,19 +334,15 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
 
         final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(headers), User.class);
 
+        assertNotNull(result);
         assertTrue(result.getStatusCode().is2xxSuccessful());
-        assertNotNull(result.getBody());
-        assertThat(result.getBody().getUserId()).isEqualTo(user.getUserId());
-        assertThat(result.getBody().getUsername()).isEqualTo(user.getUsername());
-        assertThat(result.getBody().getEmail()).isEqualTo(user.getEmail());
-        assertThat(result.getBody().getPassword()).isEqualTo(user.getPassword());
     }
 
     @Test
     void testUser_ChangeUserUsername_UsernameIsNull()
     {
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/changeUsername")
+                .path("/api/user/changeUsername")
                 .build().toUri();
 
         headers.set("Authorization", "Bearer " + jwtService.generateToken(mockUser().getUserId(), AccountType.NORMAL.getName()));
@@ -363,7 +356,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
     void testUser_ChangeUserUsername_ContextUserIdIsNull()
     {
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/changeUsername")
+                .path("/api/user/changeUsername")
                 .queryParam("username", mockUser().getUsername())
                 .build().toUri();
 
@@ -380,7 +373,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         user.setUsername(mockUser().getUsername());
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/changeUsername")
+                .path("/api/user/changeUsername")
                 .queryParam("username", user.getUsername())
                 .build().toUri();
 
@@ -397,7 +390,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         final var user = mockNewUser();
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/changeUsername")
+                .path("/api/user/changeUsername")
                 .queryParam("username", user.getUsername())
                 .build().toUri();
 
@@ -416,7 +409,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         user.setEmail(mockNewUser().getEmail());
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/changeEmail")
+                .path("/api/user/changeEmail")
                 .queryParam("email", user.getEmail())
                 .build().toUri();
 
@@ -424,19 +417,15 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
 
         final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(headers), User.class);
 
+        assertNotNull(result);
         assertTrue(result.getStatusCode().is2xxSuccessful());
-        assertNotNull(result.getBody());
-        assertThat(result.getBody().getUserId()).isEqualTo(user.getUserId());
-        assertThat(result.getBody().getUsername()).isEqualTo(user.getUsername());
-        assertThat(result.getBody().getEmail()).isEqualTo(user.getEmail());
-        assertThat(result.getBody().getPassword()).isEqualTo(user.getPassword());
     }
 
     @Test
     void testUser_ChangeUserEmail_EmailIsNull()
     {
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/changeEmail")
+                .path("/api/user/changeEmail")
                 .build().toUri();
 
         headers.set("Authorization", "Bearer " + jwtService.generateToken(mockUser().getUserId(), AccountType.NORMAL.getName()));
@@ -450,7 +439,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
     void testUser_ChangeUserEmail_ContextUserIdIsNull()
     {
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/changeEmail")
+                .path("/api/user/changeEmail")
                 .queryParam("email", mockUser().getEmail())
                 .build().toUri();
 
@@ -464,7 +453,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
     void testUser_ChangeUserEmail_InvalidEmail(final String email)
     {
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/changeEmail")
+                .path("/api/user/changeEmail")
                 .queryParam("email", email)
                 .build().toUri();
 
@@ -483,7 +472,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         user.setEmail(mockUser().getEmail());
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/changeEmail")
+                .path("/api/user/changeEmail")
                 .queryParam("email", user.getEmail())
                 .build().toUri();
 
@@ -500,7 +489,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         final var user = mockNewUser();
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/changeEmail")
+                .path("/api/user/changeEmail")
                 .queryParam("email", user.getEmail())
                 .build().toUri();
 
@@ -519,7 +508,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         user.setPassword(mockNewUser().getPassword());
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/changePassword")
+                .path("/api/user/changePassword")
                 .queryParam("password", user.getPassword())
                 .build().toUri();
 
@@ -527,19 +516,15 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
 
         final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(headers), User.class);
 
+        assertNotNull(result);
         assertTrue(result.getStatusCode().is2xxSuccessful());
-        assertNotNull(result.getBody());
-        assertThat(result.getBody().getUserId()).isEqualTo(user.getUserId());
-        assertThat(result.getBody().getUsername()).isEqualTo(user.getUsername());
-        assertThat(result.getBody().getEmail()).isEqualTo(user.getEmail());
-        assertTrue(passwordEncoder.matches(user.getPassword(), result.getBody().getPassword()));
     }
 
     @Test
     void testUser_ChangeUserPassword_PasswordIsNull()
     {
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/changePassword")
+                .path("/api/user/changePassword")
                 .build().toUri();
 
         headers.set("Authorization", "Bearer " + jwtService.generateToken(mockUser().getUserId(), AccountType.NORMAL.getName()));
@@ -553,7 +538,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
     void testUser_ChangeUserPassword_ContextUserIdIsNull()
     {
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/changePassword")
+                .path("/api/user/changePassword")
                 .queryParam("password", mockUser().getPassword())
                 .build().toUri();
 
@@ -567,7 +552,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
     void testUser_ChangeUserPassword_InvalidPassword(final String password)
     {
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/changePassword")
+                .path("/api/user/changePassword")
                 .queryParam("password", password)
                 .build().toUri();
 
@@ -584,7 +569,7 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
         final var user = mockNewUser();
 
         final var uri = fromHttpUrl(getBaseUrl())
-                .path("/user/changePassword")
+                .path("/api/user/changePassword")
                 .queryParam("password", user.getPassword())
                 .build().toUri();
 

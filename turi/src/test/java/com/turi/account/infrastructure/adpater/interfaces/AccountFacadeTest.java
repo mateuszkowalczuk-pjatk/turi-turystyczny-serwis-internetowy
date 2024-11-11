@@ -13,7 +13,9 @@ import com.turi.testhelper.annotation.RestControllerTest;
 import com.turi.testhelper.utils.ContextHelper;
 import com.turi.user.domain.model.User;
 import com.turi.user.infrastructure.adapter.interfaces.UserFacade;
+import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
@@ -172,11 +174,13 @@ class AccountFacadeTest
     {
         final var account = mockAccount();
 
+        facade.sendAccountActivateCode(account.getAccountId());
+
+        final var response = Mockito.mock(HttpServletResponse.class);
+
         ContextHelper.setContextUserId(account.getAccountId());
 
-        facade.sendAccountActivateCode();
-
-        facade.activateAccount(String.valueOf(Objects.requireNonNull(facade.getAccountById().getBody()).getActivationCode()));
+        facade.activateAccount(String.valueOf(Objects.requireNonNull(facade.getAccountById().getBody()).getActivationCode()), response);
 
         final var result = facade.getAccountById().getBody();
 
@@ -187,13 +191,17 @@ class AccountFacadeTest
     @Test
     void testAccount_ActivateAccount_ContextAccountIdIsNull()
     {
-        assertThrows(BadRequestParameterException.class, () -> facade.activateAccount(String.valueOf(mockAccount().getActivationCode())));
+        final var response = Mockito.mock(HttpServletResponse.class);
+
+        assertThrows(BadRequestParameterException.class, () -> facade.activateAccount(String.valueOf(mockAccount().getActivationCode()), response));
     }
 
     @Test
     void testAccount_ActivateAccount_CodeIsNull()
     {
-        assertThrows(BadRequestParameterException.class, () -> facade.activateAccount(null));
+        final var response = Mockito.mock(HttpServletResponse.class);
+
+        assertThrows(BadRequestParameterException.class, () -> facade.activateAccount(null, response));
     }
 
     @Test
@@ -201,7 +209,9 @@ class AccountFacadeTest
     {
         ContextHelper.setContextUserId(mockNewAccount().getAccountId());
 
-        assertThrows(AccountNotFoundException.class, () -> facade.activateAccount(String.valueOf(mockAccount().getActivationCode())));
+        final var response = Mockito.mock(HttpServletResponse.class);
+
+        assertThrows(AccountNotFoundException.class, () -> facade.activateAccount(String.valueOf(mockAccount().getActivationCode()), response));
     }
 
     @Test
@@ -209,7 +219,9 @@ class AccountFacadeTest
     {
         ContextHelper.setContextUserId(mockAccount().getAccountId());
 
-        assertThrows(BadRequestParameterException.class, () -> facade.activateAccount(String.valueOf(654321)));
+        final var response = Mockito.mock(HttpServletResponse.class);
+
+        assertThrows(InvalidAccountActivationCode.class, () -> facade.activateAccount(String.valueOf(654321), response));
     }
 
     @Test
@@ -219,7 +231,9 @@ class AccountFacadeTest
 
         ContextHelper.setContextUserId(account.getAccountId());
 
-        assertThrows(AccountActivationCodeExpiredException.class, () -> facade.activateAccount(String.valueOf(account.getActivationCode())));
+        final var response = Mockito.mock(HttpServletResponse.class);
+
+        assertThrows(AccountActivationCodeExpiredException.class, () -> facade.activateAccount(String.valueOf(account.getActivationCode()), response));
     }
 
     @Test
@@ -241,9 +255,9 @@ class AccountFacadeTest
     {
         final var account = mockAccount();
 
-        ContextHelper.setContextUserId(account.getAccountId());
+        facade.sendAccountActivateCode(account.getAccountId());
 
-        facade.sendAccountActivateCode();
+        ContextHelper.setContextUserId(account.getAccountId());
 
         final var result = facade.getAccountById().getBody();
 
@@ -257,9 +271,7 @@ class AccountFacadeTest
     @Test
     void testAccount_SendActivateCode_AccountNotFound()
     {
-        ContextHelper.setContextUserId(mockNewAccount().getAccountId());
-
-        assertThrows(AccountNotFoundException.class, () -> facade.sendAccountActivateCode());
+        assertThrows(AccountNotFoundException.class, () -> facade.sendAccountActivateCode(mockNewAccount().getAccountId()));
     }
 
     @Test
@@ -267,11 +279,9 @@ class AccountFacadeTest
     {
         final var account = mockAccount();
 
-        ContextHelper.setContextUserId(account.getAccountId());
+        facade.sendAccountActivateCode(account.getAccountId());
 
-        facade.sendAccountActivateCode();
-
-        assertThrows(AccountActivationCodeRecentlySentException.class, () -> facade.sendAccountActivateCode());
+        assertThrows(AccountActivationCodeRecentlySentException.class, () -> facade.sendAccountActivateCode(account.getAccountId()));
     }
 
     @Test
@@ -279,17 +289,19 @@ class AccountFacadeTest
     {
         final var account = mockAccount();
 
-        ContextHelper.setContextUserId(account.getAccountId());
+        facade.sendAccountActivateCode(account.getAccountId());
 
-        facade.sendAccountActivateCode();
+        ContextHelper.setContextUserId(account.getAccountId());
 
         final var result = facade.getAccountById().getBody();
 
         assertNotNull(result);
 
-        facade.activateAccount(String.valueOf(result.getActivationCode()));
+        final var response = Mockito.mock(HttpServletResponse.class);
 
-        assertThrows(BadRequestParameterException.class, () -> facade.sendAccountActivateCode());
+        facade.activateAccount(String.valueOf(result.getActivationCode()), response);
+
+        assertThrows(BadRequestParameterException.class, () -> facade.sendAccountActivateCode(account.getAccountId()));
     }
 
     @Test
