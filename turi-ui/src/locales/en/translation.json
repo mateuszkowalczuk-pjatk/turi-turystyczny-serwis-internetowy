@@ -85,15 +85,18 @@
         "error-weak-password-number": "Password must contain at least one digit!",
         "error-weak-password-special": "Password must contain at least one special character!",
         "error-username-exists": "Such a login for the account already exists!",
-        "error-email-exists": "Such an email for the account already exists!"
+        "error-email-exists": "Such an email for the account already exists!",
+        "error-default": "Registration of account failed!"
     },
     "signup-verify": {
-        "title": "Sign up to Turi",
-        "description": "We sent a verification code to your email. Enter it below.",
+        "title": "Account activation",
+        "description": "We sent a activation code to your email. Enter it below.",
         "code": "Code",
         "button": "Sign up",
-        "top": "Send verification code again",
-        "down": "Return to sign up form"
+        "down": "Return to sign up form",
+        "error-code-expired": "Activation code has expired, please log in to renew it",
+        "error-invalid-code": "Incorrect code provided",
+        "error-default": "Activation of account failed!"
     },
     "signup-personal": {
         "title": "Account configuration",
@@ -122,7 +125,15 @@
         "skip-description": "Without the mentioned data, your account will not be fully configured. This may cause you to encounter difficulties when booking offers, where you will be asked to enter your data each time.",
         "skip-decision": "Do you want to continue and skip the setup?",
         "back": "Back",
-        "continue": "Continue"
+        "continue": "Continue",
+        "error-missing-fields": "To continue all fields are required",
+        "error-invalid-birthdate": "Date of birth is incorrect",
+        "error-invalid-zipcode": "Incorrect zip code",
+        "error-invalid-phone-number": "Incorrect phone number",
+        "error-invalid-apartment-number": "Incorrect apartment number",
+        "error-phone-number-exists": "Provided phone number is already used by another account",
+        "error-address-exists": "Provided address is already used by another account",
+        "error-general": "Personalization of account failed!"
     },
     "login": {
         "title": "Log in to Turi",
@@ -131,7 +142,9 @@
         "button": "Log in",
         "google": "Log in with your Google account",
         "reset": "Recover password",
-        "signup": "Create a new account"
+        "signup": "Create a new account",
+        "error-credentials": "Incorrect login or password!",
+        "error-default": "Login failed!"
     },
     "login-check": {
         "title": "Recover your password",

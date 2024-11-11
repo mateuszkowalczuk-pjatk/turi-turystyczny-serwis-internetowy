@@ -11,6 +11,9 @@ import styles from './SignUpPanel.module.css'
 import { authService } from '../../../services/authService'
 import { userService } from '../../../services/userService'
 import { passwordValidation } from '../../../utils/passwordValidation.ts'
+import { useDispatch } from 'react-redux'
+import { activation } from '../../../store/slices/activate.ts'
+import { logout } from '../../../store/slices/auth.ts'
 
 interface FormData {
     login: string
@@ -22,6 +25,7 @@ interface FormData {
 const SignUpPanel = () => {
     const { t } = useTranslation()
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const [formData, setFormData] = useState<FormData>({
         login: '',
         email: '',
@@ -29,6 +33,7 @@ const SignUpPanel = () => {
         rePassword: ''
     })
     const [error, setError] = useState<string | null>(null)
+    const [loading, setLoading] = useState(false)
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setError(null)
@@ -38,34 +43,64 @@ const SignUpPanel = () => {
 
     const handleSignUp = async (e: React.FormEvent) => {
         e.preventDefault()
-
+        setLoading(true)
         setError(null)
 
         if (formData.password !== formData.rePassword) {
             setError(t('signup.error-mismatch-password'))
+            setLoading(false)
             return
         }
 
         const passwordError = passwordValidation(formData.password, t)
         if (passwordError) {
             setError(passwordError)
+            setLoading(false)
             return
         }
 
-        const loginCheck = await userService.checkIsUsernameExists(formData.login)
-        if (loginCheck.exists) {
-            setError(t('signup.error-username-exists'))
-            return
-        }
+        const usernameResponse = await userService.checkIsUsernameExists(formData.login)
+        if (usernameResponse.status === 200) {
+            const exists: boolean = await usernameResponse.json()
+            if (exists) {
+                setError(t('signup.error-username-exists'))
+                setLoading(false)
+                return
+            }
+        } else defaultAction()
 
-        const emailCheck = await userService.checkIsEmailExists(formData.email)
-        if (emailCheck.exists) {
-            setError(t('signup.error-email-exists'))
-            return
-        }
+        const emailResponse = await userService.checkIsEmailExists(formData.email)
+        if (emailResponse.status === 200) {
+            const exists: boolean = await emailResponse.json()
+            if (exists) {
+                setError(t('signup.error-email-exists'))
+                setLoading(false)
+                return
+            }
+        } else defaultAction()
 
-        await authService.register(formData.login, formData.email, formData.password)
-        navigate('/signup/verify')
+        const response = await authService.register({
+            username: formData.login,
+            email: formData.email,
+            password: formData.password
+        })
+        if (response.status === 202) {
+            await authService.logout()
+            dispatch(activation())
+            dispatch(logout())
+            navigate('/signup/verify')
+        } else defaultAction()
+    }
+
+    const defaultAction = () => {
+        setError(t('signup.error-default'))
+        setFormData({
+            login: '',
+            email: '',
+            password: '',
+            rePassword: ''
+        })
+        setLoading(false)
     }
 
     const navigateToLogin = () => {
@@ -84,9 +119,10 @@ const SignUpPanel = () => {
                 placeholder={t('signup.login')}
                 value={formData.login}
                 onChange={handleChange}
-                minLength={2}
+                minLength={3}
                 maxLength={50}
                 required={true}
+                disabled={loading}
             />
             <AuthInput
                 type={'email'}
@@ -94,9 +130,10 @@ const SignUpPanel = () => {
                 placeholder={t('signup.email')}
                 value={formData.email}
                 onChange={handleChange}
-                minLength={2}
+                minLength={5}
                 maxLength={50}
                 required={true}
+                disabled={loading}
             />
             <AuthInput
                 type={'password'}
@@ -107,6 +144,7 @@ const SignUpPanel = () => {
                 minLength={8}
                 maxLength={25}
                 required={true}
+                disabled={loading}
             />
             <AuthInput
                 type={'password'}
@@ -117,11 +155,13 @@ const SignUpPanel = () => {
                 minLength={8}
                 maxLength={25}
                 required={true}
+                disabled={loading}
             />
             {error && <AuthError error={error} />}
             <AuthButton
                 text={t('signup.button')}
                 type={'submit'}
+                disabled={loading}
             />
             <AuthTopLink />
             <AuthDownLink

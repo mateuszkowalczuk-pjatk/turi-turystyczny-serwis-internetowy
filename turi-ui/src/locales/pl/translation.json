@@ -84,16 +84,19 @@
         "error-weak-password-uppercase": "Hasło musi zawierać co najmniej jedną wielką literę!",
         "error-weak-password-number": "Hasło musi zawierać co najmniej jedną cyfrę!",
         "error-weak-password-special": "Hasło musi zawierać co najmniej jeden znak specjalny!",
-        "error-username-exists": "Taki login dla konta już istnieje!",
-        "error-email-exists": "Taki email dla konta już istnieje!"
+        "error-username-exists": "Podany login dla konta już istnieje!",
+        "error-email-exists": "Podany email dla konta już istnieje!",
+        "error-default": "Nie udało się zarejestrować konta!"
     },
     "signup-verify": {
-        "title": "Zarejestruj się do Turi",
-        "description": "Na twój email wysłaliśmy kod weryfikacyjny. Wprowadź go poniżej.",
+        "title": "Aktywacja konta",
+        "description": "Na twój email wysłaliśmy kod aktywacyjny. Wprowadź go poniżej.",
         "code": "Kod",
-        "button": "Zarejestruj się",
-        "top": "Wyślij kod weryfikacyjny jeszcze raz",
-        "down": "Wróć do formularza rejestracji"
+        "button": "Aktywuj",
+        "down": "Przejdź do formularza logowania",
+        "error-code-expired": "Kod aktywacyjny wygasł, zaloguj się żeby go odnowić",
+        "error-invalid-code": "Wprowadzono niepoprawny kod",
+        "error-default": "Nie udało się aktywować konta"
     },
     "signup-personal": {
         "title": "Konfiguracja konta",
@@ -122,7 +125,15 @@
         "skip-description": "Bez podania wymienionych danych twoje konto klienckie nie będzie w pełni skonfigurowane. Możesz przez to natrafić na utrudnienia podczas rezerwacji ofert, gdzie każdorazowo będziesz proszony o podanie swoich danych.",
         "skip-decision": "Czy chcesz kontynuować i pominąć konfigurację?",
         "back": "Wróć",
-        "continue": "Kontynuuj"
+        "continue": "Kontynuuj",
+        "error-missing-fields": "Żeby kontynuować wszystkie pola są wymagane",
+        "error-invalid-birthdate": "Data urodzenia jest niepoprawna",
+        "error-invalid-zipcode": "Niepoprawny kod pocztowy",
+        "error-invalid-phone-number": "Niepoprawny numer telefonu",
+        "error-invalid-apartment-number": "Numer mieszkania jest nieprawidłowy",
+        "error-phone-number-exists": "Podany numer telefonu jest już używany przez inne konto",
+        "error-address-exists": "Podany adres zamieszkania jest już używany przez inne konto",
+        "error-general": "Nie udało się spersonalizować konta"
     },
     "login": {
         "title": "Zaloguj się do Turi",
@@ -131,7 +142,9 @@
         "button": "Zaloguj się",
         "google": "Zaloguj się za pomocą konta Google",
         "reset": "Przypomnij hasło",
-        "signup": "Utwórz nowe konto"
+        "signup": "Utwórz nowe konto",
+        "error-credentials": "Niepoprawny login lub hasło!",
+        "error-default": "Nie udało się zalogować!"
     },
     "login-check": {
         "title": "Odzyskaj hasło do konta",

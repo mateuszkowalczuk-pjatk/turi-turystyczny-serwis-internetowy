@@ -6,14 +6,15 @@ interface Props {
     type: string
     name: string
     placeholder: string
-    value: string
+    value: string | number
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
     minLength?: number
     maxLength?: number
     required: boolean
+    disabled?: boolean
 }
 
-const AuthInput = ({ type, name, placeholder, value, onChange, minLength, maxLength, required }: Props) => {
+const AuthInput = ({ type, name, placeholder, value, onChange, minLength, maxLength, required, disabled }: Props) => {
     return (
         <div className={styles.input}>
             <Input
@@ -25,6 +26,7 @@ const AuthInput = ({ type, name, placeholder, value, onChange, minLength, maxLen
                 minLength={minLength}
                 maxLength={maxLength}
                 required={required}
+                disabled={disabled}
             />
         </div>
     )
