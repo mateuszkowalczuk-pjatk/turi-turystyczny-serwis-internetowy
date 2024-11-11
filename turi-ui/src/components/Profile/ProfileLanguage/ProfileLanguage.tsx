@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { setCookie } from '../../../utils/cookie'
 import ProfileLabel from '../ProfileLabel'
 import Checkbox from '../../Controls/Checkbox'
 import styles from './ProfileLanguage.module.css'
+import ProfileButton from '../ProfileButton'
 
 const LANGUAGE = {
     PL: 'pl',
@@ -18,35 +19,44 @@ const LABEL = {
 const ProfileLanguage = () => {
     const { t, i18n } = useTranslation()
     const [selectedLanguage, setSelectedLanguage] = useState<string>(i18n.language)
+    const [tempLanguage, setTempLanguage] = useState<string>(i18n.language)
 
     useEffect(() => {
         setSelectedLanguage(i18n.language)
+        setTempLanguage(i18n.language)
     }, [i18n.language])
 
-    const changeLanguage = (language: string) => {
-        i18n.changeLanguage(language)
-            .then(() => {
-                setCookie('language', language)
-            })
-            .then(() => setSelectedLanguage(language))
-            .catch((error) => {
-                console.error(error)
-            })
+    const handleLanguageChange = (language: string) => {
+        setTempLanguage(language)
+    }
+
+    const handleSave = () => {
+        if (tempLanguage !== selectedLanguage) {
+            i18n.changeLanguage(tempLanguage)
+                .then(() => {
+                    setCookie('language', tempLanguage)
+                    setSelectedLanguage(tempLanguage)
+                })
+                .catch((error) => {
+                    console.error('Error changing language:', error)
+                })
+        }
     }
 
     return (
         <div className={styles.language}>
             <ProfileLabel text={t('profile.language')} />
             <Checkbox
-                checked={selectedLanguage === LANGUAGE.PL}
-                onChange={() => changeLanguage(LANGUAGE.PL)}
+                checked={tempLanguage === LANGUAGE.PL}
+                onChange={() => handleLanguageChange(LANGUAGE.PL)}
                 text={LABEL.PL}
             />
             <Checkbox
-                checked={selectedLanguage === LANGUAGE.EN}
-                onChange={() => changeLanguage(LANGUAGE.EN)}
+                checked={tempLanguage === LANGUAGE.EN}
+                onChange={() => handleLanguageChange(LANGUAGE.EN)}
                 text={LABEL.EN}
             />
+            <ProfileButton handleSave={handleSave} />
         </div>
     )
 }

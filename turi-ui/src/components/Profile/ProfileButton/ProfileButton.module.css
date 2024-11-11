@@ -1,8 +1,8 @@
 .button {
     display: flex;
     justify-content: flex-end;
-    align-items: flex-start;
-    height: 6rem;
+    align-items: flex-end;
+    height: 4rem;
     width: 90%;
 }
 
@@ -14,6 +14,16 @@
 
 .button button:active {
     font-size: 0.95rem;
+}
+
+.error {
+    color: var(--light-green);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2.5rem;
+    width: 70%;
+    /*background: red;*/
 }
 
 @media (max-width: 768px) {

@@ -2,6 +2,26 @@ import { API_BASE_URL } from '../config/api'
 import { API } from './constants.ts'
 
 export const userService = {
+    getUsername: async () => {
+        return await fetch(`${API_BASE_URL}${API.USER.GET_USERNAME}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        })
+    },
+
+    getEmail: async () => {
+        return await fetch(`${API_BASE_URL}${API.USER.GET_EMAIL}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        })
+    },
+
     checkIsUsernameExists: async (username: string) => {
         return await fetch(`${API_BASE_URL}${API.USER.IS_USERNAME_EXISTS}?username=${username}`, {
             method: 'GET',

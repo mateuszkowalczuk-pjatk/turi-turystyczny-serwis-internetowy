@@ -7,6 +7,8 @@ export const API = {
         LOGOUT: '/api/auth/logout'
     },
     USER: {
+        GET_USERNAME: '/api/user/getUsername',
+        GET_EMAIL: '/api/user/getEmail',
         IS_USERNAME_EXISTS: '/api/user/isUsernameExists',
         IS_EMAIL_EXISTS: '/api/user/isEmailExists',
         SEND_RESET_PASSWORD_CODE: '/api/user/sendResetPasswordCode',

@@ -6,7 +6,7 @@
         "stays": "Stays",
         "favourites": "Favourites",
         "premium": "Premium",
-        "name": "user-name",
+        "name": "Account",
         "profile": "Profile",
         "logout": "Logout"
     },
@@ -204,6 +204,12 @@
         "street": "Street",
         "building": "Building number",
         "apartment": "Apartment number",
-        "language": "Page language"
+        "language": "Page language",
+        "error-login": "Failed to change login",
+        "error-email": "Failed to change email",
+        "error-password-mismatch": "Passwords are not the same",
+        "error-password": "Failed to change password",
+        "error-default": "Failed to change account details",
+        "error-default-personal": "Failed to display account details"
     }
 }

@@ -1,4 +1,4 @@
-import React, {ReactNode} from 'react'
+import React, { ReactNode } from 'react'
 import styles from './AuthPanel.module.css'
 
 interface Props {

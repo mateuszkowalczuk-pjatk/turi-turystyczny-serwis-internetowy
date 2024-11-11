@@ -1,5 +1,5 @@
-import {useTranslation} from 'react-i18next'
-import {useNavigate} from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import AuthPanel from '../../../components/Auth/AuthPanel'
 import AuthTitle from '../../../components/Auth/AuthTitle'
 import AuthDescription from '../../../components/Auth/AuthDescription'
@@ -7,14 +7,14 @@ import AuthInput from '../../../components/Auth/AuthInput'
 import AuthButton from '../../../components/Auth/AuthButton'
 import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
-import React, {useEffect, useState} from 'react'
-import {useDispatch, useSelector} from 'react-redux'
-import {RootState} from '../../../store/store.ts'
-import {userService} from '../../../services/userService.ts'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../../store/store.ts'
+import { userService } from '../../../services/userService.ts'
 import AuthError from '../../../components/Auth/AuthError'
-import {notResetPassword} from '../../../store/slices/reset.ts'
-import {login} from "../../../store/slices/auth.ts";
-import {authService} from "../../../services/authService.ts";
+import { notResetPassword } from '../../../store/slices/reset.ts'
+import { login } from '../../../store/slices/auth.ts'
+import { authService } from '../../../services/authService.ts'
 
 interface FormData {
     code: string
@@ -98,10 +98,12 @@ const LoginPasswordCodePage = () => {
                 />
             }
             error={error && <AuthError error={error} />}
-            button={<AuthButton
-                text={t('login-code.button')}
-                disabled={loading}
-            />}
+            button={
+                <AuthButton
+                    text={t('login-code.button')}
+                    disabled={loading}
+                />
+            }
             top={<AuthTopLink />}
             down={
                 <AuthDownLink

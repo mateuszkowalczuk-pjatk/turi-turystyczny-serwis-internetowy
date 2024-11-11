@@ -1,17 +1,17 @@
-import {useTranslation} from 'react-i18next'
-import {useNavigate} from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import AuthPanel from '../../../components/Auth/AuthPanel'
 import AuthTitle from '../../../components/Auth/AuthTitle'
 import AuthInput from '../../../components/Auth/AuthInput'
 import AuthButton from '../../../components/Auth/AuthButton'
 import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
-import React, {useEffect, useState} from 'react'
-import {useSelector} from 'react-redux'
-import {RootState} from '../../../store/store.ts'
-import {passwordValidation} from '../../../utils/passwordValidation.ts'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../store/store.ts'
+import { passwordValidation } from '../../../utils/passwordValidation.ts'
 import AuthError from '../../../components/Auth/AuthError'
-import {userService} from '../../../services/userService.ts'
+import { userService } from '../../../services/userService.ts'
 
 interface FormData {
     password: string
@@ -34,7 +34,7 @@ const LoginPasswordResetPage = () => {
         if (!isAuthenticated && !isResetPassword) {
             navigate('/login/check')
         }
-    }, [isAuthenticated, navigate])
+    }, [isAuthenticated, isResetPassword, navigate])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setError(null)
@@ -112,10 +112,12 @@ const LoginPasswordResetPage = () => {
                 />
             }
             error={error && <AuthError error={error} />}
-            button={<AuthButton
-                text={t('login-reset.button')}
-                disabled={loading}
-            />}
+            button={
+                <AuthButton
+                    text={t('login-reset.button')}
+                    disabled={loading}
+                />
+            }
             top={
                 <AuthTopLink
                     text={t('login-reset.top')}

@@ -6,7 +6,7 @@
         "stays": "Pobyty",
         "favourites": "Ulubione",
         "premium": "Premium",
-        "name": "user-name",
+        "name": "Konto",
         "profile": "Profil",
         "logout": "Wyloguj się"
     },
@@ -204,7 +204,13 @@
         "street": "Ulica",
         "building": "Nr budynku",
         "apartment": "Nr lokalu",
-        "language": "Język strony"
+        "language": "Język strony",
+        "error-login": "Nie udało się zmienić loginu",
+        "error-email": "Nie udało się zmienić adresu email",
+        "error-password-mismatch": "Hasła nie są takie same",
+        "error-password": "Nie udało się zmienić hasła",
+        "error-default": "Nie udało się zmienić danych konta",
+        "error-default-personal": "Błąd podczas wyświetlania danych personalnych"
     },
     "not-found": {
         "404": "404",
