@@ -10,20 +10,20 @@ import org.springframework.stereotype.Repository;
 @AllArgsConstructor
 public class AddressRepositoryImpl implements AddressRepository
 {
-    private final AddressRepositoryDao addressRepositoryDao;
+    private final AddressRepositoryDao repositoryDao;
 
     @Override
-    public Address findById(final Long addressId)
+    public Address findById(final Long id)
     {
-        return addressRepositoryDao.findById(addressId)
+        return repositoryDao.findById(id)
                 .map(Address::of)
-                .orElseThrow(() -> new AddressNotFoundException(addressId));
+                .orElseThrow(() -> new AddressNotFoundException(id));
     }
 
     @Override
     public Address findByAddress(final Address address)
     {
-        return addressRepositoryDao
+        return repositoryDao
                 .findByCountryAndCityAndZipCodeAndStreetAndBuildingNumberAndApartmentNumber(
                         address.getCountry(),
                         address.getCity(),
@@ -41,14 +41,14 @@ public class AddressRepositoryImpl implements AddressRepository
     {
         final var entity = AddressEntity.of(address);
 
-        return addressRepositoryDao.saveAndFlush(entity).getAddressId();
+        return repositoryDao.saveAndFlush(entity).getAddressId();
     }
 
     @Override
-    public void delete(final Long addressId)
+    public void deleteById(final Long id)
     {
-        final var address = findById(addressId);
+        final var address = findById(id);
 
-        addressRepositoryDao.deleteById(address.getAddressId());
+        repositoryDao.deleteById(address.getAddressId());
     }
 }

@@ -1,0 +1,11 @@
+.proposition {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1440px;
+    height: 38rem;
+    gap: 2rem;
+    margin: 0 auto;
+}

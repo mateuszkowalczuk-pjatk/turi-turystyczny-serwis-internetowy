@@ -1,0 +1,18 @@
+.logo {
+    color: var(--white);
+    font-size: 4rem;
+    font-weight: 200;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .logo {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        font-size: 2rem;
+    }
+}

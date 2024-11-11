@@ -1,0 +1,42 @@
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8%;
+}
+
+.buttons button {
+    width: 8.5rem;
+    height: 2.5rem;
+    font-size: 1rem;
+}
+
+.buttons button.selected {
+    background-color: var(--green);
+    color: var(--white);
+    border: 2px solid var(--dark-green);
+}
+
+@media (max-width: 768px) {
+    .buttons button {
+        width: 7rem;
+        height: 2rem;
+        font-size: 0.8rem;
+    }
+
+    .buttons button:active {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .buttons button {
+        width: 5.5rem;
+        height: 1.5rem;
+        font-size: 0.6rem;
+    }
+
+    .buttons button:active {
+        font-size: 0.55rem;
+    }
+}

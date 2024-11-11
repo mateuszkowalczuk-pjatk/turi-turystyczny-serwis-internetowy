@@ -1,13 +1,17 @@
 package com.turi.authentication.domain.port;
 
-import com.turi.account.domain.model.Account;
-import com.turi.authentication.domain.model.Authentication;
-import com.turi.authentication.infrastructure.adapter.application.queries.authentication.AuthenticationParam;
-import com.turi.authentication.infrastructure.adapter.application.queries.registration.RegistrationParam;
+import com.turi.authentication.domain.model.*;
+import jakarta.servlet.http.HttpServletResponse;
 
 public interface AuthenticationService
 {
-    Account register(final RegistrationParam params);
+    Authentication register(final RegisterParam params);
 
-    Authentication authenticate(final AuthenticationParam params);
+    Authentication login(final LoginParam params);
+
+    Boolean authorize();
+
+    Authentication refresh(final RefreshParam params);
+
+    HttpServletResponse logout(final LogoutParam params);
 }

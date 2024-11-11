@@ -1,0 +1,31 @@
+.input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    height: 4rem;
+}
+
+.input input {
+    width: 100%;
+    height: 3.4rem;
+    font-size: 1rem;
+}
+
+.input input::placeholder {
+    font-size: 1rem;
+}
+
+@media (max-width: 480px) {
+    .input {
+        height: 3rem;
+    }
+
+    .input input {
+        height: 2.6rem;
+    }
+
+    .input input::placeholder {
+        font-size: 0.8rem;
+    }
+}

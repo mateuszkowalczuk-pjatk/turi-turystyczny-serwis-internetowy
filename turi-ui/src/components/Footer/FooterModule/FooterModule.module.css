@@ -1,0 +1,15 @@
+.module {
+    width: 30%;
+    height: 100%;
+}
+
+.module p {
+    line-height: 1.8;
+    color: var(--dark);
+}
+
+@media (max-width: 480px) {
+    .module {
+        width: 50%;
+    }
+}

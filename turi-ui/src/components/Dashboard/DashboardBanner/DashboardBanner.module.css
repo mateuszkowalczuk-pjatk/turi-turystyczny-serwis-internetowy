@@ -1,0 +1,26 @@
+.banner {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.4rem;
+    width: 70%;
+    height: 11.5rem;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .banner {
+        width: 90%;
+    }
+
+    .banner p {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .banner p {
+        font-size: 1rem;
+    }
+}

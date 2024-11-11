@@ -1,0 +1,31 @@
+.description {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 70%;
+    height: 4rem;
+}
+
+.description p {
+    color: var(--white);
+    text-align: center;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .description p {
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .description {
+        height: 3rem;
+    }
+
+    .description p {
+        font-size: 0.6rem;
+    }
+}

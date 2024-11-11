@@ -1,0 +1,20 @@
+.reservation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 23rem;
+    height: 100%;
+    border-radius: 0.4rem;
+    border: 2px solid var(--dark-green);
+}
+
+.reservation p {
+    color: var(--dark);
+}
+
+@media (max-width: 480px) {
+    .reservation p {
+        font-size: 0.75rem;
+    }
+}

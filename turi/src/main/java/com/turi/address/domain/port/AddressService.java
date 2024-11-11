@@ -8,5 +8,7 @@ public interface AddressService
 
     Address getByAddress(final Address address);
 
-    Address createAddress(final Address address);
+    Address create(final Address address);
+
+    void deleteById(final Long id);
 }

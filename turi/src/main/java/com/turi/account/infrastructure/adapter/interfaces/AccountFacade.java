@@ -2,8 +2,12 @@ package com.turi.account.infrastructure.adapter.interfaces;
 
 import com.turi.account.domain.model.Account;
 import com.turi.account.domain.port.AccountService;
-import com.turi.infrastructure.common.ObjectId;
+import com.turi.infrastructure.common.ContextHandler;
+import com.turi.infrastructure.exception.BadRequestParameterException;
+import com.turi.infrastructure.exception.BadRequestResponseException;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,40 +16,103 @@ public class AccountFacade
 {
     private final AccountService service;
 
-    public Account getByUserId(final Long userId)
+    public ResponseEntity<Account> getAccountById()
     {
-        return AccountResponse.of(service.getByUserId(userId));
+        final var accountId = ContextHandler.getIdFromContext();
+
+        return AccountResponse.of(service.getById(accountId));
     }
 
-    public Boolean isAddressExists(final String country,
-                                   final String city,
-                                   final String zipCode,
-                                   final String street,
-                                   final String buildingNumber,
-                                   final Integer apartmentNumber)
+    public Account getAccountByUserId(final Long id)
     {
-        return AccountResponse.of(service.isAddressExists(country,
+        if (id == null)
+        {
+            throw new BadRequestParameterException("Parameter ID must not be null.");
+        }
+
+        final var account = service.getByUserId(id);
+
+        if (account == null)
+        {
+            throw new BadRequestResponseException("Account response must not be null.");
+        }
+
+        return account;
+    }
+
+    public ResponseEntity<Boolean> isAccountAddressExists(final String country,
+                                                          final String city,
+                                                          final String zipCode,
+                                                          final String street,
+                                                          final String buildingNumber,
+                                                          final String apartmentNumber)
+    {
+        if (country == null || city == null || zipCode == null || street == null || buildingNumber == null)
+        {
+            throw new BadRequestParameterException("Parameters country, city, zipCode, street and buildingNumber must not be null.");
+        }
+
+        final var accountId = ContextHandler.getIdFromContext();
+
+        return AccountResponse.of(service.isAddressExists(accountId,
+                country,
                 city,
                 zipCode,
                 street,
                 buildingNumber,
-                apartmentNumber));
+                apartmentNumber != null ? Integer.valueOf(apartmentNumber) : null));
     }
 
-    public Boolean isPhoneNumberExists(final String phoneNumber)
+    public ResponseEntity<Boolean> isAccountPhoneNumberExists(final String phoneNumber)
     {
-        return AccountResponse.of(service.isPhoneNumberExists(phoneNumber));
+        if (phoneNumber == null)
+        {
+            throw new BadRequestParameterException("Parameter phoneNumber must not be null.");
+        }
+
+        final var accountId = ContextHandler.getIdFromContext();
+
+        return AccountResponse.of(service.isPhoneNumberExists(accountId, phoneNumber));
+    }
+
+    public ResponseEntity<?> activateAccount(final String code, final HttpServletResponse response)
+    {
+        if (code == null)
+        {
+            throw new BadRequestParameterException("Parameter code must not be null.");
+        }
+
+        final var accountId = ContextHandler.getIdFromContext();
+
+        service.activate(accountId, Integer.valueOf(code));
+
+        return AccountResponse.of(response);
+    }
+
+    public void sendAccountActivateCode(final Long accountId)
+    {
+        service.sendActivateCode(accountId);
     }
 
     public Account createAccount(final Account account)
     {
-        return AccountResponse.of(service.createAccount(account));
+        if (account == null)
+        {
+            throw new BadRequestParameterException("Parameter account must not be null.");
+        }
+
+        return service.create(account);
     }
 
-    public Account updateAccount(final String accountId, final Account account)
+    public ResponseEntity<Account> updateAccount(final Account account)
     {
-        final var id = ObjectId.of(accountId).getValue();
+        if (account == null)
+        {
+            throw new BadRequestParameterException("Parameter account must not be null.");
+        }
 
-        return AccountResponse.of(service.updateAccount(id, account));
+        final var accountId = ContextHandler.getIdFromContext();
+
+        return AccountResponse.of(service.update(accountId, account));
     }
 }

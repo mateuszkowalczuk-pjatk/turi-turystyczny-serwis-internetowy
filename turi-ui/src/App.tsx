@@ -1,12 +1,17 @@
-import './app.css'
-import OwnerList from './owner/OwnerList.tsx'
+import { BrowserRouter } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import AppRoutes from './routes/AppRoutes'
+import store from './store/store.ts'
+import './style.css'
 
-export default function App() {
-  return (
-    <>
-      <div>
-        <OwnerList />
-      </div>
-    </>
-  )
+const App = () => {
+    return (
+        <Provider store={store}>
+            <BrowserRouter>
+                <AppRoutes />
+            </BrowserRouter>
+        </Provider>
+    )
 }
+
+export default App

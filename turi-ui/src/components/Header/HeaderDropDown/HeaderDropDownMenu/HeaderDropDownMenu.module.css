@@ -1,0 +1,10 @@
+.menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: var(--white);
+    border: 2px solid var(--grey);
+    border-radius: 0.4rem;
+    z-index: 1000;
+}

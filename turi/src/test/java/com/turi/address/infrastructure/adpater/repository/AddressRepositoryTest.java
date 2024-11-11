@@ -196,19 +196,19 @@ class AddressRepositoryTest
     }
 
     @Test
-    void testAddress_Delete()
+    void testAddress_DeleteById()
     {
         final var address = repository.findById(mockAddress().getAddressId());
 
-        repository.delete(address.getAddressId());
+        repository.deleteById(address.getAddressId());
 
         assertThrows(AddressNotFoundException.class, () -> repository.findById(address.getAddressId()));
     }
 
     @Test
-    void testAddress_Delete_NothingToDelete()
+    void testAddress_DeleteById_NothingToDelete()
     {
-        assertThrows(AddressNotFoundException.class, () -> repository.delete(mockNewAddress().getAddressId()));
+        assertThrows(AddressNotFoundException.class, () -> repository.deleteById(mockNewAddress().getAddressId()));
     }
 
     private Address mockAddress()

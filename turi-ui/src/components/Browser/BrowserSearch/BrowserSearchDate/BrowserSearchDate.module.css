@@ -1,0 +1,30 @@
+.date {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 22%;
+    height: 100%;
+    background-color: var(--green);
+    color: var(--grey);
+    border-radius: 0.3rem;
+    cursor: pointer;
+    transition:
+        font-size 0.1s,
+        background-color 0.3s;
+}
+
+.date:hover {
+    background-color: var(--dark-green);
+}
+
+@media (max-width: 768px) {
+    .date {
+        width: 10%;
+    }
+}
+
+@media (max-width: 480px) {
+    .date {
+        width: 15%;
+    }
+}

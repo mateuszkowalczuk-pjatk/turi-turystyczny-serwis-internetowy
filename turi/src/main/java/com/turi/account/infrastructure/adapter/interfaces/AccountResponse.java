@@ -1,24 +1,49 @@
 package com.turi.account.infrastructure.adapter.interfaces;
 
 import com.turi.account.domain.model.Account;
-import io.jsonwebtoken.lang.Assert;
+import com.turi.infrastructure.exception.BadRequestResponseException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.springframework.http.ResponseEntity;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class AccountResponse
 {
-    public static Account of(final Account account)
+    public static ResponseEntity<Account> of(final Account account)
     {
-        Assert.notNull(account, "Account must not be null.");
+        if (account == null)
+        {
+            throw new BadRequestResponseException("Account response must not be null.");
+        }
 
-        return account;
+        return ResponseEntity.ok(account);
     }
 
-    public static Boolean of(final Boolean result)
+    public static ResponseEntity<Boolean> of(final Boolean result)
     {
-        Assert.notNull(result, "Check result must not be null.");
+        if (result == null)
+        {
+            throw new BadRequestResponseException("Check result response must not be null.");
+        }
 
-        return result;
+        return ResponseEntity.ok(result);
+    }
+
+    public static ResponseEntity<?> of(final HttpServletResponse response)
+    {
+        if (response != null)
+        {
+            final var activateToken = new Cookie("activateToken", null);
+            activateToken.setHttpOnly(true);
+            activateToken.setSecure(true);
+            activateToken.setPath("/");
+            activateToken.setMaxAge(0);
+
+            response.addCookie(activateToken);
+        }
+
+        return ResponseEntity.ok().build();
     }
 }

@@ -1,0 +1,19 @@
+.header {
+    display: flex;
+    align-items: center;
+    width: 90%;
+    height: 10rem;
+    border-bottom: 2px solid var(--light-green);
+}
+
+.header p {
+    font-size: 9rem;
+    color: var(--light-green);
+}
+
+@media (max-width: 480px) {
+    .header p {
+        font-size: 6em;
+        color: var(--light-green);
+    }
+}

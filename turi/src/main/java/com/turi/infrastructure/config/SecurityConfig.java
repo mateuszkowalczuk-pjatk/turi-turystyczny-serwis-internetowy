@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -32,9 +33,25 @@ public class SecurityConfig
     {
         return http
                 .securityMatchers(matchers -> matchers.requestMatchers("/api/**"))
-                .authorizeHttpRequests(authorize -> authorize.anyRequest().hasRole(AccountType.NORMAL.getName()))
-                .httpBasic(Customizer.withDefaults())
-//                .csrf(crsf -> crsf.disable())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers(
+                                "/api/auth/register",
+                                "/api/auth/login",
+                                "/api/auth/refresh",
+                                "/api/user/sendResetPasswordCode",
+                                "/api/user/resetPassword",
+                                "/api/user/isUsernameExists",
+                                "/api/user/isEmailExists"
+                        ).permitAll()
+                        .requestMatchers(
+                                "/api/account/activate"
+                        ).hasRole(AccountType.INACTIVE.getName())
+                        .requestMatchers("/api/premium/**").hasRole(AccountType.PREMIUM.getName())
+                        .requestMatchers("/api/**").hasAnyRole(AccountType.NORMAL.getName(), AccountType.PREMIUM.getName())
+                        .anyRequest().authenticated())
+                .cors(Customizer.withDefaults())
+                .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
@@ -61,18 +78,15 @@ public class SecurityConfig
     @Bean
     public CorsFilter corsFilter()
     {
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", buildCorsConfiguration());
-        return new CorsFilter(source);
-    }
-
-    private CorsConfiguration buildCorsConfiguration()
-    {
-        final CorsConfiguration config = new CorsConfiguration();
+        final var config = new CorsConfiguration();
         config.setAllowCredentials(true);
         config.addAllowedOrigin("http://localhost:3000");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
-        return config;
+
+        final var source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+
+        return new CorsFilter(source);
     }
 }

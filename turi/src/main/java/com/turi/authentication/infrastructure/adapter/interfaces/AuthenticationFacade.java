@@ -1,36 +1,63 @@
 package com.turi.authentication.infrastructure.adapter.interfaces;
 
-import com.turi.account.domain.model.Account;
-import com.turi.account.infrastructure.adapter.interfaces.AccountResponse;
-import com.turi.authentication.domain.model.Authentication;
-import com.turi.authentication.infrastructure.adapter.application.queries.authentication.AuthenticationParam;
-import com.turi.authentication.infrastructure.adapter.application.queries.authentication.AuthenticationQuery;
-import com.turi.authentication.infrastructure.adapter.application.queries.authentication.AuthenticationQueryHandler;
-import com.turi.authentication.infrastructure.adapter.application.queries.registration.RegistrationParam;
-import com.turi.authentication.infrastructure.adapter.application.queries.registration.RegistrationQuery;
-import com.turi.authentication.infrastructure.adapter.application.queries.registration.RegistrationQueryHandler;
-import com.turi.infrastructure.crud.QueryBusImpl;
+import com.turi.authentication.domain.model.LoginParam;
+import com.turi.authentication.domain.model.LogoutParam;
+import com.turi.authentication.domain.model.RefreshParam;
+import com.turi.authentication.domain.model.RegisterParam;
+import com.turi.authentication.domain.port.AuthenticationService;
+import com.turi.infrastructure.exception.BadRequestParameterException;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
 public class AuthenticationFacade
 {
-    private final RegistrationQueryHandler registrationQueryHandler;
-    private final AuthenticationQueryHandler authenticationQueryHandler;
+    private final AuthenticationService service;
 
-    public Account register(final RegistrationParam params)
+    public ResponseEntity<?> register(final RegisterParam params)
     {
-        final var query = new RegistrationQuery(params);
-        final var queryBus = new QueryBusImpl<>(registrationQueryHandler);
-        return AccountResponse.of(queryBus.process(query));
+        if (params == null || params.getUsername() == null || params.getEmail() == null || params.getPassword() == null)
+        {
+            throw new BadRequestParameterException("Parameters username, email and password are required.");
+        }
+
+        return AuthenticationResponse.of(service.register(params));
     }
 
-    public Authentication authenticate(final AuthenticationParam params)
+    public ResponseEntity<?> login(final LoginParam params)
     {
-        final var query = new AuthenticationQuery(params);
-        final var queryBus = new QueryBusImpl<>(authenticationQueryHandler);
-        return AuthenticationResponse.of(queryBus.process(query));
+        if (params == null || params.getLogin() == null || params.getPassword() == null)
+        {
+            throw new BadRequestParameterException("Parameters login and password are required.");
+        }
+
+        return AuthenticationResponse.of(service.login(params));
+    }
+
+    public ResponseEntity<?> authorize()
+    {
+        return AuthenticationResponse.of(service.authorize());
+    }
+
+    public ResponseEntity<?> refresh(final RefreshParam params)
+    {
+        if (params == null || params.getRefreshToken() == null)
+        {
+            throw new BadRequestParameterException("Parameter refreshToken is required.");
+        }
+
+        return AuthenticationResponse.of(service.refresh(params));
+    }
+
+    public ResponseEntity<?> logout(final LogoutParam params)
+    {
+        if (params == null || params.getRefreshToken() == null)
+        {
+            throw new BadRequestParameterException("Parameter refreshToken is required.");
+        }
+
+        return AuthenticationResponse.of(service.logout(params));
     }
 }

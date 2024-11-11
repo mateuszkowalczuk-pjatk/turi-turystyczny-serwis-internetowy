@@ -1,0 +1,31 @@
+.input {
+    display: flex;
+    align-items: center;
+    height: 2.5rem;
+    width: 15rem;
+}
+
+.input input {
+    height: 2.5rem;
+    width: 15rem;
+}
+
+@media (max-width: 768px) {
+    .input {
+        width: 11rem;
+    }
+
+    .input input {
+        width: 11rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .input {
+        width: 9rem;
+    }
+
+    .input input {
+        width: 9rem;
+    }
+}

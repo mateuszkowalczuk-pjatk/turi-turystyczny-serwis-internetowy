@@ -1,0 +1,16 @@
+.item {
+    flex: 1 1 calc(33.333% - 10px);
+    min-width: 100px;
+}
+
+@media (max-width: 768px) {
+    .item {
+        flex: 1 1 calc(50% - 10px);
+    }
+}
+
+@media (max-width: 480px) {
+    .item {
+        flex: 1 1 100%;
+    }
+}

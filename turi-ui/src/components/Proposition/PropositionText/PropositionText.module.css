@@ -1,0 +1,16 @@
+.text {
+    display: flex;
+    align-items: center;
+    width: 96%;
+    height: 3rem;
+}
+
+.text p {
+    color: var(--dark);
+}
+
+@media (max-width: 480px) {
+    .text p {
+        font-size: 1rem;
+    }
+}

@@ -1,0 +1,16 @@
+.button {
+    display: flex;
+    align-items: center;
+    width: 90%;
+    height: 10rem;
+}
+
+.button button {
+    height: 3rem;
+    width: 8rem;
+    font-size: 1.5rem;
+}
+
+.button button:active {
+    font-size: 1.4rem;
+}

@@ -1,0 +1,15 @@
+.search {
+    display: flex;
+    align-items: center;
+    width: 70%;
+    height: 4rem;
+    background-color: var(--white);
+    border-radius: 0.5rem;
+    border: 3px solid var(--light-green);
+}
+
+@media (max-width: 768px) {
+    .search {
+        width: 90%;
+    }
+}

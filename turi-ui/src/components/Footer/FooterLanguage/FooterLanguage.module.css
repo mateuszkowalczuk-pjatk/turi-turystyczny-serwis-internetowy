@@ -1,0 +1,27 @@
+.language {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.language .active {
+    font-weight: bold;
+}
+
+.language span {
+    cursor: pointer;
+    font-size: 1.25rem;
+}
+
+@media (max-width: 768px) {
+    .language span {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .language span {
+        font-size: 1rem;
+    }
+}

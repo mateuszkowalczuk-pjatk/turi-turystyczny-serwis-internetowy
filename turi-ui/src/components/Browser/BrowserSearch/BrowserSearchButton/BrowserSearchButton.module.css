@@ -1,0 +1,36 @@
+.button {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 22.8%;
+}
+
+.button button {
+    width: 96%;
+    height: 3.5rem;
+    font-size: 1.2rem;
+}
+
+.button button:active {
+    font-size: 1.15rem;
+}
+
+@media (max-width: 768px) {
+    .button button {
+        font-size: 1rem;
+    }
+
+    .button button:active {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .button button {
+        font-size: 0.8rem;
+    }
+
+    .button button:active {
+        font-size: 0.75rem;
+    }
+}

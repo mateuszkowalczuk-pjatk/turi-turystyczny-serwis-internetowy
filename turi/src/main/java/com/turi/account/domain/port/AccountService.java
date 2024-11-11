@@ -8,16 +8,21 @@ public interface AccountService
 
     Account getByUserId(final Long userId);
 
-    Boolean isAddressExists(final String country,
+    Boolean isAddressExists(final Long accountId,
+                            final String country,
                             final String city,
                             final String zipCode,
                             final String street,
                             final String buildingNumber,
                             final Integer apartmentNumber);
 
-    Boolean isPhoneNumberExists(final String phoneNumber);
+    Boolean isPhoneNumberExists(final Long accountId, final String phoneNumber);
 
-    Account createAccount(final Account account);
+    void activate(final Long id, final Integer code);
 
-    Account updateAccount(final Long accountId, final Account account);
+    void sendActivateCode(final Long id);
+
+    Account create(final Account account);
+
+    Account update(final Long id, final Account account);
 }

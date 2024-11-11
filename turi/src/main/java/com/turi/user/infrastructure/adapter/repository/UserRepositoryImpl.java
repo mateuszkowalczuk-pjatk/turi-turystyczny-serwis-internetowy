@@ -6,18 +6,27 @@ import com.turi.user.domain.port.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 @AllArgsConstructor
 public class UserRepositoryImpl implements UserRepository
 {
-    private final UserRepositoryDao userRepositoryDao;
+    private final UserRepositoryDao repositoryDao;
+
+    @Override
+    public List<User> findAll()
+    {
+        return repositoryDao.findAll().stream()
+                .map(User::of)
+                .toList();
+    }
 
     @Override
     public User findById(final Long id)
     {
-        return userRepositoryDao.findById(id)
+        return repositoryDao.findById(id)
                 .map(User::of)
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
@@ -25,7 +34,7 @@ public class UserRepositoryImpl implements UserRepository
     @Override
     public User findByUsername(final String username)
     {
-        return userRepositoryDao.findByUsername(username)
+        return repositoryDao.findByUsername(username)
                 .map(User::of)
                 .orElse(null);
     }
@@ -33,7 +42,15 @@ public class UserRepositoryImpl implements UserRepository
     @Override
     public User findByEmail(final String email)
     {
-        return userRepositoryDao.findByEmail(email)
+        return repositoryDao.findByEmail(email)
+                .map(User::of)
+                .orElse(null);
+    }
+
+    @Override
+    public User findByPasswordResetToken(final String resetToken)
+    {
+        return repositoryDao.findByPasswordResetToken(resetToken)
                 .map(User::of)
                 .orElse(null);
     }
@@ -43,13 +60,13 @@ public class UserRepositoryImpl implements UserRepository
     {
         final var entity = UserEntity.of(user);
 
-        return userRepositoryDao.saveAndFlush(entity).getUserId();
+        return repositoryDao.saveAndFlush(entity).getUserId();
     }
 
     @Override
-    public void update(final Long userId, final User user)
+    public void update(final Long id, final User user)
     {
-        final var userEntity = userRepositoryDao.findById(userId).orElse(null);
+        final var userEntity = repositoryDao.findById(id).orElse(null);
 
         final var entity = UserEntity.of(user);
 
@@ -57,16 +74,19 @@ public class UserRepositoryImpl implements UserRepository
             e.setUsername(entity.getUsername());
             e.setEmail(entity.getEmail());
             e.setPassword(entity.getPassword());
+            e.setPasswordResetCode(entity.getPasswordResetCode());
+            e.setPasswordResetToken(entity.getPasswordResetToken());
+            e.setPasswordResetExpiresAt(entity.getPasswordResetExpiresAt());
 
-            userRepositoryDao.saveAndFlush(userEntity);
+            repositoryDao.saveAndFlush(userEntity);
         });
     }
 
     @Override
-    public void delete(final Long userId)
+    public void deleteById(final Long id)
     {
-        final var user = findById(userId);
+        final var user = findById(id);
 
-        userRepositoryDao.deleteById(user.getUserId());
+        repositoryDao.deleteById(user.getUserId());
     }
 }

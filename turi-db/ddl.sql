@@ -5,25 +5,50 @@ SET search_path TO turi;
 
 CREATE TABLE IF NOT EXISTS "user"
 (
-    userid   SERIAL PRIMARY KEY,
-    username VARCHAR(50)  NOT NULL UNIQUE,
-    email    VARCHAR(50)  NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL
+    userid                 SERIAL       PRIMARY KEY,
+    username               VARCHAR(50)  NOT NULL UNIQUE,
+    email                  VARCHAR(50)  NOT NULL UNIQUE,
+    password               VARCHAR(255) NOT NULL,
+    passwordresetcode      INTEGER,
+    passwordresettoken     VARCHAR(255),
+    passwordresetexpiresat TIMESTAMP
 );
 
 CREATE INDEX IF NOT EXISTS userusernameindex ON "user" (username);
 CREATE INDEX IF NOT EXISTS useremailindex ON "user" (email);
+CREATE INDEX IF NOT EXISTS userpasswordresettokenindex ON "user" (passwordresettoken);
 
-COMMENT ON TABLE "user" IS 'Table to store user details authentication.';
+COMMENT ON TABLE  "user" IS 'Table to store user details authentication.';
 COMMENT ON COLUMN "user".userid IS 'Unique required primary key of the user table.';
 COMMENT ON COLUMN "user".username IS 'Unique required user username.';
 COMMENT ON COLUMN "user".email IS 'Unique required user email.';
 COMMENT ON COLUMN "user".password IS 'Required user password.';
+COMMENT ON COLUMN "user".passwordresetcode IS 'User code for reset password.';
+COMMENT ON COLUMN "user".passwordresettoken IS 'User token for reset password.';
+COMMENT ON COLUMN "user".passwordresetexpiresat IS 'User code and token expiry date for reset password.';
+
+
+CREATE TABLE IF NOT EXISTS refreshtoken
+(
+    refreshtokenid SERIAL       PRIMARY KEY,
+    userid         INTEGER      NOT NULL,
+    token          VARCHAR(255) NOT NULL,
+    expiresat      TIMESTAMP    NOT NULL,
+    CONSTRAINT refreshtokenuser FOREIGN KEY (userid) REFERENCES "user" (userid)
+);
+
+CREATE INDEX IF NOT EXISTS refreshtokenindex ON refreshtoken (token);
+
+COMMENT ON TABLE  refreshtoken IS 'Table to store user refresh token details';
+COMMENT ON COLUMN refreshtoken.refreshtokenid IS 'Unique required primary key of the refresh token table';
+COMMENT ON COLUMN refreshtoken.userid IS 'Required foreign key of user.';
+COMMENT ON COLUMN refreshtoken.token IS 'Required user refresh token.';
+COMMENT ON COLUMN refreshtoken.expiresat IS 'Required expiry date for refresh token.';
 
 
 CREATE TABLE IF NOT EXISTS address 
 (
-    addressid       SERIAL PRIMARY KEY,
+    addressid       SERIAL      PRIMARY KEY,
     country         VARCHAR(50) NOT NULL,
     city            VARCHAR(50) NOT NULL,
     zipcode         VARCHAR(6)  NOT NULL,
@@ -35,7 +60,7 @@ CREATE TABLE IF NOT EXISTS address
 
 CREATE INDEX IF NOT EXISTS addressindex ON address (country, city, zipcode, street, buildingnumber, apartmentnumber);
 
-COMMENT ON TABLE address IS 'Table to store address for the account and the turistic place, where one address can be for both of them.';
+COMMENT ON TABLE  address IS 'Table to store address for the account and the turistic place, where one address can be for both of them.';
 COMMENT ON COLUMN address.addressid IS 'Unique required primary key of the address table.';
 COMMENT ON COLUMN address.country IS 'Required country of address.';
 COMMENT ON COLUMN address.city IS 'Required city of address.';
@@ -47,15 +72,17 @@ COMMENT ON COLUMN address.apartmentnumber IS 'Optional apartment number, if ther
 
 CREATE TABLE IF NOT EXISTS account 
 (
-    accountid   SERIAL PRIMARY KEY,
-    userid      INTEGER      NOT NULL UNIQUE,
-    addressid   INTEGER               UNIQUE,
-    accounttype INTEGER      NOT NULL,
-    firstname   VARCHAR(50),
-    lastname    VARCHAR(50),
-    birthdate   DATE,
-    phonenumber VARCHAR(20)           UNIQUE,
-    gender      INTEGER,
+    accountid             SERIAL       PRIMARY KEY,
+    userid                INTEGER      NOT NULL UNIQUE,
+    addressid             INTEGER               UNIQUE,
+    accounttype           INTEGER      NOT NULL,
+    activatecode          INTEGER,
+    activatecodeexpiresat TIMESTAMP,
+    firstname             VARCHAR(50),
+    lastname              VARCHAR(50),
+    birthdate             DATE,
+    phonenumber           VARCHAR(20)           UNIQUE,
+    gender                INTEGER,
     CONSTRAINT accountuser FOREIGN KEY (userid) REFERENCES "user" (userid),
     CONSTRAINT accountaddress FOREIGN KEY (addressid) REFERENCES address (addressid)
 );
@@ -64,16 +91,19 @@ CREATE INDEX IF NOT EXISTS accountuserindex ON account (userid);
 CREATE INDEX IF NOT EXISTS accountaddressindex ON account (addressid);
 CREATE INDEX IF NOT EXISTS accountphonenumberindex ON account (phonenumber);
 
-COMMENT ON TABLE account IS 'Table to store account user details.';
+COMMENT ON TABLE  account IS 'Table to store account user details.';
 COMMENT ON COLUMN account.accountid IS 'Unique required primary key of the account table.';
 COMMENT ON COLUMN account.userid IS 'Unique required foreign key of account user.';
 COMMENT ON COLUMN account.addressid IS 'Unique foreign key address of account user.';
 COMMENT ON COLUMN account.accounttype IS 'Required type of account (1 - Normal, 2 - Premium).';
+COMMENT ON COLUMN account.activatecode IS 'Account activation code.';
+COMMENT ON COLUMN account.activatecodeexpiresat IS 'Account activation code expired date.';
 COMMENT ON COLUMN account.firstname IS 'First name of account user.';
 COMMENT ON COLUMN account.lastname IS 'Last name of account user.';
 COMMENT ON COLUMN account.birthdate IS 'Birth date of account user.';
 COMMENT ON COLUMN account.phonenumber IS 'Unique phone number of account user.';
 COMMENT ON COLUMN account.gender IS 'Gander of account user (1 - Male, 2 - Female).';
+
 
 
 -- Table: Attraction

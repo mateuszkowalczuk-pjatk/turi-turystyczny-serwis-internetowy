@@ -3,7 +3,6 @@ package com.turi.address.infrastructure.adapter.service;
 import com.turi.address.domain.model.Address;
 import com.turi.address.domain.port.AddressRepository;
 import com.turi.address.domain.port.AddressService;
-import com.turi.infrastructure.exception.BadRequestParameterException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,27 +10,22 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class AddressServiceImpl implements AddressService
 {
-    private final AddressRepository addressRepository;
+    private final AddressRepository repository;
 
     @Override
     public Address getById(final Long id)
     {
-        if (id == null)
-        {
-            throw new BadRequestParameterException("Address ID must not be null.");
-        }
-
-        return addressRepository.findById(id);
+        return repository.findById(id);
     }
 
     @Override
     public Address getByAddress(final Address address)
     {
-        return addressRepository.findByAddress(address);
+        return repository.findByAddress(address);
     }
 
     @Override
-    public Address createAddress(final Address address)
+    public Address create(final Address address)
     {
         final var existingAddress = getByAddress(address);
 
@@ -40,8 +34,14 @@ public class AddressServiceImpl implements AddressService
             return existingAddress;
         }
 
-        final var addressId = addressRepository.insert(address);
+        final var id = repository.insert(address);
 
-        return getById(addressId);
+        return getById(id);
+    }
+
+    @Override
+    public void deleteById(final Long id)
+    {
+        repository.deleteById(id);
     }
 }

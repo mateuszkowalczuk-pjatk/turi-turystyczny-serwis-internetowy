@@ -1,0 +1,23 @@
+.link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    height: 3rem;
+}
+
+.link p {
+    color: var(--white);
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .link {
+        height: 2rem;
+    }
+
+    .link p {
+        font-size: 0.7rem;
+    }
+}

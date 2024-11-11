@@ -9,6 +9,7 @@ import java.util.Arrays;
 @AllArgsConstructor
 public enum AccountType
 {
+    INACTIVE(0, "INACTIVE"),
     NORMAL(1, "NORMAL"),
     PREMIUM(2, "PREMIUM");
 

@@ -4,7 +4,6 @@ import com.turi.address.domain.exception.AddressNotFoundException;
 import com.turi.address.domain.exception.InvalidAddressException;
 import com.turi.address.domain.model.Address;
 import com.turi.address.domain.port.AddressService;
-import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.testhelper.annotation.ServiceTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,13 +31,7 @@ class AddressServiceTest
     @Test
     void testAddress_GetById_NotFound()
     {
-        assertThrows(AddressNotFoundException.class, () -> service.getById(2L));
-    }
-
-    @Test
-    void testAddress_GetById_IdIsNull()
-    {
-        assertThrows(BadRequestParameterException.class, () -> service.getById(null));
+        assertThrows(AddressNotFoundException.class, () -> service.getById(mockNewAddress().getAddressId()));
     }
 
     @Test
@@ -123,75 +116,91 @@ class AddressServiceTest
     }
 
     @Test
-    void testAddress_CreateAddress()
+    void testAddress_Create()
     {
         final var address = mockNewAddress();
 
-        final var result = service.createAddress(address);
+        final var result = service.create(address);
 
         assertNotNull(result);
         assertThat(result).isEqualTo(address);
     }
 
     @Test
-    void testAddress_CreateAddress_Exists()
+    void testAddress_Create_Exists()
     {
         final var address = mockAddress();
 
-        final var result = service.createAddress(address);
+        final var result = service.create(address);
 
         assertNotNull(result);
         assertThat(result).isEqualTo(address);
     }
 
     @Test
-    void testAddress_CreateAddress_WithoutRequiredCountryField()
+    void testAddress_Create_WithoutRequiredCountryField()
     {
         final var address = mockNewAddress();
 
         address.setCountry(null);
 
-        assertThrows(InvalidAddressException.class, () -> service.createAddress(address));
+        assertThrows(InvalidAddressException.class, () -> service.create(address));
     }
 
     @Test
-    void testAddress_CreateAddress_WithoutRequiredCityField()
+    void testAddress_Create_WithoutRequiredCityField()
     {
         final var address = mockNewAddress();
 
         address.setCity(null);
 
-        assertThrows(InvalidAddressException.class, () -> service.createAddress(address));
+        assertThrows(InvalidAddressException.class, () -> service.create(address));
     }
 
     @Test
-    void testAddress_CreateAddress_WithoutRequiredZipCodeField()
+    void testAddress_Create_WithoutRequiredZipCodeField()
     {
         final var address = mockNewAddress();
 
         address.setZipCode(null);
 
-        assertThrows(InvalidAddressException.class, () -> service.createAddress(address));
+        assertThrows(InvalidAddressException.class, () -> service.create(address));
     }
 
     @Test
-    void testAddress_CreateAddress_WithoutRequiredStreetField()
+    void testAddress_Create_WithoutRequiredStreetField()
     {
         final var address = mockNewAddress();
 
         address.setStreet(null);
 
-        assertThrows(InvalidAddressException.class, () -> service.createAddress(address));
+        assertThrows(InvalidAddressException.class, () -> service.create(address));
     }
 
     @Test
-    void testAddress_CreateAddress_WithoutRequiredBuildingNumberField()
+    void testAddress_Create_WithoutRequiredBuildingNumberField()
     {
         final var address = mockNewAddress();
 
         address.setBuildingNumber(null);
 
-        assertThrows(InvalidAddressException.class, () -> service.createAddress(address));
+        assertThrows(InvalidAddressException.class, () -> service.create(address));
+    }
+
+    @Test
+    void testAddress_DeleteById()
+    {
+        final var address = service.getById(mockAddress().getAddressId());
+
+        service.deleteById(address.getAddressId());
+
+        assertThrows(AddressNotFoundException.class, () -> service.getById(address.getAddressId()));
+    }
+
+    @Test
+    void testAddress_DeleteById_NothingToDelete()
+    {
+        assertThrows(AddressNotFoundException.class, () -> service.deleteById(mockNewAddress().getAddressId()));
     }
 
     private Address mockAddress()

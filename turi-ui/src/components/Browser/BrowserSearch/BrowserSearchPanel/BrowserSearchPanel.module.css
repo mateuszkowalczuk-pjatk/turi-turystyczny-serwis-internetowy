@@ -1,0 +1,18 @@
+.panel {
+    display: flex;
+    align-items: center;
+    width: 78%;
+    height: 3.5rem;
+}
+
+@media (max-width: 768px) {
+    .panel {
+        width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    .panel {
+        width: 85%;
+    }
+}

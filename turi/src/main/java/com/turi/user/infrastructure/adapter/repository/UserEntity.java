@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -31,8 +32,17 @@ public final class UserEntity implements Serializable
     @Column(name = "email", length = 50, nullable = false, unique = true)
     private String email;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     private String password;
+
+    @Column(name = "passwordresetcode")
+    private Integer passwordResetCode;
+
+    @Column(name = "passwordresettoken")
+    private String passwordResetToken;
+
+    @Column(name = "passwordresetexpiresat")
+    private LocalDateTime passwordResetExpiresAt;
 
     public static UserEntity of(final User user)
     {
@@ -45,6 +55,9 @@ public final class UserEntity implements Serializable
                 .withUsername(user.getUsername())
                 .withEmail(user.getEmail())
                 .withPassword(user.getPassword())
+                .withPasswordResetCode(user.getPasswordResetCode())
+                .withPasswordResetToken(user.getPasswordResetToken())
+                .withPasswordResetExpiresAt(user.getPasswordResetExpiresAt())
                 .build();
     }
 

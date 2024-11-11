@@ -1,0 +1,36 @@
+.links {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 18%;
+    width: 40%;
+}
+
+.links p {
+    color: var(--white);
+    cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+    .links {
+        gap: 4vw;
+    }
+}
+
+@media (max-width: 768px) {
+    .links {
+        gap: 3vw;
+    }
+
+    .links p {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .links {
+        align-items: flex-end;
+        gap: 2vw;
+        width: 50vw;
+    }
+}

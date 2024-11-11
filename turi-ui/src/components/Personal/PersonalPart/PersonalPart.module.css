@@ -1,0 +1,13 @@
+.part {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 50%;
+    height: 22.5rem;
+}
+
+@media (max-width: 768px) {
+    .part {
+        height: 27rem;
+    }
+}

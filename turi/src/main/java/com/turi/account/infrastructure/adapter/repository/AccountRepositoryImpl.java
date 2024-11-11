@@ -6,28 +6,18 @@ import com.turi.account.domain.port.AccountRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Repository
 @AllArgsConstructor
 public class AccountRepositoryImpl implements AccountRepository
 {
-    private final AccountRepositoryDao accountRepositoryDao;
-
-    @Override
-    public List<Account> findAll()
-    {
-        return accountRepositoryDao.findAll().stream()
-                .map(Account::of)
-                .collect(Collectors.toList());
-    }
+    private final AccountRepositoryDao repositoryDao;
 
     @Override
     public Account findById(final Long id)
     {
-        return accountRepositoryDao.findById(id)
+        return repositoryDao.findById(id)
                 .map(Account::of)
                 .orElseThrow(() -> new AccountNotFoundException(id));
     }
@@ -35,7 +25,7 @@ public class AccountRepositoryImpl implements AccountRepository
     @Override
     public Account findByUserId(final Long userId)
     {
-        return accountRepositoryDao.findByUserId(userId)
+        return repositoryDao.findByUserId(userId)
                 .map(Account::of)
                 .orElse(null);
     }
@@ -43,7 +33,7 @@ public class AccountRepositoryImpl implements AccountRepository
     @Override
     public Account findByAddressId(final Long addressId)
     {
-        return accountRepositoryDao.findByAddressId(addressId)
+        return repositoryDao.findByAddressId(addressId)
                 .map(Account::of)
                 .orElse(null);
     }
@@ -51,7 +41,7 @@ public class AccountRepositoryImpl implements AccountRepository
     @Override
     public Account findByPhoneNumber(final String phoneNumber)
     {
-        return accountRepositoryDao.findByPhoneNumber(phoneNumber)
+        return repositoryDao.findByPhoneNumber(phoneNumber)
                 .map(Account::of)
                 .orElse(null);
     }
@@ -61,13 +51,13 @@ public class AccountRepositoryImpl implements AccountRepository
     {
         final var entity = AccountEntity.of(account);
 
-        return accountRepositoryDao.saveAndFlush(entity).getAccountId();
+        return repositoryDao.saveAndFlush(entity).getAccountId();
     }
 
     @Override
-    public void update(final Long accountId, final Account account)
+    public void update(final Long id, final Account account)
     {
-        final var accountEntity = accountRepositoryDao.findById(accountId).orElse(null);
+        final var accountEntity = repositoryDao.findById(id).orElse(null);
 
         final var entity = AccountEntity.of(account);
 
@@ -75,21 +65,23 @@ public class AccountRepositoryImpl implements AccountRepository
             e.setUserId(entity.getUserId());
             e.setAddressId(entity.getAddressId());
             e.setAccountType(entity.getAccountType());
+            e.setActivateCode(entity.getActivateCode());
+            e.setActivateCodeExpiresAt(entity.getActivateCodeExpiresAt());
             e.setFirstName(entity.getFirstName());
             e.setLastName(entity.getLastName());
             e.setBirthDate(entity.getBirthDate());
             e.setPhoneNumber(entity.getPhoneNumber());
             e.setGender(entity.getGender());
 
-            accountRepositoryDao.saveAndFlush(accountEntity);
+            repositoryDao.saveAndFlush(accountEntity);
         });
     }
 
     @Override
-    public void delete(final Long accountId)
+    public void delete(final Long id)
     {
-        final var account = findById(accountId);
+        final var account = findById(id);
 
-        accountRepositoryDao.deleteById(account.getAccountId());
+        repositoryDao.deleteById(account.getAccountId());
     }
 }

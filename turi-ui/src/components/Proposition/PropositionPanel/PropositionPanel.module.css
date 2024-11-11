@@ -1,0 +1,33 @@
+.panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--white);
+    flex: 0 0 9rem;
+    height: 9rem;
+    background-color: #808080;
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: multiply;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 0.4rem;
+    transition:
+        font-size 0.1s,
+        background-color 0.3s;
+}
+
+.panel:hover {
+    background-color: var(--grey);
+}
+
+.panel p {
+    color: var(--white);
+    white-space: normal;
+}
+
+.panel:active p {
+    font-size: 1.2rem;
+}

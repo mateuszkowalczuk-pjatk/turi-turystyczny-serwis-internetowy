@@ -8,6 +8,7 @@ import lombok.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static com.turi.account.domain.model.Gender.getValueOrDefault;
 
@@ -37,6 +38,12 @@ public final class AccountEntity implements Serializable
     @Column(name = "accounttype", nullable = false)
     private int accountType;
 
+    @Column(name = "activatecode")
+    private Integer activateCode;
+
+    @Column(name = "activatecodeexpiresat")
+    private LocalDateTime activateCodeExpiresAt;
+
     @Column(name = "firstname", length = 50)
     private String firstName;
 
@@ -63,6 +70,8 @@ public final class AccountEntity implements Serializable
                 .withUserId(account.getUserId())
                 .withAddressId(account.getAddressId())
                 .withAccountType(account.getAccountType().getValue())
+                .withActivateCode(account.getActivationCode())
+                .withActivateCodeExpiresAt(account.getActivationCodeExpiresAt())
                 .withFirstName(account.getFirstName())
                 .withLastName(account.getLastName())
                 .withBirthDate(account.getBirthDate())

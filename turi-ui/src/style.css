@@ -1,0 +1,55 @@
+:root {
+    --white: #fff9f7;
+    --grey: #e8e8e8;
+    --light-green: #117e1d;
+    --green: #0d5514;
+    --dark-green: #09390e;
+    --dark: #031500;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('./assets/fonts/Inter_28pt-ExtraLight.ttf') format('truetype');
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('./assets/fonts/Inter_28pt-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('./assets/fonts/Inter_28pt-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('./assets/fonts/Inter_28pt-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100vw;
+    min-width: 320px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    font-family: 'Inter', serif;
+    font-size: 100%;
+    font-weight: 400;
+    line-height: 1.5;
+    background: var(--white);
+}

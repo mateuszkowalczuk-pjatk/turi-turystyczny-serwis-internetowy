@@ -1,14 +1,16 @@
 package com.turi.address.infrastructure.adpater.interfaces;
 
+import com.turi.account.domain.model.AccountType;
 import com.turi.address.domain.model.Address;
-import com.turi.infrastructure.rest.ErrorCode;
+import com.turi.authentication.domain.port.JwtService;
 import com.turi.testhelper.annotation.RestControllerTest;
 import com.turi.testhelper.rest.AbstractRestControllerIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
-import java.net.URI;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -18,16 +20,72 @@ import static org.springframework.web.util.UriComponentsBuilder.fromHttpUrl;
 @RestControllerTest
 class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
 {
+    @Autowired(required = false)
+    private JwtService jwtService;
+
+    @Test
+    void testAddress_GetAddressById()
+    {
+        final var address = mockAddress();
+
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/address/getById/{addressId}")
+                .buildAndExpand(address.getAddressId())
+                .toUri();
+
+        headers.set("Authorization", "Bearer " + getToken());
+
+        final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), Address.class);
+
+        assertTrue(result.getStatusCode().is2xxSuccessful());
+        assertNotNull(result.getBody());
+        assertThat(result.getBody()).isEqualTo(address);
+    }
+
+    @Test
+    void testAddress_GetAddressById_IdIsNull()
+    {
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/address/getById/{addressId}")
+                .buildAndExpand((Object) null)
+                .toUri();
+
+        headers.set("Authorization", "Bearer " + getToken());
+
+        final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), Address.class);
+
+        assertTrue(result.getStatusCode().is4xxClientError());
+    }
+
+    @Test
+    void testAddress_GetAddressById_NotFound()
+    {
+        final var address = mockNewAddress();
+
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/address/getById/{addressId}")
+                .buildAndExpand(address.getAddressId())
+                .toUri();
+
+        headers.set("Authorization", "Bearer " + getToken());
+
+        final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), Address.class);
+
+        assertTrue(result.getStatusCode().is4xxClientError());
+    }
+
     @Test
     void testAddress_CreateAddress()
     {
         final var address = mockNewAddress();
 
-        final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/createAddress")
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/address/create")
                 .build().toUri();
 
-        final var result = restTemplate.postForEntity(uri, address, Address.class);
+        headers.set("Authorization", "Bearer " + getToken());
+
+        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(address, headers), Address.class);
 
         assertTrue(result.getStatusCode().is2xxSuccessful());
         assertNotNull(result.getBody());
@@ -44,11 +102,13 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
     {
         final var address = mockAddress();
 
-        final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/createAddress")
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/address/create")
                 .build().toUri();
 
-        final var result = restTemplate.postForEntity(uri, address, Address.class);
+        headers.set("Authorization", "Bearer " + getToken());
+
+        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(address, headers), Address.class);
 
         assertTrue(result.getStatusCode().is2xxSuccessful());
         assertNotNull(result.getBody());
@@ -68,11 +128,13 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
 
         address.setZipCode(zipCode);
 
-        final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/createAddress")
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/address/create")
                 .build().toUri();
 
-        final var result = restTemplate.postForEntity(uri, address, ErrorCode.class);
+        headers.set("Authorization", "Bearer " + getToken());
+
+        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(address, headers), Address.class);
 
         assertTrue(result.getStatusCode().is4xxClientError());
     }
@@ -84,11 +146,13 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
 
         address.setCountry(null);
 
-        final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/createAddress")
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/address/create")
                 .build().toUri();
 
-        final var result = restTemplate.postForEntity(uri, address, ErrorCode.class);
+        headers.set("Authorization", "Bearer " + getToken());
+
+        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(address, headers), Address.class);
 
         assertTrue(result.getStatusCode().is4xxClientError());
     }
@@ -100,11 +164,13 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
 
         address.setCity(null);
 
-        final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/createAddress")
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/address/create")
                 .build().toUri();
 
-        final var result = restTemplate.postForEntity(uri, address, ErrorCode.class);
+        headers.set("Authorization", "Bearer " + getToken());
+
+        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(address, headers), Address.class);
 
         assertTrue(result.getStatusCode().is4xxClientError());
     }
@@ -116,11 +182,13 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
 
         address.setZipCode(null);
 
-        final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/createAddress")
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/address/create")
                 .build().toUri();
 
-        final var result = restTemplate.postForEntity(uri, address, ErrorCode.class);
+        headers.set("Authorization", "Bearer " + getToken());
+
+        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(address, headers), Address.class);
 
         assertTrue(result.getStatusCode().is4xxClientError());
     }
@@ -132,11 +200,13 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
 
         address.setStreet(null);
 
-        final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/createAddress")
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/address/create")
                 .build().toUri();
 
-        final var result = restTemplate.postForEntity(uri, address, ErrorCode.class);
+        headers.set("Authorization", "Bearer " + getToken());
+
+        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(address, headers), Address.class);
 
         assertTrue(result.getStatusCode().is4xxClientError());
     }
@@ -148,11 +218,13 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
 
         address.setBuildingNumber(null);
 
-        final URI uri = fromHttpUrl(getBaseUrl())
-                .path("/createAddress")
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/address/create")
                 .build().toUri();
 
-        final var result = restTemplate.postForEntity(uri, address, ErrorCode.class);
+        headers.set("Authorization", "Bearer " + getToken());
+
+        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(address, headers), Address.class);
 
         assertTrue(result.getStatusCode().is4xxClientError());
     }
@@ -180,5 +252,10 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
                 .withStreet("Warszawska")
                 .withBuildingNumber("2")
                 .build();
+    }
+
+    private String getToken()
+    {
+        return jwtService.generateToken(1L, AccountType.NORMAL.getName());
     }
 }
