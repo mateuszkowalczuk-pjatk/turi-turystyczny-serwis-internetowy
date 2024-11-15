@@ -37,4 +37,4 @@ security:
 springdoc:
     swagger-ui:
         enabled: true
-        path: /
+        path: /swagger-ui
