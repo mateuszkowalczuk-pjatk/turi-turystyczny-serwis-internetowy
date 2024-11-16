@@ -92,6 +92,40 @@ class UserServiceTest
     }
 
     @Test
+    void testUser_GetUsername()
+    {
+        final var user = mockUser();
+
+        final var result = service.getUsername(user.getUserId());
+
+        assertNotNull(result);
+        assertThat(result).isEqualTo(user.getUsername());
+    }
+
+    @Test
+    void testUser_GetUsername_UserNotFound()
+    {
+        assertThrows(UserNotFoundException.class, () -> service.getById(mockNewUser().getUserId()));
+    }
+
+    @Test
+    void testUser_GetEmail()
+    {
+        final var user = mockUser();
+
+        final var result = service.getEmail(user.getUserId());
+
+        assertNotNull(result);
+        assertThat(result).isEqualTo(user.getEmail());
+    }
+
+    @Test
+    void testUser_GetEmail_UserNotFound()
+    {
+        assertThrows(UserNotFoundException.class, () -> service.getById(mockNewUser().getUserId()));
+    }
+
+    @Test
     void testUser_GetByPasswordResetToken()
     {
         final var user = mockUser();

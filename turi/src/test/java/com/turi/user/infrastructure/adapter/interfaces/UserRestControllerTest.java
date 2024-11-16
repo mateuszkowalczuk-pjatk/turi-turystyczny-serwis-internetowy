@@ -17,6 +17,7 @@ import org.springframework.http.HttpMethod;
 
 import java.time.LocalDateTime;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.web.util.UriComponentsBuilder.fromHttpUrl;
 
@@ -28,6 +29,94 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
 
     @Autowired(required = false)
     private JwtService jwtService;
+
+    @Test
+    void testUser_GetUsername()
+    {
+        final var user = mockUser();
+
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/user/getUsername")
+                .build().toUri();
+
+        headers.set("Authorization", "Bearer " + jwtService.generateToken(user.getUserId(), AccountType.NORMAL.getName()));
+
+        final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+
+        assertTrue(result.getStatusCode().is2xxSuccessful());
+        assertNotNull(result.getBody());
+        assertThat(result.getBody()).isEqualTo(user.getUsername());
+    }
+
+    @Test
+    void testUser_GetUsername_UserNotFound()
+    {
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/user/getUsername")
+                .build().toUri();
+
+        headers.set("Authorization", "Bearer " + jwtService.generateToken(mockNewUser().getUserId(), AccountType.NORMAL.getName()));
+
+        final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+
+        assertTrue(result.getStatusCode().is4xxClientError());
+    }
+
+    @Test
+    void testUser_GetUsername_ContextUserIdIsNull()
+    {
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/user/getUsername")
+                .build().toUri();
+
+        final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+
+        assertTrue(result.getStatusCode().is4xxClientError());
+    }
+
+    @Test
+    void testUser_GetEmail()
+    {
+        final var user = mockUser();
+
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/user/getEmail")
+                .build().toUri();
+
+        headers.set("Authorization", "Bearer " + jwtService.generateToken(user.getUserId(), AccountType.NORMAL.getName()));
+
+        final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+
+        assertTrue(result.getStatusCode().is2xxSuccessful());
+        assertNotNull(result.getBody());
+        assertThat(result.getBody()).isEqualTo(user.getEmail());
+    }
+
+    @Test
+    void testUser_GetEmail_UserNotFound()
+    {
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/user/getEmail")
+                .build().toUri();
+
+        headers.set("Authorization", "Bearer " + jwtService.generateToken(mockNewUser().getUserId(), AccountType.NORMAL.getName()));
+
+        final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+
+        assertTrue(result.getStatusCode().is4xxClientError());
+    }
+
+    @Test
+    void testUser_GetEmail_ContextUserIdIsNull()
+    {
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/user/getEmail")
+                .build().toUri();
+
+        final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+
+        assertTrue(result.getStatusCode().is4xxClientError());
+    }
 
     @Test
     void testUser_IsUserUsernameExists()

@@ -129,12 +129,6 @@ public final class RestControllerErrorHandler extends ErrorHandler
         return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
-    @ExceptionHandler(InvalidUserPasswordResetCode.class)
-    public ResponseEntity<ErrorCode> handleInvalidUserPasswordResetCode(final InvalidUserPasswordResetCode ex)
-    {
-        return createResponse(HttpStatus.NOT_FOUND, ex.getMessage());
-    }
-
     @ExceptionHandler(UserNotFoundByEmailException.class)
     public ResponseEntity<ErrorCode> handleUserNotFoundByEmailException(final UserNotFoundByEmailException ex)
     {

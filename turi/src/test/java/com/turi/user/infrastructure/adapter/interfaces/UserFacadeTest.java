@@ -47,6 +47,60 @@ class UserFacadeTest
     }
 
     @Test
+    void testUser_GetUsername()
+    {
+        final var user = mockUser();
+
+        setContextUserId(user.getUserId());
+
+        final var result = facade.getUserUsername().getBody();
+
+        assertNotNull(result);
+        assertThat(result).isEqualTo(user.getUsername());
+    }
+
+    @Test
+    void testUser_GetUsername_UserNotFound()
+    {
+        setContextUserId(mockNewUser().getUserId());
+
+        assertThrows(UserNotFoundException.class, () -> facade.getUserUsername());
+    }
+
+    @Test
+    void testUser_GetUsername_ContextUserIdIsNull()
+    {
+        assertThrows(BadRequestParameterException.class, () -> facade.getUserUsername());
+    }
+
+    @Test
+    void testUser_GetEmail()
+    {
+        final var user = mockUser();
+
+        setContextUserId(user.getUserId());
+
+        final var result = facade.getUserEmail().getBody();
+
+        assertNotNull(result);
+        assertThat(result).isEqualTo(user.getEmail());
+    }
+
+    @Test
+    void testUser_GetEmail_UserNotFound()
+    {
+        setContextUserId(mockNewUser().getUserId());
+
+        assertThrows(UserNotFoundException.class, () -> facade.getUserEmail());
+    }
+
+    @Test
+    void testUser_GetEmail_ContextUserIdIsNull()
+    {
+        assertThrows(BadRequestParameterException.class, () -> facade.getUserEmail());
+    }
+
+    @Test
     void testUser_GetUserIdByLogin()
     {
         final var user = mockUser();
