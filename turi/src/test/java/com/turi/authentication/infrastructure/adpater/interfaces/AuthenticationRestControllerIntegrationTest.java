@@ -200,7 +200,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
     }
 
     @Test
-    void testAuthentication_Authenticate_ByUsername()
+    void testAuthentication_Login_ByUsername()
     {
         final var params = mockRegisterParams();
 
@@ -240,7 +240,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
     }
 
     @Test
-    void testAuthentication_Authenticate_ByUsername_UserNotFound()
+    void testAuthentication_Login_ByUsername_UserNotFound()
     {
         final var params = mockRegisterParams();
 
@@ -260,7 +260,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
     }
 
     @Test
-    void testAuthentication_Authenticate_ByUsername_WrongPassword()
+    void testAuthentication_Login_ByUsername_WrongPassword()
     {
         final var params = mockRegisterParams();
 
@@ -282,7 +282,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
     }
 
     @Test
-    void testAuthentication_Authenticate_ByEmail()
+    void testAuthentication_Login_ByEmail()
     {
         final var params = mockRegisterParams();
 
@@ -322,7 +322,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
     }
 
     @Test
-    void testAuthentication_Authenticate_ByEmail_UserNotFound()
+    void testAuthentication_Login_ByEmail_UserNotFound()
     {
         final var params = mockRegisterParams();
 
@@ -342,7 +342,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
     }
 
     @Test
-    void testAuthentication_Authenticate_ByEmail_WrongPassword()
+    void testAuthentication_Login_ByEmail_WrongPassword()
     {
         final var params = mockRegisterParams();
 
@@ -364,7 +364,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
     }
 
     @Test
-    void testAuthentication_Authenticate_WithoutRequiredLoginField()
+    void testAuthentication_Login_WithoutRequiredLoginField()
     {
         final var authParams = LoginParam.builder()
                 .withLogin(null)
@@ -382,7 +382,7 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
     }
 
     @Test
-    void testAuthentication_Authenticate_WithoutRequiredPasswordField()
+    void testAuthentication_Login_WithoutRequiredPasswordField()
     {
         final var authParams = LoginParam.builder()
                 .withLogin(mockUser().getUsername())
@@ -394,6 +394,81 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
                 .build().toUri();
 
         final var result = restTemplate.postForEntity(uri, new HttpEntity<>(authParams), ErrorCode.class);
+
+        assertNotNull(result);
+        assertTrue(result.getStatusCode().is4xxClientError());
+    }
+
+    @Test
+    void testAuthentication_Login_InActiveAccount()
+    {
+        final var params = mockRegisterParams();
+
+        facade.register(params);
+
+        final var authParams = LoginParam.builder()
+                .withLogin(params.getEmail())
+                .withPassword(params.getPassword())
+                .build();
+
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/auth/login")
+                .build().toUri();
+
+        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(authParams), ErrorCode.class);
+
+        assertNotNull(result);
+        assertTrue(result.getStatusCode().is2xxSuccessful());
+
+        final var cookie = result.getHeaders().get("Set-Cookie");
+
+        assertNotNull(cookie);
+
+        assertTrue(cookie.get(0).contains("activateToken="));
+        assertTrue(cookie.get(0).contains("Max-Age=900"));
+        assertTrue(cookie.get(0).contains("Secure"));
+        assertTrue(cookie.get(0).contains("HttpOnly"));
+        assertTrue(cookie.get(0).contains("SameSite=Strict"));
+    }
+
+    @Test
+    void testAuthentication_Authorize()
+    {
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/auth/authorize")
+                .build().toUri();
+
+        headers.set("Authorization", "Bearer " + jwtService.generateToken(mockUser().getUserId(), AccountType.NORMAL.getName()));
+
+        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(headers), ErrorCode.class);
+
+        assertNotNull(result);
+        assertTrue(result.getStatusCode().is2xxSuccessful());
+    }
+
+    @Test
+    void testAuthentication_Authorize_Unauthorized()
+    {
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/auth/authorize")
+                .build().toUri();
+
+        headers.set("Authorization", "Bearer " + jwtService.generateToken(2L, AccountType.NORMAL.getName()));
+
+        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(headers), ErrorCode.class);
+
+        assertNotNull(result);
+        assertTrue(result.getStatusCode().is4xxClientError());
+    }
+
+    @Test
+    void testAuthentication_Authorize_ContextIdIsNull()
+    {
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/auth/authorize")
+                .build().toUri();
+
+        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(headers), ErrorCode.class);
 
         assertNotNull(result);
         assertTrue(result.getStatusCode().is4xxClientError());

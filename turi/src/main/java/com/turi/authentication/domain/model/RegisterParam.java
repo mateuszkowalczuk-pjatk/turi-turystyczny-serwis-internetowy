@@ -5,6 +5,7 @@ import lombok.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@EqualsAndHashCode
 @AllArgsConstructor
 @Builder(setterPrefix = "with")
 public final class RegisterParam

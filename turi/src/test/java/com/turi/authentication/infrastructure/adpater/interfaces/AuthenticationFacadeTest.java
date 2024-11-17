@@ -2,10 +2,7 @@ package com.turi.authentication.infrastructure.adpater.interfaces;
 
 import com.turi.account.domain.model.AccountType;
 import com.turi.account.domain.port.AccountService;
-import com.turi.authentication.domain.exception.InvalidLoginException;
-import com.turi.authentication.domain.exception.InvalidPasswordForLoginException;
-import com.turi.authentication.domain.exception.RefreshTokenExpiredException;
-import com.turi.authentication.domain.exception.RefreshTokenNotFoundByTokenException;
+import com.turi.authentication.domain.exception.*;
 import com.turi.authentication.domain.model.LoginParam;
 import com.turi.authentication.domain.model.LogoutParam;
 import com.turi.authentication.domain.model.RefreshParam;
@@ -26,6 +23,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import static com.turi.testhelper.utils.ContextHelper.setContextUserId;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -305,6 +303,58 @@ class AuthenticationFacadeTest
     }
 
     @Test
+    void testAuthentication_Login_InActiveAccount()
+    {
+        final var params = mockRegisterParams();
+
+        facade.register(params);
+
+        final var authParams = LoginParam.builder()
+                .withLogin(params.getEmail())
+                .withPassword(params.getPassword())
+                .build();
+
+        final var result = facade.login(authParams);
+
+        assertNotNull(result);
+        assertTrue(result.getStatusCode().is2xxSuccessful());
+
+        final var cookie = result.getHeaders().get("Set-Cookie");
+
+        assertNotNull(cookie);
+
+        assertTrue(cookie.get(0).contains("activateToken="));
+        assertTrue(cookie.get(0).contains("Max-Age=900"));
+        assertTrue(cookie.get(0).contains("Secure"));
+        assertTrue(cookie.get(0).contains("HttpOnly"));
+        assertTrue(cookie.get(0).contains("SameSite=Strict"));
+    }
+
+    @Test
+    void testAuthentication_Authorize()
+    {
+        setContextUserId(mockUser().getUserId());
+
+        final var result = facade.authorize();
+
+        assertTrue(result.getStatusCode().is2xxSuccessful());
+    }
+
+    @Test
+    void testAuthentication_Authorize_AccountNotFound()
+    {
+        setContextUserId(2L);
+
+        assertThrows(UnauthorizedException.class, () -> facade.authorize());
+    }
+
+    @Test
+    void testAuthentication_Authorize_Unauthorized()
+    {
+        assertThrows(UnauthorizedException.class, () -> facade.authorize());
+    }
+
+    @Test
     void testAuthentication_Refresh()
     {
         final var params = mockRegisterParams();
@@ -449,6 +499,7 @@ class AuthenticationFacadeTest
     private User mockUser()
     {
         return User.builder()
+                .withUserId(1L)
                 .withUsername("Janek")
                 .withEmail("jan@turi.com")
                 .withPassword("JanKowalski123!")

@@ -2,7 +2,6 @@ package com.turi.authentication.infrastructure.adapter.interfaces;
 
 import com.turi.authentication.domain.exception.UnauthorizedException;
 import com.turi.authentication.domain.model.Authentication;
-import com.turi.infrastructure.exception.BadRequestResponseException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AccessLevel;
@@ -16,11 +15,6 @@ public final class AuthenticationResponse
 {
     public static ResponseEntity<?> of(final Authentication authentication)
     {
-        if (authentication == null)
-        {
-            throw new BadRequestResponseException("Authentication response must not be null.");
-        }
-
         if (authentication.getAccessTokenExpiresIn() == null)
         {
             final var activateTokenCookie = prepareCookie("activateToken", authentication.getAccessToken(), authentication.getRefreshTokenExpiresIn());
@@ -60,11 +54,6 @@ public final class AuthenticationResponse
 
     public static ResponseEntity<?> of(final Boolean condition)
     {
-        if (condition == null)
-        {
-            throw new BadRequestResponseException("Authentication condition must not be null.");
-        }
-
         if (!condition)
         {
             throw new UnauthorizedException();

@@ -26,6 +26,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import static com.turi.testhelper.utils.ContextHelper.setContextUserId;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -150,7 +151,7 @@ class AuthenticationServiceTest
     }
 
     @Test
-    void testAuthentication_login_ByUsername()
+    void testAuthentication_Login_ByUsername()
     {
         final var params = mockRegisterParams();
 
@@ -173,7 +174,7 @@ class AuthenticationServiceTest
     }
 
     @Test
-    void testAuthentication_login_ByUsername_UserNotFound()
+    void testAuthentication_Login_ByUsername_UserNotFound()
     {
         final var params = mockRegisterParams();
 
@@ -186,7 +187,7 @@ class AuthenticationServiceTest
     }
 
     @Test
-    void testAuthentication_login_ByUsername_WrongPassword()
+    void testAuthentication_Login_ByUsername_WrongPassword()
     {
         final var params = mockRegisterParams();
 
@@ -201,7 +202,7 @@ class AuthenticationServiceTest
     }
 
     @Test
-    void testAuthentication_login_ByEmail()
+    void testAuthentication_Login_ByEmail()
     {
         final var params = mockRegisterParams();
 
@@ -224,7 +225,7 @@ class AuthenticationServiceTest
     }
 
     @Test
-    void testAuthentication_login_ByEmail_UserNotFound()
+    void testAuthentication_Login_ByEmail_UserNotFound()
     {
         final var params = mockRegisterParams();
 
@@ -237,7 +238,7 @@ class AuthenticationServiceTest
     }
 
     @Test
-    void testAuthentication_login_ByEmail_WrongPassword()
+    void testAuthentication_Login_ByEmail_WrongPassword()
     {
         final var params = mockRegisterParams();
 
@@ -249,6 +250,56 @@ class AuthenticationServiceTest
                 .build();
 
         assertThrows(InvalidPasswordForLoginException.class, () -> service.login(authenticationParams));
+    }
+
+    @Test
+    void testAuthentication_Login_InActiveAccount()
+    {
+        final var params = mockRegisterParams();
+
+        service.register(params);
+
+        final var authParams = LoginParam.builder()
+                .withLogin(params.getEmail())
+                .withPassword(params.getPassword())
+                .build();
+
+        final var result = service.login(authParams);
+
+        assertNotNull(result);
+        assertNotNull(result.getAccessToken());
+        assertThat(result.getRefreshTokenExpiresIn()).isEqualTo(properties.getAccessTokenExpirationTime());
+    }
+
+    @Test
+    void testAuthentication_Authorize()
+    {
+        setContextUserId(mockUser().getUserId());
+
+        final var result = service.authorize();
+
+        assertNotNull(result);
+        assertTrue(result);
+    }
+
+    @Test
+    void testAuthentication_Authorize_AccountNotFound()
+    {
+        setContextUserId(2L);
+
+        final var result = service.authorize();
+
+        assertNotNull(result);
+        assertFalse(result);
+    }
+
+    @Test
+    void testAuthentication_Authorize_Unauthorized()
+    {
+        final var result = service.authorize();
+
+        assertNotNull(result);
+        assertFalse(result);
     }
 
     @Test
@@ -369,6 +420,7 @@ class AuthenticationServiceTest
     private User mockUser()
     {
         return User.builder()
+                .withUserId(1L)
                 .withUsername("Janek")
                 .withEmail("jan@turi.com")
                 .withPassword("JanKowalski123!")

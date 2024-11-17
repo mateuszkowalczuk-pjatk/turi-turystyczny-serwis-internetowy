@@ -1,5 +1,6 @@
 package com.turi.authentication.infrastructure.adapter.service;
 
+import com.turi.account.domain.exception.AccountActivationCodeRecentlySentException;
 import com.turi.account.domain.exception.AccountNotFoundException;
 import com.turi.account.domain.model.Account;
 import com.turi.account.domain.model.AccountType;
@@ -13,6 +14,7 @@ import com.turi.authentication.domain.port.AuthenticationService;
 import com.turi.authentication.domain.port.JwtService;
 import com.turi.authentication.domain.port.RefreshTokenService;
 import com.turi.infrastructure.config.SecurityProperties;
+import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.user.domain.model.User;
 import com.turi.user.infrastructure.adapter.interfaces.UserFacade;
 import jakarta.servlet.http.HttpServletResponse;
@@ -72,7 +74,14 @@ public class AuthenticationServiceImpl implements AuthenticationService
 
             if (role.equals(AccountType.INACTIVE.getName()))
             {
-                accountFacade.sendAccountActivateCode(account.getAccountId());
+                try
+                {
+                    accountFacade.sendAccountActivateCode(account.getAccountId());
+                }
+                catch (AccountActivationCodeRecentlySentException ex)
+                {
+                    return getActivateToken(account.getAccountId(), role);
+                }
 
                 return getActivateToken(account.getAccountId(), role);
             }
@@ -115,7 +124,7 @@ public class AuthenticationServiceImpl implements AuthenticationService
         {
             accountFacade.getAccountById();
         }
-        catch (final AccountNotFoundException ex)
+        catch (final AccountNotFoundException | BadRequestParameterException ex)
         {
             return false;
         }
