@@ -10,5 +10,5 @@ import lombok.*;
 @Builder(setterPrefix = "with")
 public final class Premium
 {
-
+    private Long premiumId;
 }

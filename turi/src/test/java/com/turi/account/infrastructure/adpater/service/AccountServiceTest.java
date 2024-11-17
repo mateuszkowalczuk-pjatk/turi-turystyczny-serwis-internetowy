@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ServiceTest
-public class AccountServiceTest
+class AccountServiceTest
 {
     @Autowired
     private AccountService service;
