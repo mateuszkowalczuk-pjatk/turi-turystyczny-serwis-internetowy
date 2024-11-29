@@ -154,7 +154,7 @@ public class AccountServiceImpl implements AccountService
             {
                 final var address = addressFacade.getAddressById(String.valueOf(account.getAddressId())).getBody();
 
-                if (address != null && isAddressExists(account.getAccountId(), address.getCountry(), address.getCity(), address.getZipCode(), address.getStreet(), address.getBuildingNumber(), address.getApartmentNumber()))
+                if (address != null && isAddressExists(id, address.getCountry(), address.getCity(), address.getZipCode(), address.getStreet(), address.getBuildingNumber(), address.getApartmentNumber()))
                 {
                     throw new AccountUniqueAddressException(account.getAddressId());
                 }
@@ -165,7 +165,7 @@ public class AccountServiceImpl implements AccountService
             }
         }
 
-        if (account.getPhoneNumber() != null && isPhoneNumberExists(account.getAccountId(), account.getPhoneNumber()))
+        if (account.getPhoneNumber() != null && isPhoneNumberExists(id, account.getPhoneNumber()))
         {
             throw new AccountUniquePhoneNumberException(account.getPhoneNumber());
         }
