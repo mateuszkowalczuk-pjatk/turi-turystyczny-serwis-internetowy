@@ -25,7 +25,7 @@ public final class AccountResponse
     {
         if (result == null)
         {
-            throw new BadRequestResponseException("Check result response must not be null.");
+            throw new BadRequestResponseException("Account check result response must not be null.");
         }
 
         return ResponseEntity.ok(result);

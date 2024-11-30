@@ -39,7 +39,7 @@ public final class UserResponse
     {
         if (result == null)
         {
-            throw new BadRequestResponseException("Check result must not be null.");
+            throw new BadRequestResponseException("User check result response must not be null.");
         }
 
         return ResponseEntity.ok(result);

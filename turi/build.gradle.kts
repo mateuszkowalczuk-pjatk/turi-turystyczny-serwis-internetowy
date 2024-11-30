@@ -52,6 +52,9 @@ dependencies {
     implementation("org.apache.httpcomponents.core5:httpcore5")
 
     implementation("org.springframework.boot:spring-boot-starter-mail")
+
+    implementation("com.stripe:stripe-java:26.0.0")
+//    implementation("com.fasterxml.jackson.core:jackson-databind:2.15.0")
 }
 
 tasks.withType<Test> {

@@ -110,10 +110,10 @@ CREATE TABLE IF NOT EXISTS premium
     premiumid         SERIAL       PRIMARY KEY,
     accountid         INTEGER      NOT NULL UNIQUE,
     companyname       VARCHAR(255) NOT NULL UNIQUE,
-    nip               VARCHAR(30)  NOT NULL UNIQUE,
-    bankaccountnumber VARCHAR(16)  NOT NULL UNIQUE,
-    buydate           DATE         NOT NULL,
-    expiresdate       DATE         NOT NULL,
+    nip               VARCHAR(10)  NOT NULL UNIQUE,
+    bankaccountnumber VARCHAR(26)  NOT NULL UNIQUE,
+    buydate           DATE,
+    expiresdate       DATE,
     status            INTEGER      NOT NULL,
     CONSTRAINT premiumaccount FOREIGN KEY (accountid) REFERENCES account (accountid)
 );
@@ -126,7 +126,7 @@ COMMENT ON COLUMN premium.nip               IS 'Unique required user company NIP
 COMMENT ON COLUMN premium.bankaccountnumber IS 'Unique required user bank account number.';
 COMMENT ON COLUMN premium.buydate           IS 'Required date of buy premium account.';
 COMMENT ON COLUMN premium.expiresdate       IS 'Required date of expiry premium account.';
-COMMENT ON COLUMN premium.status            IS 'Required status of account premium (1 - Active, 2 - Expired).';
+COMMENT ON COLUMN premium.status            IS 'Required status of account premium (0 - Unpaid, 1 - Active, 2 - Expired).';
 
 
 CREATE TABLE IF NOT EXISTS payment
@@ -150,7 +150,7 @@ COMMENT ON COLUMN payment.stripeid    IS 'Unique required ID number of stripe pa
 COMMENT ON COLUMN payment.amount      IS 'Required amount of payment.';
 COMMENT ON COLUMN payment.paymentdate IS 'Required date of payment.';
 COMMENT ON COLUMN payment.method      IS 'Required payment method (1 - Card, 2 - Blik).';
-COMMENT ON COLUMN payment.status      IS 'Required payment status (1 - Pending, 2 - Success, 3 - Failed).';
+COMMENT ON COLUMN payment.status      IS 'Required payment status (1 - Pending, 2 - Succeeded, 3 - Failed).';
 
 
 

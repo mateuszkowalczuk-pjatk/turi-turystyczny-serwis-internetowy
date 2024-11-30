@@ -3,6 +3,7 @@ package com.turi.payment.domain.model;
 import com.turi.payment.infrastructure.adapter.repository.PaymentEntity;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
@@ -16,7 +17,7 @@ public final class Payment
     private Long paymentId;
     private Long premiumId;
     private Long stripeId;
-    private Double amount;
+    private BigDecimal amount;
     private LocalDate paymentDate;
     private PaymentMethod method;
     private PaymentStatus status;

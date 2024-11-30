@@ -34,16 +34,16 @@ public final class PremiumEntity implements Serializable
     @Column(name = "companyname", nullable = false, unique = true)
     private String companyName;
 
-    @Column(name = "nip", nullable = false, unique = true)
+    @Column(name = "nip", nullable = false, unique = true, length = 10)
     private String nip;
 
-    @Column(name = "bankaccountnumber", nullable = false, unique = true)
+    @Column(name = "bankaccountnumber", nullable = false, unique = true, length = 26)
     private String bankAccountNumber;
 
-    @Column(name = "buydate", nullable = false)
+    @Column(name = "buydate")
     private LocalDate buyDate;
 
-    @Column(name = "expiresdate", nullable = false)
+    @Column(name = "expiresdate")
     private LocalDate expiresDate;
 
     @Column(name = "status", nullable = false)
@@ -73,8 +73,6 @@ public final class PremiumEntity implements Serializable
                 && premium.getCompanyName() != null
                 && premium.getNip() != null
                 && premium.getBankAccountNumber() != null
-                && premium.getBuyDate() != null
-                && premium.getExpiresDate() != null
                 && premium.getStatus() != null;
     }
 }

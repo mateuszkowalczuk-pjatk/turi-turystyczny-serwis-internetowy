@@ -10,7 +10,7 @@ import java.util.Arrays;
 public enum PaymentStatus
 {
     PENDING(1, "PENDING"),
-    SUCCESS(2, "SUCCESS"),
+    SUCCEEDED(2, "SUCCEEDED"),
     FAILED(3, "FAILED");
 
     private final int value;

@@ -44,10 +44,8 @@ public class SecurityConfig
                                 "/api/user/isUsernameExists",
                                 "/api/user/isEmailExists"
                         ).permitAll()
-                        .requestMatchers(
-                                "/api/account/activate"
-                        ).hasRole(AccountType.INACTIVE.getName())
-                        .requestMatchers("/api/premium/**").hasRole(AccountType.PREMIUM.getName())
+                        .requestMatchers("/api/account/activate").hasRole(AccountType.INACTIVE.getName())
+                        .requestMatchers("/api/x/**").hasRole(AccountType.PREMIUM.getName())
                         .requestMatchers("/api/**").hasAnyRole(AccountType.NORMAL.getName(), AccountType.PREMIUM.getName())
                         .anyRequest().authenticated())
                 .cors(Customizer.withDefaults())

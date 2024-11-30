@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -32,8 +33,8 @@ public final class PaymentEntity implements Serializable
     @Column(name = "stripeid", nullable = false, unique = true)
     private Long stripeId;
 
-    @Column(name = "amount", nullable = false)
-    private Double amount;
+    @Column(name = "amount", nullable = false, precision = 10, scale = 2)
+    private BigDecimal amount;
 
     @Column(name = "paymentdate", nullable = false)
     private LocalDate paymentDate;

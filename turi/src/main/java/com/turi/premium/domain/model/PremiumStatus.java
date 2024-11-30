@@ -9,6 +9,7 @@ import java.util.Arrays;
 @AllArgsConstructor
 public enum PremiumStatus
 {
+    UNPAID(0, "UNPAID"),
     ACTIVE(1, "ACTIVE"),
     EXPIRED(2, "EXPIRED");
 

@@ -62,7 +62,6 @@ public class AccountRepositoryImpl implements AccountRepository
         final var entity = AccountEntity.of(account);
 
         Optional.ofNullable(accountEntity).ifPresent(e -> {
-            e.setUserId(entity.getUserId());
             e.setAddressId(entity.getAddressId());
             e.setAccountType(entity.getAccountType());
             e.setActivateCode(entity.getActivateCode());

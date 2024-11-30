@@ -171,7 +171,6 @@ public class AccountServiceImpl implements AccountService
         }
 
         final var accountToUpdate = Account.builder()
-                .withUserId(currentAccount.getUserId())
                 .withAddressId(account.getAddressId())
                 .withAccountType(currentAccount.getAccountType())
                 .withActivationCode(currentAccount.getActivationCode())
