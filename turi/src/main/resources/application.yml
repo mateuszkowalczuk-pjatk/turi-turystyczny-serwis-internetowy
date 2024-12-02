@@ -41,6 +41,7 @@ springdoc:
 
 stripe:
     secret-key: sk_test_51QQXh7CSCKL1O9vwSd4Kbrv52qCCUQXSvAEDqBcQ8NQUjq9KRo33EdoN1yhPgknfceJKrNK4xlQEqJgcb0DxiHUk00XFVchD2I
+    webhook-secret-key: secret_key
 
 premium-offer:
     price: 100

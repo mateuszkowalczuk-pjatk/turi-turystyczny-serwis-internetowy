@@ -1,6 +1,7 @@
 package com.turi.premium.domain.port;
 
 import com.turi.payment.domain.model.PaymentMethod;
+import com.turi.payment.domain.model.PaymentStripeResponse;
 import com.turi.premium.domain.model.Premium;
 import com.turi.premium.domain.model.PremiumCompanyParam;
 import com.turi.premium.domain.model.PremiumOffer;
@@ -20,9 +21,9 @@ public interface PremiumService
 
     Premium checkPayment(final Long accountId);
 
-    String pay(final Long accountId, final PaymentMethod method);
+    PaymentStripeResponse pay(final Long accountId, final PaymentMethod method);
 
-    Premium renew(final Long accountId, final PaymentMethod method);
+    PaymentStripeResponse renew(final Long accountId, final PaymentMethod method);
 
     Premium cancel(final Long accountId);
 

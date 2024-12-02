@@ -32,6 +32,14 @@ public class PaymentRepositoryImpl implements PaymentRepository
     }
 
     @Override
+    public Payment findByStripeId(final Long stripeId)
+    {
+        return repositoryDao.findByStripeId(stripeId)
+                .map(Payment::of)
+                .orElse(null);
+    }
+
+    @Override
     public Long insert(final Payment payment)
     {
         final var entity = PaymentEntity.of(payment);

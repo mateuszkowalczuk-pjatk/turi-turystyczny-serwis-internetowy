@@ -197,4 +197,24 @@ public class AccountServiceImpl implements AccountService
     {
         return repository.findByAddressId(addressId) != null;
     }
+
+    @Override
+    public void updateAccountTypeToPremium(final Long accountId)
+    {
+        updateAccountType(accountId, AccountType.PREMIUM);
+    }
+
+    @Override
+    public void updateAccountTypeToNormal(final Long accountId)
+    {
+        updateAccountType(accountId, AccountType.NORMAL);
+    }
+
+    private void updateAccountType(final Long accountId, final AccountType accountType)
+    {
+        final var account = getById(accountId);
+        account.setAccountType(accountType);
+
+        repository.update(accountId, account);
+    }
 }

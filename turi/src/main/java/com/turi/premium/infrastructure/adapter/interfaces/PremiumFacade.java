@@ -4,6 +4,7 @@ import com.turi.address.domain.model.Address;
 import com.turi.infrastructure.common.ContextHandler;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.payment.domain.model.PaymentMethod;
+import com.turi.payment.domain.model.PaymentStripeResponse;
 import com.turi.premium.domain.model.Premium;
 import com.turi.premium.domain.model.PremiumCompanyParam;
 import com.turi.premium.domain.model.PremiumOffer;
@@ -61,7 +62,7 @@ public class PremiumFacade
         return PremiumResponse.of(service.checkPayment(accountId));
     }
 
-    public ResponseEntity<String> payForPremium(final PaymentMethod method)
+    public ResponseEntity<PaymentStripeResponse> payForPremium(final PaymentMethod method)
     {
         if (method == null)
         {
@@ -73,7 +74,7 @@ public class PremiumFacade
         return PremiumResponse.of(service.pay(accountId, method));
     }
 
-    public ResponseEntity<Premium> renewPremium(final PaymentMethod method)
+    public ResponseEntity<PaymentStripeResponse> renewPremium(final PaymentMethod method)
     {
         if (method == null)
         {

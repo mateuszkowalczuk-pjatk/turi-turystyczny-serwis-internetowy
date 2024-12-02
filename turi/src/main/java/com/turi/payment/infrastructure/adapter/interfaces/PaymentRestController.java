@@ -11,6 +11,18 @@ public class PaymentRestController
 {
     private final PaymentFacade facade;
 
+    @GetMapping("/success")
+    public ResponseEntity<?> handleStripeSuccess(@RequestParam final String stripeId)
+    {
+        return facade.handleStripeSuccess(stripeId);
+    }
+
+    @GetMapping("/cancel")
+    public ResponseEntity<?> handleStripeCancel(@RequestParam final String stripeId)
+    {
+        return facade.handleStripeCancel(stripeId);
+    }
+
     @PostMapping("/webhook")
     public ResponseEntity<?> handleStripeWebhook(@RequestBody final String payload,
                                                  @RequestHeader("Stripe-Signature") final String sigHeader)

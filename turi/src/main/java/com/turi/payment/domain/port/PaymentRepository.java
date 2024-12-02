@@ -10,6 +10,8 @@ public interface PaymentRepository
 
     Payment findById(final Long id);
 
+    Payment findByStripeId(final Long stripeId);
+
     Long insert(final Payment payment);
 
     void update(final Long id, final Payment payment);

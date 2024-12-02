@@ -1,15 +1,17 @@
 package com.turi.premium.infrastructure.adapter.service;
 
 import com.turi.account.domain.model.Account;
-import com.turi.account.domain.model.AccountType;
 import com.turi.account.infrastructure.adapter.interfaces.AccountFacade;
 import com.turi.address.domain.model.Address;
 import com.turi.address.infrastructure.adapter.interfaces.AddressFacade;
 import com.turi.infrastructure.config.PremiumOfferProperties;
 import com.turi.payment.domain.model.PaymentMethod;
+import com.turi.payment.domain.model.PaymentStripeResponse;
 import com.turi.payment.infrastructure.adapter.interfaces.PaymentFacade;
 import com.turi.premium.domain.exception.InvalidCompanyException;
 import com.turi.premium.domain.exception.PremiumActivatedException;
+import com.turi.premium.domain.exception.PremiumInactiveException;
+import com.turi.premium.domain.exception.PremiumUnpaidException;
 import com.turi.premium.domain.model.*;
 import com.turi.premium.domain.port.CeidgService;
 import com.turi.premium.domain.port.PremiumRepository;
@@ -97,13 +99,12 @@ public class PremiumServiceImpl implements PremiumService
     @Override
     public Premium checkPayment(final Long accountId)
     {
-        // czy zaimplementować czekanie na otrzymanie odpowiedzi
-        if (!paymentFacade.isPaymentForPremiumSucceeded(accountId))
-        {
-//            throw new (czy nie jakies rozdzielenie na niepowodzenie oplacenia i jeszcze nie otrzymano oplacenia?)
-        }
-
         final var premium = getByAccount(accountId);
+
+        if (!paymentFacade.isPaymentForPremiumSucceeded(premium.getPremiumId()))
+        {
+            throw new PremiumUnpaidException(accountId);
+        }
 
         final var buyDate = LocalDate.now();
 
@@ -114,16 +115,18 @@ public class PremiumServiceImpl implements PremiumService
                 .withBankAccountNumber(premium.getBankAccountNumber())
                 .withBuyDate(buyDate)
                 .withExpiresDate(buyDate.plusMonths(properties.getLength()))
-                .withStatus(PremiumStatus.UNPAID)
+                .withStatus(PremiumStatus.ACTIVE)
                 .build();
 
         repository.update(premium.getPremiumId(), premiumToUpdate);
+
+        accountFacade.updateAccountTypeToPremium();
 
         return getById(premium.getPremiumId());
     }
 
     @Override
-    public String pay(final Long accountId, final PaymentMethod method)
+    public PaymentStripeResponse pay(final Long accountId, final PaymentMethod method)
     {
         final var premium = getByAccount(accountId);
 
@@ -132,11 +135,11 @@ public class PremiumServiceImpl implements PremiumService
             throw new PremiumActivatedException(premium.getPremiumId());
         }
 
-        return paymentFacade.payForPremium(properties.getPrice(), method);
+        return paymentFacade.payForPremium(premium.getPremiumId(), properties.getPrice(), method);
     }
 
     @Override
-    public Premium renew(final Long accountId, final PaymentMethod method)
+    public PaymentStripeResponse renew(final Long accountId, final PaymentMethod method)
     {
         final var premium = getByAccount(accountId);
 
@@ -145,22 +148,25 @@ public class PremiumServiceImpl implements PremiumService
             throw new PremiumActivatedException(premium.getPremiumId());
         }
 
-        // aktywaowanie płatności z PaymentFacade (method i kwota z propeties)
-
-        // jeśli opłaceno to zmiana statusu na Active (potwierdzenie) i expirytime aktualna data + z propeties
-        // co tutaj z czekaniem na oplacenie -> najpierw płatnosc pierwsza
-
-        return null;
+        return paymentFacade.payForPremium(premium.getPremiumId(), properties.getPrice(), method);
     }
 
     @Override
     public Premium cancel(final Long accountId)
     {
-        var premium = getByAccount(accountId);
+        final var premium = getByAccount(accountId);
+
+        if (premium.getStatus() != PremiumStatus.ACTIVE)
+        {
+            throw new PremiumInactiveException(premium.getPremiumId());
+        }
+
         premium.setExpiresDate(LocalDate.now());
         premium.setStatus(PremiumStatus.EXPIRED);
 
         repository.update(premium.getPremiumId(), premium);
+
+        accountFacade.updateAccountTypeToNormal();
 
         return getById(accountId);
     }
@@ -230,10 +236,7 @@ public class PremiumServiceImpl implements PremiumService
 
             repository.update(premium.getPremiumId(), premium);
 
-            var account = Objects.requireNonNull(accountFacade.getAccountById().getBody());
-            account.setAccountType(AccountType.NORMAL);
-
-            accountFacade.updateAccount(account);
+            accountFacade.updateAccountTypeToNormal();
         });
     }
 }

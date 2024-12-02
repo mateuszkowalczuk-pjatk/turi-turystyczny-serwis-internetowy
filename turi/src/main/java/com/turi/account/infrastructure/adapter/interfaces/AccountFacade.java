@@ -115,4 +115,18 @@ public class AccountFacade
 
         return AccountResponse.of(service.update(accountId, account));
     }
+
+    public void updateAccountTypeToPremium()
+    {
+        final var accountId = ContextHandler.getIdFromContext();
+
+        service.updateAccountTypeToPremium(accountId);
+    }
+
+    public void updateAccountTypeToNormal()
+    {
+        final var accountId = ContextHandler.getIdFromContext();
+
+        service.updateAccountTypeToNormal(accountId);
+    }
 }

@@ -1,6 +1,7 @@
 package com.turi.premium.infrastructure.adapter.interfaces;
 
 import com.turi.payment.domain.model.PaymentMethod;
+import com.turi.payment.domain.model.PaymentStripeResponse;
 import com.turi.premium.domain.model.Premium;
 import com.turi.premium.domain.model.PremiumCompanyParam;
 import com.turi.premium.domain.model.PremiumOffer;
@@ -47,13 +48,13 @@ public class PremiumRestController
     }
 
     @PostMapping("/pay")
-    public ResponseEntity<String> payForPremium(@RequestBody final PaymentMethod method)
+    public ResponseEntity<PaymentStripeResponse> payForPremium(@RequestBody final PaymentMethod method)
     {
         return facade.payForPremium(method);
     }
 
     @PutMapping("/renew")
-    public ResponseEntity<Premium> renewPremium(@RequestBody final PaymentMethod method)
+    public ResponseEntity<PaymentStripeResponse> renewPremium(@RequestBody final PaymentMethod method)
     {
         return facade.renewPremium(method);
     }
