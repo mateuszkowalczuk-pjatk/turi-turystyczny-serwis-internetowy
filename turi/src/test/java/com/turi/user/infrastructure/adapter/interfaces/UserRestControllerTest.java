@@ -295,8 +295,6 @@ class UserRestControllerTest extends AbstractRestControllerIntegrationTest
 
         final var cookie = result.getHeaders().get("Set-Cookie");
 
-        System.out.println(cookie);
-
         assertNotNull(cookie);
         assertTrue(cookie.get(1).contains("refreshToken="));
         assertTrue(cookie.get(1).contains("Max-Age=604800"));

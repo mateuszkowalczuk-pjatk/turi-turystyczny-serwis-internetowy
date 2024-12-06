@@ -17,16 +17,6 @@ public class PaymentFacade
 {
     private final PaymentService service;
 
-    public ResponseEntity<?> handleStripeSuccess(final String stripeId)
-    {
-        return ResponseEntity.ok().build();
-    }
-
-    public ResponseEntity<?> handleStripeCancel(final String stripeId)
-    {
-        return ResponseEntity.ok().build();
-    }
-
     public Boolean isPaymentForPremiumSucceeded(final Long premiumId)
     {
         return service.isPaymentForPremiumSucceeded(premiumId);
@@ -36,11 +26,11 @@ public class PaymentFacade
     {
         if (premiumId == null || price == null || method == null)
         {
-            throw new BadRequestParameterException("");
+            throw new BadRequestParameterException("Parameters premiumId, price and method are required.");
         }
 
         final var payment = Payment.builder()
-                .withPaymentId(premiumId)
+                .withPremiumId(premiumId)
                 .withAmount(BigDecimal.valueOf(price))
                 .withMethod(method)
                 .build();
@@ -52,7 +42,7 @@ public class PaymentFacade
     {
         if (payload == null || sigHeader == null)
         {
-            throw new BadRequestParameterException("");
+            throw new BadRequestParameterException("Parameters payload and sigHeader are required.");
         }
 
         service.handleStripeWebhook(payload, sigHeader);

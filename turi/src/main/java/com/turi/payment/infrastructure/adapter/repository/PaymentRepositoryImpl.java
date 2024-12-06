@@ -32,7 +32,7 @@ public class PaymentRepositoryImpl implements PaymentRepository
     }
 
     @Override
-    public Payment findByStripeId(final Long stripeId)
+    public Payment findByStripeId(final String stripeId)
     {
         return repositoryDao.findByStripeId(stripeId)
                 .map(Payment::of)
@@ -55,6 +55,8 @@ public class PaymentRepositoryImpl implements PaymentRepository
         final var entity = PaymentEntity.of(payment);
 
         Optional.ofNullable(paymentEntity).ifPresent(e -> {
+            e.setStripePaymentIntent(entity.getStripePaymentIntent());
+            e.setPaymentDate(entity.getPaymentDate());
             e.setStatus(entity.getStatus());
 
             repositoryDao.saveAndFlush(paymentEntity);

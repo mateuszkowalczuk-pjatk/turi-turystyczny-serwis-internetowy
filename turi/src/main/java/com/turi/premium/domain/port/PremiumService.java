@@ -17,9 +17,9 @@ public interface PremiumService
 
     Boolean isExistsForAccount(final Long accountId);
 
-    Premium verify(final Long accountId, final PremiumVerifyParam params);
-
     Premium checkPayment(final Long accountId);
+
+    Premium verify(final Long accountId, final PremiumVerifyParam params);
 
     PaymentStripeResponse pay(final Long accountId, final PaymentMethod method);
 

@@ -16,7 +16,8 @@ public final class Payment
 {
     private Long paymentId;
     private Long premiumId;
-    private Long stripeId;
+    private String stripeId;
+    private String stripePaymentIntent;
     private BigDecimal amount;
     private LocalDate paymentDate;
     private PaymentMethod method;
@@ -28,6 +29,7 @@ public final class Payment
                 .withPaymentId(entity.getPaymentId())
                 .withPremiumId(entity.getPremiumId())
                 .withStripeId(entity.getStripeId())
+                .withStripePaymentIntent(entity.getStripePaymentIntent())
                 .withAmount(entity.getAmount())
                 .withPaymentDate(entity.getPaymentDate())
                 .withMethod(PaymentMethod.fromValue(entity.getMethod()))

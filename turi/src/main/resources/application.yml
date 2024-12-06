@@ -41,8 +41,11 @@ springdoc:
 
 stripe:
     secret-key: sk_test_51QQXh7CSCKL1O9vwSd4Kbrv52qCCUQXSvAEDqBcQ8NQUjq9KRo33EdoN1yhPgknfceJKrNK4xlQEqJgcb0DxiHUk00XFVchD2I
-    webhook-secret-key: secret_key
+    success-url: http://localhost:8080/premium/payment-check
+    cancel-url: http://localhost:8080/premium/payment
+    webhook-secret-key: whsec_44044973b8d5c9ca85880298170c6461d14a2b68bcff6e41d0c0d9e8b1979f18
 
-premium-offer:
-    price: 100
-    length: 12
+premium:
+    offer:
+        price: 100
+        length: 12

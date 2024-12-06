@@ -10,7 +10,7 @@ public interface PaymentRepository
 
     Payment findById(final Long id);
 
-    Payment findByStripeId(final Long stripeId);
+    Payment findByStripeId(final String stripeId);
 
     Long insert(final Payment payment);
 

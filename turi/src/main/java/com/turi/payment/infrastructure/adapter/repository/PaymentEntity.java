@@ -31,7 +31,10 @@ public final class PaymentEntity implements Serializable
     private Long premiumId;
 
     @Column(name = "stripeid", nullable = false, unique = true)
-    private Long stripeId;
+    private String stripeId;
+
+    @Column(name = "stripepaymentintent", unique = true)
+    private String stripePaymentIntent;
 
     @Column(name = "amount", nullable = false, precision = 10, scale = 2)
     private BigDecimal amount;
@@ -55,6 +58,7 @@ public final class PaymentEntity implements Serializable
         return PaymentEntity.builder()
                 .withPremiumId(payment.getPremiumId())
                 .withStripeId(payment.getStripeId())
+                .withStripePaymentIntent(payment.getStripePaymentIntent())
                 .withAmount(payment.getAmount())
                 .withPaymentDate(payment.getPaymentDate())
                 .withMethod(com.turi.payment.domain.model.PaymentMethod.getValueOrDefault(payment.getMethod()))

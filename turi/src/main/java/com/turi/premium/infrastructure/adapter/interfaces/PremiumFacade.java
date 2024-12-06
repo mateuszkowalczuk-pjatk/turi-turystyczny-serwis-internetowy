@@ -10,6 +10,7 @@ import com.turi.premium.domain.model.PremiumCompanyParam;
 import com.turi.premium.domain.model.PremiumOffer;
 import com.turi.premium.domain.model.PremiumVerifyParam;
 import com.turi.premium.domain.port.PremiumService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -39,6 +40,13 @@ public class PremiumFacade
         return PremiumResponse.of(service.isExistsForAccount(accountId));
     }
 
+    public ResponseEntity<Premium> checkPaymentForPremium()
+    {
+        final var accountId = ContextHandler.getIdFromContext();
+
+        return PremiumResponse.of(service.checkPayment(accountId));
+    }
+
     public ResponseEntity<Premium> verifyPremium(final PremiumVerifyParam params)
     {
         if (params == null || params.getFirstName() == null || params.getLastName() == null || addressDetailsCheck(params.getAddress()) || params.getBankAccountNumber() == null || params.getCompanyName() == null || params.getNip() == null)
@@ -55,11 +63,9 @@ public class PremiumFacade
         return PremiumResponse.of(service.verify(accountId, params));
     }
 
-    public ResponseEntity<Premium> checkPaymentForPremium()
+    public ResponseEntity<?> loginIntoPremiumAccount(final String premiumToken, final String code, final HttpServletResponse response)
     {
-        final var accountId = ContextHandler.getIdFromContext();
-
-        return PremiumResponse.of(service.checkPayment(accountId));
+        return null;
     }
 
     public ResponseEntity<PaymentStripeResponse> payForPremium(final PaymentMethod method)

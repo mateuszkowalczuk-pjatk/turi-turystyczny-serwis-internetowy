@@ -9,6 +9,6 @@ public final class InvalidPremiumException extends RuntimeException
 
     public InvalidPremiumException()
     {
-        super("The specified premium is invalid. Parameters x, x and x are required!");
+        super("The specified premium is invalid. Parameters accountId, companyName, nip, bankAccountNumber and status are required!");
     }
 }

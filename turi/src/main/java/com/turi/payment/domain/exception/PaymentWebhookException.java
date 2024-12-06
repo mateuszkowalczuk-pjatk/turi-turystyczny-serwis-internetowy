@@ -7,8 +7,8 @@ public final class PaymentWebhookException extends RuntimeException
     @Serial
     private static final long serialVersionUID = -5974739589585088953L;
 
-    public PaymentWebhookException()
+    public PaymentWebhookException(final String message)
     {
-        super("");
+        super(String.format("Payment processing by stripe webhook failed with the message: '%s'", message));
     }
 }

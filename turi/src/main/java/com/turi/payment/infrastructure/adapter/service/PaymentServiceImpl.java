@@ -2,6 +2,7 @@ package com.turi.payment.infrastructure.adapter.service;
 
 import com.turi.payment.domain.exception.PaymentForPremiumFailedException;
 import com.turi.payment.domain.model.Payment;
+import com.turi.payment.domain.model.PaymentName;
 import com.turi.payment.domain.model.PaymentStatus;
 import com.turi.payment.domain.model.PaymentStripeResponse;
 import com.turi.payment.domain.port.PaymentRepository;
@@ -22,15 +23,27 @@ public class PaymentServiceImpl implements PaymentService
     private final PaymentRepository repository;
 
     @Override
-    public Boolean isPaymentForPremiumSucceeded(final Long accountId)
+    public Boolean isPaymentForPremiumSucceeded(final Long premiumId)
     {
-        final var payment = Objects.requireNonNull(repository.findAllByPremiumId(accountId).stream()
+        final var payment = Objects.requireNonNull(repository.findAllByPremiumId(premiumId).stream()
                 .max(Comparator.comparingLong(Payment::getPaymentId))
                 .orElse(null));
 
+        final var stripePayment = stripeService.getByIntent(payment.getStripePaymentIntent());
+
+        if (stripePayment == null)
+        {
+            return false;
+        }
+
+        payment.setPaymentDate(stripePayment.getPaymentDate());
+        payment.setStatus(stripePayment.getStatus());
+
+        repository.update(payment.getPaymentId(), payment);
+
         if (payment.getStatus() == PaymentStatus.FAILED)
         {
-            throw new PaymentForPremiumFailedException();
+            throw new PaymentForPremiumFailedException(premiumId);
         }
 
         return payment.getStatus() == PaymentStatus.SUCCEEDED;
@@ -39,7 +52,7 @@ public class PaymentServiceImpl implements PaymentService
     @Override
     public PaymentStripeResponse payForPremium(final Payment payment)
     {
-        final var response = stripeService.checkout(payment);
+        final var response = stripeService.checkout(payment, PaymentName.PREMIUM);
 
         payment.setStripeId(response.getStripeId());
         payment.setPaymentDate(LocalDate.now());
@@ -55,10 +68,13 @@ public class PaymentServiceImpl implements PaymentService
     {
         final var response = stripeService.webhook(payload, sigHeader);
 
-        final var payment = repository.findByStripeId(response.getStripeId());
-        payment.setPaymentDate(LocalDate.now());
-        payment.setStatus(response.getStatus());
+        if (response != null)
+        {
+            final var payment = repository.findByStripeId(response.getStripeId());
+            payment.setStripePaymentIntent(response.getStripePaymentIntent());
+            payment.setPaymentDate(LocalDate.now());
 
-        repository.update(payment.getPaymentId(), payment);
+            repository.update(payment.getPaymentId(), payment);
+        }
     }
 }

@@ -10,7 +10,8 @@ import lombok.*;
 @Builder(setterPrefix = "with")
 public final class PaymentStripeResponse
 {
-    private Long stripeId;
+    private String stripeId;
+    private String stripePaymentIntent;
     private String url;
     private PaymentStatus status;
 }

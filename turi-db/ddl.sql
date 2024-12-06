@@ -95,7 +95,7 @@ COMMENT ON TABLE  account                       IS 'Table to store account user 
 COMMENT ON COLUMN account.accountid             IS 'Unique required primary key of the account table.';
 COMMENT ON COLUMN account.userid                IS 'Unique required foreign key of account user.';
 COMMENT ON COLUMN account.addressid             IS 'Unique foreign key address of account user.';
-COMMENT ON COLUMN account.accounttype           IS 'Required type of account (1 - Normal, 2 - Premium).';
+COMMENT ON COLUMN account.accounttype           IS 'Required type of account (0 - Inactive, 1 - Normal, 2 - Premium).';
 COMMENT ON COLUMN account.activatecode          IS 'Account activation code.';
 COMMENT ON COLUMN account.activatecodeexpiresat IS 'Account activation code expired date.';
 COMMENT ON COLUMN account.firstname             IS 'First name of account user.';
@@ -129,28 +129,47 @@ COMMENT ON COLUMN premium.expiresdate       IS 'Required date of expiry premium 
 COMMENT ON COLUMN premium.status            IS 'Required status of account premium (0 - Unpaid, 1 - Active, 2 - Expired).';
 
 
+CREATE TABLE IF NOT EXISTS stripepayment
+(
+    stripepaymentid SERIAL       PRIMARY KEY,
+    intent          VARCHAR(255) NOT NULL UNIQUE,
+    status          INTEGER      NOT NULL,
+    paymentdate     DATE         NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS stripepaymentintentindex ON stripepayment (intent);
+
+COMMENT ON TABLE  stripepayment                 IS 'Table to store stripe payment intent information for webhook process.';
+COMMENT ON COLUMN stripepayment.stripepaymentid IS 'Unique required primary key of the stripe payment table.';
+COMMENT ON COLUMN stripepayment.intent          IS 'Unique required intent information for webhook process.';
+COMMENT ON COLUMN stripepayment.status          IS 'Required stripe payment status (2 - Succeeded, 3  - Failed).';
+COMMENT ON COLUMN stripepayment.paymentdate     IS 'Required date of payment.';
+
+
 CREATE TABLE IF NOT EXISTS payment
 (
-    paymentid   SERIAL         PRIMARY KEY,
-    premiumid   INTEGER        NOT NULL,
-    stripeid    INTEGER        NOT NULL UNIQUE,
-    amount      DECIMAL(10, 2) NOT NULL,
-    paymentdate DATE           NOT NULL,
-    method      INTEGER        NOT NULL,
-    status      INTEGER        NOT NULL,
+    paymentid           SERIAL         PRIMARY KEY,
+    premiumid           INTEGER        NOT NULL,
+    stripeid            VARCHAR(255)   NOT NULL UNIQUE,
+    stripepaymentintent VARCHAR(255)            UNIQUE,
+    amount              DECIMAL(10, 2) NOT NULL,
+    paymentdate         DATE           NOT NULL,
+    method              INTEGER        NOT NULL,
+    status              INTEGER        NOT NULL,
     CONSTRAINT paymentpremium FOREIGN KEY (premiumid) REFERENCES premium (premiumid)
 );
 
 CREATE INDEX IF NOT EXISTS paymentpremiumindex ON payment (premiumid);
 
-COMMENT ON TABLE  payment             IS 'Table to store payment data for buying a premium account.';
-COMMENT ON COLUMN payment.paymentid   IS 'Unique required primary key of the payment table.';
-COMMENT ON COLUMN payment.premiumid   IS 'Required foreign key of premium.';
-COMMENT ON COLUMN payment.stripeid    IS 'Unique required ID number of stripe payment.';
-COMMENT ON COLUMN payment.amount      IS 'Required amount of payment.';
-COMMENT ON COLUMN payment.paymentdate IS 'Required date of payment.';
-COMMENT ON COLUMN payment.method      IS 'Required payment method (1 - Card, 2 - Blik).';
-COMMENT ON COLUMN payment.status      IS 'Required payment status (1 - Pending, 2 - Succeeded, 3 - Failed).';
+COMMENT ON TABLE  payment                     IS 'Table to store payment data for buying a premium account.';
+COMMENT ON COLUMN payment.paymentid           IS 'Unique required primary key of the payment table.';
+COMMENT ON COLUMN payment.premiumid           IS 'Required foreign key of premium.';
+COMMENT ON COLUMN payment.stripeid            IS 'Unique required ID of stripe payment.';
+COMMENT ON COLUMN payment.stripepaymentintent IS 'Unique stripe payment intent information for webhook process.';
+COMMENT ON COLUMN payment.amount              IS 'Required amount of payment.';
+COMMENT ON COLUMN payment.paymentdate         IS 'Required date of payment.';
+COMMENT ON COLUMN payment.method              IS 'Required payment method (1 - Card, 2 - Blik).';
+COMMENT ON COLUMN payment.status              IS 'Required payment status (1 - Pending, 2 - Succeeded, 3 - Failed).';
 
 
 

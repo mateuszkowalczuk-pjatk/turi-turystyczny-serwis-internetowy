@@ -6,6 +6,8 @@ import com.turi.address.domain.exception.InvalidAddressException;
 import com.turi.authentication.domain.exception.*;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.infrastructure.exception.BadRequestResponseException;
+import com.turi.payment.domain.exception.*;
+import com.turi.premium.domain.exception.*;
 import com.turi.user.domain.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -119,6 +121,78 @@ public final class RestControllerErrorHandler extends ErrorHandler
 
     @ExceptionHandler(BadRequestResponseException.class)
     public ResponseEntity<ErrorCode> handleBadRequestResponseException(final BadRequestResponseException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidPaymentException.class)
+    public ResponseEntity<ErrorCode> handleInvalidPaymentException(final InvalidPaymentException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidStripePaymentException.class)
+    public ResponseEntity<ErrorCode> handleInvalidStripePaymentException(final InvalidStripePaymentException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(PaymentForPremiumFailedException.class)
+    public ResponseEntity<ErrorCode> handlePaymentForPremiumFailedException(final PaymentForPremiumFailedException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(PaymentNotFoundException.class)
+    public ResponseEntity<ErrorCode> handlePaymentNotFoundException(final PaymentNotFoundException ex)
+    {
+        return createResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(PaymentStripeException.class)
+    public ResponseEntity<ErrorCode> handlePaymentStripeException(final PaymentStripeException ex)
+    {
+        return createResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(PaymentWebhookException.class)
+    public ResponseEntity<ErrorCode> handlePaymentWebhookException(final PaymentWebhookException ex)
+    {
+        return createResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidCompanyException.class)
+    public ResponseEntity<ErrorCode> handleInvalidCompanyException(final InvalidCompanyException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidPremiumException.class)
+    public ResponseEntity<ErrorCode> handleInvalidPremiumException(final InvalidPremiumException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(PremiumActivatedException.class)
+    public ResponseEntity<ErrorCode> handlePremiumActivatedException(final PremiumActivatedException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(PremiumInactiveException.class)
+    public ResponseEntity<ErrorCode> handlePremiumInactiveException(final PremiumInactiveException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(PremiumNotFoundException.class)
+    public ResponseEntity<ErrorCode> handlePremiumNotFoundException(final PremiumNotFoundException ex)
+    {
+        return createResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(PremiumUnpaidException.class)
+    public ResponseEntity<ErrorCode> handlePremiumUnpaidException(final PremiumUnpaidException ex)
     {
         return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }

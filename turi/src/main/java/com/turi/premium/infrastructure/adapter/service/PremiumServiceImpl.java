@@ -61,6 +61,35 @@ public class PremiumServiceImpl implements PremiumService
     }
 
     @Override
+    public Premium checkPayment(final Long accountId)
+    {
+        final var premium = getByAccount(accountId);
+
+        if (!paymentFacade.isPaymentForPremiumSucceeded(premium.getPremiumId()))
+        {
+            throw new PremiumUnpaidException(accountId);
+        }
+
+        final var buyDate = LocalDate.now();
+
+        final var premiumToUpdate = Premium.builder()
+                .withAccountid(premium.getAccountid())
+                .withCompanyName(premium.getCompanyName())
+                .withNip(premium.getNip())
+                .withBankAccountNumber(premium.getBankAccountNumber())
+                .withBuyDate(buyDate)
+                .withExpiresDate(buyDate.plusMonths(properties.getLength()))
+                .withStatus(PremiumStatus.ACTIVE)
+                .build();
+
+        repository.update(premium.getPremiumId(), premiumToUpdate);
+
+        accountFacade.updateAccountTypeToPremium();
+
+        return getById(premium.getPremiumId());
+    }
+
+    @Override
     public Premium verify(final Long accountId, final PremiumVerifyParam params)
     {
         final var companyParams = PremiumCompanyParam.builder()
@@ -97,35 +126,6 @@ public class PremiumServiceImpl implements PremiumService
     }
 
     @Override
-    public Premium checkPayment(final Long accountId)
-    {
-        final var premium = getByAccount(accountId);
-
-        if (!paymentFacade.isPaymentForPremiumSucceeded(premium.getPremiumId()))
-        {
-            throw new PremiumUnpaidException(accountId);
-        }
-
-        final var buyDate = LocalDate.now();
-
-        final var premiumToUpdate = Premium.builder()
-                .withAccountid(premium.getAccountid())
-                .withCompanyName(premium.getCompanyName())
-                .withNip(premium.getNip())
-                .withBankAccountNumber(premium.getBankAccountNumber())
-                .withBuyDate(buyDate)
-                .withExpiresDate(buyDate.plusMonths(properties.getLength()))
-                .withStatus(PremiumStatus.ACTIVE)
-                .build();
-
-        repository.update(premium.getPremiumId(), premiumToUpdate);
-
-        accountFacade.updateAccountTypeToPremium();
-
-        return getById(premium.getPremiumId());
-    }
-
-    @Override
     public PaymentStripeResponse pay(final Long accountId, final PaymentMethod method)
     {
         final var premium = getByAccount(accountId);
@@ -135,7 +135,7 @@ public class PremiumServiceImpl implements PremiumService
             throw new PremiumActivatedException(premium.getPremiumId());
         }
 
-        return paymentFacade.payForPremium(premium.getPremiumId(), properties.getPrice(), method);
+        return paymentFacade.payForPremium(accountId, properties.getPrice(), method);
     }
 
     @Override
@@ -191,8 +191,6 @@ public class PremiumServiceImpl implements PremiumService
         final var addressId = Objects.requireNonNull(addressFacade.createAddress(address).getBody()).getAddressId();
 
         final var accountToUpdate = Account.builder()
-                .withAccountId(account.getAccountId())
-                .withUserId(account.getUserId())
                 .withAddressId(addressId)
                 .withAccountType(account.getAccountType())
                 .withActivationCode(account.getActivationCode())

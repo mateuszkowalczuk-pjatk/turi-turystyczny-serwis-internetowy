@@ -38,6 +38,8 @@ public class JwtFilter extends OncePerRequestFilter
                 || path.startsWith("/api/user/resetPassword")
                 || path.startsWith("/api/user/isUsernameExists")
                 || path.startsWith("/api/user/isEmailExists")
+                || path.startsWith("/api/premium/login")
+                || path.startsWith("/api/payment/webhook")
                 || path.startsWith("/swagger-ui")
                 || path.startsWith("/v3/api-docs"))
         {

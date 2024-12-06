@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "premium-offer")
+@ConfigurationProperties(prefix = "premium.offer")
 public class PremiumOfferProperties
 {
     private double price;

@@ -11,5 +11,5 @@ public interface PaymentRepositoryDao extends JpaRepository<PaymentEntity, Long>
 {
     List<PaymentEntity> findAllByPremiumId(final Long premiumId);
 
-    Optional<PaymentEntity> findByStripeId(final Long stripeId);
+    Optional<PaymentEntity> findByStripeId(final String stripeId);
 }

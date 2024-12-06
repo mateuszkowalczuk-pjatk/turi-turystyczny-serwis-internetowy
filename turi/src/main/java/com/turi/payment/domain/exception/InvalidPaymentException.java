@@ -9,6 +9,6 @@ public final class InvalidPaymentException extends RuntimeException
 
     public InvalidPaymentException()
     {
-        super("The specified payment is invalid. Parameters x, x and x are required!");
+        super("The specified payment is invalid. Parameters premiumId, stripeId, amount, paymentDate, method and status are required!");
     }
 }

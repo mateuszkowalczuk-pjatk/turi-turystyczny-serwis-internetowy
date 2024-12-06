@@ -60,8 +60,6 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
 
         final var cookie = result.getHeaders().get("Set-Cookie");
 
-        System.out.println(cookie);
-
         assertNotNull(cookie);
         assertTrue(cookie.get(0).contains("activateToken="));
         assertTrue(cookie.get(0).contains("Max-Age=900"));

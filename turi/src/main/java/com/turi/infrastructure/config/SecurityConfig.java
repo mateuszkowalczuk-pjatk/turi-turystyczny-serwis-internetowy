@@ -42,10 +42,12 @@ public class SecurityConfig
                                 "/api/user/sendResetPasswordCode",
                                 "/api/user/resetPassword",
                                 "/api/user/isUsernameExists",
-                                "/api/user/isEmailExists"
+                                "/api/user/isEmailExists",
+                                "/api/premium/login",
+                                "/api/payment/webhook"
                         ).permitAll()
                         .requestMatchers("/api/account/activate").hasRole(AccountType.INACTIVE.getName())
-                        .requestMatchers("/api/x/**").hasRole(AccountType.PREMIUM.getName())
+                        .requestMatchers("/api/premium/premium/**").hasRole(AccountType.PREMIUM.getName())
                         .requestMatchers("/api/**").hasAnyRole(AccountType.NORMAL.getName(), AccountType.PREMIUM.getName())
                         .anyRequest().authenticated())
                 .cors(Customizer.withDefaults())
