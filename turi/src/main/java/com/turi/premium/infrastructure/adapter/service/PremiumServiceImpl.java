@@ -77,8 +77,8 @@ public class PremiumServiceImpl implements PremiumService
                 .withCompanyName(premium.getCompanyName())
                 .withNip(premium.getNip())
                 .withBankAccountNumber(premium.getBankAccountNumber())
-                .withBuyDate(buyDate)
-                .withExpiresDate(buyDate.plusMonths(properties.getLength()))
+                .withBuyDate(premium.getStatus().equals(PremiumStatus.ACTIVE) ? premium.getBuyDate() : buyDate)
+                .withExpiresDate(premium.getStatus().equals(PremiumStatus.ACTIVE) ? premium.getExpiresDate().plusMonths(properties.getLength()) : buyDate.plusMonths(properties.getLength()))
                 .withStatus(PremiumStatus.ACTIVE)
                 .build();
 
@@ -130,7 +130,7 @@ public class PremiumServiceImpl implements PremiumService
     {
         final var premium = getByAccount(accountId);
 
-        if (!premium.getStatus().equals(PremiumStatus.UNPAID))
+        if (premium.getStatus().equals(PremiumStatus.ACTIVE))
         {
             throw new PremiumActivatedException(premium.getPremiumId());
         }
@@ -143,7 +143,7 @@ public class PremiumServiceImpl implements PremiumService
     {
         final var premium = getByAccount(accountId);
 
-        if (!premium.getStatus().equals(PremiumStatus.EXPIRED) || premium.getExpiresDate().isBefore(LocalDate.now().plusWeeks(1)))
+        if (!premium.getStatus().equals(PremiumStatus.EXPIRED) && premium.getExpiresDate().isAfter(LocalDate.now().plusWeeks(1)))
         {
             throw new PremiumActivatedException(premium.getPremiumId());
         }
