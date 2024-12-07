@@ -5,7 +5,7 @@ import com.turi.authentication.domain.exception.RefreshTokenExpiredException;
 import com.turi.authentication.domain.exception.RefreshTokenNotFoundException;
 import com.turi.authentication.domain.model.RefreshToken;
 import com.turi.authentication.domain.port.RefreshTokenService;
-import com.turi.infrastructure.config.SecurityProperties;
+import com.turi.infrastructure.properties.SecurityProperties;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.testhelper.annotation.ServiceTest;
 import com.turi.user.domain.model.User;

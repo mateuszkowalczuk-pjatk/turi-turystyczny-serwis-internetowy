@@ -5,7 +5,7 @@ import com.turi.authentication.domain.model.RefreshToken;
 import com.turi.authentication.domain.port.RefreshTokenRepository;
 import com.turi.authentication.domain.port.RefreshTokenService;
 import com.turi.infrastructure.common.HashToken;
-import com.turi.infrastructure.config.SecurityProperties;
+import com.turi.infrastructure.properties.SecurityProperties;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

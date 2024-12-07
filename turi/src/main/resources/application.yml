@@ -46,6 +46,6 @@ stripe:
     webhook-secret-key: whsec_44044973b8d5c9ca85880298170c6461d14a2b68bcff6e41d0c0d9e8b1979f18
 
 premium:
-    offer:
-        price: 100
-        length: 12
+    price: 100
+    length: 12
+    ceidg-url: https://test-dane.biznes.gov.pl/api/ceidg/v2/firmy

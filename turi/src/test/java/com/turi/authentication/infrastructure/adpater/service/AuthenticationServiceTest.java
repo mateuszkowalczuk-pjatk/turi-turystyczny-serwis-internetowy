@@ -12,7 +12,7 @@ import com.turi.authentication.domain.model.RefreshParam;
 import com.turi.authentication.domain.model.RegisterParam;
 import com.turi.authentication.domain.port.AuthenticationService;
 import com.turi.authentication.domain.port.RefreshTokenService;
-import com.turi.infrastructure.config.SecurityProperties;
+import com.turi.infrastructure.properties.SecurityProperties;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.testhelper.annotation.ServiceTest;
 import com.turi.user.domain.exception.InvalidUserException;

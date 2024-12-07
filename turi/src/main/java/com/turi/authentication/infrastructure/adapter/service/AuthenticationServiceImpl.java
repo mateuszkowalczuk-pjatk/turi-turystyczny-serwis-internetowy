@@ -13,7 +13,7 @@ import com.turi.authentication.domain.model.*;
 import com.turi.authentication.domain.port.AuthenticationService;
 import com.turi.authentication.domain.port.JwtService;
 import com.turi.authentication.domain.port.RefreshTokenService;
-import com.turi.infrastructure.config.SecurityProperties;
+import com.turi.infrastructure.properties.SecurityProperties;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.premium.infrastructure.adapter.interfaces.PremiumFacade;
 import com.turi.user.domain.model.User;

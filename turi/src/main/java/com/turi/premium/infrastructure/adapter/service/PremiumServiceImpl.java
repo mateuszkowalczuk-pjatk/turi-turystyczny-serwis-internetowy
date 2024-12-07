@@ -7,8 +7,8 @@ import com.turi.address.infrastructure.adapter.interfaces.AddressFacade;
 import com.turi.infrastructure.common.CodeGenerator;
 import com.turi.infrastructure.common.EmailSender;
 import com.turi.infrastructure.common.HashToken;
-import com.turi.infrastructure.config.PremiumOfferProperties;
-import com.turi.infrastructure.config.SecurityProperties;
+import com.turi.infrastructure.properties.PremiumProperties;
+import com.turi.infrastructure.properties.SecurityProperties;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.payment.domain.model.PaymentMethod;
 import com.turi.payment.domain.model.PaymentStripeResponse;
@@ -37,15 +37,15 @@ public class PremiumServiceImpl implements PremiumService
     private final AccountFacade accountFacade;
     private final AddressFacade addressFacade;
     private final PremiumRepository repository;
+    private final PremiumProperties premiumProperties;
     private final SecurityProperties securityProperties;
-    private final PremiumOfferProperties premiumOfferProperties;
 
     @Override
     public PremiumOffer getOffer()
     {
         return PremiumOffer.builder()
-                .withPrice(premiumOfferProperties.getPrice())
-                .withLength(premiumOfferProperties.getLength())
+                .withPrice(premiumProperties.getPrice())
+                .withLength(premiumProperties.getLength())
                 .build();
     }
 
@@ -91,7 +91,7 @@ public class PremiumServiceImpl implements PremiumService
                 .withNip(premium.getNip())
                 .withBankAccountNumber(premium.getBankAccountNumber())
                 .withBuyDate(premium.getStatus().equals(PremiumStatus.ACTIVE) ? premium.getBuyDate() : buyDate)
-                .withExpiresDate(premium.getStatus().equals(PremiumStatus.ACTIVE) ? premium.getExpiresDate().plusMonths(premiumOfferProperties.getLength()) : buyDate.plusMonths(premiumOfferProperties.getLength()))
+                .withExpiresDate(premium.getStatus().equals(PremiumStatus.ACTIVE) ? premium.getExpiresDate().plusMonths(premiumProperties.getLength()) : buyDate.plusMonths(premiumProperties.getLength()))
                 .withStatus(PremiumStatus.ACTIVE)
                 .build();
 
@@ -212,7 +212,7 @@ public class PremiumServiceImpl implements PremiumService
             throw new PremiumActivatedException(premium.getPremiumId());
         }
 
-        return paymentFacade.payForPremium(accountId, premiumOfferProperties.getPrice(), method);
+        return paymentFacade.payForPremium(accountId, premiumProperties.getPrice(), method);
     }
 
     @Override
@@ -225,7 +225,7 @@ public class PremiumServiceImpl implements PremiumService
             throw new PremiumActivatedException(premium.getPremiumId());
         }
 
-        return paymentFacade.payForPremium(premium.getPremiumId(), premiumOfferProperties.getPrice(), method);
+        return paymentFacade.payForPremium(premium.getPremiumId(), premiumProperties.getPrice(), method);
     }
 
     @Override

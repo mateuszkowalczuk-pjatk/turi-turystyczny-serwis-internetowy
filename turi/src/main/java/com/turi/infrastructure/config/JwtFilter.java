@@ -1,5 +1,6 @@
 package com.turi.infrastructure.config;
 
+import com.turi.infrastructure.properties.SecurityProperties;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.FilterChain;

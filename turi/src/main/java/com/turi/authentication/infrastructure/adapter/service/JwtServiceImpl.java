@@ -1,7 +1,7 @@
 package com.turi.authentication.infrastructure.adapter.service;
 
 import com.turi.authentication.domain.port.JwtService;
-import com.turi.infrastructure.config.SecurityProperties;
+import com.turi.infrastructure.properties.SecurityProperties;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
