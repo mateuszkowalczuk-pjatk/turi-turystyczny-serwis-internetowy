@@ -3,7 +3,7 @@ package com.turi.payment.domain.model;
 import com.turi.payment.infrastructure.adapter.repository.StripePaymentEntity;
 import lombok.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -15,7 +15,7 @@ public final class StripePayment
 {
     private Long stripePaymentId;
     private String intent;
-    private LocalDate paymentDate;
+    private LocalDateTime paymentDate;
     private PaymentStatus status;
 
     public static StripePayment of(final StripePaymentEntity entity)

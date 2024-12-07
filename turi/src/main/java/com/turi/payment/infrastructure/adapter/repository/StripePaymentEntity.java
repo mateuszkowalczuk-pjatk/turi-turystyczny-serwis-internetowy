@@ -8,6 +8,7 @@ import lombok.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static com.turi.payment.domain.model.PaymentStatus.getValueOrDefault;
 
@@ -35,7 +36,7 @@ public final class StripePaymentEntity implements Serializable
     private int status;
 
     @Column(name = "paymentdate", nullable = false)
-    private LocalDate paymentDate;
+    private LocalDateTime paymentDate;
 
     public static StripePaymentEntity of(final StripePayment stripePayment)
     {

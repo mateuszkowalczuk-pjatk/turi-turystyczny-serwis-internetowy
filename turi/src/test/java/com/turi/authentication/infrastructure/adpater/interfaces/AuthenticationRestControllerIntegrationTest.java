@@ -7,6 +7,7 @@ import com.turi.authentication.domain.model.RegisterParam;
 import com.turi.authentication.domain.port.JwtService;
 import com.turi.authentication.infrastructure.adapter.interfaces.AuthenticationFacade;
 import com.turi.infrastructure.rest.ErrorCode;
+import com.turi.premium.domain.port.PremiumService;
 import com.turi.testhelper.annotation.RestControllerTest;
 import com.turi.testhelper.rest.AbstractRestControllerIntegrationTest;
 import com.turi.user.domain.model.User;
@@ -37,6 +38,9 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
 
     @Autowired(required = false)
     private AccountService accountService;
+
+    @Autowired(required = false)
+    private PremiumService premiumService;
 
     @Autowired(required = false)
     private JwtService jwtService;
@@ -427,6 +431,146 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
         assertTrue(cookie.get(0).contains("Secure"));
         assertTrue(cookie.get(0).contains("HttpOnly"));
         assertTrue(cookie.get(0).contains("SameSite=Strict"));
+    }
+
+    @Test
+    void testAuthentication_Login_PremiumAccount()
+    {
+        final var registerParams = mockRegisterParams();
+
+        facade.register(registerParams);
+
+        accountService.activate(2L, accountService.getById(2L).getActivationCode());
+
+        accountService.updateAccountTypeToPremium(2L);
+
+        final var loginParams = LoginParam.builder()
+                .withLogin(registerParams.getEmail())
+                .withPassword(registerParams.getPassword())
+                .build();
+
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/auth/login")
+                .build().toUri();
+
+        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(loginParams), ErrorCode.class);
+
+        assertNotNull(result);
+        assertTrue(result.getStatusCode().is2xxSuccessful());
+
+        final var cookie = result.getHeaders().get("Set-Cookie");
+
+        assertNotNull(cookie);
+
+        assertTrue(cookie.get(0).contains("loginToken="));
+        assertTrue(cookie.get(0).contains("Max-Age=900"));
+        assertTrue(cookie.get(0).contains("Secure"));
+        assertTrue(cookie.get(0).contains("HttpOnly"));
+        assertTrue(cookie.get(0).contains("SameSite=Strict"));
+    }
+
+    @Test
+    void testAuthentication_LoginPremium()
+    {
+        final var registerParams = mockRegisterParams();
+
+        facade.register(registerParams);
+
+        accountService.activate(2L, accountService.getById(2L).getActivationCode());
+
+        accountService.updateAccountTypeToPremium(2L);
+
+        facade.login(LoginParam.builder()
+                .withLogin(registerParams.getEmail())
+                .withPassword(registerParams.getPassword())
+                .build());
+
+        final var premium = premiumService.getByAccount(2L);
+
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/auth/loginPremium")
+                .queryParam("code", premium.getLoginCode())
+                .build().toUri();
+
+        headers.add("Cookie", "loginToken=" + premium.getLoginToken());
+
+        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(headers), ErrorCode.class);
+
+        assertNotNull(result);
+        assertTrue(result.getStatusCode().is2xxSuccessful());
+
+        final var cookie = result.getHeaders().get("Set-Cookie");
+
+        System.out.println(cookie);
+
+        assertNotNull(cookie);
+
+        assertTrue(cookie.get(1).contains("accessToken="));
+        assertTrue(cookie.get(1).contains("Max-Age=900"));
+        assertTrue(cookie.get(1).contains("Secure"));
+        assertTrue(cookie.get(1).contains("HttpOnly"));
+        assertTrue(cookie.get(1).contains("SameSite=Strict"));
+
+        assertTrue(cookie.get(2).contains("refreshToken="));
+        assertTrue(cookie.get(2).contains("Max-Age=604800"));
+        assertTrue(cookie.get(2).contains("Secure"));
+        assertTrue(cookie.get(2).contains("HttpOnly"));
+        assertTrue(cookie.get(2).contains("SameSite=Strict"));
+    }
+
+    @Test
+    void testAuthentication_LoginPremium_WithoutRequiredLoginTokenField()
+    {
+        final var registerParams = mockRegisterParams();
+
+        facade.register(registerParams);
+
+        accountService.activate(2L, accountService.getById(2L).getActivationCode());
+
+        accountService.updateAccountTypeToPremium(2L);
+
+        facade.login(LoginParam.builder()
+                .withLogin(registerParams.getEmail())
+                .withPassword(registerParams.getPassword())
+                .build());
+
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/auth/loginPremium")
+                .queryParam("code", premiumService.getByAccount(2L).getLoginCode())
+                .build().toUri();
+
+        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(headers), ErrorCode.class);
+
+        assertNotNull(result);
+        assertTrue(result.getStatusCode().is4xxClientError());
+    }
+
+    @Test
+    void testAuthentication_LoginPremium_WithoutRequiredCodeField()
+    {
+        final var registerParams = mockRegisterParams();
+
+        facade.register(registerParams);
+
+        accountService.activate(2L, accountService.getById(2L).getActivationCode());
+
+        accountService.updateAccountTypeToPremium(2L);
+
+        facade.login(LoginParam.builder()
+                .withLogin(registerParams.getEmail())
+                .withPassword(registerParams.getPassword())
+                .build());
+
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/auth/loginPremium")
+                .build().toUri();
+
+        headers.add("Cookie", "loginToken=" + premiumService.getByAccount(2L).getLoginToken());
+
+        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(headers), ErrorCode.class);
+
+        assertNotNull(result);
+        assertTrue(result.getStatusCode().is4xxClientError());
     }
 
     @Test

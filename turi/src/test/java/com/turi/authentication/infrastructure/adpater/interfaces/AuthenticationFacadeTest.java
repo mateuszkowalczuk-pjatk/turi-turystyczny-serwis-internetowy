@@ -10,6 +10,7 @@ import com.turi.authentication.domain.model.RegisterParam;
 import com.turi.authentication.domain.port.RefreshTokenService;
 import com.turi.authentication.infrastructure.adapter.interfaces.AuthenticationFacade;
 import com.turi.infrastructure.exception.BadRequestParameterException;
+import com.turi.premium.domain.port.PremiumService;
 import com.turi.testhelper.annotation.RestControllerTest;
 import com.turi.user.domain.exception.UserUniqueEmailException;
 import com.turi.user.domain.exception.UserUniqueUsernameException;
@@ -38,6 +39,9 @@ class AuthenticationFacadeTest
 
     @Autowired(required = false)
     private AccountService accountService;
+
+    @Autowired(required = false)
+    private PremiumService premiumService;
 
     @Autowired(required = false)
     private RefreshTokenService refreshTokenService;
@@ -328,6 +332,94 @@ class AuthenticationFacadeTest
         assertTrue(cookie.get(0).contains("Secure"));
         assertTrue(cookie.get(0).contains("HttpOnly"));
         assertTrue(cookie.get(0).contains("SameSite=Strict"));
+    }
+
+    @Test
+    void testAuthentication_Login_PremiumAccount()
+    {
+        final var registerParams = mockRegisterParams();
+
+        facade.register(registerParams);
+
+        accountService.activate(2L, accountService.getById(2L).getActivationCode());
+
+        accountService.updateAccountTypeToPremium(2L);
+
+        final var result = facade.login(LoginParam.builder()
+                .withLogin(registerParams.getEmail())
+                .withPassword(registerParams.getPassword())
+                .build());
+
+        assertNotNull(result);
+        assertTrue(result.getStatusCode().is2xxSuccessful());
+
+        final var cookie = result.getHeaders().get("Set-Cookie");
+
+        assertNotNull(cookie);
+
+        assertTrue(cookie.get(0).contains("loginToken="));
+        assertTrue(cookie.get(0).contains("Max-Age=900"));
+        assertTrue(cookie.get(0).contains("Secure"));
+        assertTrue(cookie.get(0).contains("HttpOnly"));
+        assertTrue(cookie.get(0).contains("SameSite=Strict"));
+    }
+
+    @Test
+    void testAuthentication_LoginPremium()
+    {
+        final var registerParams = mockRegisterParams();
+
+        facade.register(registerParams);
+
+        accountService.activate(2L, accountService.getById(2L).getActivationCode());
+
+        accountService.updateAccountTypeToPremium(2L);
+
+        facade.login(LoginParam.builder()
+                .withLogin(registerParams.getEmail())
+                .withPassword(registerParams.getPassword())
+                .build());
+
+        final var premium = premiumService.getByAccount(2L);
+
+        final var response = Mockito.mock(HttpServletResponse.class);
+
+        final var result = facade.loginPremium(premium.getLoginToken(), String.valueOf(premium.getLoginCode()), response);
+
+        assertNotNull(result);
+        assertTrue(result.getStatusCode().is2xxSuccessful());
+
+        final var cookie = result.getHeaders().get("Set-Cookie");
+
+        assertNotNull(cookie);
+
+        assertTrue(cookie.get(0).contains("accessToken="));
+        assertTrue(cookie.get(0).contains("Max-Age=900"));
+        assertTrue(cookie.get(0).contains("Secure"));
+        assertTrue(cookie.get(0).contains("HttpOnly"));
+        assertTrue(cookie.get(0).contains("SameSite=Strict"));
+
+        assertTrue(cookie.get(1).contains("refreshToken="));
+        assertTrue(cookie.get(1).contains("Max-Age=604800"));
+        assertTrue(cookie.get(1).contains("Secure"));
+        assertTrue(cookie.get(1).contains("HttpOnly"));
+        assertTrue(cookie.get(1).contains("SameSite=Strict"));
+    }
+
+    @Test
+    void testAuthentication_LoginPremium_WithoutRequiredLoginTokenField()
+    {
+        final var response = Mockito.mock(HttpServletResponse.class);
+
+        assertThrows(BadRequestParameterException.class, () -> facade.loginPremium(null, "123456", response));
+    }
+
+    @Test
+    void testAuthentication_LoginPremium_WithoutRequiredCodeField()
+    {
+        final var response = Mockito.mock(HttpServletResponse.class);
+
+        assertThrows(BadRequestParameterException.class, () -> facade.loginPremium("sample-login-token", null, response));
     }
 
     @Test

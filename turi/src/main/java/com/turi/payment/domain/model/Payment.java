@@ -4,7 +4,7 @@ import com.turi.payment.infrastructure.adapter.repository.PaymentEntity;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -19,7 +19,7 @@ public final class Payment
     private String stripeId;
     private String stripePaymentIntent;
     private BigDecimal amount;
-    private LocalDate paymentDate;
+    private LocalDateTime paymentDate;
     private PaymentMethod method;
     private PaymentStatus status;
 

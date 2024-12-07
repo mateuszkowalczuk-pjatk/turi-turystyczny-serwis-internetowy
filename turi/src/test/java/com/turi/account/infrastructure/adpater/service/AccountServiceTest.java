@@ -522,6 +522,44 @@ class AccountServiceTest
         assertThrows(AddressNotFoundException.class, () -> addressFacade.getAddressById(String.valueOf(addressId)));
     }
 
+    @Test
+    void testAccount_UpdateAccountTypeToPremium()
+    {
+        final var account = mockAccount();
+
+        service.updateAccountTypeToPremium(account.getAccountId());
+
+        final var result = service.getById(account.getAccountId());
+
+        assertNotNull(result);
+        assertThat(result.getAccountType()).isEqualTo(AccountType.PREMIUM);
+    }
+
+    @Test
+    void testAccount_UpdateAccountTypeToPremium_AccountNotFound()
+    {
+        assertThrows(AccountNotFoundException.class, () -> service.updateAccountTypeToPremium(mockNewAccount().getAccountId()));
+    }
+
+    @Test
+    void testAccount_UpdateAccountTypeToNormal()
+    {
+        final var account = mockAccount();
+
+        service.updateAccountTypeToNormal(account.getAccountId());
+
+        final var result = service.getById(account.getAccountId());
+
+        assertNotNull(result);
+        assertThat(result.getAccountType()).isEqualTo(AccountType.NORMAL);
+    }
+
+    @Test
+    void testAccount_UpdateAccountTypeToNormal_AccountNotFound()
+    {
+        assertThrows(AccountNotFoundException.class, () -> service.updateAccountTypeToNormal(mockNewAccount().getAccountId()));
+    }
+
     private Account mockAccount()
     {
         return Account.builder()

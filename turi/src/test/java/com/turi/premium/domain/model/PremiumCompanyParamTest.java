@@ -1,16 +1,15 @@
-package com.turi.payment.domain.model;
+package com.turi.premium.domain.model;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
-import nl.jqno.equalsverifier.Warning;
 import org.junit.jupiter.api.Test;
 
-class PaymentTest
+class PremiumCompanyParamTest
 {
     @Test
     void equalsContract()
     {
         EqualsVerifier.simple()
-            .forClass(Payment.class).suppress(Warning.BIGDECIMAL_EQUALITY)
+            .forClass(PremiumCompanyParam.class)
             .verify();
     }
 }

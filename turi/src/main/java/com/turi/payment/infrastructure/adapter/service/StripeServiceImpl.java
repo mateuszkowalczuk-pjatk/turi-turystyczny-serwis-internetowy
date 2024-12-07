@@ -7,8 +7,8 @@ import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import com.stripe.net.Webhook;
 import com.stripe.param.checkout.SessionCreateParams;
-import com.turi.infrastructure.properties.StripeProperties;
 import com.turi.infrastructure.exception.BadRequestParameterException;
+import com.turi.infrastructure.properties.StripeProperties;
 import com.turi.payment.domain.exception.PaymentStripeException;
 import com.turi.payment.domain.exception.PaymentWebhookException;
 import com.turi.payment.domain.model.*;
@@ -17,7 +17,7 @@ import com.turi.payment.domain.port.StripeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Service
 @AllArgsConstructor
@@ -116,7 +116,7 @@ public class StripeServiceImpl implements StripeService
         final var stripePayment = StripePayment.builder()
                 .withIntent(getFromPayload(payload, "id"))
                 .withStatus(status)
-                .withPaymentDate(LocalDate.now())
+                .withPaymentDate(LocalDateTime.now())
                 .build();
 
         repository.insert(stripePayment);

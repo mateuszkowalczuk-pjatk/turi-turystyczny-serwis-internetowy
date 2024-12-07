@@ -12,8 +12,9 @@ import com.turi.authentication.domain.model.RefreshParam;
 import com.turi.authentication.domain.model.RegisterParam;
 import com.turi.authentication.domain.port.AuthenticationService;
 import com.turi.authentication.domain.port.RefreshTokenService;
-import com.turi.infrastructure.properties.SecurityProperties;
 import com.turi.infrastructure.exception.BadRequestParameterException;
+import com.turi.infrastructure.properties.SecurityProperties;
+import com.turi.premium.domain.port.PremiumService;
 import com.turi.testhelper.annotation.ServiceTest;
 import com.turi.user.domain.exception.InvalidUserException;
 import com.turi.user.domain.exception.UserUniqueEmailException;
@@ -41,6 +42,9 @@ class AuthenticationServiceTest
 
     @Autowired
     private AccountService accountService;
+
+    @Autowired
+    private PremiumService premiumService;
 
     @Autowired
     private RefreshTokenService refreshTokenService;
@@ -269,6 +273,52 @@ class AuthenticationServiceTest
         assertNotNull(result);
         assertNotNull(result.getAccessToken());
         assertThat(result.getRefreshTokenExpiresIn()).isEqualTo(properties.getAccessTokenExpirationTime());
+    }
+
+    @Test
+    void testAuthentication_Login_PremiumAccount()
+    {
+        final var registerParams = mockRegisterParams();
+
+        service.register(registerParams);
+
+        accountService.activate(2L, accountService.getById(2L).getActivationCode());
+
+        accountService.updateAccountTypeToPremium(2L);
+
+        final var result = service.login(LoginParam.builder()
+                .withLogin(registerParams.getEmail())
+                .withPassword(registerParams.getPassword())
+                .build());
+
+        assertNotNull(result);
+        assertNotNull(result.getLoginToken());
+        assertThat(result.getAccessTokenExpiresIn()).isEqualTo(properties.getAccessTokenExpirationTime());
+    }
+
+    @Test
+    void testAuthentication_LoginPremium()
+    {
+        final var registerParams = mockRegisterParams();
+
+        service.register(registerParams);
+
+        accountService.activate(2L, accountService.getById(2L).getActivationCode());
+
+        accountService.updateAccountTypeToPremium(2L);
+
+        final var login = service.login(LoginParam.builder()
+                .withLogin(registerParams.getEmail())
+                .withPassword(registerParams.getPassword())
+                .build());
+
+        final var result = service.loginPremium(login.getLoginToken(), premiumService.getByAccount(2L).getLoginCode());
+
+        assertNotNull(result);
+        assertNotNull(result.getAccessTokenExpiresIn());
+        assertNotNull(result.getRefreshTokenExpiresIn());
+        assertThat(result.getAccessTokenExpiresIn()).isEqualTo(properties.getAccessTokenExpirationTime());
+        assertThat(result.getRefreshTokenExpiresIn()).isEqualTo(properties.getRefreshTokenExpirationTime());
     }
 
     @Test

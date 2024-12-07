@@ -11,7 +11,7 @@ import com.turi.payment.domain.port.StripeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.Objects;
 
@@ -55,7 +55,7 @@ public class PaymentServiceImpl implements PaymentService
         final var response = stripeService.checkout(payment, PaymentName.PREMIUM);
 
         payment.setStripeId(response.getStripeId());
-        payment.setPaymentDate(LocalDate.now());
+        payment.setPaymentDate(LocalDateTime.now());
         payment.setStatus(response.getStatus());
 
         repository.insert(payment);
@@ -72,7 +72,7 @@ public class PaymentServiceImpl implements PaymentService
         {
             final var payment = repository.findByStripeId(response.getStripeId());
             payment.setStripePaymentIntent(response.getStripePaymentIntent());
-            payment.setPaymentDate(LocalDate.now());
+            payment.setPaymentDate(LocalDateTime.now());
 
             repository.update(payment.getPaymentId(), payment);
         }

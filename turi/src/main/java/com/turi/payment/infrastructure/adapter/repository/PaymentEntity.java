@@ -9,6 +9,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -40,7 +41,7 @@ public final class PaymentEntity implements Serializable
     private BigDecimal amount;
 
     @Column(name = "paymentdate", nullable = false)
-    private LocalDate paymentDate;
+    private LocalDateTime paymentDate;
 
     @Column(name = "method", nullable = false)
     private int method;

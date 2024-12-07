@@ -687,6 +687,64 @@ class AccountFacadeTest
         assertThrows(BadRequestParameterException.class, () -> facade.updateAccount(null));
     }
 
+    @Test
+    void testAccount_UpdateAccountTypeToPremium()
+    {
+        final var account = mockAccount();
+
+        ContextHelper.setContextUserId(account.getAccountId());
+
+        facade.updateAccountTypeToPremium();
+
+        final var result = facade.getAccountById().getBody();
+
+        assertNotNull(result);
+        assertThat(result.getAccountType()).isEqualTo(AccountType.PREMIUM);
+    }
+
+    @Test
+    void testAccount_UpdateAccountTypeToPremium_ContextAccountIdIsNull()
+    {
+        assertThrows(BadRequestParameterException.class, () -> facade.updateAccountTypeToPremium());
+    }
+
+    @Test
+    void testAccount_UpdateAccountTypeToPremium_AccountNotFound()
+    {
+        ContextHelper.setContextUserId(mockNewAccount().getAccountId());
+
+        assertThrows(AccountNotFoundException.class, () -> facade.updateAccountTypeToPremium());
+    }
+
+    @Test
+    void testAccount_UpdateAccountTypeToNormal()
+    {
+        final var account = mockAccount();
+
+        ContextHelper.setContextUserId(account.getAccountId());
+
+        facade.updateAccountTypeToNormal();
+
+        final var result = facade.getAccountById().getBody();
+
+        assertNotNull(result);
+        assertThat(result.getAccountType()).isEqualTo(AccountType.NORMAL);
+    }
+
+    @Test
+    void testAccount_UpdateAccountTypeToNormal_ContextAccountIdIsNull()
+    {
+        assertThrows(BadRequestParameterException.class, () -> facade.updateAccountTypeToNormal());
+    }
+
+    @Test
+    void testAccount_UpdateAccountTypeToNormal_AccountNotFound()
+    {
+        ContextHelper.setContextUserId(mockNewAccount().getAccountId());
+
+        assertThrows(AccountNotFoundException.class, () -> facade.updateAccountTypeToNormal());
+    }
+
     private Account mockAccount()
     {
         return Account.builder()

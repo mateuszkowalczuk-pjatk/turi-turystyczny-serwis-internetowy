@@ -143,7 +143,7 @@ CREATE TABLE IF NOT EXISTS stripepayment
     stripepaymentid SERIAL       PRIMARY KEY,
     intent          VARCHAR(255) NOT NULL UNIQUE,
     status          INTEGER      NOT NULL,
-    paymentdate     DATE         NOT NULL
+    paymentdate     TIMESTAMP    NOT NULL
 );
 
 CREATE INDEX IF NOT EXISTS stripepaymentintentindex ON stripepayment (intent);
@@ -162,7 +162,7 @@ CREATE TABLE IF NOT EXISTS payment
     stripeid            VARCHAR(255)   NOT NULL UNIQUE,
     stripepaymentintent VARCHAR(255)            UNIQUE,
     amount              DECIMAL(10, 2) NOT NULL,
-    paymentdate         DATE           NOT NULL,
+    paymentdate         TIMESTAMP      NOT NULL,
     method              INTEGER        NOT NULL,
     status              INTEGER        NOT NULL,
     CONSTRAINT paymentpremium FOREIGN KEY (premiumid) REFERENCES premium (premiumid)
