@@ -50,6 +50,7 @@ public final class PremiumResponse
 
         return ResponseEntity.ok(premium);
     }
+
     public static ResponseEntity<PaymentStripeResponse> of(final PaymentStripeResponse response)
     {
         if (response == null)

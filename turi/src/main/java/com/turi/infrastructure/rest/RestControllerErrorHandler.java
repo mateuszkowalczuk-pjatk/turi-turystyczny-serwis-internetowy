@@ -185,6 +185,24 @@ public final class RestControllerErrorHandler extends ErrorHandler
         return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
+    @ExceptionHandler(PremiumLoginCodeExpiredException.class)
+    public ResponseEntity<ErrorCode> handlePremiumLoginCodeExpiredException(final PremiumLoginCodeExpiredException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(PremiumNotFoundByAccountException.class)
+    public ResponseEntity<ErrorCode> handlePremiumNotFoundByAccountException(final PremiumNotFoundByAccountException ex)
+    {
+        return createResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(PremiumNotFoundByLoginTokenException.class)
+    public ResponseEntity<ErrorCode> handlePremiumNotFoundByLoginTokenException(final PremiumNotFoundByLoginTokenException ex)
+    {
+        return createResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
     @ExceptionHandler(PremiumNotFoundException.class)
     public ResponseEntity<ErrorCode> handlePremiumNotFoundException(final PremiumNotFoundException ex)
     {

@@ -17,7 +17,7 @@ public class EmailSender
 {
     private final JavaMailSender sender;
 
-    public void sendActivationEmail(final String email, final String subject, final Integer code)
+    public void sendEmail(final String email, final String subject, final Integer code)
     {
         try
         {

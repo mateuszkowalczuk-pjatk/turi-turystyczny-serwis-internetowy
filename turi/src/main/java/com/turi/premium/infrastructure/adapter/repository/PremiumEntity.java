@@ -8,6 +8,7 @@ import lombok.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static com.turi.premium.domain.model.PremiumStatus.getValueOrDefault;
 
@@ -49,6 +50,15 @@ public final class PremiumEntity implements Serializable
     @Column(name = "status", nullable = false)
     private int status;
 
+    @Column(name = "logincode")
+    private Integer loginCode;
+
+    @Column(name = "logintoken")
+    private String loginToken;
+
+    @Column(name = "loginexpiresat")
+    private LocalDateTime loginExpiresAt;
+
     public static PremiumEntity of(final Premium premium)
     {
         if (!validation(premium))
@@ -64,6 +74,9 @@ public final class PremiumEntity implements Serializable
                 .withBuyDate(premium.getBuyDate())
                 .withExpiresDate(premium.getExpiresDate())
                 .withStatus(getValueOrDefault(premium.getStatus()))
+                .withLoginCode(premium.getLoginCode())
+                .withLoginToken(premium.getLoginToken())
+                .withLoginExpiresAt(premium.getLoginExpiresAt())
                 .build();
     }
 

@@ -28,6 +28,14 @@ public class AuthenticationRestController
         return facade.login(params);
     }
 
+    @PostMapping("/loginPremium")
+    public ResponseEntity<?> loginPremium(@CookieValue(value = "loginToken", required = false) final String loginToken,
+                                          @RequestParam final String code,
+                                          final HttpServletResponse response)
+    {
+        return facade.loginPremium(loginToken, code, response);
+    }
+
     @PostMapping("/authorize")
     public ResponseEntity<?> authorize()
     {

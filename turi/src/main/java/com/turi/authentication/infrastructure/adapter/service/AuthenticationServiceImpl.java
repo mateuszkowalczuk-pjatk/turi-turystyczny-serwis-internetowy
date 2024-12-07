@@ -15,6 +15,7 @@ import com.turi.authentication.domain.port.JwtService;
 import com.turi.authentication.domain.port.RefreshTokenService;
 import com.turi.infrastructure.config.SecurityProperties;
 import com.turi.infrastructure.exception.BadRequestParameterException;
+import com.turi.premium.infrastructure.adapter.interfaces.PremiumFacade;
 import com.turi.user.domain.model.User;
 import com.turi.user.infrastructure.adapter.interfaces.UserFacade;
 import jakarta.servlet.http.HttpServletResponse;
@@ -32,6 +33,7 @@ public class AuthenticationServiceImpl implements AuthenticationService
     private final UserFacade userFacade;
     private final JwtService jwtService;
     private final AccountFacade accountFacade;
+    private final PremiumFacade premiumFacade;
     private final SecurityProperties properties;
     private final AuthenticationManager authManager;
     private final RefreshTokenService refreshTokenService;
@@ -86,6 +88,16 @@ public class AuthenticationServiceImpl implements AuthenticationService
                 return getActivateToken(account.getAccountId(), role);
             }
 
+            if (role.equals(AccountType.PREMIUM.getName()))
+            {
+                final var premiumLogin = premiumFacade.sendPremiumLoginCode(account.getAccountId(), userFacade.getUserEmailByUserId(userId));
+
+                return Authentication.builder()
+                        .withLoginToken(premiumLogin.getLoginToken())
+                        .withAccessTokenExpiresIn(premiumLogin.getLoginTokenExpiresIn())
+                        .build();
+            }
+
             final var accessToken = jwtService.generateToken(account.getAccountId(), role);
 
             final var refreshToken = refreshTokenService.generateRefreshToken(userId);
@@ -114,6 +126,23 @@ public class AuthenticationServiceImpl implements AuthenticationService
         return Authentication.builder()
                 .withAccessToken(activateToken)
                 .withRefreshTokenExpiresIn(properties.getAccessTokenExpirationTime())
+                .build();
+    }
+
+    @Override
+    public Authentication loginPremium(final String loginToken, final Integer code)
+    {
+        final var accountId = premiumFacade.loginIntoPremiumAccount(loginToken, code);
+
+        final var accessToken = jwtService.generateToken(accountId, AccountType.PREMIUM.getName());
+
+        final var refreshToken = refreshTokenService.generateRefreshToken(accountId);
+
+        return Authentication.builder()
+                .withAccessToken(accessToken)
+                .withRefreshToken(refreshToken)
+                .withAccessTokenExpiresIn(properties.getAccessTokenExpirationTime())
+                .withRefreshTokenExpiresIn(properties.getRefreshTokenExpirationTime())
                 .build();
     }
 

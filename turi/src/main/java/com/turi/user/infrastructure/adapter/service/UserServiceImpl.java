@@ -117,7 +117,7 @@ public class UserServiceImpl implements UserService, UserDetailsService
 
             repository.update(user.getUserId(), user);
 
-            emailSender.sendActivationEmail(email, "User password reset code.", user.getPasswordResetCode());
+            emailSender.sendEmail(email, "User password reset code.", user.getPasswordResetCode());
 
             return ResetToken.builder()
                     .withToken(user.getPasswordResetToken())

@@ -4,41 +4,48 @@ import com.turi.account.domain.model.Account;
 import com.turi.account.infrastructure.adapter.interfaces.AccountFacade;
 import com.turi.address.domain.model.Address;
 import com.turi.address.infrastructure.adapter.interfaces.AddressFacade;
+import com.turi.infrastructure.common.CodeGenerator;
+import com.turi.infrastructure.common.EmailSender;
+import com.turi.infrastructure.common.HashToken;
 import com.turi.infrastructure.config.PremiumOfferProperties;
+import com.turi.infrastructure.config.SecurityProperties;
+import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.payment.domain.model.PaymentMethod;
 import com.turi.payment.domain.model.PaymentStripeResponse;
 import com.turi.payment.infrastructure.adapter.interfaces.PaymentFacade;
-import com.turi.premium.domain.exception.InvalidCompanyException;
-import com.turi.premium.domain.exception.PremiumActivatedException;
-import com.turi.premium.domain.exception.PremiumInactiveException;
-import com.turi.premium.domain.exception.PremiumUnpaidException;
+import com.turi.premium.domain.exception.*;
 import com.turi.premium.domain.model.*;
 import com.turi.premium.domain.port.CeidgService;
 import com.turi.premium.domain.port.PremiumRepository;
 import com.turi.premium.domain.port.PremiumService;
+import com.turi.user.domain.exception.UserResetCodeRecentlySentException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
 public class PremiumServiceImpl implements PremiumService
 {
+    private final EmailSender emailSender;
     private final CeidgService ceidgService;
     private final PaymentFacade paymentFacade;
     private final AccountFacade accountFacade;
     private final AddressFacade addressFacade;
     private final PremiumRepository repository;
-    private final PremiumOfferProperties properties;
+    private final SecurityProperties securityProperties;
+    private final PremiumOfferProperties premiumOfferProperties;
 
     @Override
     public PremiumOffer getOffer()
     {
         return PremiumOffer.builder()
-                .withPrice(properties.getPrice())
-                .withLength(properties.getLength())
+                .withPrice(premiumOfferProperties.getPrice())
+                .withLength(premiumOfferProperties.getLength())
                 .build();
     }
 
@@ -52,6 +59,12 @@ public class PremiumServiceImpl implements PremiumService
     public Premium getByAccount(final Long accountId)
     {
         return repository.findByAccount(accountId);
+    }
+
+    @Override
+    public Premium getByLoginToken(final String loginToken)
+    {
+        return repository.findByLoginToken(loginToken);
     }
 
     @Override
@@ -78,7 +91,7 @@ public class PremiumServiceImpl implements PremiumService
                 .withNip(premium.getNip())
                 .withBankAccountNumber(premium.getBankAccountNumber())
                 .withBuyDate(premium.getStatus().equals(PremiumStatus.ACTIVE) ? premium.getBuyDate() : buyDate)
-                .withExpiresDate(premium.getStatus().equals(PremiumStatus.ACTIVE) ? premium.getExpiresDate().plusMonths(properties.getLength()) : buyDate.plusMonths(properties.getLength()))
+                .withExpiresDate(premium.getStatus().equals(PremiumStatus.ACTIVE) ? premium.getExpiresDate().plusMonths(premiumOfferProperties.getLength()) : buyDate.plusMonths(premiumOfferProperties.getLength()))
                 .withStatus(PremiumStatus.ACTIVE)
                 .build();
 
@@ -87,6 +100,41 @@ public class PremiumServiceImpl implements PremiumService
         accountFacade.updateAccountTypeToPremium();
 
         return getById(premium.getPremiumId());
+    }
+
+    @Override
+    public PremiumLogin sendLoginCode(final Long accountId, final String email)
+    {
+        final var premium = getByAccount(accountId);
+
+        if (premium == null)
+        {
+            throw new PremiumNotFoundByAccountException(accountId);
+        }
+
+        if (premium.getLoginExpiresAt() == null || premium.getLoginExpiresAt().minusMinutes(10).isBefore(LocalDateTime.now()))
+        {
+            final var code = CodeGenerator.generateCode();
+
+            final var token = securityProperties.getSecretKey() + "-" + premium.getAccountid() + "-" + UUID.randomUUID();
+
+            premium.setLoginCode(code);
+            premium.setLoginToken(HashToken.hash(token));
+            premium.setLoginExpiresAt(LocalDateTime.now().plusSeconds(securityProperties.getAccessTokenExpirationTime()));
+
+            repository.update(premium.getPremiumId(), premium);
+
+            emailSender.sendEmail(email, "Premium account login code.", premium.getLoginCode());
+
+            return PremiumLogin.builder()
+                    .withLoginToken(premium.getLoginToken())
+                    .withLoginTokenExpiresIn(securityProperties.getAccessTokenExpirationTime())
+                    .build();
+        }
+        else
+        {
+            throw new UserResetCodeRecentlySentException();
+        }
     }
 
     @Override
@@ -106,6 +154,35 @@ public class PremiumServiceImpl implements PremiumService
         updateVerifiedAccount(params.getFirstName(), params.getLastName(), params.getAddress());
 
         return createVerifiedPremium(accountId, params.getCompanyName(), params.getNip(), params.getBankAccountNumber());
+    }
+
+    @Override
+    public Long login(final String loginToken, final Integer code)
+    {
+        final var premium = getByLoginToken(loginToken);
+
+        if (premium == null)
+        {
+            throw new PremiumNotFoundByLoginTokenException(loginToken);
+        }
+
+        if (!premium.getLoginCode().equals(code))
+        {
+            throw new BadRequestParameterException("Invalid premium login code.");
+        }
+
+        if (premium.getLoginExpiresAt().isAfter(LocalDateTime.now()))
+        {
+            deletePasswordLoginDetails(premium);
+
+            return premium.getAccountid();
+        }
+        else
+        {
+            deletePasswordLoginDetails(premium);
+
+            throw new PremiumLoginCodeExpiredException();
+        }
     }
 
     private Premium createVerifiedPremium(final Long accountId, final String companyName, final String nip, final String bankAccountNumber)
@@ -135,7 +212,7 @@ public class PremiumServiceImpl implements PremiumService
             throw new PremiumActivatedException(premium.getPremiumId());
         }
 
-        return paymentFacade.payForPremium(accountId, properties.getPrice(), method);
+        return paymentFacade.payForPremium(accountId, premiumOfferProperties.getPrice(), method);
     }
 
     @Override
@@ -148,7 +225,7 @@ public class PremiumServiceImpl implements PremiumService
             throw new PremiumActivatedException(premium.getPremiumId());
         }
 
-        return paymentFacade.payForPremium(premium.getPremiumId(), properties.getPrice(), method);
+        return paymentFacade.payForPremium(premium.getPremiumId(), premiumOfferProperties.getPrice(), method);
     }
 
     @Override
@@ -236,5 +313,22 @@ public class PremiumServiceImpl implements PremiumService
 
             accountFacade.updateAccountTypeToNormal();
         });
+    }
+
+    @Override
+    public void deleteAllExpiredLoginDetails()
+    {
+        repository.findAll().stream()
+                .filter(premium -> premium.getLoginExpiresAt() != null && premium.getLoginExpiresAt().isBefore(LocalDateTime.now()))
+                .forEach(this::deletePasswordLoginDetails);
+    }
+
+    private void deletePasswordLoginDetails(final Premium premium)
+    {
+        premium.setLoginCode(null);
+        premium.setLoginToken(null);
+        premium.setLoginExpiresAt(null);
+
+        repository.update(premium.getPremiumId(), premium);
     }
 }

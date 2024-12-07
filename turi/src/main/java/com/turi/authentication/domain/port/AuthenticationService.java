@@ -9,6 +9,8 @@ public interface AuthenticationService
 
     Authentication login(final LoginParam params);
 
+    Authentication loginPremium(final String loginToken, final Integer code);
+
     Boolean authorize();
 
     Authentication refresh(final RefreshParam params);

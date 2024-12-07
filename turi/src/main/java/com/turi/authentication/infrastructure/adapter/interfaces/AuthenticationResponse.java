@@ -15,6 +15,15 @@ public final class AuthenticationResponse
 {
     public static ResponseEntity<?> of(final Authentication authentication)
     {
+        if (authentication.getLoginToken() != null)
+        {
+            final var loginTokenCookie = prepareCookie("loginToken", authentication.getLoginToken(), authentication.getAccessTokenExpiresIn());
+
+            return ResponseEntity.accepted()
+                    .header(HttpHeaders.SET_COOKIE, loginTokenCookie.toString())
+                    .build();
+        }
+
         if (authentication.getAccessTokenExpiresIn() == null)
         {
             final var activateTokenCookie = prepareCookie("activateToken", authentication.getAccessToken(), authentication.getRefreshTokenExpiresIn());
@@ -32,6 +41,20 @@ public final class AuthenticationResponse
                     .header(HttpHeaders.SET_COOKIE, accessTokenCookie.toString())
                     .build();
         }
+
+        final var refreshTokenCookie = prepareCookie("refreshToken", authentication.getRefreshToken(), authentication.getRefreshTokenExpiresIn());
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, accessTokenCookie.toString())
+                .header(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString())
+                .build();
+    }
+
+    public static ResponseEntity<?> of(final Authentication authentication, final HttpServletResponse response)
+    {
+        cookieCleaning(response, "loginToken");
+
+        final var accessTokenCookie = prepareCookie("accessToken", authentication.getAccessToken(), authentication.getAccessTokenExpiresIn());
 
         final var refreshTokenCookie = prepareCookie("refreshToken", authentication.getRefreshToken(), authentication.getRefreshTokenExpiresIn());
 
@@ -64,25 +87,24 @@ public final class AuthenticationResponse
 
     public static ResponseEntity<?> of(final HttpServletResponse response)
     {
-        if (response != null)
-        {
-            final var accessToken = new Cookie("accessToken", null);
-            accessToken.setHttpOnly(true);
-            accessToken.setSecure(true);
-            accessToken.setPath("/");
-            accessToken.setMaxAge(0);
+        cookieCleaning(response, "accessToken");
 
-            response.addCookie(accessToken);
-
-            final var refreshToken = new Cookie("refreshToken", null);
-            refreshToken.setHttpOnly(true);
-            refreshToken.setSecure(true);
-            refreshToken.setPath("/");
-            refreshToken.setMaxAge(0);
-
-            response.addCookie(refreshToken);
-        }
+        cookieCleaning(response, "refreshToken");
 
         return ResponseEntity.ok().build();
+    }
+
+    private static void cookieCleaning(final HttpServletResponse response, final String name)
+    {
+        if (response != null)
+        {
+            final var cookie = new Cookie(name, null);
+            cookie.setHttpOnly(true);
+            cookie.setSecure(true);
+            cookie.setPath("/");
+            cookie.setMaxAge(0);
+
+            response.addCookie(cookie);
+        }
     }
 }

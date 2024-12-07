@@ -38,12 +38,12 @@ public class SecurityConfig
                         .requestMatchers(
                                 "/api/auth/register",
                                 "/api/auth/login",
+                                "/api/auth/loginPremium",
                                 "/api/auth/refresh",
                                 "/api/user/sendResetPasswordCode",
                                 "/api/user/resetPassword",
                                 "/api/user/isUsernameExists",
                                 "/api/user/isEmailExists",
-                                "/api/premium/login",
                                 "/api/payment/webhook"
                         ).permitAll()
                         .requestMatchers("/api/account/activate").hasRole(AccountType.INACTIVE.getName())

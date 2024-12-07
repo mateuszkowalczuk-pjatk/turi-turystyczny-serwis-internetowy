@@ -115,8 +115,14 @@ CREATE TABLE IF NOT EXISTS premium
     buydate           DATE,
     expiresdate       DATE,
     status            INTEGER      NOT NULL,
+    logincode         INTEGER,
+    logintoken        VARCHAR(255),
+    loginexpiresat    TIMESTAMP,
     CONSTRAINT premiumaccount FOREIGN KEY (accountid) REFERENCES account (accountid)
 );
+
+CREATE INDEX IF NOT EXISTS premiumaccountindex    ON premium (accountid);
+CREATE INDEX IF NOT EXISTS premiumlogintokenindex ON premium (logintoken);
 
 COMMENT ON TABLE  premium                   IS 'Table to store premium data for the account.';
 COMMENT ON COLUMN premium.premiumid         IS 'Unique required primary key of the premium table.';
@@ -127,6 +133,9 @@ COMMENT ON COLUMN premium.bankaccountnumber IS 'Unique required user bank accoun
 COMMENT ON COLUMN premium.buydate           IS 'Required date of buy premium account.';
 COMMENT ON COLUMN premium.expiresdate       IS 'Required date of expiry premium account.';
 COMMENT ON COLUMN premium.status            IS 'Required status of account premium (0 - Unpaid, 1 - Active, 2 - Expired).';
+COMMENT ON COLUMN premium.logincode         IS 'Code for login into premium account.';
+COMMENT ON COLUMN premium.logintoken        IS 'Token for login into premium account.';
+COMMENT ON COLUMN premium.loginexpiresat    IS 'Code and token expiry date for login into premium account.';
 
 
 CREATE TABLE IF NOT EXISTS stripepayment
@@ -160,6 +169,7 @@ CREATE TABLE IF NOT EXISTS payment
 );
 
 CREATE INDEX IF NOT EXISTS paymentpremiumindex ON payment (premiumid);
+CREATE INDEX IF NOT EXISTS paymentstripeindex  ON payment (stripeid);
 
 COMMENT ON TABLE  payment                     IS 'Table to store payment data for buying a premium account.';
 COMMENT ON COLUMN payment.paymentid           IS 'Unique required primary key of the payment table.';

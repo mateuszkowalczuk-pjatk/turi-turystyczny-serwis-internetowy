@@ -6,7 +6,6 @@ import com.turi.premium.domain.model.Premium;
 import com.turi.premium.domain.model.PremiumCompanyParam;
 import com.turi.premium.domain.model.PremiumOffer;
 import com.turi.premium.domain.model.PremiumVerifyParam;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,14 +45,6 @@ public class PremiumRestController
     public ResponseEntity<Premium> verifyPremium(@RequestBody final PremiumVerifyParam params)
     {
         return facade.verifyPremium(params);
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<?> loginIntoPremiumAccount(@CookieValue(value = "premiumToken") final String premiumToken,
-                                                     @RequestParam final String code,
-                                                     final HttpServletResponse response)
-    {
-        return facade.loginIntoPremiumAccount(premiumToken, code, response);
     }
 
     @PostMapping("/pay")

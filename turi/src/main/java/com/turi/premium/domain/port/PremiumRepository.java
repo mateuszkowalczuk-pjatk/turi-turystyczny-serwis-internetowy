@@ -7,11 +7,15 @@ import java.util.List;
 
 public interface PremiumRepository
 {
+    List<Premium> findAll();
+
     List<Premium> findAllByExpiresDateBeforeCurrentDateAndStatusIsActive(final LocalDate currentDate, final int status);
 
     Premium findById(final Long id);
 
     Premium findByAccount(final Long accountId);
+
+    Premium findByLoginToken(final String loginToken);
 
     Long insert(final Premium premium);
 

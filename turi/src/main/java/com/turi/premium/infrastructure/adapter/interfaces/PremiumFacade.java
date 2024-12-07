@@ -5,12 +5,8 @@ import com.turi.infrastructure.common.ContextHandler;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.payment.domain.model.PaymentMethod;
 import com.turi.payment.domain.model.PaymentStripeResponse;
-import com.turi.premium.domain.model.Premium;
-import com.turi.premium.domain.model.PremiumCompanyParam;
-import com.turi.premium.domain.model.PremiumOffer;
-import com.turi.premium.domain.model.PremiumVerifyParam;
+import com.turi.premium.domain.model.*;
 import com.turi.premium.domain.port.PremiumService;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -47,6 +43,16 @@ public class PremiumFacade
         return PremiumResponse.of(service.checkPayment(accountId));
     }
 
+    public PremiumLogin sendPremiumLoginCode(final Long accountId, final String email)
+    {
+        if (accountId == null || email == null)
+        {
+            throw new BadRequestParameterException("Parameters accountId and email are required.");
+        }
+
+        return service.sendLoginCode(accountId, email);
+    }
+
     public ResponseEntity<Premium> verifyPremium(final PremiumVerifyParam params)
     {
         if (params == null || params.getFirstName() == null || params.getLastName() == null || addressDetailsCheck(params.getAddress()) || params.getBankAccountNumber() == null || params.getCompanyName() == null || params.getNip() == null)
@@ -63,9 +69,14 @@ public class PremiumFacade
         return PremiumResponse.of(service.verify(accountId, params));
     }
 
-    public ResponseEntity<?> loginIntoPremiumAccount(final String premiumToken, final String code, final HttpServletResponse response)
+    public Long loginIntoPremiumAccount(final String loginToken, final Integer code)
     {
-        return null;
+        if (loginToken == null || code == null)
+        {
+            throw new BadRequestParameterException("Parameters loginToken and code must not be null.");
+        }
+
+        return service.login(loginToken, code);
     }
 
     public ResponseEntity<PaymentStripeResponse> payForPremium(final PaymentMethod method)

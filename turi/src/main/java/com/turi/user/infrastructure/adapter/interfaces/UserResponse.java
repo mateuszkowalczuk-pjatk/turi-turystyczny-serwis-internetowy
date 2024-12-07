@@ -54,13 +54,13 @@ public final class UserResponse
     {
         if (response != null)
         {
-            final var activateToken = new Cookie("resetToken", null);
-            activateToken.setHttpOnly(true);
-            activateToken.setSecure(true);
-            activateToken.setPath("/");
-            activateToken.setMaxAge(0);
+            final var resetToken = new Cookie("resetToken", null);
+            resetToken.setHttpOnly(true);
+            resetToken.setSecure(true);
+            resetToken.setPath("/");
+            resetToken.setMaxAge(0);
 
-            response.addCookie(activateToken);
+            response.addCookie(resetToken);
         }
 
         return prepareResponse("refreshToken", refreshToken.getRefreshToken(), refreshToken.getRefreshTokenExpiresIn());

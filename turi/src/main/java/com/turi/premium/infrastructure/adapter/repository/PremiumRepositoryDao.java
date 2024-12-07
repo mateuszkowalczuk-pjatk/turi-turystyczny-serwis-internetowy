@@ -13,4 +13,6 @@ public interface PremiumRepositoryDao extends JpaRepository<PremiumEntity, Long>
     List<PremiumEntity> findAllByExpiresDateBeforeAndStatus(final LocalDate currentDate, final int status);
 
     Optional<PremiumEntity> findByAccountid(final Long accountId);
+
+    Optional<PremiumEntity> findByLoginToken(final String loginToken);
 }

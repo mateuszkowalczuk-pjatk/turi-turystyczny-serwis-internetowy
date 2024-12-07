@@ -10,6 +10,7 @@ public final class Authentication
 {
     private String accessToken;
     private String refreshToken;
+    private String loginToken;
     private Long accessTokenExpiresIn;
     private Long refreshTokenExpiresIn;
 }

@@ -49,6 +49,16 @@ public class UserFacade
         return UserResponse.of(service.getEmail(userId));
     }
 
+    public String getUserEmailByUserId(final Long userId)
+    {
+        if (userId == null)
+        {
+            throw new BadRequestParameterException("Parameter userId must not be null.");
+        }
+
+        return service.getEmail(userId);
+    }
+
     public ResponseEntity<Boolean> isUserUsernameExists(final String username)
     {
         if (username == null)

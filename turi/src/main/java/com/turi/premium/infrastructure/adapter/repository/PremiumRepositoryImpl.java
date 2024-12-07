@@ -17,6 +17,14 @@ public class PremiumRepositoryImpl implements PremiumRepository
     private final PremiumRepositoryDao repositoryDao;
 
     @Override
+    public List<Premium> findAll()
+    {
+        return repositoryDao.findAll().stream()
+                .map(Premium::of)
+                .toList();
+    }
+
+    @Override
     public List<Premium> findAllByExpiresDateBeforeCurrentDateAndStatusIsActive(final LocalDate currentDate, final int status)
     {
         return repositoryDao.findAllByExpiresDateBeforeAndStatus(currentDate, status).stream()
@@ -36,6 +44,14 @@ public class PremiumRepositoryImpl implements PremiumRepository
     public Premium findByAccount(final Long accountId)
     {
         return repositoryDao.findByAccountid(accountId)
+                .map(Premium::of)
+                .orElse(null);
+    }
+
+    @Override
+    public Premium findByLoginToken(final String loginToken)
+    {
+        return repositoryDao.findByLoginToken(loginToken)
                 .map(Premium::of)
                 .orElse(null);
     }
@@ -62,6 +78,9 @@ public class PremiumRepositoryImpl implements PremiumRepository
             e.setBuyDate(entity.getBuyDate());
             e.setExpiresDate(entity.getExpiresDate());
             e.setStatus(entity.getStatus());
+            e.setLoginCode(entity.getLoginCode());
+            e.setLoginToken(entity.getLoginToken());
+            e.setLoginExpiresAt(entity.getLoginExpiresAt());
 
             repositoryDao.saveAndFlush(premiumEntity);
         });

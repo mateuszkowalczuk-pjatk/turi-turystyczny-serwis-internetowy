@@ -2,10 +2,7 @@ package com.turi.premium.domain.port;
 
 import com.turi.payment.domain.model.PaymentMethod;
 import com.turi.payment.domain.model.PaymentStripeResponse;
-import com.turi.premium.domain.model.Premium;
-import com.turi.premium.domain.model.PremiumCompanyParam;
-import com.turi.premium.domain.model.PremiumOffer;
-import com.turi.premium.domain.model.PremiumVerifyParam;
+import com.turi.premium.domain.model.*;
 
 public interface PremiumService
 {
@@ -15,11 +12,17 @@ public interface PremiumService
 
     Premium getByAccount(final Long accountId);
 
+    Premium getByLoginToken(final String loginToken);
+
     Boolean isExistsForAccount(final Long accountId);
 
     Premium checkPayment(final Long accountId);
 
+    PremiumLogin sendLoginCode(final Long accountId, final String email);
+
     Premium verify(final Long accountId, final PremiumVerifyParam params);
+
+    Long login(final String loginToken, final Integer code);
 
     PaymentStripeResponse pay(final Long accountId, final PaymentMethod method);
 
@@ -30,4 +33,6 @@ public interface PremiumService
     Premium updateCompanyDetails(final Long accountId, final PremiumCompanyParam params);
 
     void updateAllPremiumStatusAndAccountTypeIfPremiumExpired();
+
+    void deleteAllExpiredLoginDetails();
 }
