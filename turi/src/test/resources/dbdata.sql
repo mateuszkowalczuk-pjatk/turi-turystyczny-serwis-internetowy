@@ -11,7 +11,7 @@ INSERT INTO account (userid, addressid, accounttype, activatecode, activatecodee
 VALUES (1, 1, 0, 123456, '2024-01-01 12:00:00', 'Jan', 'Kowalski', '2000-01-01', '710212453', 1);
 
 INSERT INTO premium (accountid, companyname, nip, bankaccountnumber, buydate, expiresdate, status, logincode, logintoken, loginexpiresat)
-VALUES (2, 'Jarex', '1423456812', '120023321456120023321456', '2024-10-10', '2025-10-10', 1, null, null, null);
+VALUES (2, 'Jarex', '1423456812', '120023321456120023321456', '2024-10-10', '2025-10-10', 1, 123456, 'sample-login-token', '2024-10-10 12:00:00');
 
 INSERT INTO stripepayment (intent, status, paymentdate)
 VALUES ('sample_payment_intent', 2, '2024-10-10 12:00:00');

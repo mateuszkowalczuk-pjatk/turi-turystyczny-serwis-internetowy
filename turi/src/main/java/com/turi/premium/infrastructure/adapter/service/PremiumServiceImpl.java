@@ -245,7 +245,7 @@ public class PremiumServiceImpl implements PremiumService
 
         accountFacade.updateAccountTypeToNormal();
 
-        return getById(accountId);
+        return getById(premium.getPremiumId());
     }
 
     @Override
