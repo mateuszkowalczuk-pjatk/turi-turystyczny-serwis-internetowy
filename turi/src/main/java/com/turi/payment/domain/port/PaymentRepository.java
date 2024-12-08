@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface PaymentRepository
 {
-    List<Payment> findAllByPremiumId(final Long accountId);
+    List<Payment> findAllByPremiumId(final Long premiumId);
 
     Payment findById(final Long id);
 
