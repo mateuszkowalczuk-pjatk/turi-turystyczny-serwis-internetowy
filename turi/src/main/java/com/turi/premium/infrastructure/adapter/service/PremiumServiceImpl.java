@@ -2,14 +2,12 @@ package com.turi.premium.infrastructure.adapter.service;
 
 import com.turi.account.domain.model.Account;
 import com.turi.account.infrastructure.adapter.interfaces.AccountFacade;
-import com.turi.address.domain.model.Address;
-import com.turi.address.infrastructure.adapter.interfaces.AddressFacade;
 import com.turi.infrastructure.common.CodeGenerator;
 import com.turi.infrastructure.common.EmailSender;
 import com.turi.infrastructure.common.HashToken;
+import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.infrastructure.properties.PremiumProperties;
 import com.turi.infrastructure.properties.SecurityProperties;
-import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.payment.domain.model.PaymentMethod;
 import com.turi.payment.domain.model.PaymentStripeResponse;
 import com.turi.payment.infrastructure.adapter.interfaces.PaymentFacade;
@@ -35,7 +33,6 @@ public class PremiumServiceImpl implements PremiumService
     private final CeidgService ceidgService;
     private final PaymentFacade paymentFacade;
     private final AccountFacade accountFacade;
-    private final AddressFacade addressFacade;
     private final PremiumRepository repository;
     private final PremiumProperties premiumProperties;
     private final SecurityProperties securityProperties;
@@ -141,7 +138,6 @@ public class PremiumServiceImpl implements PremiumService
     public Premium verify(final Long accountId, final PremiumVerifyParam params)
     {
         final var companyParams = PremiumCompanyParam.builder()
-                .withAddress(params.getAddress())
                 .withCompanyName(params.getCompanyName())
                 .withNip(params.getNip())
                 .build();
@@ -151,7 +147,7 @@ public class PremiumServiceImpl implements PremiumService
             throw new InvalidCompanyException();
         }
 
-        updateVerifiedAccount(params.getFirstName(), params.getLastName(), params.getAddress());
+        updateVerifiedAccount(params.getFirstName(), params.getLastName());
 
         return createVerifiedPremium(accountId, params.getCompanyName(), params.getNip(), params.getBankAccountNumber());
     }
@@ -256,19 +252,17 @@ public class PremiumServiceImpl implements PremiumService
             throw new InvalidCompanyException();
         }
 
-        updateVerifiedAccount(null, null, params.getAddress());
+        updateVerifiedAccount(null, null);
 
         return updateVerifiedPremium(accountId, params.getCompanyName(), params.getNip(), params.getBankAccountNumber());
     }
 
-    private void updateVerifiedAccount(final String firstName, final String lastName, final Address address)
+    private void updateVerifiedAccount(final String firstName, final String lastName)
     {
         final var account = Objects.requireNonNull(accountFacade.getAccountById().getBody());
 
-        final var addressId = Objects.requireNonNull(addressFacade.createAddress(address).getBody()).getAddressId();
-
         final var accountToUpdate = Account.builder()
-                .withAddressId(addressId)
+                .withAddressId(account.getAddressId())
                 .withAccountType(account.getAccountType())
                 .withActivationCode(account.getActivationCode())
                 .withActivationCodeExpiresAt(account.getActivationCodeExpiresAt())

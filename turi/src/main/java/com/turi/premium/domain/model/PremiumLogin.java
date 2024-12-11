@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(setterPrefix = "with")
-public class PremiumLogin
+public final class PremiumLogin
 {
     private String loginToken;
     private Long loginTokenExpiresIn;

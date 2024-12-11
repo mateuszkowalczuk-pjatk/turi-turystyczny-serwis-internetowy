@@ -48,4 +48,7 @@ stripe:
 premium:
     price: 100
     length: 12
-    ceidg-url: https://test-dane.biznes.gov.pl/api/ceidg/v2/firmy
+
+ceidg:
+    url: https://dane.biznes.gov.pl/api/ceidg/v3/firmy
+    api-key:

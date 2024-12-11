@@ -6,9 +6,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "premium")
-public class PremiumProperties
+@ConfigurationProperties(prefix = "ceidg")
+public class CeidgProperties
 {
-    private double price;
-    private int length;
+    private String url;
+    private String apiKey;
 }

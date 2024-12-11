@@ -1,6 +1,5 @@
 package com.turi.premium.infrastructure.adapter.interfaces;
 
-import com.turi.address.domain.model.Address;
 import com.turi.infrastructure.common.ContextHandler;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.payment.domain.model.PaymentMethod;
@@ -55,7 +54,7 @@ public class PremiumFacade
 
     public ResponseEntity<Premium> verifyPremium(final PremiumVerifyParam params)
     {
-        if (params == null || params.getFirstName() == null || params.getLastName() == null || addressDetailsCheck(params.getAddress()) || params.getBankAccountNumber() == null || params.getCompanyName() == null || params.getNip() == null)
+        if (params == null || params.getFirstName() == null || params.getLastName() == null || params.getBankAccountNumber() == null || params.getCompanyName() == null || params.getNip() == null)
         {
             throw new BadRequestParameterException("Parameters firstName, lastName, companyName, address (with fields country, city, zipCode, street and buildingNumber), nip and bankAccountNumber are required.");
         }
@@ -112,7 +111,7 @@ public class PremiumFacade
 
     public ResponseEntity<Premium> updatePremiumCompanyDetails(final PremiumCompanyParam params)
     {
-        if (params == null || addressDetailsCheck(params.getAddress()) || params.getBankAccountNumber() == null || params.getCompanyName() == null || params.getNip() == null)
+        if (params == null || params.getBankAccountNumber() == null || params.getCompanyName() == null || params.getNip() == null)
         {
             throw new BadRequestParameterException("Parameters companyName, address (with fields country, city, zipCode, street and buildingNumber), nip and bankAccountNumber are required.");
         }
@@ -124,11 +123,6 @@ public class PremiumFacade
         nipValidation(params.getNip());
 
         return PremiumResponse.of(service.updateCompanyDetails(accountId, params));
-    }
-
-    private boolean addressDetailsCheck(final Address address)
-    {
-        return address == null || address.getCountry() == null || address.getCity() == null || address.getZipCode() == null || address.getStreet() == null || address.getBuildingNumber() == null;
     }
 
     private void bankAccountNumberValidation(final String bankAccountNumber)

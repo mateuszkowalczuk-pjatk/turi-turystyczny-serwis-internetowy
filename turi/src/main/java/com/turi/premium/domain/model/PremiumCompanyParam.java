@@ -1,6 +1,5 @@
 package com.turi.premium.domain.model;
 
-import com.turi.address.domain.model.Address;
 import lombok.*;
 
 @Getter
@@ -12,7 +11,6 @@ import lombok.*;
 public final class PremiumCompanyParam
 {
     private String companyName;
-    private Address address;
     private String nip;
     private String bankAccountNumber;
 }
