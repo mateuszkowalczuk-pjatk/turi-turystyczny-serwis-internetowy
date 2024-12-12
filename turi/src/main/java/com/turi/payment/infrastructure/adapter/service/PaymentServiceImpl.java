@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
-import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -25,9 +24,14 @@ public class PaymentServiceImpl implements PaymentService
     @Override
     public Boolean isPaymentForPremiumSucceeded(final Long premiumId)
     {
-        final var payment = Objects.requireNonNull(repository.findAllByPremiumId(premiumId).stream()
+        final var payment = repository.findAllByPremiumId(premiumId).stream()
                 .max(Comparator.comparingLong(Payment::getPaymentId))
-                .orElse(null));
+                .orElse(null);
+
+        if (payment == null)
+        {
+            return false;
+        }
 
         final var stripePayment = stripeService.getByIntent(payment.getStripePaymentIntent());
 

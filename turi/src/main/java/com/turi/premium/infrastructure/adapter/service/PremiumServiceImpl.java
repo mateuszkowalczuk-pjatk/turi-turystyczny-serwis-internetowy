@@ -83,7 +83,7 @@ public class PremiumServiceImpl implements PremiumService
         final var buyDate = LocalDate.now();
 
         final var premiumToUpdate = Premium.builder()
-                .withAccountid(premium.getAccountid())
+                .withAccountId(premium.getAccountId())
                 .withCompanyName(premium.getCompanyName())
                 .withNip(premium.getNip())
                 .withBankAccountNumber(premium.getBankAccountNumber())
@@ -113,7 +113,7 @@ public class PremiumServiceImpl implements PremiumService
         {
             final var code = CodeGenerator.generateCode();
 
-            final var token = securityProperties.getSecretKey() + "-" + premium.getAccountid() + "-" + UUID.randomUUID();
+            final var token = securityProperties.getSecretKey() + "-" + premium.getAccountId() + "-" + UUID.randomUUID();
 
             premium.setLoginCode(code);
             premium.setLoginToken(HashToken.hash(token));
@@ -171,7 +171,7 @@ public class PremiumServiceImpl implements PremiumService
         {
             deletePasswordLoginDetails(premium);
 
-            return premium.getAccountid();
+            return premium.getAccountId();
         }
         else
         {
@@ -184,7 +184,7 @@ public class PremiumServiceImpl implements PremiumService
     private Premium createVerifiedPremium(final Long accountId, final String companyName, final String nip, final String bankAccountNumber)
     {
         final var premium = Premium.builder()
-                .withAccountid(accountId)
+                .withAccountId(accountId)
                 .withCompanyName(companyName)
                 .withNip(nip)
                 .withBankAccountNumber(bankAccountNumber)
@@ -281,7 +281,7 @@ public class PremiumServiceImpl implements PremiumService
         final var premium = getByAccount(accountId);
 
         final var premiumToUpdate = Premium.builder()
-                .withAccountid(accountId)
+                .withAccountId(accountId)
                 .withCompanyName(companyName)
                 .withNip(nip)
                 .withBankAccountNumber(bankAccountNumber)

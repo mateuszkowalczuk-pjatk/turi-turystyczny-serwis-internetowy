@@ -59,7 +59,7 @@ class PremiumServiceTest
     {
         final var premium = mockPremium();
 
-        final var result = service.getByAccount(premium.getAccountid());
+        final var result = service.getByAccount(premium.getAccountId());
 
         assertNotNull(result);
         assertThat(result).isEqualTo(premium);
@@ -68,7 +68,7 @@ class PremiumServiceTest
     @Test
     void testPremium_GetByAccount_NotFound()
     {
-        assertNull(service.getByAccount(mockNewPremium().getAccountid()));
+        assertNull(service.getByAccount(mockNewPremium().getAccountId()));
     }
 
     @Test
@@ -91,7 +91,7 @@ class PremiumServiceTest
     @Test
     void testPremium_IsExistsForAccount_Exists()
     {
-        final var result = service.isExistsForAccount(mockPremium().getAccountid());
+        final var result = service.isExistsForAccount(mockPremium().getAccountId());
 
         assertNotNull(result);
         assertTrue(result);
@@ -100,7 +100,7 @@ class PremiumServiceTest
     @Test
     void testPremium_IsExistsForAccount_NotExists()
     {
-        final var result = service.isExistsForAccount(mockNewPremium().getAccountid());
+        final var result = service.isExistsForAccount(mockNewPremium().getAccountId());
 
         assertNotNull(result);
         assertFalse(result);
@@ -254,7 +254,7 @@ class PremiumServiceTest
     {
         return Premium.builder()
                 .withPremiumId(1L)
-                .withAccountid(2L)
+                .withAccountId(2L)
                 .withCompanyName("Jarex")
                 .withNip("1423456812")
                 .withBankAccountNumber("120023321456120023321456")
@@ -271,7 +271,7 @@ class PremiumServiceTest
     {
         return Premium.builder()
                 .withPremiumId(2L)
-                .withAccountid(3L)
+                .withAccountId(3L)
                 .withCompanyName("Marex")
                 .withNip("1423456833")
                 .withBankAccountNumber("120023321456120023321123")

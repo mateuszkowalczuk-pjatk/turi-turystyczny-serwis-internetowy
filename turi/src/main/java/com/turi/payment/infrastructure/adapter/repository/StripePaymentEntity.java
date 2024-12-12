@@ -7,14 +7,12 @@ import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static com.turi.payment.domain.model.PaymentStatus.getValueOrDefault;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "stripepayment")

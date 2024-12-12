@@ -74,7 +74,7 @@ class PremiumRepositoryTest
     {
         final var premium = mockPremium();
 
-        final var result = repository.findByAccount(premium.getAccountid());
+        final var result = repository.findByAccount(premium.getAccountId());
 
         assertNotNull(result);
         assertThat(result).isEqualTo(premium);
@@ -83,7 +83,7 @@ class PremiumRepositoryTest
     @Test
     void testPremium_FindByAccount_NotFound()
     {
-        assertNull(repository.findByAccount(mockNewPremium().getAccountid()));
+        assertNull(repository.findByAccount(mockNewPremium().getAccountId()));
     }
 
     @Test
@@ -120,7 +120,7 @@ class PremiumRepositoryTest
     void testPremium_Insert_WithoutRequiredAccountIdField()
     {
         final var premium = mockNewPremium();
-        premium.setAccountid(null);
+        premium.setAccountId(null);
 
         assertThrows(InvalidPremiumException.class, () -> repository.insert(premium));
     }
@@ -193,7 +193,7 @@ class PremiumRepositoryTest
     {
         final var premium = mockPremium();
 
-        premium.setAccountid(null);
+        premium.setAccountId(null);
 
         assertThrows(InvalidPremiumException.class, () -> repository.update(premium.getPremiumId(), premium));
     }
@@ -242,7 +242,7 @@ class PremiumRepositoryTest
     {
         return Premium.builder()
                 .withPremiumId(1L)
-                .withAccountid(2L)
+                .withAccountId(2L)
                 .withCompanyName("Jarex")
                 .withNip("1423456812")
                 .withBankAccountNumber("120023321456120023321456")
@@ -259,7 +259,7 @@ class PremiumRepositoryTest
     {
         return Premium.builder()
                 .withPremiumId(2L)
-                .withAccountid(3L)
+                .withAccountId(3L)
                 .withCompanyName("Marex")
                 .withNip("1423456833")
                 .withBankAccountNumber("120023321456120023321123")

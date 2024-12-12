@@ -1,22 +1,24 @@
 package com.turi.payment.infrastructure.adapter.interfaces;
 
+import com.turi.infrastructure.rest.ErrorCode;
 import com.turi.payment.domain.model.Payment;
 import com.turi.payment.domain.model.PaymentMethod;
 import com.turi.payment.domain.model.PaymentStatus;
 import com.turi.testhelper.annotation.RestControllerTest;
 import com.turi.testhelper.rest.AbstractRestControllerIntegrationTest;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.web.util.UriComponentsBuilder.fromHttpUrl;
+
 @RestControllerTest
 class PaymentRestControllerTest extends AbstractRestControllerIntegrationTest
 {
-    @Autowired(required = false)
-    private PaymentFacade facade;
-
     @Test
     void testPayment_HandleStripeWebhook_Succeeded()
     {
@@ -44,13 +46,27 @@ class PaymentRestControllerTest extends AbstractRestControllerIntegrationTest
     @Test
     void testPayment_HandleStripeWebhook_WithoutRequiredPayloadField()
     {
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/payment/webhook")
+                .queryParam("payload", "sample-webhook-payload")
+                .build().toUri();
 
+        final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), ErrorCode.class);
+
+        assertTrue(result.getStatusCode().is4xxClientError());
     }
 
     @Test
     void testPayment_HandleStripeWebhook_WithoutRequiredSigHeaderField()
     {
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/payment/webhook")
+                .queryParam("sigHeader", "sample-webhook-sigHeader")
+                .build().toUri();
 
+        final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), ErrorCode.class);
+
+        assertTrue(result.getStatusCode().is4xxClientError());
     }
 
     private Payment mockPayment()

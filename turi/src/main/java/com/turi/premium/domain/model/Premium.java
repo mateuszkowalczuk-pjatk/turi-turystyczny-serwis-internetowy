@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public final class Premium
 {
     private Long premiumId;
-    private Long accountid;
+    private Long accountId;
     private String companyName;
     private String nip;
     private String bankAccountNumber;
@@ -30,7 +30,7 @@ public final class Premium
     {
         return Premium.builder()
                 .withPremiumId(entity.getPremiumId())
-                .withAccountid(entity.getAccountid())
+                .withAccountId(entity.getAccountid())
                 .withCompanyName(entity.getCompanyName())
                 .withNip(entity.getNip())
                 .withBankAccountNumber(entity.getBankAccountNumber())

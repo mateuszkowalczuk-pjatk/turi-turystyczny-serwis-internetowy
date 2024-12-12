@@ -1,21 +1,29 @@
 package com.turi.premium.infrastructure.adapter.interfaces;
 
+import com.turi.account.domain.model.AccountType;
+import com.turi.authentication.domain.port.JwtService;
 import com.turi.infrastructure.properties.PremiumProperties;
-import com.turi.premium.domain.model.Premium;
-import com.turi.premium.domain.model.PremiumStatus;
+import com.turi.infrastructure.rest.ErrorCode;
+import com.turi.premium.domain.model.*;
 import com.turi.testhelper.annotation.RestControllerTest;
 import com.turi.testhelper.rest.AbstractRestControllerIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.web.util.UriComponentsBuilder.fromHttpUrl;
 
 @RestControllerTest
 class PremiumRestControllerTest extends AbstractRestControllerIntegrationTest
 {
     @Autowired(required = false)
-    private PremiumFacade facade;
+    private JwtService jwtService;
 
     @Autowired(required = false)
     private PremiumProperties premiumProperties;
@@ -23,46 +31,108 @@ class PremiumRestControllerTest extends AbstractRestControllerIntegrationTest
     @Test
     void testPremium_GetPremiumOffer()
     {
-//        final var offer = service.getOffer();
-//
-//        assertNotNull(offer);
-//        assertThat(offer.getPrice()).isEqualTo(premiumProperties.getPrice());
-//        assertThat(offer.getLength()).isEqualTo(premiumProperties.getLength());
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/premium/getOffer")
+                .build().toUri();
+
+        headers.set("Authorization", "Bearer " + jwtService.generateToken(mockPremium().getAccountId(), AccountType.NORMAL.getName()));
+
+        final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), PremiumOffer.class);
+
+        assertTrue(result.getStatusCode().is2xxSuccessful());
+        assertNotNull(result.getBody());
+        assertThat(result.getBody().getPrice()).isEqualTo(premiumProperties.getPrice());
+        assertThat(result.getBody().getLength()).isEqualTo(premiumProperties.getLength());
     }
 
     @Test
     void testPremium_GetPremiumByAccount()
     {
-//        final var premium = mockPremium();
-//
-//        final var result = service.getByAccount(premium.getAccountid());
-//
-//        assertNotNull(result);
-//        assertThat(result).isEqualTo(premium);
+        final var premium = mockPremium();
+
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/premium/getByAccount")
+                .build().toUri();
+
+        headers.set("Authorization", "Bearer " + jwtService.generateToken(premium.getAccountId(), AccountType.NORMAL.getName()));
+
+        final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), Premium.class);
+
+        assertTrue(result.getStatusCode().is2xxSuccessful());
+        assertNotNull(result.getBody());
+        assertThat(result.getBody()).isEqualTo(premium);
     }
 
     @Test
     void testPremium_GetPremiumByAccount_NotFound()
     {
-//        assertNull(service.getByAccount(mockNewPremium().getAccountid()));
+        final var premium = mockNewPremium();
+
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/premium/getByAccount")
+                .build().toUri();
+
+        headers.set("Authorization", "Bearer " + jwtService.generateToken(premium.getAccountId(), AccountType.NORMAL.getName()));
+
+        final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), ErrorCode.class);
+
+        assertTrue(result.getStatusCode().is4xxClientError());
+    }
+
+    @Test
+    void testPremium_GetPremiumByAccount_ContextAccountIdIsNull()
+    {
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/premium/getByAccount")
+                .build().toUri();
+
+        final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), ErrorCode.class);
+
+        assertTrue(result.getStatusCode().is4xxClientError());
     }
 
     @Test
     void testPremium_IsPremiumExistsForAccount_Exists()
     {
-//        final var result = service.isExistsForAccount(mockPremium().getAccountid());
-//
-//        assertNotNull(result);
-//        assertTrue(result);
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/premium/isExistsForAccount")
+                .build().toUri();
+
+        headers.set("Authorization", "Bearer " + jwtService.generateToken(mockPremium().getAccountId(), AccountType.NORMAL.getName()));
+
+        final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), Boolean.class);
+
+        assertTrue(result.getStatusCode().is2xxSuccessful());
+        assertNotNull(result.getBody());
+        assertTrue(result.getBody());
     }
 
     @Test
     void testPremium_IsPremiumExistsForAccount_NotExists()
     {
-//        final var result = service.isExistsForAccount(mockNewPremium().getAccountid());
-//
-//        assertNotNull(result);
-//        assertFalse(result);
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/premium/isExistsForAccount")
+                .build().toUri();
+
+        headers.set("Authorization", "Bearer " + jwtService.generateToken(mockNewPremium().getAccountId(), AccountType.NORMAL.getName()));
+
+        final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), Boolean.class);
+
+        assertTrue(result.getStatusCode().is2xxSuccessful());
+        assertNotNull(result.getBody());
+        assertFalse(result.getBody());
+    }
+
+    @Test
+    void testPremium_IsPremiumExistsForAccount_ContextAccountIdIsNull()
+    {
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/premium/isExistsForAccount")
+                .build().toUri();
+
+        final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), ErrorCode.class);
+
+        assertTrue(result.getStatusCode().is4xxClientError());
     }
 
     @Test
@@ -84,6 +154,18 @@ class PremiumRestControllerTest extends AbstractRestControllerIntegrationTest
     }
 
     @Test
+    void testPremium_CheckPaymentForPayment_ContextAccountIdIsNull()
+    {
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/premium/checkPayment")
+                .build().toUri();
+
+        final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), ErrorCode.class);
+
+        assertTrue(result.getStatusCode().is4xxClientError());
+    }
+
+    @Test
     void testPremium_VerifyPremium()
     {
 
@@ -98,79 +180,170 @@ class PremiumRestControllerTest extends AbstractRestControllerIntegrationTest
     @Test
     void testPremium_VerifyPremium_WithoutRequiredFirstNameField()
     {
+        final var params = PremiumVerifyParam.builder()
+                .withLastName("Kowalski")
+                .withCompanyName("Janex")
+                .withNip("12345678901")
+                .withBankAccountNumber("42424242424242424242424242")
+                .build();
 
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/premium/verify")
+                .build().toUri();
+
+        final var result = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(params, headers), ErrorCode.class);
+
+        headers.set("Authorization", "Bearer " + jwtService.generateToken(mockPremium().getAccountId(), AccountType.NORMAL.getName()));
+
+        assertTrue(result.getStatusCode().is4xxClientError());
     }
 
     @Test
     void testPremium_VerifyPremium_WithoutRequiredLastNameField()
     {
+        final var params = PremiumVerifyParam.builder()
+                .withFirstName("Jan")
+                .withCompanyName("Janex")
+                .withNip("12345678901")
+                .withBankAccountNumber("42424242424242424242424242")
+                .build();
 
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/premium/verify")
+                .build().toUri();
+
+        final var result = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(params, headers), ErrorCode.class);
+
+        headers.set("Authorization", "Bearer " + jwtService.generateToken(mockPremium().getAccountId(), AccountType.NORMAL.getName()));
+
+        assertTrue(result.getStatusCode().is4xxClientError());
     }
 
     @Test
     void testPremium_VerifyPremium_WithoutRequiredCompanyNameField()
     {
+        final var params = PremiumVerifyParam.builder()
+                .withFirstName("Jan")
+                .withLastName("Kowalski")
+                .withNip("12345678901")
+                .withBankAccountNumber("42424242424242424242424242")
+                .build();
 
-    }
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/premium/verify")
+                .build().toUri();
 
-    @Test
-    void testPremium_VerifyPremium_WithoutRequiredAddressField()
-    {
+        final var result = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(params, headers), ErrorCode.class);
 
-    }
+        headers.set("Authorization", "Bearer " + jwtService.generateToken(mockPremium().getAccountId(), AccountType.NORMAL.getName()));
 
-    @Test
-    void testPremium_VerifyPremium_WithoutRequiredAddressCountryField()
-    {
-
-    }
-
-    @Test
-    void testPremium_VerifyPremium_WithoutRequiredAddressCityField()
-    {
-
-    }
-
-    @Test
-    void testPremium_VerifyPremium_WithoutRequiredAddressZipCodeField()
-    {
-
-    }
-
-    @Test
-    void testPremium_VerifyPremium_WithoutRequiredAddressStreetField()
-    {
-
-    }
-
-    @Test
-    void testPremium_VerifyPremium_WithoutRequiredAddressBuildingNumberField()
-    {
-
+        assertTrue(result.getStatusCode().is4xxClientError());
     }
 
     @Test
     void testPremium_VerifyPremium_WithoutRequiredNipField()
     {
+        final var params = PremiumVerifyParam.builder()
+                .withFirstName("Jan")
+                .withLastName("Kowalski")
+                .withCompanyName("Janex")
+                .withBankAccountNumber("42424242424242424242424242")
+                .build();
 
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/premium/verify")
+                .build().toUri();
+
+        final var result = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(params, headers), ErrorCode.class);
+
+        headers.set("Authorization", "Bearer " + jwtService.generateToken(mockPremium().getAccountId(), AccountType.NORMAL.getName()));
+
+        assertTrue(result.getStatusCode().is4xxClientError());
     }
 
     @Test
     void testPremium_VerifyPremium_WithoutRequireBankAccountNumberField()
     {
+        final var params = PremiumVerifyParam.builder()
+                .withFirstName("Jan")
+                .withLastName("Kowalski")
+                .withCompanyName("Janex")
+                .withNip("12345678901")
+                .build();
 
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/premium/verify")
+                .build().toUri();
+
+        final var result = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(params, headers), ErrorCode.class);
+
+        headers.set("Authorization", "Bearer " + jwtService.generateToken(mockPremium().getAccountId(), AccountType.NORMAL.getName()));
+
+        assertTrue(result.getStatusCode().is4xxClientError());
     }
 
     @Test
     void testPremium_VerifyPremium_InvalidNipField()
     {
+        final var params = PremiumVerifyParam.builder()
+                .withFirstName("Jan")
+                .withLastName("Kowalski")
+                .withCompanyName("Janex")
+                .withNip("123456789")
+                .withBankAccountNumber("42424242424242424242424242")
+                .build();
 
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/premium/verify")
+                .build().toUri();
+
+        final var result = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(params, headers), ErrorCode.class);
+
+        headers.set("Authorization", "Bearer " + jwtService.generateToken(mockPremium().getAccountId(), AccountType.NORMAL.getName()));
+
+        assertTrue(result.getStatusCode().is4xxClientError());
     }
 
     @Test
     void testPremium_VerifyPremium_InvalidBankAccountNumberField()
     {
+        final var params = PremiumVerifyParam.builder()
+                .withFirstName("Jan")
+                .withLastName("Kowalski")
+                .withCompanyName("Janex")
+                .withNip("12345678901")
+                .withBankAccountNumber("424242424242424242424242")
+                .build();
 
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/premium/verify")
+                .build().toUri();
+
+        final var result = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(params, headers), ErrorCode.class);
+
+        headers.set("Authorization", "Bearer " + jwtService.generateToken(mockPremium().getAccountId(), AccountType.NORMAL.getName()));
+
+        assertTrue(result.getStatusCode().is4xxClientError());
+    }
+
+    @Test
+    void testPremium_VerifyPremium_ContextAccountIdIsNull()
+    {
+        final var params = PremiumVerifyParam.builder()
+                .withFirstName("Jan")
+                .withLastName("Kowalski")
+                .withCompanyName("Janex")
+                .withNip("12345678901")
+                .withBankAccountNumber("42424242424242424242424242")
+                .build();
+
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/premium/verify")
+                .build().toUri();
+
+        final var result = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(params, headers), ErrorCode.class);
+
+        assertTrue(result.getStatusCode().is4xxClientError());
     }
 
     @Test
@@ -188,7 +361,28 @@ class PremiumRestControllerTest extends AbstractRestControllerIntegrationTest
     @Test
     void testPremium_PayForPremium_WithoutRequiredMethodField()
     {
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/premium/pay")
+                .build().toUri();
 
+        headers.set("Authorization", "Bearer " + jwtService.generateToken(mockPremium().getAccountId(), AccountType.NORMAL.getName()));
+
+        final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), ErrorCode.class);
+
+        assertTrue(result.getStatusCode().is4xxClientError());
+    }
+
+    @Test
+    void testPremium_PayForPremium_ContextAccountIdIsNull()
+    {
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/premium/pay")
+                .queryParam("method", "CARD")
+                .build().toUri();
+
+        final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), ErrorCode.class);
+
+        assertTrue(result.getStatusCode().is4xxClientError());
     }
 
     @Test
@@ -206,7 +400,28 @@ class PremiumRestControllerTest extends AbstractRestControllerIntegrationTest
     @Test
     void testPremium_RenewPremium_WithoutRequiredMethodField()
     {
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/premium/renew")
+                .build().toUri();
 
+        headers.set("Authorization", "Bearer " + jwtService.generateToken(mockPremium().getAccountId(), AccountType.PREMIUM.getName()));
+
+        final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), ErrorCode.class);
+
+        assertTrue(result.getStatusCode().is4xxClientError());
+    }
+
+    @Test
+    void testPremium_RenewPremium_ContextAccountIdIsNull()
+    {
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/premium/renew")
+                .queryParam("method", "CARD")
+                .build().toUri();
+
+        final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), ErrorCode.class);
+
+        assertTrue(result.getStatusCode().is4xxClientError());
     }
 
     @Test
@@ -219,6 +434,18 @@ class PremiumRestControllerTest extends AbstractRestControllerIntegrationTest
     void testPremium_CancelPremium_Inactive()
     {
 
+    }
+
+    @Test
+    void testPremium_CancelPremium_ContextAccountIdIsNull()
+    {
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/premium/cancel")
+                .build().toUri();
+
+        final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), ErrorCode.class);
+
+        assertTrue(result.getStatusCode().is4xxClientError());
     }
 
     @Test
@@ -236,62 +463,83 @@ class PremiumRestControllerTest extends AbstractRestControllerIntegrationTest
     @Test
     void testPremium_UpdatePremiumCompanyDetails_WithoutRequiredCompanyNameField()
     {
+        final var params = PremiumCompanyParam.builder()
+                .withNip("12345678901")
+                .withBankAccountNumber("42424242424242424242424242")
+                .build();
 
-    }
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/premium/updateCompanyDetails")
+                .build().toUri();
 
-    @Test
-    void testPremium_UpdatePremiumCompanyDetails_WithoutRequiredAddressField()
-    {
+        headers.set("Authorization", "Bearer " + jwtService.generateToken(mockPremium().getAccountId(), AccountType.NORMAL.getName()));
 
-    }
+        final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(params, headers), ErrorCode.class);
 
-    @Test
-    void testPremium_UpdatePremiumCompanyDetails_WithoutRequiredAddressCountryField()
-    {
-
-    }
-
-    @Test
-    void testPremium_UpdatePremiumCompanyDetails_WithoutRequiredAddressCityField()
-    {
-
-    }
-
-    @Test
-    void testPremium_UpdatePremiumCompanyDetails_WithoutRequiredAddressZipCodeField()
-    {
-
-    }
-
-    @Test
-    void testPremium_UpdatePremiumCompanyDetails_WithoutRequiredAddressStreetField()
-    {
-
-    }
-
-    @Test
-    void testPremium_UpdatePremiumCompanyDetails_WithoutRequiredAddressBuildingNumberField()
-    {
-
+        assertTrue(result.getStatusCode().is4xxClientError());
     }
 
     @Test
     void testPremium_UpdatePremiumCompanyDetails_WithoutRequiredNipField()
     {
+        final var params = PremiumCompanyParam.builder()
+                .withCompanyName("JanBud")
+                .withBankAccountNumber("42424242424242424242424242")
+                .build();
 
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/premium/updateCompanyDetails")
+                .build().toUri();
+
+        headers.set("Authorization", "Bearer " + jwtService.generateToken(mockPremium().getAccountId(), AccountType.NORMAL.getName()));
+
+        final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(params, headers), ErrorCode.class);
+
+        assertTrue(result.getStatusCode().is4xxClientError());
     }
 
     @Test
     void testPremium_UpdatePremiumCompanyDetails_WithoutRequireBankAccountNumberField()
     {
+        final var params = PremiumCompanyParam.builder()
+                .withCompanyName("JanBud")
+                .withNip("12345678901")
+                .build();
 
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/premium/updateCompanyDetails")
+                .build().toUri();
+
+        headers.set("Authorization", "Bearer " + jwtService.generateToken(mockPremium().getAccountId(), AccountType.NORMAL.getName()));
+
+        final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(params, headers), ErrorCode.class);
+
+        assertTrue(result.getStatusCode().is4xxClientError());
+    }
+
+    @Test
+    void testPremium_UpdatePremiumCompanyDetails_ContextAccountIdIsNull()
+    {
+        final var params = PremiumCompanyParam.builder()
+                .withCompanyName("JanBud")
+                .withNip("12345678901")
+                .withBankAccountNumber("42424242424242424242424242")
+                .build();
+
+        final var uri = fromHttpUrl(getBaseUrl())
+                .path("/api/premium/updateCompanyDetails")
+                .build().toUri();
+
+        final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(params, headers), ErrorCode.class);
+
+        assertTrue(result.getStatusCode().is4xxClientError());
     }
 
     private Premium mockPremium()
     {
         return Premium.builder()
                 .withPremiumId(1L)
-                .withAccountid(2L)
+                .withAccountId(2L)
                 .withCompanyName("Jarex")
                 .withNip("1423456812")
                 .withBankAccountNumber("120023321456120023321456")
@@ -308,7 +556,7 @@ class PremiumRestControllerTest extends AbstractRestControllerIntegrationTest
     {
         return Premium.builder()
                 .withPremiumId(2L)
-                .withAccountid(3L)
+                .withAccountId(3L)
                 .withCompanyName("Marex")
                 .withNip("1423456833")
                 .withBankAccountNumber("120023321456120023321123")

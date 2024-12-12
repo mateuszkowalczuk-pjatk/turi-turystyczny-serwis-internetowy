@@ -67,7 +67,7 @@ public final class PremiumEntity implements Serializable
         }
 
         return PremiumEntity.builder()
-                .withAccountid(premium.getAccountid())
+                .withAccountid(premium.getAccountId())
                 .withCompanyName(premium.getCompanyName())
                 .withNip(premium.getNip())
                 .withBankAccountNumber(premium.getBankAccountNumber())
@@ -82,7 +82,7 @@ public final class PremiumEntity implements Serializable
 
     private static boolean validation(final Premium premium)
     {
-        return premium.getAccountid() != null
+        return premium.getAccountId() != null
                 && premium.getCompanyName() != null
                 && premium.getNip() != null
                 && premium.getBankAccountNumber() != null

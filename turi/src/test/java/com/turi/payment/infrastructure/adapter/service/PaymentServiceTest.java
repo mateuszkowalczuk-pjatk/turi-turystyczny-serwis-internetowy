@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 @ServiceTest
 class PaymentServiceTest
 {
@@ -18,19 +20,25 @@ class PaymentServiceTest
     private PaymentService service;
 
     @Test
-    void testPayment_IsPaymentForPremiumSucceeded()
-    {
-
-    }
-
-    @Test
-    void testPayment_IsPaymentForPremiumSucceeded_NotFound()
-    {
-
-    }
-
-    @Test
     void testPayment_IsPaymentForPremiumSucceeded_PaymentSucceeded()
+    {
+        final var result = service.isPaymentForPremiumSucceeded(mockPayment().getPremiumId());
+
+        assertNotNull(result);
+        assertTrue(result);
+    }
+
+    @Test
+    void testPayment_IsPaymentForPremiumSucceeded_PaymentNotFound()
+    {
+        final var result = service.isPaymentForPremiumSucceeded(mockNewPayment().getPremiumId());
+
+        assertNotNull(result);
+        assertFalse(result);
+    }
+
+    @Test
+    void testPayment_IsPaymentForPremiumSucceeded_StripePaymentNotFound()
     {
 
     }

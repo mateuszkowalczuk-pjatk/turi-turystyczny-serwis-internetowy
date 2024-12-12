@@ -19,6 +19,11 @@ public class PaymentFacade
 
     public Boolean isPaymentForPremiumSucceeded(final Long premiumId)
     {
+        if (premiumId == null)
+        {
+            throw new BadRequestParameterException("Parameter premiumId is required.");
+        }
+
         return service.isPaymentForPremiumSucceeded(premiumId);
     }
 
