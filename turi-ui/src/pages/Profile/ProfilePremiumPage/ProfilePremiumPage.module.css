@@ -1,0 +1,12 @@
+.page {
+}
+
+@media (max-width: 768px) {
+    .page {
+    }
+}
+
+@media (max-width: 480px) {
+    .page {
+    }
+}

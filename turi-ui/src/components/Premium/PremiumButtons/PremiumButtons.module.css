@@ -1,0 +1,45 @@
+.buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-end;
+    width: 90%;
+    height: 5rem;
+}
+
+.buttons button {
+    width: 7.5rem;
+    height: 2.5rem;
+}
+
+@media (max-width: 768px) {
+    .buttons button {
+        width: 6.5rem;
+        height: 2rem;
+    }
+
+    .buttons {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
+        width: 90%;
+        height: 5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .buttons button {
+        width: 5.5rem;
+        height: 1.5rem;
+    }
+
+    .buttons {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: flex-end;
+        width: 90%;
+        height: 5rem;
+    }
+}

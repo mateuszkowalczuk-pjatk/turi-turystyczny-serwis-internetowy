@@ -3,6 +3,7 @@ import ProfileLayout from '../layouts/Profile'
 import ProfilePage from '../pages/Profile/ProfilePage'
 import ProfilePersonalPage from '../pages/Profile/ProfilePersonalPage'
 import ProfilePreferencePage from '../pages/Profile/ProfilePreferencePage'
+import ProfilePremiumPage from '../pages/Profile/ProfilePremiumPage'
 import NotFoundPage from '../pages/NotFound'
 
 const ProfileRoutes = () => {
@@ -23,6 +24,10 @@ const ProfileRoutes = () => {
                 <Route
                     path="/preference"
                     element={<ProfilePreferencePage />}
+                />
+                <Route
+                    path="/premium"
+                    element={<ProfilePremiumPage />}
                 />
             </Route>
             <Route

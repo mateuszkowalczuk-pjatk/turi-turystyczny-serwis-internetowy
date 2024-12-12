@@ -161,7 +161,6 @@
         "description": "We sent a reset code to your email. Enter it below.",
         "code": "Code",
         "button": "Next",
-        "top": "Send reset code again",
         "down": "Back to login form",
         "error-reset-code-expired": "Reset code expired!",
         "error-not-found-by-token": "Invalid reset code!",
@@ -175,6 +174,16 @@
         "top": "Move to home page",
         "down": "Return to login form",
         "error-default": "Password reset failed!"
+    },
+    "login-premium": {
+        "title": "Log in to Turi",
+        "description": "We sent a login code to your email. Enter it below.",
+        "code": "Code",
+        "button": "Log in",
+        "down": "Back to login form",
+        "error-login-code-expired": "Login code expired",
+        "error-not-found-by-token": "Incorrect login code",
+        "error-default": "Failed to confirm login code"
     },
     "profile": {
         "title": "Profile personalization",
@@ -211,5 +220,30 @@
         "error-password": "Failed to change password",
         "error-default": "Failed to change account details",
         "error-default-personal": "Failed to display account details"
+    },
+    "premium": {
+        "title": "Purchase of a premium account",
+        "offer-description": "Choose the offer to purchase a premium account and use the option to share the offers of your touristic place!",
+        "offer-list-title": "In offer",
+        "offer-list-first-time": "Having one tourist place at one address",
+        "offer-list-second-time": "Sharing unlimited offers to stay and attractions of a tourist destination",
+        "offer-list-third-time": "Plan responsibilities to customers based on the offers they have booked",
+        "offer-list-fourth-time": "Account statistics over a selected period of time",
+        "offer-access-price-title": "Access and price",
+        "offer-access": "Once the premium package is purchased, it is available for {{months}} months. If you decide to re-purchase the package before the end of its validity, the next two years will be counted from the end of the previous package.",
+        "offer-price": "The premium package costs {{price}} PLN for the stated duration. After this time, the offered options will expire until the premium package is purchased again.",
+        "offer-button": "Next",
+        "verify-description": "Enter your personal and company information so that we can verify your business activity.",
+        "payment-description": "Choose the form of payment and pay for the purchase of the premium package!",
+        "summary-description": "Welcome premium user!",
+        "summary-first-text": "As part of the Turi homepage, a tab has appeared <1>Your offers</1>, where you can add a tourist place and offers to stay and attractions within it.",
+        "summary-second-text": "You can find an additional tab in your profile <1>Premium</1> containing information about your premium account.",
+        "summary-third-text": "When you click on your profile name, a new option <1>Statistics</1> will be display to you, under which you will find a page with statistics and other details about stays in your tourist destination."
+    },
+    "not-found": {
+        "404": "404",
+        "title": "Page not found!",
+        "description": "Unfortunately, we did not find the page you are looking for. You may have entered an incorrect URL or the page has been removed. Return to the Turi homepage and use the options provided!",
+        "button": "Turi"
     }
 }

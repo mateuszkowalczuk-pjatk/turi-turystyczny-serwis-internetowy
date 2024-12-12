@@ -4,6 +4,7 @@ import HomePage from '../pages/Home'
 import LoginRoutes from './LoginRoutes'
 import SignUpRoutes from './SignUpRoutes'
 import ProfileRoutes from './ProfileRoutes'
+import PremiumRoutes from './PremiumRoutes'
 import NotFoundPage from '../pages/NotFound'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
@@ -52,6 +53,10 @@ const AppRoutes = () => {
             <Route
                 path="profile/*"
                 element={<ProfileRoutes />}
+            />
+            <Route
+                path="premium/*"
+                element={<PremiumRoutes />}
             />
             <Route
                 path="*"

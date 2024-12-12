@@ -24,6 +24,16 @@ export const authService = {
         })
     },
 
+    loginPremium: async (code: string) => {
+        return await fetch(`${API_BASE_URL}${API.AUTH.LOGIN_PREMIUM}?code=${code}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        })
+    },
+
     authorize: async () => {
         return await fetch(`${API_BASE_URL}${API.AUTH.AUTHORIZE}`, {
             method: 'POST',

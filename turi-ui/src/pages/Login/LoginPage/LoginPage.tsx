@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import AuthPanel from '../../../components/Auth/AuthPanel'
 import AuthTitle from '../../../components/Auth/AuthTitle'
 import AuthInput from '../../../components/Auth/AuthInput'
 import AuthError from '../../../components/Auth/AuthError'
 import AuthButton from '../../../components/Auth/AuthButton'
 import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
-import styles from './LoginPage.module.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { authService } from '../../../services/authService.ts'
 import { login } from '../../../store/slices/auth.ts'
@@ -87,50 +87,58 @@ const LoginPage = () => {
     }
 
     return (
-        <form
-            className={styles.panel}
+        <AuthPanel
             onSubmit={handleLogin}
-        >
-            <AuthTitle text={t('login.title')} />
-            <AuthInput
-                type={'text'}
-                name={'login'}
-                placeholder={t('login.login')}
-                value={formData.login}
-                onChange={handleChange}
-                minLength={3}
-                maxLength={50}
-                required={true}
-                disabled={loading}
-            />
-            <AuthInput
-                type={'password'}
-                name={'password'}
-                placeholder={t('login.password')}
-                value={formData.password}
-                onChange={handleChange}
-                minLength={8}
-                maxLength={25}
-                required={true}
-                disabled={loading}
-            />
-            {error && <AuthError error={error} />}
-            <AuthButton
-                text={t('login.button')}
-                type={'submit'}
-                disabled={loading}
-            />
-            <AuthTopLink
-                text={t('login.google')}
-                onClick={loginByGoogleAccount}
-            />
-            <AuthDownLink
-                firstLink={t('login.reset')}
-                secondLink={t('login.signup')}
-                firstOnClick={navigateToCheck}
-                secondOnClick={navigateToSignUp}
-            />
-        </form>
+            header={<AuthTitle text={t('login.title')} />}
+            option={
+                <AuthInput
+                    type={'text'}
+                    name={'login'}
+                    placeholder={t('login.login')}
+                    value={formData.login}
+                    onChange={handleChange}
+                    minLength={3}
+                    maxLength={50}
+                    required={true}
+                    disabled={loading}
+                />
+            }
+            input={
+                <AuthInput
+                    type={'password'}
+                    name={'password'}
+                    placeholder={t('login.password')}
+                    value={formData.password}
+                    onChange={handleChange}
+                    minLength={8}
+                    maxLength={25}
+                    required={true}
+                    disabled={loading}
+                />
+            }
+            error={error && <AuthError error={error} />}
+            button={
+                <AuthButton
+                    text={t('login.button')}
+                    type={'submit'}
+                    disabled={loading}
+                />
+            }
+            top={
+                <AuthTopLink
+                    text={t('login.google')}
+                    onClick={loginByGoogleAccount}
+                />
+            }
+            down={
+                <AuthDownLink
+                    firstLink={t('login.reset')}
+                    secondLink={t('login.signup')}
+                    firstOnClick={navigateToCheck}
+                    secondOnClick={navigateToSignUp}
+                />
+            }
+        />
     )
 }
 

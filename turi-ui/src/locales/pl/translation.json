@@ -161,7 +161,6 @@
         "description": "Na twój email wysłaliśmy kod resetujący. Wprowadź go poniżej.",
         "code": "Kod",
         "button": "Dalej",
-        "top": "Wyślij kod resetujący jeszcze raz",
         "down": "Wróć do formularza logowania",
         "error-reset-code-expired": "Kod do resetu hasła wygasł",
         "error-not-found-by-token": "Niepoprawny kod do resetu hasła",
@@ -175,6 +174,16 @@
         "top": "Przejdź na stronę główną",
         "down": "Wróć do formularza logowania",
         "error-default": "Nie udało się zmienić hasła"
+    },
+    "login-premium": {
+        "title": "Zaloguj się do Turi",
+        "description": "Na twój email wysłaliśmy kod logowania. Wprowadź go poniżej.",
+        "code": "Kod",
+        "button": "Zaloguj się",
+        "down": "Wróć do formularza logowania",
+        "error-login-code-expired": "Kod logowania wygasł",
+        "error-not-found-by-token": "Niepoprawny kod logowania",
+        "error-default": "Nie udało się potwierdzić kodu"
     },
     "profile": {
         "title": "Personalizacja profilu",
@@ -211,6 +220,25 @@
         "error-password": "Nie udało się zmienić hasła",
         "error-default": "Nie udało się zmienić danych konta",
         "error-default-personal": "Błąd podczas wyświetlania danych personalnych"
+    },
+    "premium": {
+        "title": "Zakup konta premium",
+        "offer-description": "Wybierz ofertę zakupu konta premium i skorzystaj z opcji udostępniania ofert swojego miejsca turystycznego!",
+        "offer-list-title": "W ofercie",
+        "offer-list-first-time": "Posiadanie jednego miejsca turystycznego pod jednym adresem",
+        "offer-list-second-time": "Udostępnianie nieograniczonej liczby ofert pobytu oraz atrakcji miejsca turystycznego",
+        "offer-list-third-time": "Plan obowiązków względem klientów na podstawie zarezerwowanych przez nich ofert",
+        "offer-list-fourth-time": "Statystyki konta w wybranym okresie czasu",
+        "offer-access-price-title": "Dostęp i cena",
+        "offer-access": "Po wykupieniu pakietu premium jest on dostępny przez {{months}} miesięcy. Jeśli zdecydujesz się ponownie wykupić pakiet przed końcem jego ważności, kolejne dwa lata zostaną liczone od momentu końca poprzedniego pakietu.",
+        "offer-price": "Pakiet premium kosztuje {{price}} zł za podany czas trwania. Po tym czasie oferowe opcje wygasną do czasu ponownego wykupienia pakietu premium.",
+        "offer-button": "Dalej",
+        "verify-description": "Wprowadź swoje dane osobowe i firmowe abyśmy mogli zweryfikować twoją działalność gospodarczą.",
+        "payment-description": "Wybierz formę płatności i opłać zakup pakietu premium!",
+        "summary-description": "Witaj użytkowniku premium!",
+        "summary-first-text": "W ramach strony głównej Turi pojawiła się zakładka <1>Twoje oferty</1>, w której możesz dodać miejsce turystyczne oraz oferty pobytu i atrakcji w ramach niego. ",
+        "summary-second-text": "W profilu możesz znaleźć dodatkową zakładkę <1>Premium</1> zawierającą informację o twoim koncie premium.",
+        "summary-third-text": "Po kliknięciu na nazwę swojego profilu wyświeli Ci się nowa opcja <1>Statystyki</1>, pod którą znajdziesz stronę ze statystykami i innymi szczegółami odnoście pobytów w twoim miejscu turystycznym."
     },
     "not-found": {
         "404": "404",

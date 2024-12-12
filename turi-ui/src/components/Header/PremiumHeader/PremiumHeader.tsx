@@ -1,11 +1,11 @@
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import HeaderLayout from '../HeaderLayout'
 import HeaderLinks from '../HeaderLinks'
 import TextRegular from '../../Controls/Text/TextRegular'
 import HeaderButtons from '../HeaderButtons'
-import { useNavigate } from 'react-router-dom'
 
-const UserHeader = () => {
+const PremiumHeader = () => {
     const navigate = useNavigate()
     const { t } = useTranslation()
 
@@ -21,8 +21,8 @@ const UserHeader = () => {
         console.log('Favourites')
     }
 
-    const navigateToPremium = () => {
-        navigate('/premium')
+    const navigateToOffers = () => {
+        navigate('/offers')
     }
 
     return (
@@ -47,16 +47,22 @@ const UserHeader = () => {
                             onClick={navigateToFavourites}
                         />
                     }
+                    // fourthLink={
+                    //     <TextRegular
+                    //         text={t('header.offers')}
+                    //         onClick={navigateToOffers}
+                    //     />
+                    // }
                 />
             }
             buttons={
                 <HeaderButtons
                     text={t('header.premium')}
-                    firstOnClick={navigateToPremium}
+                    firstOnClick={navigateToOffers}
                 />
             }
         />
     )
 }
 
-export default UserHeader
+export default PremiumHeader
