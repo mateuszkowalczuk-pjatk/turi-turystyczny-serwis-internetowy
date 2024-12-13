@@ -4,7 +4,6 @@ import com.turi.payment.domain.exception.PaymentForPremiumFailedException;
 import com.turi.payment.domain.model.Payment;
 import com.turi.payment.domain.model.PaymentName;
 import com.turi.payment.domain.model.PaymentStatus;
-import com.turi.payment.domain.model.PaymentStripeResponse;
 import com.turi.payment.domain.port.PaymentRepository;
 import com.turi.payment.domain.port.PaymentService;
 import com.turi.payment.domain.port.StripeService;
@@ -54,7 +53,7 @@ public class PaymentServiceImpl implements PaymentService
     }
 
     @Override
-    public PaymentStripeResponse payForPremium(final Payment payment)
+    public String payForPremium(final Payment payment)
     {
         final var response = stripeService.checkout(payment, PaymentName.PREMIUM);
 
@@ -64,7 +63,7 @@ public class PaymentServiceImpl implements PaymentService
 
         repository.insert(payment);
 
-        return response;
+        return response.getUrl();
     }
 
     @Override

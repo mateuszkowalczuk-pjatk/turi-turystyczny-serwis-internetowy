@@ -9,7 +9,6 @@ import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.infrastructure.properties.PremiumProperties;
 import com.turi.infrastructure.properties.SecurityProperties;
 import com.turi.payment.domain.model.PaymentMethod;
-import com.turi.payment.domain.model.PaymentStripeResponse;
 import com.turi.payment.infrastructure.adapter.interfaces.PaymentFacade;
 import com.turi.premium.domain.exception.*;
 import com.turi.premium.domain.model.*;
@@ -199,7 +198,7 @@ public class PremiumServiceImpl implements PremiumService
     }
 
     @Override
-    public PaymentStripeResponse pay(final Long accountId, final PaymentMethod method)
+    public String pay(final Long accountId, final PaymentMethod method)
     {
         final var premium = getByAccount(accountId);
 
@@ -212,7 +211,7 @@ public class PremiumServiceImpl implements PremiumService
     }
 
     @Override
-    public PaymentStripeResponse renew(final Long accountId, final PaymentMethod method)
+    public String renew(final Long accountId, final PaymentMethod method)
     {
         final var premium = getByAccount(accountId);
 

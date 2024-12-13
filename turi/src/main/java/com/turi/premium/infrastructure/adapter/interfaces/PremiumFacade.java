@@ -3,7 +3,6 @@ package com.turi.premium.infrastructure.adapter.interfaces;
 import com.turi.infrastructure.common.ContextHandler;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.payment.domain.model.PaymentMethod;
-import com.turi.payment.domain.model.PaymentStripeResponse;
 import com.turi.premium.domain.model.*;
 import com.turi.premium.domain.port.PremiumService;
 import lombok.AllArgsConstructor;
@@ -78,7 +77,7 @@ public class PremiumFacade
         return service.login(loginToken, code);
     }
 
-    public ResponseEntity<PaymentStripeResponse> payForPremium(final PaymentMethod method)
+    public ResponseEntity<String> payForPremium(final PaymentMethod method)
     {
         if (method == null)
         {
@@ -90,7 +89,7 @@ public class PremiumFacade
         return PremiumResponse.of(service.pay(accountId, method));
     }
 
-    public ResponseEntity<PaymentStripeResponse> renewPremium(final PaymentMethod method)
+    public ResponseEntity<String> renewPremium(final PaymentMethod method)
     {
         if (method == null)
         {

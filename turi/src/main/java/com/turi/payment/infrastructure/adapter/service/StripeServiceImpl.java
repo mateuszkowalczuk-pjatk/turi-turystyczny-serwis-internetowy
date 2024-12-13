@@ -34,7 +34,7 @@ public class StripeServiceImpl implements StripeService
     }
 
     @Override
-    public PaymentStripeResponse checkout(final Payment payment, final PaymentName paymentName)
+    public StripePaymentResponse checkout(final Payment payment, final PaymentName paymentName)
     {
         Stripe.apiKey = properties.getSecretKey();
 
@@ -65,7 +65,7 @@ public class StripeServiceImpl implements StripeService
         {
             final var session = Session.create(params);
 
-            return PaymentStripeResponse.builder()
+            return StripePaymentResponse.builder()
                     .withStripeId(session.getId())
                     .withUrl(session.getUrl())
                     .withStatus(PaymentStatus.PENDING)
@@ -78,7 +78,7 @@ public class StripeServiceImpl implements StripeService
     }
 
     @Override
-    public PaymentStripeResponse webhook(final String payload, final String sigHeader)
+    public StripePaymentResponse webhook(final String payload, final String sigHeader)
     {
         try
         {
@@ -98,7 +98,7 @@ public class StripeServiceImpl implements StripeService
 
                     yield null;
                 }
-                case "checkout.session.completed" -> PaymentStripeResponse.builder()
+                case "checkout.session.completed" -> StripePaymentResponse.builder()
                         .withStripeId(getFromPayload(payload, "id"))
                         .withStripePaymentIntent(getFromPayload(payload, "payment_intent"))
                         .build();

@@ -3,7 +3,6 @@ package com.turi.payment.infrastructure.adapter.interfaces;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.payment.domain.model.Payment;
 import com.turi.payment.domain.model.PaymentMethod;
-import com.turi.payment.domain.model.PaymentStripeResponse;
 import com.turi.payment.domain.port.PaymentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +26,7 @@ public class PaymentFacade
         return service.isPaymentForPremiumSucceeded(premiumId);
     }
 
-    public PaymentStripeResponse payForPremium(final Long premiumId, final Double price, final PaymentMethod method)
+    public String payForPremium(final Long premiumId, final Double price, final PaymentMethod method)
     {
         if (premiumId == null || price == null || method == null)
         {

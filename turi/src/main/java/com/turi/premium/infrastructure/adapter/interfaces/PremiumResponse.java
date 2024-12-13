@@ -1,7 +1,6 @@
 package com.turi.premium.infrastructure.adapter.interfaces;
 
 import com.turi.infrastructure.exception.BadRequestResponseException;
-import com.turi.payment.domain.model.PaymentStripeResponse;
 import com.turi.premium.domain.model.Premium;
 import com.turi.premium.domain.model.PremiumOffer;
 import lombok.AccessLevel;
@@ -49,15 +48,5 @@ public final class PremiumResponse
         }
 
         return ResponseEntity.ok(premium);
-    }
-
-    public static ResponseEntity<PaymentStripeResponse> of(final PaymentStripeResponse response)
-    {
-        if (response == null)
-        {
-            throw new BadRequestResponseException("Premium payment response must not be null.");
-        }
-
-        return ResponseEntity.ok(response);
     }
 }

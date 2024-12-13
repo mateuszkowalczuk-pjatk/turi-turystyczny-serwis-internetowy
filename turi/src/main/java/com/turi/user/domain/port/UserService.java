@@ -30,11 +30,11 @@ public interface UserService
 
     User create(final User user);
 
-    User changeUsername(final Long id, final String username);
+    void changeUsername(final Long id, final String username);
 
-    User changeEmail(final Long id, final String email);
+    void changeEmail(final Long id, final String email);
 
-    User changePassword(final Long id, final String password);
+    void changePassword(final Long id, final String password);
 
     void deleteAllExpiredPasswordResetDetails();
 }

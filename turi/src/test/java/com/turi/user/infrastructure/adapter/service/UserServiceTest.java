@@ -377,7 +377,9 @@ class UserServiceTest
 
         user.setUsername(mockNewUser().getUsername());
 
-        final var result = service.changeUsername(user.getUserId(), user.getUsername());
+        service.changeUsername(user.getUserId(), user.getUsername());
+
+        final var result = service.getById(user.getUserId());
 
         assertNotNull(result);
         assertThat(result).isEqualTo(user);
@@ -410,7 +412,9 @@ class UserServiceTest
 
         user.setEmail(mockNewUser().getEmail());
 
-        final var result = service.changeEmail(user.getUserId(), user.getEmail());
+        service.changeEmail(user.getUserId(), user.getEmail());
+
+        final var result = service.getById(user.getUserId());
 
         assertNotNull(result);
         assertThat(result).isEqualTo(user);
@@ -441,7 +445,9 @@ class UserServiceTest
 
         user.setPassword(mockNewUser().getPassword());
 
-        final var result = service.changePassword(user.getUserId(), user.getPassword());
+        service.changePassword(user.getUserId(), user.getPassword());
+
+        final var result = service.getById(user.getUserId());
 
         assertNotNull(result);
         assertThat(result.getUserId()).isEqualTo(user.getUserId());

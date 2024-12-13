@@ -190,49 +190,42 @@ public class UserServiceImpl implements UserService, UserDetailsService
     }
 
     @Override
-    public User changeUsername(final Long id, final String username)
+    public void changeUsername(final Long id, final String username)
     {
-        if (isUsernameExists(username))
+        final var user = getById(id);
+
+        if (isUsernameExists(username) && !username.equals(user.getUsername()))
         {
             throw new UserUniqueUsernameException(username);
         }
 
-        final var user = getById(id);
-
         user.setUsername(username);
 
         repository.update(id, user);
-
-        return getById(id);
     }
 
     @Override
-    public User changeEmail(final Long id, final String email)
+    public void changeEmail(final Long id, final String email)
     {
-        if (isEmailExists(email))
+        final var user = getById(id);
+
+        if (isEmailExists(email) && !email.equals(user.getEmail()))
         {
             throw new UserUniqueEmailException(email);
         }
 
-        final var user = getById(id);
-
         user.setEmail(email);
 
         repository.update(id, user);
-
-        return getById(id);
     }
 
     @Override
-    public User changePassword(final Long id, final String password)
+    public void changePassword(final Long id, final String password)
     {
         final var user = getById(id);
-
         user.setPassword(passwordEncoder.encode(password));
 
         repository.update(id, user);
-
-        return getById(id);
     }
 
     @Override
