@@ -4,9 +4,9 @@ import activateReducer from './slices/activate.ts'
 import personalReducer from './slices/personal.ts'
 import resetReducer from './slices/reset.ts'
 import premiumReducer from './slices/premium.ts'
-import premiumBuyReducer from './slices/premium-buy.ts'
-import premiumLoginReducer from './slices/premium-login.ts'
-import premiumPaymentFailedReducer from './slices/premium-payment-failed.ts'
+import premiumBuyReducer from './slices/premiumBuy.ts'
+import premiumLoginReducer from './slices/premiumLogin.ts'
+import premiumPaymentFailedReducer from './slices/premiumPaymentFailed.ts'
 
 const store = configureStore({
     reducer: {

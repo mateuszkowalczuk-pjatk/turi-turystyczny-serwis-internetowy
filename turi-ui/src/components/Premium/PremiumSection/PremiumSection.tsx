@@ -1,5 +1,5 @@
-import styles from './PremiumSection.module.css'
 import { ReactNode } from 'react'
+import styles from './PremiumSection.module.css'
 
 interface Props {
     leftPanel?: ReactNode

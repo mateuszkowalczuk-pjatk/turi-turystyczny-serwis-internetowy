@@ -1,29 +1,37 @@
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import PremiumDescription from '../../../components/Premium/PremiumDescription'
 import PremiumSection from '../../../components/Premium/PremiumSection'
-import { useTranslation } from 'react-i18next'
 import PremiumButtons from '../../../components/Premium/PremiumButtons'
-import { GreenButton } from '../../../components/Controls/Button'
 import PremiumOffer from '../../../components/Premium/PremiumOffer'
-import { useEffect, useState } from 'react'
+import { GreenButton } from '../../../components/Controls/Button'
 import { premiumService } from '../../../services/premiumService.ts'
-import { useNavigate } from 'react-router-dom'
+import { Offer } from '../../../types'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../store/store.ts'
 
 const PremiumPage = () => {
     const { t } = useTranslation()
     const navigate = useNavigate()
+    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
     const [offer, setOffer] = useState<Offer | null>(null)
 
     useEffect(() => {
-        const fetchOffer = async () => {
-            const data = await premiumService.getOffer()
-            setOffer(data)
+        if (!isAuthenticated) {
+            navigate('/')
         }
-        fetchOffer().then((error) => console.log(error))
-    }, [t])
 
-    const navigateToVerify = () => {
-        navigate('/premium/verify')
-    }
+        const fetchOffer = async () => {
+            const response = await premiumService.getOffer()
+            if (response.status === 200) {
+                const offer: Offer = await response.json()
+                setOffer(offer)
+            }
+        }
+
+        fetchOffer().catch((error) => error)
+    }, [])
 
     return (
         <>
@@ -39,7 +47,7 @@ const PremiumPage = () => {
                     <PremiumOffer
                         text={t('premium.offer-access-price-title')}
                         list={false}
-                        months={offer?.months}
+                        length={offer?.length}
                         price={offer?.price}
                     />
                 }
@@ -48,7 +56,7 @@ const PremiumPage = () => {
                 rightButton={
                     <GreenButton
                         text={t('premium.offer-button')}
-                        onClick={navigateToVerify}
+                        onClick={() => navigate('/premium/verify')}
                     />
                 }
             />

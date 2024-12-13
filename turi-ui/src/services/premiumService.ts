@@ -1,15 +1,16 @@
 import { API_BASE_URL } from '../config/api'
 import { API } from './constants.ts'
+import { PremiumCompanyParam, PremiumVerifyParam } from '../types'
 
 export const premiumService = {
-    getOffer: async (): Promise<Offer> => {
+    getOffer: async () => {
         return await fetch(`${API_BASE_URL}${API.PREMIUM.GET_OFFER}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             },
             credentials: 'include'
-        }).then((response) => response.json())
+        })
     },
 
     getByAccount: async () => {
@@ -38,6 +39,58 @@ export const premiumService = {
             headers: {
                 'Content-Type': 'application/json'
             },
+            credentials: 'include'
+        })
+    },
+
+    verify: async (params: PremiumVerifyParam) => {
+        return await fetch(`${API_BASE_URL}${API.PREMIUM.VERIFY}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(params),
+            credentials: 'include'
+        })
+    },
+
+    pay: async (method: string) => {
+        return await fetch(`${API_BASE_URL}${API.PREMIUM.PAY}?method=${method}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        })
+    },
+
+    renew: async (method: string) => {
+        return await fetch(`${API_BASE_URL}${API.PREMIUM.RENEW}?method=${method}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        })
+    },
+
+    cancel: async () => {
+        return await fetch(`${API_BASE_URL}${API.PREMIUM.CANCEL}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        })
+    },
+
+    updateCompanyDetails: async (params: PremiumCompanyParam) => {
+        return await fetch(`${API_BASE_URL}${API.PREMIUM.UPDATE_COMPANY_DETAILS}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(params),
             credentials: 'include'
         })
     }

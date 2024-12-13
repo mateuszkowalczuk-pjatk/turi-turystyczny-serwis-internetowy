@@ -1,20 +1,6 @@
 import { API_BASE_URL } from '../config/api'
 import { API } from './constants.ts'
-import { GENDER } from '../types/gender.ts'
-
-interface Account {
-    accountId?: number
-    userId?: number
-    addressId: number
-    accountType?: number
-    activationCode?: number
-    activationCodeExpiresAt?: Date
-    firstName: string
-    lastName: string
-    birthDate: Date
-    phoneNumber: string
-    gender: GENDER
-}
+import { Account } from '../types'
 
 export const accountService = {
     getById: async () => {

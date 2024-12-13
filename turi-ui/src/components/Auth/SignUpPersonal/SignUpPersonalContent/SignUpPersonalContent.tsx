@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { accountService } from '../../../../services/accountService.ts'
 import { addressService } from '../../../../services/addressService.ts'
-import { GENDER } from '../../../../types/gender.ts'
+import { Gender } from '../../../../types'
 
 interface FormData {
     firstName: string
@@ -21,7 +21,7 @@ interface FormData {
     birthDay: number | null
     birthMonth: number | null
     birthYear: number | null
-    gender: GENDER | null
+    gender: Gender | null
     phoneNumber: string
     address: {
         country: string
@@ -88,7 +88,7 @@ const SignUpPersonalContent = () => {
         })
     }
 
-    const handleGenderChange = (gender: GENDER) => {
+    const handleGenderChange = (gender: Gender) => {
         setFormData((prevData) => ({
             ...prevData,
             gender: gender

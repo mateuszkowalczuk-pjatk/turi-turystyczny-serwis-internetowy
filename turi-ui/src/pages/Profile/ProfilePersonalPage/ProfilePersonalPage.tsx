@@ -7,13 +7,13 @@ import PersonalGender from '../../../components/Personal/PersonalGender'
 import styles from './ProfilePersonalPage.module.css'
 import ProfileButton from '../../../components/Profile/ProfileButton'
 import React, { useEffect, useState } from 'react'
-import { GENDER } from '../../../types/gender.ts'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { accountService } from '../../../services/accountService.ts'
 import { addressService } from '../../../services/addressService.ts'
 import { notPersonalization } from '../../../store/slices/personal.ts'
 import { RootState } from '../../../store/store.ts'
+import { Gender } from '../../../types'
 
 interface FormData {
     firstName: string
@@ -21,7 +21,7 @@ interface FormData {
     birthDay: number | null
     birthMonth: number | null
     birthYear: number | null
-    gender: GENDER | null
+    gender: Gender | null
     phoneNumber: string
     address: {
         addressId: number
@@ -86,7 +86,7 @@ const ProfilePersonalPage = () => {
                             birthDay: day,
                             birthMonth: month,
                             birthYear: year,
-                            gender: gender === 'MALE' ? GENDER.MALE : GENDER.FEMALE,
+                            gender: gender === 'MALE' ? Gender.MALE : Gender.FEMALE,
                             phoneNumber,
                             address: {
                                 addressId: addressData.addressId,
@@ -144,7 +144,7 @@ const ProfilePersonalPage = () => {
         })
     }
 
-    const handleGenderChange = (gender: GENDER) => {
+    const handleGenderChange = (gender: Gender) => {
         setFormData((prevData) => ({
             ...prevData,
             gender: gender
