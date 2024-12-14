@@ -3,13 +3,21 @@ import authReducer from './slices/auth.ts'
 import activateReducer from './slices/activate.ts'
 import personalReducer from './slices/personal.ts'
 import resetReducer from './slices/reset.ts'
+import premiumReducer from './slices/premium.ts'
+import premiumBuyReducer from './slices/premiumBuy.ts'
+import premiumLoginReducer from './slices/premiumLogin.ts'
+import premiumPaymentFailedReducer from './slices/premiumPaymentFailed.ts'
 
 const store = configureStore({
     reducer: {
         auth: authReducer,
         activate: activateReducer,
         personal: personalReducer,
-        reset: resetReducer
+        reset: resetReducer,
+        premium: premiumReducer,
+        premiumBuy: premiumBuyReducer,
+        premiumLogin: premiumLoginReducer,
+        premiumPaymentFailed: premiumPaymentFailedReducer
     }
 })
 

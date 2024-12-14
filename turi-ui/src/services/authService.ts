@@ -1,8 +1,9 @@
 import { API_BASE_URL } from '../config/api'
 import { API } from './constants.ts'
+import { LoginParam, RegisterParam } from '../types'
 
 export const authService = {
-    register: async (params: { username: string; email: string; password: string }) => {
+    register: async (params: RegisterParam) => {
         return await fetch(`${API_BASE_URL}${API.AUTH.REGISTER}`, {
             method: 'POST',
             headers: {
@@ -13,13 +14,23 @@ export const authService = {
         })
     },
 
-    login: async (params: { login: string; password: string }) => {
+    login: async (params: LoginParam) => {
         return await fetch(`${API_BASE_URL}${API.AUTH.LOGIN}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(params),
+            credentials: 'include'
+        })
+    },
+
+    loginPremium: async (code: string) => {
+        return await fetch(`${API_BASE_URL}${API.AUTH.LOGIN_PREMIUM}?code=${code}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
             credentials: 'include'
         })
     },

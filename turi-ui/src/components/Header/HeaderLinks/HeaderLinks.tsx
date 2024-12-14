@@ -6,11 +6,12 @@ interface Props {
     secondLink: ReactNode
     thirdLink: ReactNode
     fourthLink?: ReactNode
+    isPremium?: boolean
 }
 
-const HeaderLinks = ({ firstLink, secondLink, thirdLink, fourthLink }: Props) => {
+const HeaderLinks = ({ firstLink, secondLink, thirdLink, fourthLink, isPremium }: Props) => {
     return (
-        <div className={styles.links}>
+        <div className={`${styles.links} ${isPremium ? styles.premium : ''}`}>
             {firstLink}
             {secondLink}
             {thirdLink}

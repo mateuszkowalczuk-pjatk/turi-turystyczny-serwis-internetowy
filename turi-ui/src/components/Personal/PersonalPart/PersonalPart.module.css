@@ -6,6 +6,10 @@
     height: 22.5rem;
 }
 
+.partPremium {
+    height: 25rem;
+}
+
 @media (max-width: 768px) {
     .part {
         height: 27rem;

@@ -1,0 +1,15 @@
+.verify {
+    width: 48%;
+    height: 18rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.bank {
+    font-size: 0.8rem;
+}
+
+.verify p {
+    color: var(--dark);
+}

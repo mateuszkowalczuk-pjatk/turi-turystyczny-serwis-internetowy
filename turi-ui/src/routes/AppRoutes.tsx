@@ -4,12 +4,15 @@ import HomePage from '../pages/Home'
 import LoginRoutes from './LoginRoutes'
 import SignUpRoutes from './SignUpRoutes'
 import ProfileRoutes from './ProfileRoutes'
+import PremiumRoutes from './PremiumRoutes'
 import NotFoundPage from '../pages/NotFound'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { authService } from '../services/authService.ts'
-import { login } from '../store/slices/auth.ts'
+import { login, logout } from '../store/slices/auth.ts'
 import { RootState } from '../store/store.ts'
+import { accountService } from '../services/accountService.ts'
+import { notPremiumAccount, premiumAccount } from '../store/slices/premium.ts'
 
 const AppRoutes = () => {
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
@@ -19,15 +22,30 @@ const AppRoutes = () => {
         const checkUserAuth = async () => {
             if (!isAuthenticated) {
                 const authorize = await authService.authorize()
-                if (authorize.status === 200) dispatch(login())
-                else {
+                if (authorize.status === 200) {
+                    dispatch(login())
+                    const account = await accountService.isPremium()
+                    if (account.status === 200 && (await account.json())) {
+                        dispatch(premiumAccount())
+                    }
+                } else {
                     const refresh = await authService.refresh()
-                    if (refresh.status === 200) dispatch(login())
+                    if (refresh.status === 200) {
+                        dispatch(login())
+                        const account = await accountService.isPremium()
+                        console.log(account.json())
+                        if (account.status === 200 && (await account.json())) {
+                            dispatch(premiumAccount())
+                        }
+                    } else {
+                        dispatch(logout())
+                        dispatch(notPremiumAccount())
+                    }
                 }
             }
         }
 
-        checkUserAuth().catch((error) => console.log(error))
+        checkUserAuth().catch((error) => error)
     }, [dispatch, isAuthenticated])
 
     return (
@@ -52,6 +70,10 @@ const AppRoutes = () => {
             <Route
                 path="profile/*"
                 element={<ProfileRoutes />}
+            />
+            <Route
+                path="premium/*"
+                element={<PremiumRoutes />}
             />
             <Route
                 path="*"

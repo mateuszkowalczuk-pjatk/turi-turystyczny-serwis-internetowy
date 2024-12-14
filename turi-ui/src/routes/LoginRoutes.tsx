@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
 import AuthLayout from '../layouts/Auth'
 import LoginPage from '../pages/Login/LoginPage'
+import LoginPremiumCodePage from '../pages/Login/LoginPremiumCodePage'
 import LoginPasswordCheckPage from '../pages/Login/LoginPasswordCheckPage'
 import LoginPasswordCodePage from '../pages/Login/LoginPasswordCodePage'
 import LoginPasswordResetPage from '../pages/Login/LoginPasswordResetPage'
@@ -16,6 +17,10 @@ const LoginRoutes = () => {
                 <Route
                     index
                     element={<LoginPage />}
+                />
+                <Route
+                    path="/premium-code"
+                    element={<LoginPremiumCodePage />}
                 />
                 <Route
                     path="/check"

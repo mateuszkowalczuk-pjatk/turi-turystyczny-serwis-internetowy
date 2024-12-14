@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
+import AuthPanel from '../../../components/Auth/AuthPanel'
 import AuthTitle from '../../../components/Auth/AuthTitle'
 import AuthDescription from '../../../components/Auth/AuthDescription'
 import AuthInput from '../../../components/Auth/AuthInput'
@@ -8,7 +9,6 @@ import AuthError from '../../../components/Auth/AuthError'
 import AuthButton from '../../../components/Auth/AuthButton'
 import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
-import styles from '../../Login/LoginPage/LoginPage.module.css'
 import { accountService } from '../../../services/accountService.ts'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../store/store.ts'
@@ -78,34 +78,38 @@ const SignUpVerifyPage = () => {
     }
 
     return (
-        <form
-            className={styles.panel}
+        <AuthPanel
             onSubmit={handleActivate}
-        >
-            <AuthTitle text={t('signup-verify.title')} />
-            <AuthDescription text={t('signup-verify.description')} />
-            <AuthInput
-                type={'number'}
-                name={'code'}
-                placeholder={t('signup-verify.code')}
-                value={formData.code}
-                onChange={handleChange}
-                required={true}
-                disabled={loading}
-            />
-            {error && <AuthError error={error} />}
-            <AuthButton
-                text={t('signup-verify.button')}
-                type={'submit'}
-                disabled={loading}
-            />
-            <AuthTopLink />
-            <AuthDownLink
-                firstLink={t('signup-verify.down')}
-                secondLink={'center'}
-                firstOnClick={navigateToLogin}
-            />
-        </form>
+            header={<AuthTitle text={t('signup-verify.title')} />}
+            option={<AuthDescription text={t('signup-verify.description')} />}
+            input={
+                <AuthInput
+                    type={'number'}
+                    name={'code'}
+                    placeholder={t('signup-verify.code')}
+                    value={formData.code}
+                    onChange={handleChange}
+                    required={true}
+                    disabled={loading}
+                />
+            }
+            error={error && <AuthError error={error} />}
+            button={
+                <AuthButton
+                    text={t('signup-verify.button')}
+                    type={'submit'}
+                    disabled={loading}
+                />
+            }
+            top={<AuthTopLink />}
+            down={
+                <AuthDownLink
+                    firstLink={t('signup-verify.down')}
+                    secondLink={'center'}
+                    firstOnClick={navigateToLogin}
+                />
+            }
+        />
     )
 }
 

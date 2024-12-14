@@ -1,0 +1,15 @@
+.form {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    width: 90%;
+}
+
+.error {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding-bottom: 1rem;
+    width: 90%;
+    color: var(--light-green);
+}

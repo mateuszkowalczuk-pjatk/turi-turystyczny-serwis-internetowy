@@ -1,20 +1,6 @@
 import { API_BASE_URL } from '../config/api'
 import { API } from './constants.ts'
-import { GENDER } from '../types/gender.ts'
-
-interface Account {
-    accountId?: number
-    userId?: number
-    addressId: number
-    accountType?: number
-    activationCode?: number
-    activationCodeExpiresAt?: Date
-    firstName: string
-    lastName: string
-    birthDate: Date
-    phoneNumber: string
-    gender: GENDER
-}
+import { Account } from '../types'
 
 export const accountService = {
     getById: async () => {
@@ -61,6 +47,16 @@ export const accountService = {
 
     isPhoneNumberExists: async (phoneNumber: string) => {
         return await fetch(`${API_BASE_URL}${API.ACCOUNT.IS_PHONE_NUMBER_EXISTS}?phoneNumber=${phoneNumber}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        })
+    },
+
+    isPremium: async () => {
+        return await fetch(`${API_BASE_URL}${API.ACCOUNT.IS_PREMIUM}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

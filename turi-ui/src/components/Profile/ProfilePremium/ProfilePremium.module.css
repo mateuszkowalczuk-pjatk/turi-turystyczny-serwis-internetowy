@@ -1,0 +1,29 @@
+.premium {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 50%;
+    height: 22.5rem;
+    gap: 1rem;
+}
+
+.premium p {
+    color: var(--dark);
+    line-height: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .premium {
+        height: 27rem;
+    }
+
+    .premium p {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .premium p {
+        font-size: 0.6rem;
+    }
+}

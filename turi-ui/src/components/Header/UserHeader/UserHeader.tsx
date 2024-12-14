@@ -3,8 +3,10 @@ import HeaderLayout from '../HeaderLayout'
 import HeaderLinks from '../HeaderLinks'
 import TextRegular from '../../Controls/Text/TextRegular'
 import HeaderButtons from '../HeaderButtons'
+import { useNavigate } from 'react-router-dom'
 
 const UserHeader = () => {
+    const navigate = useNavigate()
     const { t } = useTranslation()
 
     const navigateToReservations = () => {
@@ -20,7 +22,7 @@ const UserHeader = () => {
     }
 
     const navigateToPremium = () => {
-        console.log('Premium')
+        navigate('/premium')
     }
 
     return (

@@ -1,15 +1,6 @@
 import { API_BASE_URL } from '../config/api'
 import { API } from './constants.ts'
-
-interface Address {
-    addressId?: number
-    country: string
-    city: string
-    zipCode: string
-    street: string
-    buildingNumber: string
-    apartmentNumber?: number
-}
+import { Address } from '../types'
 
 export const addressService = {
     getById: async (addressId: number) => {

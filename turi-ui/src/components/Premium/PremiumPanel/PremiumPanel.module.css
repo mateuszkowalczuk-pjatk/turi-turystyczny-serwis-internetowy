@@ -1,12 +1,11 @@
 .panel {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    width: 26rem;
-    height: 22rem;
+    height: 32rem;
+    width: 70%;
+    border: 2px solid var(--grey);
     border-radius: 0.4rem;
-    background: var(--light-green);
     box-shadow:
         0 8px 15px rgba(0, 0, 0, 0.1),
         0 3px 6px rgba(0, 0, 0, 0.05);
@@ -14,14 +13,7 @@
 
 @media (max-width: 768px) {
     .panel {
-        width: 22rem;
-        height: 20rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .panel {
-        width: 18rem;
-        height: 18rem;
+        height: 35rem;
+        gap: 2rem;
     }
 }

@@ -37,9 +37,7 @@ const ProfileLanguage = () => {
                     setCookie('language', tempLanguage)
                     setSelectedLanguage(tempLanguage)
                 })
-                .catch((error) => {
-                    console.error('Error changing language:', error)
-                })
+                .catch((error) => error)
         }
     }
 

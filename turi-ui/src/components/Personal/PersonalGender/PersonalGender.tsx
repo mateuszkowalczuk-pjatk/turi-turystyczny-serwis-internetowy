@@ -1,11 +1,11 @@
 import { useTranslation } from 'react-i18next'
 import Checkbox from '../../Controls/Checkbox'
 import styles from './PersonalGender.module.css'
-import { GENDER } from '../../../types/gender.ts'
+import { Gender } from '../../../types'
 
 interface Props {
-    gender: GENDER | null
-    handleGenderChange: (gender: GENDER) => void
+    gender: Gender | null
+    handleGenderChange: (gender: Gender) => void
 }
 
 const PersonalGender = ({ gender, handleGenderChange }: Props) => {
@@ -14,13 +14,13 @@ const PersonalGender = ({ gender, handleGenderChange }: Props) => {
     return (
         <div className={styles.gender}>
             <Checkbox
-                checked={gender === GENDER.FEMALE}
-                onChange={() => handleGenderChange(GENDER.FEMALE)}
+                checked={gender === Gender.FEMALE}
+                onChange={() => handleGenderChange(Gender.FEMALE)}
                 text={t('signup-personal.woman')}
             />
             <Checkbox
-                checked={gender === GENDER.MALE}
-                onChange={() => handleGenderChange(GENDER.MALE)}
+                checked={gender === Gender.MALE}
+                onChange={() => handleGenderChange(Gender.MALE)}
                 text={t('signup-personal.man')}
             />
         </div>

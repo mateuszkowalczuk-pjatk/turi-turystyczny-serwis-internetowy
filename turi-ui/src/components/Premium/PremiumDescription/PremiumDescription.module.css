@@ -1,0 +1,27 @@
+.description {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 90%;
+    height: 5rem;
+    border-bottom: 1px solid var(--grey);
+}
+
+@media (max-width: 1080px) {
+    .description p {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .description p {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .description p {
+        font-size: 0.7rem;
+    }
+}

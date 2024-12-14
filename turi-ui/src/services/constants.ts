@@ -2,6 +2,7 @@ export const API = {
     AUTH: {
         REGISTER: '/api/auth/register',
         LOGIN: '/api/auth/login',
+        LOGIN_PREMIUM: '/api/auth/loginPremium',
         AUTHORIZE: '/api/auth/authorize',
         REFRESH: '/api/auth/refresh',
         LOGOUT: '/api/auth/logout'
@@ -21,11 +22,23 @@ export const API = {
         GET_BY_ID: '/api/account/getById',
         IS_ADDRESS_EXISTS: '/api/account/isAddressExists',
         IS_PHONE_NUMBER_EXISTS: '/api/account/isPhoneNumberExists',
+        IS_PREMIUM: '/api/account/isPremium',
         ACTIVATE: '/api/account/activate',
         UPDATE: '/api/account/update'
     },
     ADDRESS: {
         GET_BY_ID: '/api/address/getById',
         CREATE: '/api/address/create'
+    },
+    PREMIUM: {
+        GET_OFFER: '/api/premium/getOffer',
+        GET_BY_ACCOUNT: '/api/premium/getByAccount',
+        IS_EXISTS_FOR_ACCOUNT: '/api/premium/isExistsForAccount',
+        CHECK_PAYMENT: '/api/premium/checkPayment',
+        VERIFY: '/api/premium/verify',
+        PAY: '/api/premium/pay',
+        RENEW: '/api/premium/premium/renew',
+        CANCEL: '/api/premium/premium/cancel',
+        UPDATE_COMPANY_DETAILS: '/api/premium/updateCompanyDetails'
     }
 }
