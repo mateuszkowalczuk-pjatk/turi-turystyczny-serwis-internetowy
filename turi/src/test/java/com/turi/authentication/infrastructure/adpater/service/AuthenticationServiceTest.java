@@ -12,8 +12,9 @@ import com.turi.authentication.domain.model.RefreshParam;
 import com.turi.authentication.domain.model.RegisterParam;
 import com.turi.authentication.domain.port.AuthenticationService;
 import com.turi.authentication.domain.port.RefreshTokenService;
-import com.turi.infrastructure.config.SecurityProperties;
 import com.turi.infrastructure.exception.BadRequestParameterException;
+import com.turi.infrastructure.properties.SecurityProperties;
+import com.turi.premium.domain.port.PremiumService;
 import com.turi.testhelper.annotation.ServiceTest;
 import com.turi.user.domain.exception.InvalidUserException;
 import com.turi.user.domain.exception.UserUniqueEmailException;
@@ -26,6 +27,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import static com.turi.testhelper.utils.ContextHelper.setContextUserId;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -40,6 +42,9 @@ class AuthenticationServiceTest
 
     @Autowired
     private AccountService accountService;
+
+    @Autowired
+    private PremiumService premiumService;
 
     @Autowired
     private RefreshTokenService refreshTokenService;
@@ -150,7 +155,7 @@ class AuthenticationServiceTest
     }
 
     @Test
-    void testAuthentication_login_ByUsername()
+    void testAuthentication_Login_ByUsername()
     {
         final var params = mockRegisterParams();
 
@@ -173,7 +178,7 @@ class AuthenticationServiceTest
     }
 
     @Test
-    void testAuthentication_login_ByUsername_UserNotFound()
+    void testAuthentication_Login_ByUsername_UserNotFound()
     {
         final var params = mockRegisterParams();
 
@@ -186,7 +191,7 @@ class AuthenticationServiceTest
     }
 
     @Test
-    void testAuthentication_login_ByUsername_WrongPassword()
+    void testAuthentication_Login_ByUsername_WrongPassword()
     {
         final var params = mockRegisterParams();
 
@@ -201,7 +206,7 @@ class AuthenticationServiceTest
     }
 
     @Test
-    void testAuthentication_login_ByEmail()
+    void testAuthentication_Login_ByEmail()
     {
         final var params = mockRegisterParams();
 
@@ -224,7 +229,7 @@ class AuthenticationServiceTest
     }
 
     @Test
-    void testAuthentication_login_ByEmail_UserNotFound()
+    void testAuthentication_Login_ByEmail_UserNotFound()
     {
         final var params = mockRegisterParams();
 
@@ -237,7 +242,7 @@ class AuthenticationServiceTest
     }
 
     @Test
-    void testAuthentication_login_ByEmail_WrongPassword()
+    void testAuthentication_Login_ByEmail_WrongPassword()
     {
         final var params = mockRegisterParams();
 
@@ -249,6 +254,102 @@ class AuthenticationServiceTest
                 .build();
 
         assertThrows(InvalidPasswordForLoginException.class, () -> service.login(authenticationParams));
+    }
+
+    @Test
+    void testAuthentication_Login_InActiveAccount()
+    {
+        final var params = mockRegisterParams();
+
+        service.register(params);
+
+        final var authParams = LoginParam.builder()
+                .withLogin(params.getEmail())
+                .withPassword(params.getPassword())
+                .build();
+
+        final var result = service.login(authParams);
+
+        assertNotNull(result);
+        assertNotNull(result.getAccessToken());
+        assertThat(result.getRefreshTokenExpiresIn()).isEqualTo(properties.getAccessTokenExpirationTime());
+    }
+
+    @Test
+    void testAuthentication_Login_PremiumAccount()
+    {
+        final var registerParams = mockRegisterParams();
+
+        service.register(registerParams);
+
+        accountService.activate(2L, accountService.getById(2L).getActivationCode());
+
+        accountService.updateAccountTypeToPremium(2L);
+
+        final var result = service.login(LoginParam.builder()
+                .withLogin(registerParams.getEmail())
+                .withPassword(registerParams.getPassword())
+                .build());
+
+        assertNotNull(result);
+        assertNotNull(result.getLoginToken());
+        assertThat(result.getAccessTokenExpiresIn()).isEqualTo(properties.getAccessTokenExpirationTime());
+    }
+
+    @Test
+    void testAuthentication_LoginPremium()
+    {
+        final var registerParams = mockRegisterParams();
+
+        service.register(registerParams);
+
+        accountService.activate(2L, accountService.getById(2L).getActivationCode());
+
+        accountService.updateAccountTypeToPremium(2L);
+
+        final var login = service.login(LoginParam.builder()
+                .withLogin(registerParams.getEmail())
+                .withPassword(registerParams.getPassword())
+                .build());
+
+        final var result = service.loginPremium(login.getLoginToken(), premiumService.getByAccount(2L).getLoginCode());
+
+        assertNotNull(result);
+        assertNotNull(result.getAccessTokenExpiresIn());
+        assertNotNull(result.getRefreshTokenExpiresIn());
+        assertThat(result.getAccessTokenExpiresIn()).isEqualTo(properties.getAccessTokenExpirationTime());
+        assertThat(result.getRefreshTokenExpiresIn()).isEqualTo(properties.getRefreshTokenExpirationTime());
+    }
+
+    @Test
+    void testAuthentication_Authorize()
+    {
+        setContextUserId(mockUser().getUserId());
+
+        final var result = service.authorize();
+
+        assertNotNull(result);
+        assertTrue(result);
+    }
+
+    @Test
+    void testAuthentication_Authorize_AccountNotFound()
+    {
+        setContextUserId(2L);
+
+        final var result = service.authorize();
+
+        assertNotNull(result);
+        assertFalse(result);
+    }
+
+    @Test
+    void testAuthentication_Authorize_Unauthorized()
+    {
+        final var result = service.authorize();
+
+        assertNotNull(result);
+        assertFalse(result);
     }
 
     @Test
@@ -369,6 +470,7 @@ class AuthenticationServiceTest
     private User mockUser()
     {
         return User.builder()
+                .withUserId(1L)
                 .withUsername("Janek")
                 .withEmail("jan@turi.com")
                 .withPassword("JanKowalski123!")

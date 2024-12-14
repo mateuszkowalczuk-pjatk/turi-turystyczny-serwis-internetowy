@@ -20,7 +20,7 @@ spring:
         host: smtp.gmail.com
         port: 587
         username: noreply.turi@gmail.com
-        password: zrpuiuyahtqpppsb
+        password:
         properties:
             mail:
                 smtp:
@@ -30,11 +30,25 @@ spring:
 
 security:
     jwt:
-        secret-key: 7bfe24ef14214c1c0ea519f8fc057a80fcd04a7420f8e8bcd0a7567c272e007b
+        secret-key:
         access-token-expiration-time: 900
         refresh-token-expiration-time: 604800
 
 springdoc:
     swagger-ui:
         enabled: true
-        path: /
+        path: /swagger-ui
+
+stripe:
+    secret-key:
+    success-url: http://localhost:3000/premium/payment-check
+    cancel-url: http://localhost:3000/premium/payment
+    webhook-secret-key:
+
+premium:
+    price: 100
+    length: 12
+
+ceidg:
+    url: https://dane.biznes.gov.pl/api/ceidg/v3/firmy
+    api-key:

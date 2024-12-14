@@ -1,5 +1,6 @@
 package com.turi.infrastructure.config;
 
+import com.turi.infrastructure.properties.SecurityProperties;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.FilterChain;
@@ -33,11 +34,15 @@ public class JwtFilter extends OncePerRequestFilter
 
         if (path.startsWith("/api/auth/register")
                 || path.startsWith("/api/auth/login")
+                || path.startsWith("/api/auth/loginPremium")
                 || path.startsWith("/api/auth/refresh")
                 || path.startsWith("/api/user/sendResetPasswordCode")
                 || path.startsWith("/api/user/resetPassword")
                 || path.startsWith("/api/user/isUsernameExists")
-                || path.startsWith("/api/user/isEmailExists"))
+                || path.startsWith("/api/user/isEmailExists")
+                || path.startsWith("/api/payment/webhook")
+                || path.startsWith("/swagger-ui")
+                || path.startsWith("/v3/api-docs"))
         {
             filterChain.doFilter(request, response);
             return;

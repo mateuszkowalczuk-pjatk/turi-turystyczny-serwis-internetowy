@@ -5,6 +5,7 @@ import com.turi.account.domain.model.Account;
 import com.turi.account.domain.model.AccountType;
 import com.turi.account.domain.port.AccountRepository;
 import com.turi.account.domain.port.AccountService;
+import com.turi.address.domain.exception.AddressNotFoundException;
 import com.turi.address.infrastructure.adapter.interfaces.AddressFacade;
 import com.turi.infrastructure.common.CodeGenerator;
 import com.turi.infrastructure.common.EmailSender;
@@ -47,7 +48,9 @@ public class AccountServiceImpl implements AccountService
     {
         final var address = addressFacade.getAddressByAddress(country, city, zipCode, street, buildingNumber, apartmentNumber);
 
-        if (address == null || getById(accountId).getAddressId().equals(address.getAddressId()))
+        final var accountAddressId = getById(accountId).getAddressId();
+
+        if (address == null || (accountAddressId != null && accountAddressId.equals(address.getAddressId())))
         {
             return false;
         }
@@ -60,7 +63,24 @@ public class AccountServiceImpl implements AccountService
     {
         final var account = repository.findByPhoneNumber(phoneNumber);
 
-        return account != null && !account.getAccountId().equals(accountId);
+        final var accountPhoneNumber = getById(accountId).getPhoneNumber();
+
+        return account != null && (accountPhoneNumber == null || !accountPhoneNumber.equals(account.getPhoneNumber()));
+    }
+
+    @Override
+    public Boolean isPremium(final Long accountId)
+    {
+        try
+        {
+            final var account = getById(accountId);
+
+            return account.getAccountType().equals(AccountType.PREMIUM);
+        }
+        catch (final AccountNotFoundException ex)
+        {
+            return false;
+        }
     }
 
     @Override
@@ -115,7 +135,7 @@ public class AccountServiceImpl implements AccountService
 
             final var email = userFacade.getUserById(id).getEmail();
 
-            emailSender.sendActivationEmail(email, "User account activation code.", code);
+            emailSender.sendEmail(email, "User account activation code.", code);
         }
         else
         {
@@ -143,14 +163,24 @@ public class AccountServiceImpl implements AccountService
     {
         final var currentAccount = getById(id);
 
-        if (account.getAddressId() != null && isAddressExists(account.getAddressId()) &&
-                (currentAccount.getAddressId() == null || !currentAccount.getAddressId().equals(account.getAddressId())))
+        if (account.getAddressId() != null)
         {
-            throw new AccountUniqueAddressException(account.getAddressId());
+            try
+            {
+                final var address = addressFacade.getAddressById(String.valueOf(account.getAddressId())).getBody();
+
+                if (address != null && isAddressExists(id, address.getCountry(), address.getCity(), address.getZipCode(), address.getStreet(), address.getBuildingNumber(), address.getApartmentNumber()))
+                {
+                    throw new AccountUniqueAddressException(account.getAddressId());
+                }
+            }
+            catch (AddressNotFoundException ex)
+            {
+                throw new AccountUniqueAddressException(account.getAddressId());
+            }
         }
 
-        if (account.getPhoneNumber() != null && isPhoneNumberExists(account.getAccountId(), account.getPhoneNumber()) &&
-                (currentAccount.getPhoneNumber() == null || !currentAccount.getPhoneNumber().equals(account.getPhoneNumber())))
+        if (account.getPhoneNumber() != null && isPhoneNumberExists(id, account.getPhoneNumber()))
         {
             throw new AccountUniquePhoneNumberException(account.getPhoneNumber());
         }
@@ -182,5 +212,25 @@ public class AccountServiceImpl implements AccountService
     private Boolean isAddressExists(final Long addressId)
     {
         return repository.findByAddressId(addressId) != null;
+    }
+
+    @Override
+    public void updateAccountTypeToPremium(final Long accountId)
+    {
+        updateAccountType(accountId, AccountType.PREMIUM);
+    }
+
+    @Override
+    public void updateAccountTypeToNormal(final Long accountId)
+    {
+        updateAccountType(accountId, AccountType.NORMAL);
+    }
+
+    private void updateAccountType(final Long accountId, final AccountType accountType)
+    {
+        final var account = getById(accountId);
+        account.setAccountType(accountType);
+
+        repository.update(accountId, account);
     }
 }

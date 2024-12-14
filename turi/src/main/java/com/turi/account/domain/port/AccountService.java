@@ -18,6 +18,8 @@ public interface AccountService
 
     Boolean isPhoneNumberExists(final Long accountId, final String phoneNumber);
 
+    Boolean isPremium(final Long accountId);
+
     void activate(final Long id, final Integer code);
 
     void sendActivateCode(final Long id);
@@ -25,4 +27,8 @@ public interface AccountService
     Account create(final Account account);
 
     Account update(final Long id, final Account account);
+
+    void updateAccountTypeToPremium(final Long accountId);
+
+    void updateAccountTypeToNormal(final Long accountId);
 }

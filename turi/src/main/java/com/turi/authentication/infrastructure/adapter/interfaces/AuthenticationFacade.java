@@ -6,6 +6,7 @@ import com.turi.authentication.domain.model.RefreshParam;
 import com.turi.authentication.domain.model.RegisterParam;
 import com.turi.authentication.domain.port.AuthenticationService;
 import com.turi.infrastructure.exception.BadRequestParameterException;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -34,6 +35,16 @@ public class AuthenticationFacade
         }
 
         return AuthenticationResponse.of(service.login(params));
+    }
+
+    public ResponseEntity<?> loginPremium(final String loginToken, final String code, final HttpServletResponse response)
+    {
+        if (loginToken == null || code == null)
+        {
+            throw new BadRequestParameterException("Parameters loginToken and code must not be null.");
+        }
+
+        return AuthenticationResponse.of(service.loginPremium(loginToken, Integer.valueOf(code)), response);
     }
 
     public ResponseEntity<?> authorize()

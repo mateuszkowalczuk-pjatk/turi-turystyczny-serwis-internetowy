@@ -10,7 +10,6 @@ import com.turi.address.domain.model.Address;
 import com.turi.address.infrastructure.adapter.interfaces.AddressFacade;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.testhelper.annotation.ServiceTest;
-import com.turi.testhelper.utils.ContextHelper;
 import com.turi.user.domain.model.User;
 import com.turi.user.infrastructure.adapter.interfaces.UserFacade;
 import org.junit.jupiter.api.Test;
@@ -23,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ServiceTest
-public class AccountServiceTest
+class AccountServiceTest
 {
     @Autowired
     private AccountService service;
@@ -65,13 +64,74 @@ public class AccountServiceTest
     @Test
     void testAccount_GetByUserId_NotFound()
     {
-        final var result = service.getByUserId(mockNewAccount().getUserId());
-
-        assertNull(result);
+        assertNull(service.getByUserId(mockNewAccount().getUserId()));
     }
 
     @Test
-    void testAccount_IsAddressExists()
+    void testAccount_IsAddressExists_ExistsForOtherAccount()
+    {
+        final var address = Address.builder()
+                .withAddressId(2L)
+                .withCountry("Polska")
+                .withCity("Kraków")
+                .withZipCode("12-345")
+                .withStreet("Warszawska")
+                .withBuildingNumber("3B")
+                .withApartmentNumber(10)
+                .build();
+
+        addressFacade.createAddress(address);
+
+        final var account = mockNewAccount();
+        account.setAddressId(address.getAddressId());
+
+        service.create(account);
+
+        final var result = service.isAddressExists(
+                mockAccount().getAccountId(),
+                address.getCountry(),
+                address.getCity(),
+                address.getZipCode(),
+                address.getStreet(),
+                address.getBuildingNumber(),
+                address.getApartmentNumber()
+        );
+
+        assertNotNull(result);
+        assertTrue(result);
+    }
+
+    @Test
+    void testAccount_IsAddressExists_ExistsButNotForOtherAccount()
+    {
+        final var address = Address.builder()
+                .withAddressId(2L)
+                .withCountry("Polska")
+                .withCity("Kraków")
+                .withZipCode("12-345")
+                .withStreet("Warszawska")
+                .withBuildingNumber("3B")
+                .withApartmentNumber(10)
+                .build();
+
+        addressFacade.createAddress(address);
+
+        final var result = service.isAddressExists(
+                mockAccount().getAccountId(),
+                address.getCountry(),
+                address.getCity(),
+                address.getZipCode(),
+                address.getStreet(),
+                address.getBuildingNumber(),
+                address.getApartmentNumber()
+        );
+
+        assertNotNull(result);
+        assertFalse(result);
+    }
+
+    @Test
+    void testAccount_IsAddressExists_ExistsForOurAccount()
     {
         final var result = service.isAddressExists(mockAccount().getAccountId(), "Polska", "Warszawa", "01-000", "Warszawska", "1", 10);
 
@@ -89,52 +149,63 @@ public class AccountServiceTest
     }
 
     @Test
-    void testAccount_IsAddressExists_NotExistsForAccount()
+    void testAccount_IsAddressExists_ExistsAndAccountAddressNotExists()
     {
-        final var address = Address.builder()
-                .withCountry("Polska")
-                .withCity("Kraków")
-                .withZipCode("02-000")
-                .withStreet("Krakowska")
-                .withBuildingNumber("1")
-                .build();
+        final var account = mockNewAccount();
 
-        final var insertedAddress = addressFacade.createAddress(address).getBody();
+        service.create(account);
 
-        assertNotNull(insertedAddress);
-
-        final var result = service.isAddressExists(mockAccount().getAccountId(), insertedAddress.getCountry(),
-                insertedAddress.getCity(),
-                insertedAddress.getZipCode(),
-                insertedAddress.getStreet(),
-                insertedAddress.getBuildingNumber(),
-                insertedAddress.getApartmentNumber());
-
-        assertNotNull(result);
-        assertFalse(result);
-    }
-
-
-    @Test
-    void testAccount_IsPhoneNumberExists()
-    {
-        final var account = mockAccount();
-
-        final var result = service.isPhoneNumberExists(mockNewAccount().getAccountId(), account.getPhoneNumber());
+        final var result = service.isAddressExists(account.getAccountId(), "Polska", "Warszawa", "01-000", "Warszawska", "1", 10);
 
         assertNotNull(result);
         assertTrue(result);
     }
 
     @Test
-    void testAccount_IsPhoneNumber_NotExists()
+    void testAccount_IsPhoneNumberExists_ExistsForOtherAccount()
     {
         final var account = mockNewAccount();
+        account.setPhoneNumber("635123567");
+
+        service.create(account);
 
         final var result = service.isPhoneNumberExists(mockAccount().getAccountId(), account.getPhoneNumber());
 
         assertNotNull(result);
+        assertTrue(result);
+    }
+
+    @Test
+    void testAccount_IsPhoneNumberExists_ExistsForOurAccount()
+    {
+        final var account = mockAccount();
+
+        final var result = service.isPhoneNumberExists(account.getAccountId(), account.getPhoneNumber());
+
+        assertNotNull(result);
         assertFalse(result);
+    }
+
+    @Test
+    void testAccount_IsPhoneNumber_NotExists()
+    {
+        final var result = service.isPhoneNumberExists(mockAccount().getAccountId(), "543212453");
+
+        assertNotNull(result);
+        assertFalse(result);
+    }
+
+    @Test
+    void testAccount_IsPhoneNumber_ExistsAndAccountPhoneNumberNotExists()
+    {
+        final var account = mockNewAccount();
+
+        service.create(account);
+
+        final var result = service.isPhoneNumberExists(account.getAccountId(), mockAccount().getPhoneNumber());
+
+        assertNotNull(result);
+        assertTrue(result);
     }
 
     @Test
@@ -143,8 +214,6 @@ public class AccountServiceTest
         final var account = mockAccount();
 
         service.sendActivateCode(account.getAccountId());
-
-        ContextHelper.setContextUserId(account.getAccountId());
 
         service.activate(account.getAccountId(), service.getById(account.getAccountId()).getActivationCode());
 
@@ -161,9 +230,27 @@ public class AccountServiceTest
     }
 
     @Test
+    void testAccount_Activate_ActivationCodeNotFound()
+    {
+        final var account = mockNewAccount();
+
+        service.create(account);
+
+        service.activate(account.getAccountId(), service.getById(account.getAccountId()).getActivationCode());
+
+        assertThrows(BadRequestParameterException.class, () -> service.activate(account.getAccountId(), account.getActivationCode()));
+    }
+
+    @Test
     void testAccount_Activate_InvalidActivationCode()
     {
-        assertThrows(InvalidAccountActivationCode.class, () -> service.activate(mockAccount().getAccountId(), 654321));
+        final var account = mockAccount();
+
+        service.sendActivateCode(account.getAccountId());
+
+        final var activationCode = service.getById(account.getAccountId()).getActivationCode();
+
+        assertThrows(InvalidAccountActivationCode.class, () -> service.activate(account.getAccountId(), (activationCode == 999999 ? activationCode - 1 : activationCode + 1)));
     }
 
     @Test
@@ -177,12 +264,9 @@ public class AccountServiceTest
     @Test
     void testAccount_SendActivateCode()
     {
-        final var account = mockNewAccount();
-
-        final var result = service.create(account);
+        final var result = service.create(mockNewAccount());
 
         assertNotNull(result);
-        assertThat(result.getAccountId()).isEqualTo(account.getAccountId());
         assertThat(result.getAccountType()).isEqualTo(AccountType.INACTIVE);
         assertNotNull(result.getActivationCode());
         assertNotNull(result.getActivationCodeExpiresAt());
@@ -198,7 +282,6 @@ public class AccountServiceTest
         final var result = service.getById(account.getAccountId());
 
         assertNotNull(result);
-        assertThat(result.getAccountId()).isEqualTo(account.getAccountId());
         assertThat(result.getAccountType()).isEqualTo(AccountType.INACTIVE);
         assertNotNull(result.getActivationCode());
         assertNotNull(result.getActivationCodeExpiresAt());
@@ -295,37 +378,6 @@ public class AccountServiceTest
     }
 
     @Test
-    void testAccount_Update_UpdateAddress()
-    {
-        final var account = mockAccount();
-
-        final var address = Address.builder()
-                .withCountry("Polska")
-                .withCity("Kraków")
-                .withZipCode("02-000")
-                .withStreet("Krakowska")
-                .withBuildingNumber("1")
-                .build();
-
-        final var newAddress = addressFacade.createAddress(address).getBody();
-
-        assertNotNull(newAddress);
-
-        final var addressId = account.getAddressId();
-
-        account.setAddressId(newAddress.getAddressId());
-
-        service.update(account.getAccountId(), account);
-
-        final var result = service.getById(account.getAccountId());
-
-        assertNotNull(result);
-        assertThat(result).isEqualTo(account);
-
-        assertThrows(AddressNotFoundException.class, () -> addressFacade.getAddressById(String.valueOf(addressId)));
-    }
-
-    @Test
     void testAccount_Update_AccountNotFound()
     {
         final var account = mockNewAccount();
@@ -336,13 +388,36 @@ public class AccountServiceTest
     @Test
     void testAccount_Update_UniqueAddress()
     {
-        final var account = mockNewAccount();
-
-        final var result = service.create(account);
+        final var result = service.create(mockNewAccount());
 
         result.setAddressId(mockAccount().getAddressId());
 
         assertThrows(AccountUniqueAddressException.class, () -> service.update(result.getAccountId(), result));
+    }
+
+    @Test
+    void testAccount_Update_AddressNotFound()
+    {
+        final var result = service.create(mockNewAccount());
+
+        result.setAddressId(2L);
+
+        assertThrows(AccountUniqueAddressException.class, () -> service.update(result.getAccountId(), result));
+    }
+
+    @Test
+    void testAccount_Update_WithoutAddress()
+    {
+        final var account = mockAccount();
+
+        account.setAddressId(null);
+
+        service.update(account.getAccountId(), account);
+
+        final var result = service.getById(account.getAccountId());
+
+        assertNotNull(result);
+        assertThat(result).isEqualTo(account);
     }
 
     @Test
@@ -355,6 +430,134 @@ public class AccountServiceTest
         result.setPhoneNumber(mockAccount().getPhoneNumber());
 
         assertThrows(AccountUniquePhoneNumberException.class, () -> service.update(result.getAccountId(), result));
+    }
+
+    @Test
+    void testAccount_Update_WithoutPhoneNumber()
+    {
+        final var account = mockAccount();
+
+        account.setPhoneNumber(null);
+
+        service.update(account.getAccountId(), account);
+
+        final var result = service.getById(account.getAccountId());
+
+        assertNotNull(result);
+        assertThat(result).isEqualTo(account);
+    }
+
+    @Test
+    void testAccount_Update_AddAddress()
+    {
+        final var account = mockNewAccount();
+
+        service.create(account);
+
+        final var address = addressFacade.createAddress(Address.builder()
+                .withCountry("Polska")
+                .withCity("Kraków")
+                .withZipCode("02-000")
+                .withStreet("Krakowska")
+                .withBuildingNumber("1")
+                .build()).getBody();
+
+        assertNotNull(address);
+
+        account.setAddressId(address.getAddressId());
+
+        service.update(account.getAccountId(), account);
+
+        final var result = service.getById(account.getAccountId());
+
+        assertNotNull(result);
+        assertThat(result.getAddressId()).isEqualTo(account.getAddressId());
+    }
+
+    @Test
+    void testAccount_Update_ChangeAddress()
+    {
+        final var account = mockAccount();
+
+        final var address = addressFacade.createAddress(Address.builder()
+                .withCountry("Polska")
+                .withCity("Kraków")
+                .withZipCode("02-000")
+                .withStreet("Krakowska")
+                .withBuildingNumber("1")
+                .build()).getBody();
+
+        assertNotNull(address);
+
+        final var addressId = account.getAddressId();
+
+        account.setAddressId(address.getAddressId());
+
+        service.update(account.getAccountId(), account);
+
+        final var result = service.getById(account.getAccountId());
+
+        assertNotNull(result);
+        assertThat(result).isEqualTo(account);
+
+        assertThrows(AddressNotFoundException.class, () -> addressFacade.getAddressById(String.valueOf(addressId)));
+    }
+
+    @Test
+    void testAccount_Update_RemoveAddress()
+    {
+        final var account = mockAccount();
+
+        final var addressId = account.getAddressId();
+
+        account.setAddressId(null);
+
+        service.update(account.getAccountId(), account);
+
+        final var result = service.getById(account.getAccountId());
+
+        assertNotNull(result);
+        assertThat(result).isEqualTo(account);
+
+        assertThrows(AddressNotFoundException.class, () -> addressFacade.getAddressById(String.valueOf(addressId)));
+    }
+
+    @Test
+    void testAccount_UpdateAccountTypeToPremium()
+    {
+        final var account = mockAccount();
+
+        service.updateAccountTypeToPremium(account.getAccountId());
+
+        final var result = service.getById(account.getAccountId());
+
+        assertNotNull(result);
+        assertThat(result.getAccountType()).isEqualTo(AccountType.PREMIUM);
+    }
+
+    @Test
+    void testAccount_UpdateAccountTypeToPremium_AccountNotFound()
+    {
+        assertThrows(AccountNotFoundException.class, () -> service.updateAccountTypeToPremium(mockNewAccount().getAccountId()));
+    }
+
+    @Test
+    void testAccount_UpdateAccountTypeToNormal()
+    {
+        final var account = mockAccount();
+
+        service.updateAccountTypeToNormal(account.getAccountId());
+
+        final var result = service.getById(account.getAccountId());
+
+        assertNotNull(result);
+        assertThat(result.getAccountType()).isEqualTo(AccountType.NORMAL);
+    }
+
+    @Test
+    void testAccount_UpdateAccountTypeToNormal_AccountNotFound()
+    {
+        assertThrows(AccountNotFoundException.class, () -> service.updateAccountTypeToNormal(mockNewAccount().getAccountId()));
     }
 
     private Account mockAccount()

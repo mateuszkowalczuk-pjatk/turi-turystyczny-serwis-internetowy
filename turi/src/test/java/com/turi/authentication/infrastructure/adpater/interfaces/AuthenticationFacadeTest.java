@@ -2,10 +2,7 @@ package com.turi.authentication.infrastructure.adpater.interfaces;
 
 import com.turi.account.domain.model.AccountType;
 import com.turi.account.domain.port.AccountService;
-import com.turi.authentication.domain.exception.InvalidLoginException;
-import com.turi.authentication.domain.exception.InvalidPasswordForLoginException;
-import com.turi.authentication.domain.exception.RefreshTokenExpiredException;
-import com.turi.authentication.domain.exception.RefreshTokenNotFoundByTokenException;
+import com.turi.authentication.domain.exception.*;
 import com.turi.authentication.domain.model.LoginParam;
 import com.turi.authentication.domain.model.LogoutParam;
 import com.turi.authentication.domain.model.RefreshParam;
@@ -13,6 +10,7 @@ import com.turi.authentication.domain.model.RegisterParam;
 import com.turi.authentication.domain.port.RefreshTokenService;
 import com.turi.authentication.infrastructure.adapter.interfaces.AuthenticationFacade;
 import com.turi.infrastructure.exception.BadRequestParameterException;
+import com.turi.premium.domain.port.PremiumService;
 import com.turi.testhelper.annotation.RestControllerTest;
 import com.turi.user.domain.exception.UserUniqueEmailException;
 import com.turi.user.domain.exception.UserUniqueUsernameException;
@@ -26,6 +24,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import static com.turi.testhelper.utils.ContextHelper.setContextUserId;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -40,6 +39,9 @@ class AuthenticationFacadeTest
 
     @Autowired(required = false)
     private AccountService accountService;
+
+    @Autowired(required = false)
+    private PremiumService premiumService;
 
     @Autowired(required = false)
     private RefreshTokenService refreshTokenService;
@@ -305,6 +307,146 @@ class AuthenticationFacadeTest
     }
 
     @Test
+    void testAuthentication_Login_InActiveAccount()
+    {
+        final var params = mockRegisterParams();
+
+        facade.register(params);
+
+        final var authParams = LoginParam.builder()
+                .withLogin(params.getEmail())
+                .withPassword(params.getPassword())
+                .build();
+
+        final var result = facade.login(authParams);
+
+        assertNotNull(result);
+        assertTrue(result.getStatusCode().is2xxSuccessful());
+
+        final var cookie = result.getHeaders().get("Set-Cookie");
+
+        assertNotNull(cookie);
+
+        assertTrue(cookie.get(0).contains("activateToken="));
+        assertTrue(cookie.get(0).contains("Max-Age=900"));
+        assertTrue(cookie.get(0).contains("Secure"));
+        assertTrue(cookie.get(0).contains("HttpOnly"));
+        assertTrue(cookie.get(0).contains("SameSite=Strict"));
+    }
+
+    @Test
+    void testAuthentication_Login_PremiumAccount()
+    {
+        final var registerParams = mockRegisterParams();
+
+        facade.register(registerParams);
+
+        accountService.activate(2L, accountService.getById(2L).getActivationCode());
+
+        accountService.updateAccountTypeToPremium(2L);
+
+        final var result = facade.login(LoginParam.builder()
+                .withLogin(registerParams.getEmail())
+                .withPassword(registerParams.getPassword())
+                .build());
+
+        assertNotNull(result);
+        assertTrue(result.getStatusCode().is2xxSuccessful());
+
+        final var cookie = result.getHeaders().get("Set-Cookie");
+
+        assertNotNull(cookie);
+
+        assertTrue(cookie.get(0).contains("loginToken="));
+        assertTrue(cookie.get(0).contains("Max-Age=900"));
+        assertTrue(cookie.get(0).contains("Secure"));
+        assertTrue(cookie.get(0).contains("HttpOnly"));
+        assertTrue(cookie.get(0).contains("SameSite=Strict"));
+    }
+
+    @Test
+    void testAuthentication_LoginPremium()
+    {
+        final var registerParams = mockRegisterParams();
+
+        facade.register(registerParams);
+
+        accountService.activate(2L, accountService.getById(2L).getActivationCode());
+
+        accountService.updateAccountTypeToPremium(2L);
+
+        facade.login(LoginParam.builder()
+                .withLogin(registerParams.getEmail())
+                .withPassword(registerParams.getPassword())
+                .build());
+
+        final var premium = premiumService.getByAccount(2L);
+
+        final var response = Mockito.mock(HttpServletResponse.class);
+
+        final var result = facade.loginPremium(premium.getLoginToken(), String.valueOf(premium.getLoginCode()), response);
+
+        assertNotNull(result);
+        assertTrue(result.getStatusCode().is2xxSuccessful());
+
+        final var cookie = result.getHeaders().get("Set-Cookie");
+
+        assertNotNull(cookie);
+
+        assertTrue(cookie.get(0).contains("accessToken="));
+        assertTrue(cookie.get(0).contains("Max-Age=900"));
+        assertTrue(cookie.get(0).contains("Secure"));
+        assertTrue(cookie.get(0).contains("HttpOnly"));
+        assertTrue(cookie.get(0).contains("SameSite=Strict"));
+
+        assertTrue(cookie.get(1).contains("refreshToken="));
+        assertTrue(cookie.get(1).contains("Max-Age=604800"));
+        assertTrue(cookie.get(1).contains("Secure"));
+        assertTrue(cookie.get(1).contains("HttpOnly"));
+        assertTrue(cookie.get(1).contains("SameSite=Strict"));
+    }
+
+    @Test
+    void testAuthentication_LoginPremium_WithoutRequiredLoginTokenField()
+    {
+        final var response = Mockito.mock(HttpServletResponse.class);
+
+        assertThrows(BadRequestParameterException.class, () -> facade.loginPremium(null, "123456", response));
+    }
+
+    @Test
+    void testAuthentication_LoginPremium_WithoutRequiredCodeField()
+    {
+        final var response = Mockito.mock(HttpServletResponse.class);
+
+        assertThrows(BadRequestParameterException.class, () -> facade.loginPremium("sample-login-token", null, response));
+    }
+
+    @Test
+    void testAuthentication_Authorize()
+    {
+        setContextUserId(mockUser().getUserId());
+
+        final var result = facade.authorize();
+
+        assertTrue(result.getStatusCode().is2xxSuccessful());
+    }
+
+    @Test
+    void testAuthentication_Authorize_AccountNotFound()
+    {
+        setContextUserId(2L);
+
+        assertThrows(UnauthorizedException.class, () -> facade.authorize());
+    }
+
+    @Test
+    void testAuthentication_Authorize_Unauthorized()
+    {
+        assertThrows(UnauthorizedException.class, () -> facade.authorize());
+    }
+
+    @Test
     void testAuthentication_Refresh()
     {
         final var params = mockRegisterParams();
@@ -449,6 +591,7 @@ class AuthenticationFacadeTest
     private User mockUser()
     {
         return User.builder()
+                .withUserId(1L)
                 .withUsername("Janek")
                 .withEmail("jan@turi.com")
                 .withPassword("JanKowalski123!")

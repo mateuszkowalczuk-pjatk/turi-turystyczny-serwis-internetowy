@@ -43,7 +43,7 @@ public class UserRestController
     }
 
     @PostMapping("/resetPassword")
-    public ResponseEntity<?> resetUserPassword(@CookieValue(value = "resetToken") final String resetToken,
+    public ResponseEntity<?> resetUserPassword(@CookieValue(value = "resetToken", required = false) final String resetToken,
                                                @RequestParam final String code,
                                                final HttpServletResponse response)
     {

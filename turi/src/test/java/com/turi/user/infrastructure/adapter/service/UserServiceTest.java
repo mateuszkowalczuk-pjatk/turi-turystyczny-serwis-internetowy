@@ -1,6 +1,6 @@
 package com.turi.user.infrastructure.adapter.service;
 
-import com.turi.infrastructure.config.SecurityProperties;
+import com.turi.infrastructure.properties.SecurityProperties;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.testhelper.annotation.ServiceTest;
 import com.turi.user.domain.exception.*;
@@ -89,6 +89,40 @@ class UserServiceTest
         final var result = service.getByEmail(user.getEmail());
 
         assertNull(result);
+    }
+
+    @Test
+    void testUser_GetUsername()
+    {
+        final var user = mockUser();
+
+        final var result = service.getUsername(user.getUserId());
+
+        assertNotNull(result);
+        assertThat(result).isEqualTo(user.getUsername());
+    }
+
+    @Test
+    void testUser_GetUsername_UserNotFound()
+    {
+        assertThrows(UserNotFoundException.class, () -> service.getById(mockNewUser().getUserId()));
+    }
+
+    @Test
+    void testUser_GetEmail()
+    {
+        final var user = mockUser();
+
+        final var result = service.getEmail(user.getUserId());
+
+        assertNotNull(result);
+        assertThat(result).isEqualTo(user.getEmail());
+    }
+
+    @Test
+    void testUser_GetEmail_UserNotFound()
+    {
+        assertThrows(UserNotFoundException.class, () -> service.getById(mockNewUser().getUserId()));
     }
 
     @Test
@@ -343,7 +377,9 @@ class UserServiceTest
 
         user.setUsername(mockNewUser().getUsername());
 
-        final var result = service.changeUsername(user.getUserId(), user.getUsername());
+        service.changeUsername(user.getUserId(), user.getUsername());
+
+        final var result = service.getById(user.getUserId());
 
         assertNotNull(result);
         assertThat(result).isEqualTo(user);
@@ -376,7 +412,9 @@ class UserServiceTest
 
         user.setEmail(mockNewUser().getEmail());
 
-        final var result = service.changeEmail(user.getUserId(), user.getEmail());
+        service.changeEmail(user.getUserId(), user.getEmail());
+
+        final var result = service.getById(user.getUserId());
 
         assertNotNull(result);
         assertThat(result).isEqualTo(user);
@@ -407,7 +445,9 @@ class UserServiceTest
 
         user.setPassword(mockNewUser().getPassword());
 
-        final var result = service.changePassword(user.getUserId(), user.getPassword());
+        service.changePassword(user.getUserId(), user.getPassword());
+
+        final var result = service.getById(user.getUserId());
 
         assertNotNull(result);
         assertThat(result.getUserId()).isEqualTo(user.getUserId());

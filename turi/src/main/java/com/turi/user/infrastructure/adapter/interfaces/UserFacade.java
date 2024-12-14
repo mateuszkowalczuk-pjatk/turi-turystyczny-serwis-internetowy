@@ -49,6 +49,16 @@ public class UserFacade
         return UserResponse.of(service.getEmail(userId));
     }
 
+    public String getUserEmailByUserId(final Long userId)
+    {
+        if (userId == null)
+        {
+            throw new BadRequestParameterException("Parameter userId must not be null.");
+        }
+
+        return service.getEmail(userId);
+    }
+
     public ResponseEntity<Boolean> isUserUsernameExists(final String username)
     {
         if (username == null)
@@ -112,7 +122,9 @@ public class UserFacade
 
         final var userId = ContextHandler.getIdFromContext();
 
-        return UserResponse.of(service.changeUsername(userId, username));
+        service.changeUsername(userId, username);
+
+        return ResponseEntity.ok().build();
     }
 
     public ResponseEntity<?> changeUserEmail(final String email)
@@ -126,7 +138,19 @@ public class UserFacade
 
         emailValidation(email);
 
-        return UserResponse.of(service.changeEmail(userId, email));
+        service.changeEmail(userId, email);
+
+        return ResponseEntity.ok().build();
+    }
+
+    private void emailValidation(final String email)
+    {
+        final var validator = "^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
+
+        if (email == null || !email.matches(validator))
+        {
+            throw new BadRequestParameterException("Invalid email. Email must be in form example@example.com.");
+        }
     }
 
     public ResponseEntity<?> changeUserPassword(final String password)
@@ -140,17 +164,9 @@ public class UserFacade
 
         passwordValidation(password);
 
-        return UserResponse.of(service.changePassword(userId, password));
-    }
+        service.changePassword(userId, password);
 
-    private void emailValidation(final String email)
-    {
-        final var validator = "^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
-
-        if (email == null || !email.matches(validator))
-        {
-            throw new BadRequestParameterException("Invalid email. Email must be in form example@example.com.");
-        }
+        return ResponseEntity.ok().build();
     }
 
     private void passwordValidation(final String password)

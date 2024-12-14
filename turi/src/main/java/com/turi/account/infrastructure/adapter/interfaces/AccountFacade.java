@@ -75,6 +75,13 @@ public class AccountFacade
         return AccountResponse.of(service.isPhoneNumberExists(accountId, phoneNumber));
     }
 
+    public ResponseEntity<Boolean> isAccountPremium()
+    {
+        final var accountId = ContextHandler.getIdFromContext();
+
+        return AccountResponse.of(service.isPremium(accountId));
+    }
+
     public ResponseEntity<?> activateAccount(final String code, final HttpServletResponse response)
     {
         if (code == null)
@@ -114,5 +121,19 @@ public class AccountFacade
         final var accountId = ContextHandler.getIdFromContext();
 
         return AccountResponse.of(service.update(accountId, account));
+    }
+
+    public void updateAccountTypeToPremium()
+    {
+        final var accountId = ContextHandler.getIdFromContext();
+
+        service.updateAccountTypeToPremium(accountId);
+    }
+
+    public void updateAccountTypeToNormal()
+    {
+        final var accountId = ContextHandler.getIdFromContext();
+
+        service.updateAccountTypeToNormal(accountId);
     }
 }

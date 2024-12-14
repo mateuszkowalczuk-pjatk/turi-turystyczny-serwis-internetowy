@@ -17,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -38,16 +39,16 @@ public class SecurityConfig
                         .requestMatchers(
                                 "/api/auth/register",
                                 "/api/auth/login",
+                                "/api/auth/loginPremium",
                                 "/api/auth/refresh",
                                 "/api/user/sendResetPasswordCode",
                                 "/api/user/resetPassword",
                                 "/api/user/isUsernameExists",
-                                "/api/user/isEmailExists"
+                                "/api/user/isEmailExists",
+                                "/api/payment/webhook"
                         ).permitAll()
-                        .requestMatchers(
-                                "/api/account/activate"
-                        ).hasRole(AccountType.INACTIVE.getName())
-                        .requestMatchers("/api/premium/**").hasRole(AccountType.PREMIUM.getName())
+                        .requestMatchers("/api/account/activate").hasRole(AccountType.INACTIVE.getName())
+                        .requestMatchers("/api/premium/premium/**").hasRole(AccountType.PREMIUM.getName())
                         .requestMatchers("/api/**").hasAnyRole(AccountType.NORMAL.getName(), AccountType.PREMIUM.getName())
                         .anyRequest().authenticated())
                 .cors(Customizer.withDefaults())
@@ -88,5 +89,11 @@ public class SecurityConfig
         source.registerCorsConfiguration("/**", config);
 
         return new CorsFilter(source);
+    }
+
+    @Bean
+    public RestTemplate restTemplate()
+    {
+        return new RestTemplate();
     }
 }

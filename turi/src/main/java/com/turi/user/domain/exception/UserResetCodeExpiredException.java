@@ -9,6 +9,6 @@ public final class UserResetCodeExpiredException extends RuntimeException
 
     public UserResetCodeExpiredException()
     {
-        super("User reset code has expired. A new activation code has been sent.");
+        super("User reset code has expired!");
     }
 }

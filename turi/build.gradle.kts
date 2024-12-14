@@ -52,6 +52,8 @@ dependencies {
     implementation("org.apache.httpcomponents.core5:httpcore5")
 
     implementation("org.springframework.boot:spring-boot-starter-mail")
+
+    implementation("com.stripe:stripe-java:24.0.0")
 }
 
 tasks.withType<Test> {
