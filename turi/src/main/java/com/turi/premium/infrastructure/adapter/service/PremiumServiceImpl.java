@@ -207,7 +207,7 @@ public class PremiumServiceImpl implements PremiumService
             throw new PremiumActivatedException(premium.getPremiumId());
         }
 
-        return paymentFacade.payForPremium(accountId, premiumProperties.getPrice(), method);
+        return paymentFacade.payForPremium(premium.getPremiumId(), premiumProperties.getPrice(), method);
     }
 
     @Override

@@ -20,7 +20,7 @@ spring:
         host: smtp.gmail.com
         port: 587
         username: noreply.turi@gmail.com
-        password: zrpuiuyahtqpppsb
+        password:
         properties:
             mail:
                 smtp:
@@ -30,7 +30,7 @@ spring:
 
 security:
     jwt:
-        secret-key: 7bfe24ef14214c1c0ea519f8fc057a80fcd04a7420f8e8bcd0a7567c272e007b
+        secret-key:
         access-token-expiration-time: 900
         refresh-token-expiration-time: 604800
 
@@ -40,10 +40,10 @@ springdoc:
         path: /swagger-ui
 
 stripe:
-    secret-key: sk_test_51QQXh7CSCKL1O9vwSd4Kbrv52qCCUQXSvAEDqBcQ8NQUjq9KRo33EdoN1yhPgknfceJKrNK4xlQEqJgcb0DxiHUk00XFVchD2I
-    success-url: http://localhost:8080/premium/payment-check
-    cancel-url: http://localhost:8080/premium/payment
-    webhook-secret-key: whsec_44044973b8d5c9ca85880298170c6461d14a2b68bcff6e41d0c0d9e8b1979f18
+    secret-key:
+    success-url: http://localhost:3000/premium/payment-check
+    cancel-url: http://localhost:3000/premium/payment
+    webhook-secret-key:
 
 premium:
     price: 100
