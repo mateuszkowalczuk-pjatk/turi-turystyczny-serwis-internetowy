@@ -36,6 +36,12 @@ public class AccountRestController
         return facade.isAccountPhoneNumberExists(phoneNumber);
     }
 
+    @GetMapping("/isPremium")
+    public ResponseEntity<Boolean> isAccountPremium()
+    {
+        return facade.isAccountPremium();
+    }
+
     @PostMapping("/activate")
     public ResponseEntity<?> activateAccount(@RequestParam final String code, final HttpServletResponse response)
     {

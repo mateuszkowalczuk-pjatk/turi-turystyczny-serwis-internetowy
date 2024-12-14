@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 
@@ -19,7 +20,7 @@ public final class AuthenticationResponse
         {
             final var loginTokenCookie = prepareCookie("loginToken", authentication.getLoginToken(), authentication.getAccessTokenExpiresIn());
 
-            return ResponseEntity.accepted()
+            return ResponseEntity.status(HttpStatus.CREATED)
                     .header(HttpHeaders.SET_COOKIE, loginTokenCookie.toString())
                     .build();
         }

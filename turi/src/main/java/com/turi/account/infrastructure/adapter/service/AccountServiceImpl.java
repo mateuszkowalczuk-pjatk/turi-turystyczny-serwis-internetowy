@@ -69,6 +69,21 @@ public class AccountServiceImpl implements AccountService
     }
 
     @Override
+    public Boolean isPremium(final Long accountId)
+    {
+        try
+        {
+            final var account = getById(accountId);
+
+            return account.getAccountType().equals(AccountType.PREMIUM);
+        }
+        catch (final AccountNotFoundException ex)
+        {
+            return false;
+        }
+    }
+
+    @Override
     public void activate(final Long id, final Integer code)
     {
         final var account = getById(id);
