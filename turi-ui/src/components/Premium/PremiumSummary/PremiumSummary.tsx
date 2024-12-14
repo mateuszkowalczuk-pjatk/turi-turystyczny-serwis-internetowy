@@ -11,7 +11,7 @@ const PremiumSummary = () => {
                     components={{
                         1: (
                             <Link
-                                to="/offers"
+                                to="/tourism"
                                 className={styles.link}
                             />
                         )

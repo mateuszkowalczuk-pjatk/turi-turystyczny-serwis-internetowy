@@ -44,9 +44,9 @@ const PremiumVerifyPage = () => {
     useAuth()
 
     useEffect(() => {
-        if (isPremiumAccount) {
-            navigate('/')
-        }
+        // if (isPremiumAccount) {
+        //     navigate('/')
+        // }
 
         const fetchData = async () => {
             const isExistsForAccountResponse = await premiumService.isExistsForAccount()

@@ -25,7 +25,7 @@ const AppRoutes = () => {
                 if (authorize.status === 200) {
                     dispatch(login())
                     const account = await accountService.isPremium()
-                    if (account.status === 200) {
+                    if (account.status === 200 && (await account.json())) {
                         dispatch(premiumAccount())
                     }
                 } else {
@@ -34,7 +34,7 @@ const AppRoutes = () => {
                         dispatch(login())
                         const account = await accountService.isPremium()
                         console.log(account.json())
-                        if (account.status === 200) {
+                        if (account.status === 200 && (await account.json())) {
                             dispatch(premiumAccount())
                         }
                     } else {

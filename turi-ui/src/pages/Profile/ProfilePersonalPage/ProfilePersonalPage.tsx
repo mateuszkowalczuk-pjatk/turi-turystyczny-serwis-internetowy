@@ -104,8 +104,6 @@ const ProfilePersonalPage = () => {
                 } else {
                     setError(t('signup-personal.error-default-personal'))
                 }
-            } catch (error) {
-                setError(t('signup-personal.error-default-personal'))
             } finally {
                 setLoading(false)
             }

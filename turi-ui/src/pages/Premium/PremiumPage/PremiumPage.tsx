@@ -21,9 +21,9 @@ const PremiumPage = () => {
     useAuth()
 
     useEffect(() => {
-        if (isPremiumAccount) {
-            navigate('/')
-        }
+        // if (isPremiumAccount) {
+        //     navigate('/')
+        // }
 
         const fetchOffer = async () => {
             const response = await premiumService.getOffer()
@@ -33,7 +33,7 @@ const PremiumPage = () => {
             }
         }
         fetchOffer().catch((error) => error)
-    }, [])
+    }, [isPremiumAccount])
 
     return (
         <>

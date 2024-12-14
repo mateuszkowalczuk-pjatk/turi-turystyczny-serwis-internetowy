@@ -19,7 +19,7 @@ export const useAuth = () => {
                 if (authorize.status === 200) {
                     dispatch(login())
                     const account = await accountService.isPremium()
-                    if (account.status === 200) {
+                    if (account.status === 200 && (await account.json())) {
                         dispatch(premiumAccount())
                     }
                 } else {
@@ -27,7 +27,7 @@ export const useAuth = () => {
                     if (refresh.status === 200) {
                         dispatch(login())
                         const account = await accountService.isPremium()
-                        if (account.status === 200) {
+                        if (account.status === 200 && (await account.json())) {
                             dispatch(premiumAccount())
                         }
                     } else {

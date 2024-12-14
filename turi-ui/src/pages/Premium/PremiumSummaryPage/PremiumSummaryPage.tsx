@@ -5,7 +5,6 @@ import { useEffect } from 'react'
 import { useAuth } from '../../../hooks/useAuth.ts'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../store/store.ts'
-import { useNavigate } from 'react-router-dom'
 import { authService } from '../../../services/authService.ts'
 import { login } from '../../../store/slices/auth.ts'
 import { accountService } from '../../../services/accountService.ts'
@@ -15,14 +14,13 @@ const PremiumSummaryPage = () => {
     const { t } = useTranslation()
     const isPremiumAccount = useSelector((state: RootState) => state.premium.isPremiumAccount)
     const dispatch = useDispatch()
-    const navigate = useNavigate()
 
     useAuth()
 
     useEffect(() => {
-        if (!isPremiumAccount) {
-            navigate('/')
-        }
+        // if (!isPremiumAccount) {
+        //     navigate('/')
+        // }
 
         const fetchOffer = async () => {
             const refresh = await authService.refresh()
@@ -36,7 +34,7 @@ const PremiumSummaryPage = () => {
         }
 
         fetchOffer().catch((error) => error)
-    }, [])
+    }, [isPremiumAccount])
 
     return (
         <>

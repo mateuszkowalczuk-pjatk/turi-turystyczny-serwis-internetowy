@@ -12,9 +12,9 @@ import { GreenButton } from '../../../components/Controls/Button'
 import { premiumService } from '../../../services/premiumService.ts'
 import { Offer, PaymentMethod } from '../../../types'
 import { notPaymentPremiumFailed, paymentPremiumFailed } from '../../../store/slices/premiumPaymentFailed.ts'
-import styles from './PremiumPaymentPage.module.css'
 import { useAuth } from '../../../hooks/useAuth.ts'
 import { notBuyPremium } from '../../../store/slices/premiumBuy.ts'
+import styles from './PremiumPaymentPage.module.css'
 
 const PremiumPaymentPage = () => {
     const { t } = useTranslation()
@@ -33,9 +33,9 @@ const PremiumPaymentPage = () => {
     useAuth()
 
     useEffect(() => {
-        if (isPremiumAccount) {
-            navigate('/')
-        }
+        // if (isPremiumAccount) {
+        //     navigate('/')
+        // }
 
         if (!isPremiumBuy) {
             navigate('/premium')

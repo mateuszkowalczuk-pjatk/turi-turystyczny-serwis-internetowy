@@ -6,6 +6,7 @@
         "stays": "Pobyty",
         "favourites": "Ulubione",
         "premium": "Premium",
+        "tourism": "Turystyka",
         "name": "Konto",
         "profile": "Profil",
         "logout": "Wyloguj się"
@@ -27,7 +28,8 @@
             "header-text": "Nie posiadasz jeszcze konta w Turi?",
             "sign-up-text": "Załóż konto już dziś, żeby móc rezerwować oferty pobytów oraz atrakcji i spędzać czas w pięknych miejscach na swój ulubiony sposób!",
             "premium-account-text": "Jeśli posiadasz własne miejsce turystyczne, wykup pakiet premium i udostępniaj jego oferty pobytu oraz atrakcji!",
-            "reservations": "Sprawdź swoje nadchodzące rezerwacje!"
+            "reservations": "Sprawdź swoje nadchodzące rezerwacje!",
+            "reservations-premium-title": "Sprawdź zarezerwowane oferty twojego miejsca przez klientów!"
         },
         "proposition": {
             "stay": "Zobacz najpopularniejsze miejsca pobytów!",
@@ -55,6 +57,7 @@
         "your-account": "Twoje konto",
         "reservations": "Rezerwacje",
         "favourites": "Ulubione",
+        "tourism": "Turystyka",
         "account": "Konto",
         "offers": "Przeglądaj oferty",
         "stays": "Pobyty",
@@ -133,7 +136,8 @@
         "error-invalid-apartment-number": "Numer mieszkania jest nieprawidłowy",
         "error-phone-number-exists": "Podany numer telefonu jest już używany przez inne konto",
         "error-address-exists": "Podany adres zamieszkania jest już używany przez inne konto",
-        "error-general": "Nie udało się spersonalizować konta"
+        "error-general": "Nie udało się spersonalizować konta",
+        "error-default-personal": "Nie udało się spersonalizować konta"
     },
     "login": {
         "title": "Zaloguj się do Turi",
@@ -190,6 +194,7 @@
         "account": "Konto",
         "data": "Dane osobowe",
         "preference": "Preferencje",
+        "premium": "Premium",
         "save": "Zapisz",
         "login": "Login",
         "email": "Adres email",
@@ -219,7 +224,19 @@
         "error-password-mismatch": "Hasła nie są takie same",
         "error-password": "Nie udało się zmienić hasła",
         "error-default": "Nie udało się zmienić danych konta",
-        "error-default-personal": "Błąd podczas wyświetlania danych personalnych"
+        "error-default-personal": "Błąd podczas wyświetlania danych personalnych",
+        "premium-company-name": "Nazwa firmy",
+        "premium-nip": "NIP (Numer Identyfikacji Podatkowej)",
+        "premium-bank-account-number": "Numer konta bankowego",
+        "premium-company-name-placeholder": "Nazwa firmy",
+        "premium-nip-placeholder": "NIP",
+        "premium-bank-account-number-placeholder": "Number konta",
+        "premium-title": "Czas trwania premium",
+        "premium-description": "Powyżej znajduje się czas trwania twojego pakietu premium. Jeśli zdecydujesz się ponownie wykupić pakiet tydzień przed końcem jego ważności, kolejny okres trwania rozpocznie się od momentu końca poprzedniego pakietu. Możesz również zrezygnować z aktywnego pakietu premium, bez możliwości zwrotu kosztów.",
+        "premium-renew-button": "Odnów",
+        "premium-cancel-button": "Zrezygnuj",
+        "premium-renew-default-error": "Nie udało się odnowić premium!",
+        "premium-cancel-default-error": "Nie udało się zrezygnować z premium!"
     },
     "premium": {
         "title": "Zakup konta premium",
@@ -248,17 +265,26 @@
         "verify-company-nip-placeholder": "NIP",
         "verify-back-button": "Powrót",
         "verify-next-button": "Dalej",
+        "verify-invalid-company": "Podano niepoprawne dane firmy",
+        "verify-error-default": "Nie udało się zweryfikować danych firmy",
         "payment-description": "Wybierz formę płatności i opłać zakup pakietu premium!",
         "payment-title": "Pakiet premium",
         "payment-access": "Ważność {{months}} miesięcy",
         "payment-offer-description": "Rozszerzenie konta klienckiego o możliwość udostępniania ofert swojego miejsca turystycznego w postaci ofert pobytu i atrakcji.",
         "payment-option": "Płatność",
         "payment-card": "Karta",
-        "payment-privacy-policy": "Czy akceptujesz politykę prywatności?",
+        "payment-privacy-policy": "Czy akceptujesz <1>politykę prywatności</1>?",
+        "payment-failed": "Nie udało się opłacić premium!",
+        "payment-privacy-police-required": "Zaakceptuj politykę prywatności!",
+        "payment-method-required": "Wybierz metodę płatności!",
+        "payment-error-default": "Nie udało się przejść do płatności!",
+        "payment-check-loader": "Trwa sprawdzanie płatności",
         "summary-description": "Witaj użytkowniku premium!",
         "summary-first-text": "W ramach strony głównej Turi pojawiła się zakładka <1>Twoje oferty</1>, w której możesz dodać miejsce turystyczne oraz oferty pobytu i atrakcji w ramach niego. ",
         "summary-second-text": "W profilu możesz znaleźć dodatkową zakładkę <1>Premium</1> zawierającą informację o twoim koncie premium.",
-        "summary-third-text": "Po kliknięciu na nazwę swojego profilu wyświeli Ci się nowa opcja <1>Statystyki</1>, pod którą znajdziesz stronę ze statystykami i innymi szczegółami odnoście pobytów w twoim miejscu turystycznym."
+        "summary-third-text": "Po kliknięciu na nazwę swojego profilu wyświeli Ci się nowa opcja <1>Statystyki</1>, pod którą znajdziesz stronę ze statystykami i innymi szczegółami odnoście pobytów w twoim miejscu turystycznym.",
+        "error-invalid-bank-account": "Podany numer konta jest niepoprawny.",
+        "error-invalid-nip": "Podany nip jest niepoprawny."
     },
     "not-found": {
         "404": "404",

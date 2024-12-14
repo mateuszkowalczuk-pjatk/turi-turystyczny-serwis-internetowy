@@ -4,7 +4,7 @@ import TextRegular from '../../Controls/Text/TextRegular'
 import ProfileButtons from '../ProfileButtons'
 import { useEffect, useState } from 'react'
 import { premiumService } from '../../../services/premiumService.ts'
-import { Offer } from '../../../types'
+import { Offer, Premium } from '../../../types'
 import { useTranslation } from 'react-i18next'
 
 const ProfilePremium = () => {
@@ -23,15 +23,19 @@ const ProfilePremium = () => {
 
         fetchOffer().catch((error) => error)
 
-        if (months !== null) {
-            const start = new Date()
-            const end = new Date(start)
-            end.setMonth(start.getMonth() + months)
-            const startDate = `${start.getDate()}.${start.getMonth() + 1}.${start.getFullYear()}`
-            const endDate = `${end.getDate()}.${end.getMonth() + 1}.${end.getFullYear()}`
-            const finalDate = `${startDate || ''} - ${endDate || ''}`
-            setDate(finalDate)
+        const fetchDate = async () => {
+            if (months !== null) {
+                const response = await premiumService.getByAccount()
+                if (response.status === 200) {
+                    const premium: Premium = await response.json()
+                    const start = premium.buyDate
+                    const end = premium.expiresDate
+                    const finalDate = `${start || ''} - ${end || ''}`
+                    setDate(finalDate)
+                }
+            }
         }
+        fetchDate().catch((error) => error)
     }, [months, date])
 
     return (
