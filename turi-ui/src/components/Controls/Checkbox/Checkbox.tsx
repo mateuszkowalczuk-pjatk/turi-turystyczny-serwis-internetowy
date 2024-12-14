@@ -1,13 +1,15 @@
 import TextRegular from '../Text/TextRegular'
 import styles from './Checkbox.module.css'
+import { ReactNode } from 'react'
 
 interface Props {
     checked: boolean
     onChange: () => void
-    text: string
+    text?: string
+    textPolicy?: ReactNode
 }
 
-const Checkbox = ({ checked, onChange, text }: Props) => {
+const Checkbox = ({ checked, onChange, text, textPolicy }: Props) => {
     return (
         <label className={styles.checkbox}>
             <input
@@ -16,7 +18,7 @@ const Checkbox = ({ checked, onChange, text }: Props) => {
                 type="checkbox"
             />
             <span className={styles.custom}></span>
-            <TextRegular text={text} />
+            {text ? <TextRegular text={text} /> : <span>{textPolicy}</span>}
         </label>
     )
 }

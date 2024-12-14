@@ -1,5 +1,5 @@
 export const nipValidation = (nip: string): boolean => {
-    return !/^\d{11}$/.test(nip)
+    return !/^\d{10}$/.test(nip)
 }
 
 export const bankAccountNumberValidation = (bankAccountNumber: string): boolean => {

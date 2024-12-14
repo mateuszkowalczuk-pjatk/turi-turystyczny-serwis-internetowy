@@ -1,6 +1,6 @@
 import { API_BASE_URL } from '../config/api'
 import { API } from './constants.ts'
-import { PremiumCompanyParam, PremiumVerifyParam } from '../types'
+import { PaymentMethod, PremiumCompanyParam, PremiumVerifyParam } from '../types'
 
 export const premiumService = {
     getOffer: async () => {
@@ -54,7 +54,7 @@ export const premiumService = {
         })
     },
 
-    pay: async (method: string) => {
+    pay: async (method: PaymentMethod) => {
         return await fetch(`${API_BASE_URL}${API.PREMIUM.PAY}?method=${method}`, {
             method: 'POST',
             headers: {
@@ -64,7 +64,7 @@ export const premiumService = {
         })
     },
 
-    renew: async (method: string) => {
+    renew: async (method: PaymentMethod) => {
         return await fetch(`${API_BASE_URL}${API.PREMIUM.RENEW}?method=${method}`, {
             method: 'PUT',
             headers: {

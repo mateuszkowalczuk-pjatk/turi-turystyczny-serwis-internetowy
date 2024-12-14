@@ -1,0 +1,60 @@
+.payment {
+    width: 50%;
+    height: 18rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.payment p {
+    color: var(--dark);
+}
+
+.paymentOptions {
+    display: flex;
+    justify-content: center;
+    gap: 6%;
+}
+
+.paymentOption {
+    width: 47%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid var(--grey);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+.paymentOption:hover {
+    border-color: var(--light-green);
+    background-color: var(--light-green);
+    color: var(--white);
+}
+
+.paymentOptionSelected {
+    border-color: var(--light-green);
+    background-color: var(--white);
+    font-weight: bold;
+}
+
+.link {
+    color: var(--dark);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.link:visited {
+    color: var(--dark);
+}
+
+.link:hover,
+.link:active,
+.link:focus {
+    color: var(--dark);
+    text-decoration: none;
+    font-weight: bold;
+}

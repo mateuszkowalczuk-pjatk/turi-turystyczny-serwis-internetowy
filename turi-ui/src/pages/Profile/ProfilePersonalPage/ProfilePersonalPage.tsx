@@ -111,7 +111,7 @@ const ProfilePersonalPage = () => {
             }
         }
 
-        fetchData().catch((error) => console.log(error))
+        fetchData().catch((error) => error)
     }, [isAuthenticated, navigate, t])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

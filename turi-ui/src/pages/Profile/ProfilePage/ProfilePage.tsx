@@ -55,7 +55,7 @@ const ProfilePage = () => {
             }
         }
 
-        fetchUsernameAndEmail().catch((error) => console.log(error))
+        fetchUsernameAndEmail().catch((error) => error)
     }, [isAuthenticated, navigate])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

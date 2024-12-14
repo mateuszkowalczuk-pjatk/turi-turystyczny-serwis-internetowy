@@ -28,7 +28,7 @@ const AppRoutes = () => {
             }
         }
 
-        checkUserAuth().catch((error) => console.log(error))
+        checkUserAuth().catch((error) => error)
     }, [dispatch, isAuthenticated])
 
     return (

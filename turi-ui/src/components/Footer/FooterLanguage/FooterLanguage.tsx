@@ -23,9 +23,7 @@ const FooterLanguage = () => {
             .then(() => {
                 setCookie('language', language)
             })
-            .catch((error) => {
-                console.error(error)
-            })
+            .catch((error) => error)
     }
 
     return (
