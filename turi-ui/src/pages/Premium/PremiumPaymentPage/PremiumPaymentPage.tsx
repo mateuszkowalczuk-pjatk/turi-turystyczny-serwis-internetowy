@@ -13,6 +13,8 @@ import { premiumService } from '../../../services/premiumService.ts'
 import { Offer, PaymentMethod } from '../../../types'
 import { notPaymentPremiumFailed, paymentPremiumFailed } from '../../../store/slices/premiumPaymentFailed.ts'
 import styles from './PremiumPaymentPage.module.css'
+import { useAuth } from '../../../hooks/useAuth.ts'
+import { notBuyPremium } from '../../../store/slices/premiumBuy.ts'
 
 const PremiumPaymentPage = () => {
     const { t } = useTranslation()
@@ -20,6 +22,7 @@ const PremiumPaymentPage = () => {
     const dispatch = useDispatch()
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
     const isPremiumBuy = useSelector((state: RootState) => state.premiumBuy.isPremiumBuy)
+    const isPremiumAccount = useSelector((state: RootState) => state.premium.isPremiumAccount)
     const isPremiumPaymentFailed = useSelector((state: RootState) => state.premiumPaymentFailed.isPremiumPaymentFailed)
     const [months, setMonths] = useState<number | null>(null)
     const [date, setDate] = useState<string | null>(null)
@@ -27,11 +30,15 @@ const PremiumPaymentPage = () => {
     const [privacyPolicy, setPrivacyPolicy] = useState<boolean>(false)
     const [error, setError] = useState<string | null>(null)
 
+    useAuth()
+
     useEffect(() => {
-        if (!isAuthenticated) {
+        if (isPremiumAccount) {
             navigate('/')
-        } else if (!isPremiumBuy) {
-            navigate('/premium/offer')
+        }
+
+        if (!isPremiumBuy) {
+            navigate('/premium')
         }
 
         if (isPremiumPaymentFailed) {
@@ -59,7 +66,7 @@ const PremiumPaymentPage = () => {
             const finalDate = `${startDate || ''} - ${endDate || ''}`
             setDate(finalDate)
         }
-    }, [isAuthenticated, isPremiumBuy, months, navigate])
+    }, [isAuthenticated, isPremiumAccount, isPremiumBuy, months, navigate])
 
     const handlePayment = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -79,6 +86,7 @@ const PremiumPaymentPage = () => {
         const response = await premiumService.pay(paymentMethod)
         if (response.status === 200) {
             const url = await response.text()
+            dispatch(notBuyPremium())
             dispatch(paymentPremiumFailed())
             window.location.href = url
         } else {

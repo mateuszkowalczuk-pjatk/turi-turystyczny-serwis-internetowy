@@ -8,17 +8,20 @@ import PremiumOffer from '../../../components/Premium/PremiumOffer'
 import { GreenButton } from '../../../components/Controls/Button'
 import { premiumService } from '../../../services/premiumService.ts'
 import { Offer } from '../../../types'
+import { useAuth } from '../../../hooks/useAuth.ts'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../store/store.ts'
 
 const PremiumPage = () => {
     const { t } = useTranslation()
     const navigate = useNavigate()
-    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
+    const isPremiumAccount = useSelector((state: RootState) => state.premium.isPremiumAccount)
     const [offer, setOffer] = useState<Offer | null>(null)
 
+    useAuth()
+
     useEffect(() => {
-        if (!isAuthenticated) {
+        if (isPremiumAccount) {
             navigate('/')
         }
 
@@ -29,7 +32,6 @@ const PremiumPage = () => {
                 setOffer(offer)
             }
         }
-
         fetchOffer().catch((error) => error)
     }, [])
 

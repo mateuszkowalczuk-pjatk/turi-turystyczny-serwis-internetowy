@@ -22,6 +22,7 @@ export const API = {
         GET_BY_ID: '/api/account/getById',
         IS_ADDRESS_EXISTS: '/api/account/isAddressExists',
         IS_PHONE_NUMBER_EXISTS: '/api/account/isPhoneNumberExists',
+        IS_PREMIUM: '/api/account/isPremium',
         ACTIVATE: '/api/account/activate',
         UPDATE: '/api/account/update'
     },

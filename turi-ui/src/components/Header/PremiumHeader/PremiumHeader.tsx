@@ -21,6 +21,10 @@ const PremiumHeader = () => {
         console.log('Favourites')
     }
 
+    const navigateToTourism = () => {
+        console.log('Tourism')
+    }
+
     const navigateToOffers = () => {
         navigate('/offers')
     }
@@ -47,12 +51,13 @@ const PremiumHeader = () => {
                             onClick={navigateToFavourites}
                         />
                     }
-                    // fourthLink={
-                    //     <TextRegular
-                    //         text={t('header.offers')}
-                    //         onClick={navigateToOffers}
-                    //     />
-                    // }
+                    fourthLink={
+                        <TextRegular
+                            text={t('header.tourism')}
+                            onClick={navigateToTourism}
+                        />
+                    }
+                    isPremium
                 />
             }
             buttons={

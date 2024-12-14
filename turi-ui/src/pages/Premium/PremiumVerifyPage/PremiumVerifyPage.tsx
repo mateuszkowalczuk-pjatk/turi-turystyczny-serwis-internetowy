@@ -15,6 +15,7 @@ import { buyPremium, notBuyPremium } from '../../../store/slices/premiumBuy.ts'
 import { bankAccountNumberValidation, nipValidation } from '../../../utils/companyValidation.ts'
 import { accountService } from '../../../services/accountService.ts'
 import { Account, Premium, PremiumCompanyParam, PremiumVerifyParam } from '../../../types'
+import { useAuth } from '../../../hooks/useAuth.ts'
 import styles from './PremiumVerifyPage.module.css'
 
 interface FormData {
@@ -36,12 +37,14 @@ const PremiumVerifyPage = () => {
         companyName: '',
         nip: ''
     })
-    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
+    const isPremiumAccount = useSelector((state: RootState) => state.premium.isPremiumAccount)
     const [error, setError] = useState<string | null>(null)
     const [loading, setLoading] = useState(false)
 
+    useAuth()
+
     useEffect(() => {
-        if (!isAuthenticated) {
+        if (isPremiumAccount) {
             navigate('/')
         }
 
@@ -65,7 +68,7 @@ const PremiumVerifyPage = () => {
         }
 
         fetchData().catch((error) => error)
-    }, [isAuthenticated, navigate])
+    }, [isPremiumAccount, navigate])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setError(null)

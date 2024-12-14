@@ -14,13 +14,16 @@ interface Props {
 const HeaderButtons = ({ text, firstOnClick, secondOnClick }: Props) => {
     const { t } = useTranslation()
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
+    const isPremiumAccount = useSelector((state: RootState) => state.premium.isPremiumAccount)
 
     return (
         <div className={styles.buttons}>
-            <GreyButton
-                text={text}
-                onClick={firstOnClick}
-            />
+            {!isPremiumAccount && (
+                <GreyButton
+                    text={text}
+                    onClick={firstOnClick}
+                />
+            )}
             {!isAuthenticated ? (
                 <GreyButton
                     text={t('header.sign-up-button')}

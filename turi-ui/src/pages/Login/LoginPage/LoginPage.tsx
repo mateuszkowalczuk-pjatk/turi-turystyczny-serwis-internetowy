@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { authService } from '../../../services/authService.ts'
 import { login } from '../../../store/slices/auth.ts'
 import { activation } from '../../../store/slices/activate.ts'
+import { loginPremium } from '../../../store/slices/premiumLogin.ts'
 import { RootState } from '../../../store/store.ts'
 
 interface FormData {
@@ -61,6 +62,9 @@ const LoginPage = () => {
         } else if (response.status === 202) {
             dispatch(activation())
             navigate('/signup/verify')
+        } else if (response.status === 201) {
+            dispatch(loginPremium())
+            navigate('/login/premium-code')
         } else if (response.status === 401) {
             setError(t('login.error-credentials'))
             setLoading(false)

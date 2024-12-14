@@ -55,6 +55,16 @@ export const accountService = {
         })
     },
 
+    isPremium: async () => {
+        return await fetch(`${API_BASE_URL}${API.ACCOUNT.IS_PREMIUM}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        })
+    },
+
     activate: async (code: number) => {
         return await fetch(`${API_BASE_URL}${API.ACCOUNT.ACTIVATE}?code=${code}`, {
             method: 'POST',

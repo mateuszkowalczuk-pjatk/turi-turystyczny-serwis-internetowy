@@ -13,6 +13,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../store/store.ts'
 import { authService } from '../../../services/authService.ts'
 import { login } from '../../../store/slices/auth.ts'
+import { notLoginPremium } from '../../../store/slices/premiumLogin.ts'
+import { premiumAccount } from '../../../store/slices/premium.ts'
 
 interface FormData {
     code: string
@@ -30,9 +32,9 @@ const LoginPremiumCodePage = () => {
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
-        // if (!isPremiumLogin) {
-        //     navigate('/login')
-        // }
+        if (!isPremiumLogin) {
+            navigate('/login')
+        }
     }, [isPremiumLogin, navigate])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,21 +56,21 @@ const LoginPremiumCodePage = () => {
 
         const response = await authService.loginPremium(formData.code)
         if (response.status === 200) {
-            // dispatch(notResetPassword())
             const refresh = await authService.refresh()
             if (refresh.status === 200) {
                 dispatch(login())
-                // zmiana stanu logowania na auth true
+                dispatch(premiumAccount())
+                dispatch(notLoginPremium())
                 navigate('/')
             }
         } else if (response.status === 400) {
-            setError(t('login-code.error-reset-code-expired'))
+            setError(t('login-premium.error-login-code-expired'))
             setLoading(false)
         } else if (response.status === 404) {
-            setError(t('login-code.error-not-found-by-token'))
+            setError(t('login-premium.error-not-found-by-token'))
             setLoading(false)
         } else {
-            setError(t('login-code.error-default'))
+            setError(t('login-premium.error-default'))
             setFormData({
                 code: ''
             })

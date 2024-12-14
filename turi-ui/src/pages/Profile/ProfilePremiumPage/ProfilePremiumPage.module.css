@@ -1,4 +1,9 @@
 .page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 26rem;
+    width: 100%;
 }
 
 @media (max-width: 768px) {

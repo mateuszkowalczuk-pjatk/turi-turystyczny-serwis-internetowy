@@ -23,7 +23,7 @@ const PremiumFooter = () => {
                                 firstOption={<TextRegular text={t('footer.reservations')} />}
                                 secondOption={<TextRegular text={t('footer.stays')} />}
                                 thirdOption={<TextRegular text={t('footer.favourites')} />}
-                                fourthOption={<TextRegular text={t('footer.premium')} />}
+                                fourthOption={<TextRegular text={t('footer.tourism')} />}
                                 fifthOption={<TextRegular text={t('footer.account')} />}
                             />
                         }
