@@ -186,16 +186,17 @@ CREATE TABLE IF NOT EXISTS touristicplace
 (
     touristicplaceid      SERIAL       PRIMARY KEY,
     premiumid             INTEGER      NOT NULL UNIQUE,
-    addressid             INTEGER      NOT NULL UNIQUE,
-    touristicplacetype    INTEGER      NOT NULL,
-    name                  VARCHAR(50)  NOT NULL,
-    description           VARCHAR(255) NOT NULL,
-    information           VARCHAR(255) NOT NULL,
-    checkintimefrom       DATE         NOT NULL,
-    checkintimeto         DATE         NOT NULL,
-    checkouttimefrom      DATE         NOT NULL,
-    checkouttimeto        DATE         NOT NULL,
-    prepayment            BOOLEAN      NOT NULL,
+    addressid             INTEGER               UNIQUE,
+    touristicplacetype    INTEGER,
+    name                  VARCHAR(50),
+    description           VARCHAR(255),
+    information           VARCHAR(255),
+    ownerdescription      VARCHAR(255),
+    checkintimefrom       DATE,
+    checkintimeto         DATE,
+    checkouttimefrom      DATE,
+    checkouttimeto        DATE,
+    prepayment            BOOLEAN,
     cancelreservationdays INTEGER,
     CONSTRAINT touristicplacepremium FOREIGN KEY (premiumid) REFERENCES premium (premiumid),
     CONSTRAINT touristicplaceaddress FOREIGN KEY (addressid) REFERENCES address (addressid)
@@ -206,16 +207,17 @@ CREATE INDEX IF NOT EXISTS touristicplacepremiumindex ON premium (premiumid);
 COMMENT ON TABLE  touristicplace                       IS 'Table to store data about premium user touristic place.';
 COMMENT ON COLUMN touristicplace.touristicplaceid      IS 'Unique required primary key of the touristicplace table.';
 COMMENT ON COLUMN touristicplace.premiumid             IS 'Unique required foreign key of user premium.';
-COMMENT ON COLUMN touristicplace.addressid             IS 'Unique required foreign key of touristic place address.';
-COMMENT ON COLUMN touristicplace.touristicplacetype    IS 'Required touristic place type (1 - Guesthouse, 2 - Apartment, 3 - Cottages, 4 - Hotel, 5 - B&B, 6 - Hostel).';
-COMMENT ON COLUMN touristicplace.name                  IS 'Required touristic place name.';
-COMMENT ON COLUMN touristicplace.description           IS 'Required touristic place description.';
-COMMENT ON COLUMN touristicplace.information           IS 'Required touristic place important information.';
-COMMENT ON COLUMN touristicplace.checkintimefrom       IS 'Required touristic place check-in time from.';
-COMMENT ON COLUMN touristicplace.checkintimeto         IS 'Required touristic place check-in time to.';
-COMMENT ON COLUMN touristicplace.checkouttimefrom      IS 'Required touristic place check-out time from.';
-COMMENT ON COLUMN touristicplace.checkouttimeto        IS 'Required touristic place check-out time to.';
-COMMENT ON COLUMN touristicplace.prepayment            IS 'Required touristic place is pre-payment information.';
+COMMENT ON COLUMN touristicplace.addressid             IS 'Unique foreign key of touristic place address.';
+COMMENT ON COLUMN touristicplace.touristicplacetype    IS 'Touristic place type (1 - Guesthouse, 2 - Apartment, 3 - Cottages, 4 - Hotel, 5 - B&B, 6 - Hostel).';
+COMMENT ON COLUMN touristicplace.name                  IS 'Touristic place name.';
+COMMENT ON COLUMN touristicplace.description           IS 'Touristic place description.';
+COMMENT ON COLUMN touristicplace.information           IS 'Touristic place important information.';
+COMMENT ON COLUMN touristicplace.ownerdescription      IS 'Touristic place owner description.';
+COMMENT ON COLUMN touristicplace.checkintimefrom       IS 'Touristic place check-in time from.';
+COMMENT ON COLUMN touristicplace.checkintimeto         IS 'Touristic place check-in time to.';
+COMMENT ON COLUMN touristicplace.checkouttimefrom      IS 'Touristic place check-out time from.';
+COMMENT ON COLUMN touristicplace.checkouttimeto        IS 'Touristic place check-out time to.';
+COMMENT ON COLUMN touristicplace.prepayment            IS 'Touristic place is pre-payment information.';
 COMMENT ON COLUMN touristicplace.cancelreservationdays IS 'Optional touristic place information about max number of days before cancel reservation.';
 
 
@@ -302,11 +304,11 @@ CREATE INDEX IF NOT EXISTS attractiontouristicplaceindex ON attraction (touristi
 COMMENT ON TABLE  attraction                       IS 'TTable to store touristic place attractions offers.';
 COMMENT ON COLUMN attraction.attractionid          IS 'Unique required primary key of the attraction table.';
 COMMENT ON COLUMN attraction.touristicplaceid      IS 'Required foreign key of touristicplace table.';
-COMMENT ON COLUMN attraction.attractiontype        IS 'Required attraction type (1 - ).';
+COMMENT ON COLUMN attraction.attractiontype        IS 'Required attraction type (1 - Relax, 2 - Sport, 3 - Entertainment, 4 - Food).';
 COMMENT ON COLUMN attraction.name                  IS 'Required attraction name.';
 COMMENT ON COLUMN attraction.description           IS 'Required attraction description.';
 COMMENT ON COLUMN attraction.price                 IS 'Required attraction price.';
-COMMENT ON COLUMN attraction.pricetype             IS 'Required attraction type of price (1 - ).';
+COMMENT ON COLUMN attraction.pricetype             IS 'Required attraction type of price (1 - Hour, 2 - Person, 3 - Item).';
 COMMENT ON COLUMN attraction.prepayment            IS 'Required attraction is pre-payment information.';
 COMMENT ON COLUMN attraction.cancelreservationdays IS 'Optional attraction information about max number of days before cancel reservation.';
 COMMENT ON COLUMN attraction.maxpeoplenumber       IS 'Optional attraction information about max people number.';
