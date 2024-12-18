@@ -97,7 +97,7 @@ public class PremiumServiceImpl implements PremiumService
 
         accountFacade.updateAccountTypeToPremium();
 
-        touristicPlaceFacade.createTouristicPlace(premium.getPremiumId());
+//        touristicPlaceFacade.createTouristicPlace(premium.getPremiumId());
 
         return getById(premium.getPremiumId());
     }
