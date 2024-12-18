@@ -1,7 +1,7 @@
 import FooterCopyright from '../FooterCopyright'
-import styles from './ProfileFooter.module.css'
+import styles from './DefaultFooter.module.css'
 
-const ProfileFooter = () => {
+const DefaultFooter = () => {
     return (
         <div className={styles.profile}>
             <FooterCopyright />
@@ -9,4 +9,4 @@ const ProfileFooter = () => {
     )
 }
 
-export default ProfileFooter
+export default DefaultFooter

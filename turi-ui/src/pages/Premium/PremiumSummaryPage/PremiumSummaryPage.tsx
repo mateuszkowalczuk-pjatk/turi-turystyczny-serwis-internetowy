@@ -34,7 +34,7 @@ const PremiumSummaryPage = () => {
         }
 
         fetchOffer().catch((error) => error)
-    }, [isPremiumAccount])
+    }, [isPremiumAccount, dispatch])
 
     return (
         <>

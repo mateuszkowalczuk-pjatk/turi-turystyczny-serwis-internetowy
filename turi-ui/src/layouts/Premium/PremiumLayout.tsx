@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom'
 import PremiumHeader from '../../components/Header/PremiumHeader'
 import UserHeader from '../../components/Header/UserHeader'
 import PremiumContent from '../../components/Premium/PremiumContent'
-import ProfileFooter from '../../components/Footer/ProfileFooter'
+import DefaultFooter from '../../components/Footer/DefaultFooter'
 import { useSelector } from 'react-redux'
 import styles from '../Layout.module.css'
 
@@ -14,7 +14,7 @@ const PremiumLayout = () => {
         <div className={styles.layout}>
             {isPremium ? <PremiumHeader /> : <UserHeader />}
             <PremiumContent content={<Outlet />} />
-            <ProfileFooter />
+            <DefaultFooter />
         </div>
     )
 }

@@ -73,10 +73,6 @@ const SignUpVerifyPage = () => {
         }
     }
 
-    const navigateToLogin = () => {
-        navigate('/login')
-    }
-
     return (
         <AuthPanel
             onSubmit={handleActivate}
@@ -106,7 +102,7 @@ const SignUpVerifyPage = () => {
                 <AuthDownLink
                     firstLink={t('signup-verify.down')}
                     secondLink={'center'}
-                    firstOnClick={navigateToLogin}
+                    firstOnClick={() => navigate('/login')}
                 />
             }
         />

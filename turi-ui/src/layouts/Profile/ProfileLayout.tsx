@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom'
 import UserHeader from '../../components/Header/UserHeader'
 import PremiumHeader from '../../components/Header/PremiumHeader'
 import ProfileContent from '../../components/Profile/ProfileContent'
-import ProfileFooter from '../../components/Footer/ProfileFooter'
+import DefaultFooter from '../../components/Footer/DefaultFooter'
 import styles from '../Layout.module.css'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store/store.ts'
@@ -14,7 +14,7 @@ const ProfileLayout = () => {
         <div className={styles.layout}>
             {isPremiumAccount ? <PremiumHeader /> : <UserHeader />}
             <ProfileContent content={<Outlet />} />
-            <ProfileFooter />
+            <DefaultFooter />
         </div>
     )
 }

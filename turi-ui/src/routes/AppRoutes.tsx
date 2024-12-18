@@ -13,6 +13,7 @@ import { login, logout } from '../store/slices/auth.ts'
 import { RootState } from '../store/store.ts'
 import { accountService } from '../services/accountService.ts'
 import { notPremiumAccount, premiumAccount } from '../store/slices/premium.ts'
+import TourismRoutes from './TourismRoutes.tsx'
 
 const AppRoutes = () => {
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
@@ -74,6 +75,10 @@ const AppRoutes = () => {
             <Route
                 path="premium/*"
                 element={<PremiumRoutes />}
+            />
+            <Route
+                path="tourism/*"
+                element={<TourismRoutes />}
             />
             <Route
                 path="*"

@@ -66,7 +66,7 @@ const PremiumPaymentPage = () => {
             const finalDate = `${startDate || ''} - ${endDate || ''}`
             setDate(finalDate)
         }
-    }, [isAuthenticated, isPremiumAccount, isPremiumBuy, months, navigate])
+    }, [isAuthenticated, isPremiumAccount, isPremiumPaymentFailed, isPremiumBuy, months, navigate, dispatch, t])
 
     const handlePayment = async (e: React.FormEvent) => {
         e.preventDefault()

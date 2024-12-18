@@ -40,5 +40,5 @@ export const useAuth = () => {
         }
 
         checkUserAuth().catch((error) => error)
-    }, [dispatch, isAuthenticated])
+    }, [dispatch, isAuthenticated, navigate])
 }
