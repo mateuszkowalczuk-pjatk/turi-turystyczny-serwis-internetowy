@@ -4,12 +4,17 @@ import com.turi.address.domain.model.Address;
 import com.turi.address.domain.port.AddressRepository;
 import com.turi.address.domain.port.AddressService;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
 public class AddressServiceImpl implements AddressService
 {
+    private static final Logger LOG = LoggerFactory.getLogger(AddressService.class);
+
     private final AddressRepository repository;
 
     @Override
@@ -42,6 +47,13 @@ public class AddressServiceImpl implements AddressService
     @Override
     public void deleteById(final Long id)
     {
-        repository.deleteById(id);
+        try
+        {
+            repository.deleteById(id);
+        }
+        catch (final DataIntegrityViolationException ex)
+        {
+            LOG.info(String.format("The new address has been successfully assigned, but the old one with the ID '%s' has not been removed because it is assigned to an account or tourist place.", id));
+        }
     }
 }

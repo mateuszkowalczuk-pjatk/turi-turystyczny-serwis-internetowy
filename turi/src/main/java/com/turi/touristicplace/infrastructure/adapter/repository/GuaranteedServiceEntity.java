@@ -1,5 +1,7 @@
 package com.turi.touristicplace.infrastructure.adapter.repository;
 
+import com.turi.touristicplace.domain.exception.InvalidGuaranteedServiceException;
+import com.turi.touristicplace.domain.model.GuaranteedService;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,4 +24,28 @@ public final class GuaranteedServiceEntity implements Serializable
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "guaranteedserviceid")
     private Long guaranteedServiceId;
+
+    @Column(name = "touristicplaceid", nullable = false)
+    private Long touristicPlaceId;
+
+    @Column(name = "service", nullable = false)
+    private String service;
+
+    public static GuaranteedServiceEntity of(final GuaranteedService guaranteedService)
+    {
+        if (!validation(guaranteedService))
+        {
+            throw new InvalidGuaranteedServiceException();
+        }
+
+        return GuaranteedServiceEntity.builder()
+                .withTouristicPlaceId(guaranteedService.getTouristicPlaceId())
+                .withService(guaranteedService.getService())
+                .build();
+    }
+
+    private static boolean validation(final GuaranteedService guaranteedService)
+    {
+        return guaranteedService.getTouristicPlaceId() != null && guaranteedService.getService() != null;
+    }
 }

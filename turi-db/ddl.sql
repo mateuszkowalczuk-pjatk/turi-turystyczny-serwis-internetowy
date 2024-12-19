@@ -192,17 +192,18 @@ CREATE TABLE IF NOT EXISTS touristicplace
     description           VARCHAR(255),
     information           VARCHAR(255),
     ownerdescription      VARCHAR(255),
-    checkintimefrom       DATE,
-    checkintimeto         DATE,
-    checkouttimefrom      DATE,
-    checkouttimeto        DATE,
+    checkintimefrom       TIME,
+    checkintimeto         TIME,
+    checkouttimefrom      TIME,
+    checkouttimeto        TIME,
     prepayment            BOOLEAN,
     cancelreservationdays INTEGER,
     CONSTRAINT touristicplacepremium FOREIGN KEY (premiumid) REFERENCES premium (premiumid),
     CONSTRAINT touristicplaceaddress FOREIGN KEY (addressid) REFERENCES address (addressid)
 );
 
-CREATE INDEX IF NOT EXISTS touristicplacepremiumindex ON premium (premiumid);
+CREATE INDEX IF NOT EXISTS touristicplacepremiumindex ON touristicplace (premiumid);
+CREATE INDEX IF NOT EXISTS touristicplaceaddressindex ON touristicplace (addressid);
 
 COMMENT ON TABLE  touristicplace                       IS 'Table to store data about premium user touristic place.';
 COMMENT ON COLUMN touristicplace.touristicplaceid      IS 'Unique required primary key of the touristicplace table.';
