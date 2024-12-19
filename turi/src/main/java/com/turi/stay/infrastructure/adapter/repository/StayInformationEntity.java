@@ -1,5 +1,7 @@
 package com.turi.stay.infrastructure.adapter.repository;
 
+import com.turi.stay.domain.exception.InvalidStayInformationException;
+import com.turi.stay.domain.model.StayInformation;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,4 +24,28 @@ public final class StayInformationEntity implements Serializable
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "stayinformationid")
     private Long stayInformationId;
+
+    @Column(name = "stayid", nullable = false)
+    private Long stayId;
+
+    @Column(name = "information", nullable = false)
+    private String information;
+
+    public static StayInformationEntity of(final StayInformation stayInformation)
+    {
+        if (!validation(stayInformation))
+        {
+            throw new InvalidStayInformationException();
+        }
+
+        return StayInformationEntity.builder()
+                .withStayId(stayInformation.getStayId())
+                .withInformation(stayInformation.getInformation())
+                .build();
+    }
+
+    private static boolean validation(final StayInformation stayInformation)
+    {
+        return stayInformation.getStayId() != null && stayInformation.getInformation() != null;
+    }
 }
