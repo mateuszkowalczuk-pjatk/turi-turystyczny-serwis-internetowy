@@ -38,10 +38,22 @@ public class TouristicPlaceRestController
         return facade.getAllTouristicPlaceGuaranteedServices();
     }
 
+    @PostMapping("/createGuaranteedService")
+    public ResponseEntity<?> createTouristicPlaceGuaranteedService(@RequestBody final GuaranteedService guaranteedService)
+    {
+        return facade.createTouristicPlaceGuaranteedService(guaranteedService);
+    }
+
     @PutMapping("/updateDetails/{id}")
     public ResponseEntity<?> updateTouristicPlaceDetails(@PathVariable final String id,
                                                          @RequestBody final TouristicPlace touristicPlace)
     {
         return facade.updateTouristicPlaceDetails(id, touristicPlace);
+    }
+
+    @DeleteMapping("/deleteGuaranteedService")
+    public ResponseEntity<?> deleteTouristicPlaceGuaranteedService(@RequestParam final String guaranteedServiceId)
+    {
+        return facade.deleteTouristicPlaceGuaranteedService(guaranteedServiceId);
     }
 }

@@ -51,22 +51,48 @@ public class TouristicPlaceFacade
     {
         if (premiumId == null)
         {
-            throw new BadRequestParameterException("Parameter premiumId cannot be null!");
+            throw new BadRequestParameterException("Parameter premiumId must not be null!");
         }
 
         service.create(premiumId);
+    }
+
+    public ResponseEntity<?> createTouristicPlaceGuaranteedService(final GuaranteedService guaranteedService)
+    {
+        if (guaranteedService == null)
+        {
+            throw new BadRequestParameterException("Parameter guaranteedService must not be null!");
+        }
+
+        service.createGuaranteedService(guaranteedService);
+
+        return ResponseEntity.ok().build();
     }
 
     public ResponseEntity<?> updateTouristicPlaceDetails(final String id, final TouristicPlace touristicPlace)
     {
         if (id == null || touristicPlace == null)
         {
-            throw new BadRequestParameterException("Parameters id and touristic place cannot be null!");
+            throw new BadRequestParameterException("Parameters id and touristic place must not be null!");
         }
 
         final var touristicPlaceId = ObjectId.of(id).getValue();
 
         service.updateDetails(touristicPlaceId, touristicPlace);
+
+        return ResponseEntity.ok().build();
+    }
+
+    public ResponseEntity<?> deleteTouristicPlaceGuaranteedService(final String guaranteedServiceId)
+    {
+        if (guaranteedServiceId == null)
+        {
+            throw new BadRequestParameterException("Parameter guaranteedServiceId must not be null!");
+        }
+
+        final var id = ObjectId.of(guaranteedServiceId).getValue();
+
+        service.deleteGuaranteedService(id);
 
         return ResponseEntity.ok().build();
     }

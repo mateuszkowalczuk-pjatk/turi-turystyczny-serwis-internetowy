@@ -7,4 +7,8 @@ import java.util.List;
 public interface GuaranteedServiceService
 {
     List<GuaranteedService> getAllByTouristicPlaceId(final Long touristicPlaceId);
+
+    void create(final GuaranteedService guaranteedService);
+
+    void deleteById(final Long id);
 }

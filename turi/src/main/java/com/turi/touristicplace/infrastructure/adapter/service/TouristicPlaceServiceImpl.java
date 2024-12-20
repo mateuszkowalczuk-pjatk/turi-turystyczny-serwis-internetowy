@@ -75,6 +75,12 @@ public class TouristicPlaceServiceImpl implements TouristicPlaceService
     }
 
     @Override
+    public void createGuaranteedService(final GuaranteedService guaranteedService)
+    {
+        guaranteedServiceService.create(guaranteedService);
+    }
+
+    @Override
     public void updateDetails(final Long id, final TouristicPlace touristicPlace)
     {
         final var currentTouristicPlace = getById(id);
@@ -119,5 +125,11 @@ public class TouristicPlaceServiceImpl implements TouristicPlaceService
         }
 
         repository.update(id, touristicPlaceToUpdate);
+    }
+
+    @Override
+    public void deleteGuaranteedService(final Long guaranteedServiceId)
+    {
+        guaranteedServiceService.deleteById(guaranteedServiceId);
     }
 }

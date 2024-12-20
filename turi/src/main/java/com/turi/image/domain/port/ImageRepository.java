@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface ImageRepository
 {
+    Image findById(final Long id);
+
     Image findByAccountId(final Long accountId);
 
     List<Image> findAllByTouristicPlaceId(final Long touristicPlaceId);

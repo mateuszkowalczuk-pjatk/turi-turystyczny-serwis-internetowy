@@ -227,6 +227,7 @@ CREATE TABLE IF NOT EXISTS guaranteedservice
     guaranteedserviceid SERIAL       PRIMARY KEY,
     touristicplaceid    INTEGER      NOT NULL,
     service             VARCHAR(255) NOT NULL,
+    CONSTRAINT guaranteedserviceunique UNIQUE (touristicplaceid, service),
     CONSTRAINT guaranteedservicetouristicplace FOREIGN KEY (touristicplaceid) REFERENCES touristicplace (touristicplaceid)
 );
 
@@ -257,7 +258,7 @@ COMMENT ON COLUMN stay.stayid           IS 'Unique required primary key of the s
 COMMENT ON COLUMN stay.touristicplaceid IS 'Required foreign key of touristicplace table.';
 COMMENT ON COLUMN stay.name             IS 'Required stay name.';
 COMMENT ON COLUMN stay.description      IS 'Required stay descritpion.';
-COMMENT ON COLUMN stay.price            IS 'Required stay price.';
+COMMENT ON COLUMN stay.price            IS 'Required stay price per day, calculated from the minimum check-in hour, to the maximum check-out hour the next day.';
 COMMENT ON COLUMN stay.peoplenumber     IS 'Required stay max people number.';
 COMMENT ON COLUMN stay.datefrom         IS 'Required stay availibility date from.';
 COMMENT ON COLUMN stay.dateto           IS 'Required stay availibility date to.';

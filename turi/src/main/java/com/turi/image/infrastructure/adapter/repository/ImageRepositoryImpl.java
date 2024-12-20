@@ -1,5 +1,6 @@
 package com.turi.image.infrastructure.adapter.repository;
 
+import com.turi.image.domain.exception.ImageNotFoundException;
 import com.turi.image.domain.model.Image;
 import com.turi.image.domain.port.ImageRepository;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,14 @@ import java.util.List;
 public class ImageRepositoryImpl implements ImageRepository
 {
     private final ImageRepositoryDao repositoryDao;
+
+    @Override
+    public Image findById(final Long id)
+    {
+        return repositoryDao.findById(id)
+                .map(Image::of)
+                .orElseThrow(() -> new ImageNotFoundException(id));
+    }
 
     @Override
     public Image findByAccountId(final Long accountId)
@@ -56,7 +65,9 @@ public class ImageRepositoryImpl implements ImageRepository
     @Override
     public void deleteById(final Long id)
     {
-        repositoryDao.deleteById(id);
+        final var image = findById(id);
+
+        repositoryDao.deleteById(image.getImageId());
     }
 
     @Override

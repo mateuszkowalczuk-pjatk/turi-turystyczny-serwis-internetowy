@@ -22,6 +22,9 @@ public interface TouristicPlaceService
 
     void create(final Long premiumId);
 
+    void createGuaranteedService(final GuaranteedService guaranteedService);
+
     void updateDetails(final Long id, final TouristicPlace touristicPlace);
 
+    void deleteGuaranteedService(final Long guaranteedServiceId);
 }
