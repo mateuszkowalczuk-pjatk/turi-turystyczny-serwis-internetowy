@@ -9,6 +9,6 @@ public final class InvalidStayException extends RuntimeException
 
     public InvalidStayException()
     {
-        super("The specified stay is invalid. Parameters touristicPlaceI, name, description, price, peopleNumber and dateFrom are required!");
+        super("The specified stay is invalid. Parameters touristicPlaceId, name, description, price, peopleNumber and dateFrom are required!");
     }
 }
