@@ -1,5 +1,6 @@
 package com.turi.stay.infrastructure.adapter.service;
 
+import com.turi.image.infrastructure.adapter.interfaces.ImageFacade;
 import com.turi.stay.domain.model.Stay;
 import com.turi.stay.domain.model.StayDto;
 import com.turi.stay.domain.port.StayInformationService;
@@ -14,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class StayServiceImpl implements StayService
 {
+    private final ImageFacade imageFacade;
     private final StayRepository repository;
     private final StayInformationService stayInformationService;
 
@@ -92,6 +94,8 @@ public class StayServiceImpl implements StayService
     @Override
     public void delete(final Long id)
     {
+        imageFacade.deleteAllImagesByStayId(id);
+
         stayInformationService.deleteAllByStayId(id);
 
         repository.delete(id);

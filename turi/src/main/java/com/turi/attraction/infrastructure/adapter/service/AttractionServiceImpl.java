@@ -4,6 +4,7 @@ import com.turi.attraction.domain.model.Attraction;
 import com.turi.attraction.domain.model.PriceType;
 import com.turi.attraction.domain.port.AttractionRepository;
 import com.turi.attraction.domain.port.AttractionService;
+import com.turi.image.infrastructure.adapter.interfaces.ImageFacade;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class AttractionServiceImpl implements AttractionService
 {
+    private final ImageFacade imageFacade;
     private final AttractionRepository repository;
 
     @Override
@@ -76,6 +78,8 @@ public class AttractionServiceImpl implements AttractionService
     @Override
     public void delete(final Long id)
     {
+        imageFacade.deleteAllImagesByAttractionId(id);
+
         repository.delete(id);
     }
 }
