@@ -14,14 +14,6 @@ const HeaderDropDownWrapper = () => {
     const dispatch = useDispatch()
     const [isVisible, setIsVisible] = useState(false)
 
-    const setDropdown = () => {
-        setIsVisible(!isVisible)
-    }
-
-    const handleProfileClick = () => {
-        navigate('/profile')
-    }
-
     const handleLogoutClick = async () => {
         const response = await authService.logout()
 
@@ -40,11 +32,11 @@ const HeaderDropDownWrapper = () => {
         <div className={styles.wrapper}>
             <GreyButton
                 text={t('header.name')}
-                onClick={setDropdown}
+                onClick={() => setIsVisible(!isVisible)}
             />
             {isVisible && (
                 <HeaderDropDownMenu
-                    profileOnClick={handleProfileClick}
+                    profileOnClick={() => navigate('/profile')}
                     logoutOnClick={handleLogoutClick}
                 />
             )}

@@ -57,10 +57,6 @@ const LoginPasswordCheckPage = () => {
         }
     }
 
-    const navigateToLogin = () => {
-        navigate('/login')
-    }
-
     return (
         <AuthPanel
             onSubmit={handleResetPassword}
@@ -91,7 +87,7 @@ const LoginPasswordCheckPage = () => {
                 <AuthDownLink
                     firstLink={t('login-check.down')}
                     secondLink={t('center')}
-                    firstOnClick={navigateToLogin}
+                    firstOnClick={() => navigate('/login')}
                 />
             }
         />

@@ -78,10 +78,6 @@ const LoginPremiumCodePage = () => {
         }
     }
 
-    const navigateToLogin = () => {
-        navigate('/login')
-    }
-
     return (
         <AuthPanel
             onSubmit={handlePremiumLogin}
@@ -110,7 +106,7 @@ const LoginPremiumCodePage = () => {
                 <AuthDownLink
                     firstLink={t('login-premium.down')}
                     secondLink={t('center')}
-                    firstOnClick={navigateToLogin}
+                    firstOnClick={() => navigate('/login')}
                 />
             }
         />

@@ -95,14 +95,6 @@ const SignUpPersonalContent = () => {
         }))
     }
 
-    const handleSkipClick = () => {
-        setIsPersonalSkip(true)
-    }
-
-    const handleCloseSkip = () => {
-        setIsPersonalSkip(false)
-    }
-
     const handleUpdateAccount = async () => {
         setLoading(true)
         setError(null)
@@ -416,14 +408,14 @@ const SignUpPersonalContent = () => {
                     }
                     option={
                         <SignUpPersonalButtons
-                            skipOnClick={handleSkipClick}
+                            skipOnClick={() => setIsPersonalSkip(true)}
                             handleUpdateAccount={handleUpdateAccount}
                             error={error}
                         />
                     }
                 />
             </div>
-            {isPersonalSkip && <SignUpPersonalSkipOverlay onClick={handleCloseSkip} />}
+            {isPersonalSkip && <SignUpPersonalSkipOverlay onClick={() => setIsPersonalSkip(false)} />}
         </>
     )
 }

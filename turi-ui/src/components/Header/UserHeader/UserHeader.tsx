@@ -1,29 +1,13 @@
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import HeaderLayout from '../HeaderLayout'
 import HeaderLinks from '../HeaderLinks'
 import TextRegular from '../../Controls/Text/TextRegular'
 import HeaderButtons from '../HeaderButtons'
-import { useNavigate } from 'react-router-dom'
 
 const UserHeader = () => {
-    const navigate = useNavigate()
     const { t } = useTranslation()
-
-    const navigateToReservations = () => {
-        console.log('Reservations')
-    }
-
-    const navigateToStays = () => {
-        console.log('Stays')
-    }
-
-    const navigateToFavourites = () => {
-        console.log('Favourites')
-    }
-
-    const navigateToPremium = () => {
-        navigate('/premium')
-    }
+    const navigate = useNavigate()
 
     return (
         <HeaderLayout
@@ -32,19 +16,19 @@ const UserHeader = () => {
                     firstLink={
                         <TextRegular
                             text={t('header.reservation')}
-                            onClick={navigateToReservations}
+                            onClick={() => console.log('Reservations')}
                         />
                     }
                     secondLink={
                         <TextRegular
                             text={t('header.stays')}
-                            onClick={navigateToStays}
+                            onClick={() => console.log('Stays')}
                         />
                     }
                     thirdLink={
                         <TextRegular
                             text={t('header.favourites')}
-                            onClick={navigateToFavourites}
+                            onClick={() => console.log('Favourites')}
                         />
                     }
                 />
@@ -52,7 +36,7 @@ const UserHeader = () => {
             buttons={
                 <HeaderButtons
                     text={t('header.premium')}
-                    firstOnClick={navigateToPremium}
+                    firstOnClick={() => navigate('/premium')}
                 />
             }
         />

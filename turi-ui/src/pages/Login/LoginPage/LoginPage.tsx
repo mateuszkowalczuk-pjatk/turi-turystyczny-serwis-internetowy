@@ -78,18 +78,6 @@ const LoginPage = () => {
         }
     }
 
-    const loginByGoogleAccount = () => {
-        return
-    }
-
-    const navigateToCheck = () => {
-        navigate('/login/check')
-    }
-
-    const navigateToSignUp = () => {
-        navigate('/signup')
-    }
-
     return (
         <AuthPanel
             onSubmit={handleLogin}
@@ -131,15 +119,15 @@ const LoginPage = () => {
             top={
                 <AuthTopLink
                     text={t('login.google')}
-                    onClick={loginByGoogleAccount}
+                    onClick={() => console.log('Google')}
                 />
             }
             down={
                 <AuthDownLink
                     firstLink={t('login.reset')}
                     secondLink={t('login.signup')}
-                    firstOnClick={navigateToCheck}
-                    secondOnClick={navigateToSignUp}
+                    firstOnClick={() => navigate('/login/check')}
+                    secondOnClick={() => navigate('/signup')}
                 />
             }
         />

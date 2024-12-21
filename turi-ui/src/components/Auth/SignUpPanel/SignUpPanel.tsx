@@ -103,10 +103,6 @@ const SignUpPanel = () => {
         setLoading(false)
     }
 
-    const navigateToLogin = () => {
-        navigate('/login')
-    }
-
     return (
         <form
             className={styles.panel}
@@ -167,7 +163,7 @@ const SignUpPanel = () => {
             <AuthDownLink
                 firstLink={t('signup.signin')}
                 secondLink={'right'}
-                firstOnClick={navigateToLogin}
+                firstOnClick={() => navigate('/login')}
             />
         </form>
     )

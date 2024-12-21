@@ -1,33 +1,12 @@
-import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import HeaderLayout from '../HeaderLayout'
 import HeaderLinks from '../HeaderLinks'
 import TextRegular from '../../Controls/Text/TextRegular'
-import HeaderButtons from '../HeaderButtons'
 
 const PremiumHeader = () => {
-    const navigate = useNavigate()
     const { t } = useTranslation()
-
-    const navigateToReservations = () => {
-        console.log('Reservations')
-    }
-
-    const navigateToStays = () => {
-        console.log('Stays')
-    }
-
-    const navigateToFavourites = () => {
-        console.log('Favourites')
-    }
-
-    const navigateToTourism = () => {
-        console.log('Tourism')
-    }
-
-    const navigateToOffers = () => {
-        navigate('/offers')
-    }
+    const navigate = useNavigate()
 
     return (
         <HeaderLayout
@@ -36,34 +15,28 @@ const PremiumHeader = () => {
                     firstLink={
                         <TextRegular
                             text={t('header.reservation')}
-                            onClick={navigateToReservations}
+                            onClick={() => console.log('Reservations')}
                         />
                     }
                     secondLink={
                         <TextRegular
                             text={t('header.stays')}
-                            onClick={navigateToStays}
+                            onClick={() => console.log('Stays')}
                         />
                     }
                     thirdLink={
                         <TextRegular
                             text={t('header.favourites')}
-                            onClick={navigateToFavourites}
+                            onClick={() => console.log('Favourites')}
                         />
                     }
                     fourthLink={
                         <TextRegular
                             text={t('header.tourism')}
-                            onClick={navigateToTourism}
+                            onClick={() => navigate('/tourism')}
                         />
                     }
                     isPremium
-                />
-            }
-            buttons={
-                <HeaderButtons
-                    text={t('header.premium')}
-                    firstOnClick={navigateToOffers}
                 />
             }
         />

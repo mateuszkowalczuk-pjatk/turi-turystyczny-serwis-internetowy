@@ -4,14 +4,10 @@ import styles from './HeaderLogo.module.css'
 const HeaderLogo = () => {
     const navigate = useNavigate()
 
-    const navigateToHome = () => {
-        navigate('/')
-    }
-
     return (
         <p
             className={styles.logo}
-            onClick={navigateToHome}
+            onClick={() => navigate('/')}
         >
             Turi
         </p>

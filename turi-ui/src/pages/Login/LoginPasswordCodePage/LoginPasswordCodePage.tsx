@@ -77,10 +77,6 @@ const LoginPasswordCodePage = () => {
         }
     }
 
-    const navigateToLogin = () => {
-        navigate('/login')
-    }
-
     return (
         <AuthPanel
             onSubmit={handleResetPassword}
@@ -109,7 +105,7 @@ const LoginPasswordCodePage = () => {
                 <AuthDownLink
                     firstLink={t('login-code.down')}
                     secondLink={t('center')}
-                    firstOnClick={navigateToLogin}
+                    firstOnClick={() => navigate('/login')}
                 />
             }
         />

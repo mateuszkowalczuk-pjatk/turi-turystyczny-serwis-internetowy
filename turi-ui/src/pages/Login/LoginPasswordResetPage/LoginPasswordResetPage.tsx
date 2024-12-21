@@ -73,14 +73,6 @@ const LoginPasswordResetPage = () => {
         }
     }
 
-    const navigateToHome = () => {
-        navigate('/')
-    }
-
-    const navigateToLogin = () => {
-        navigate('/login')
-    }
-
     return (
         <AuthPanel
             onSubmit={handleResetPassword}
@@ -121,14 +113,14 @@ const LoginPasswordResetPage = () => {
             top={
                 <AuthTopLink
                     text={t('login-reset.top')}
-                    onClick={navigateToHome}
+                    onClick={() => navigate('/')}
                 />
             }
             down={
                 <AuthDownLink
                     firstLink={t('login-reset.down')}
                     secondLink={t('center')}
-                    firstOnClick={navigateToLogin}
+                    firstOnClick={() => navigate('/login')}
                 />
             }
         />
