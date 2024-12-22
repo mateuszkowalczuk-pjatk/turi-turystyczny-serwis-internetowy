@@ -47,14 +47,11 @@ public class TouristicPlaceFacade
         return TouristicPlaceResponse.of(service.getAllGuaranteedServices());
     }
 
-    public void createTouristicPlace(final Long premiumId)
+    public ResponseEntity<?> createTouristicPlace()
     {
-        if (premiumId == null)
-        {
-            throw new BadRequestParameterException("Parameter premiumId must not be null!");
-        }
+        service.create();
 
-        service.create(premiumId);
+        return ResponseEntity.ok().build();
     }
 
     public ResponseEntity<?> createTouristicPlaceGuaranteedService(final GuaranteedService guaranteedService)

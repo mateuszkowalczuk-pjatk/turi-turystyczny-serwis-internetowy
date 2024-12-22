@@ -38,6 +38,12 @@ public class TouristicPlaceRestController
         return facade.getAllTouristicPlaceGuaranteedServices();
     }
 
+    @PostMapping("/create")
+    public ResponseEntity<?> createTouristicPlace()
+    {
+        return facade.createTouristicPlace();
+    }
+
     @PostMapping("/createGuaranteedService")
     public ResponseEntity<?> createTouristicPlaceGuaranteedService(@RequestBody final GuaranteedService guaranteedService)
     {

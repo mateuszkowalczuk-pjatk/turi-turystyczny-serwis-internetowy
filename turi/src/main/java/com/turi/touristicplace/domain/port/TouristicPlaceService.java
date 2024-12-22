@@ -20,7 +20,7 @@ public interface TouristicPlaceService
 
     List<GuaranteedService> getAllGuaranteedServices();
 
-    void create(final Long premiumId);
+    void create();
 
     void createGuaranteedService(final GuaranteedService guaranteedService);
 

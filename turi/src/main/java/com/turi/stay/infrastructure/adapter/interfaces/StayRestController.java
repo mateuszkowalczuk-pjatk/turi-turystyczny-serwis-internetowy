@@ -2,6 +2,7 @@ package com.turi.stay.infrastructure.adapter.interfaces;
 
 import com.turi.stay.domain.model.Stay;
 import com.turi.stay.domain.model.StayDto;
+import com.turi.stay.domain.model.StayInformation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,12 @@ public class StayRestController
         return facade.createStay(stay);
     }
 
+    @PostMapping("/createStayInformation")
+    public ResponseEntity<?> createStayInformation(@RequestBody final StayInformation stayInformation)
+    {
+        return facade.createStayInformation(stayInformation);
+    }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateStay(@PathVariable final String id,
                                         @RequestBody final Stay stay)
@@ -44,5 +51,11 @@ public class StayRestController
     public ResponseEntity<?> deleteStay(@PathVariable final String id)
     {
         return facade.deleteStay(id);
+    }
+
+    @DeleteMapping("/deleteStayInformation")
+    public ResponseEntity<?> deleteStayInformation(@RequestParam final String stayInformationId)
+    {
+        return facade.deleteStayInformation(stayInformationId);
     }
 }

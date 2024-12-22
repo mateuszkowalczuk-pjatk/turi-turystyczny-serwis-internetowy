@@ -2,7 +2,7 @@ package com.turi.touristicplace.domain.exception;
 
 import java.io.Serial;
 
-public class GuaranteedServiceUniqueException extends RuntimeException
+public final class GuaranteedServiceUniqueException extends RuntimeException
 {
     @Serial
     private static final long serialVersionUID = 4535058890903102647L;

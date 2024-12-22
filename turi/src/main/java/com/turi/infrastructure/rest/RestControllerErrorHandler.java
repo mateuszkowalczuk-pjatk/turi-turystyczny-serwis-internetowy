@@ -3,11 +3,19 @@ package com.turi.infrastructure.rest;
 import com.turi.account.domain.exception.*;
 import com.turi.address.domain.exception.AddressNotFoundException;
 import com.turi.address.domain.exception.InvalidAddressException;
+import com.turi.attraction.domain.exception.AttractionNotFoundException;
+import com.turi.attraction.domain.exception.InvalidAttractionException;
 import com.turi.authentication.domain.exception.*;
+import com.turi.image.domain.exception.ImageNotFoundException;
+import com.turi.image.domain.exception.InvalidImageException;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.infrastructure.exception.BadRequestResponseException;
 import com.turi.payment.domain.exception.*;
 import com.turi.premium.domain.exception.*;
+import com.turi.stay.domain.exception.InvalidStayException;
+import com.turi.stay.domain.exception.InvalidStayInformationException;
+import com.turi.stay.domain.exception.StayNotFoundException;
+import com.turi.touristicplace.domain.exception.*;
 import com.turi.user.domain.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -71,6 +79,18 @@ public final class RestControllerErrorHandler extends ErrorHandler
         return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
+    @ExceptionHandler(AttractionNotFoundException.class)
+    public ResponseEntity<ErrorCode> handleAttractionNotFoundException(final AttractionNotFoundException ex)
+    {
+        return createResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidAttractionException.class)
+    public ResponseEntity<ErrorCode> handleInvalidAttractionException(final InvalidAttractionException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
     @ExceptionHandler(InvalidLoginException.class)
     public ResponseEntity<ErrorCode> handleInvalidLoginException(final InvalidLoginException ex)
     {
@@ -111,6 +131,18 @@ public final class RestControllerErrorHandler extends ErrorHandler
     public ResponseEntity<ErrorCode> handleUnauthorizedException(final UnauthorizedException ex)
     {
         return createResponse(HttpStatus.UNAUTHORIZED, ex.getMessage());
+    }
+
+    @ExceptionHandler(ImageNotFoundException.class)
+    public ResponseEntity<ErrorCode> handleImageNotFoundException(final ImageNotFoundException ex)
+    {
+        return createResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidImageException.class)
+    public ResponseEntity<ErrorCode> handleInvalidAttractionException(final InvalidImageException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
     @ExceptionHandler(BadRequestParameterException.class)
@@ -211,6 +243,60 @@ public final class RestControllerErrorHandler extends ErrorHandler
 
     @ExceptionHandler(PremiumUnpaidException.class)
     public ResponseEntity<ErrorCode> handlePremiumUnpaidException(final PremiumUnpaidException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(StayNotFoundException.class)
+    public ResponseEntity<ErrorCode> handleStayNotFoundException(final StayNotFoundException ex)
+    {
+        return createResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidStayException.class)
+    public ResponseEntity<ErrorCode> handleInvalidStayException(final InvalidStayException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidStayInformationException.class)
+    public ResponseEntity<ErrorCode> handleInvalidStayInformationException(final InvalidStayInformationException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(TouristicPlaceNotFoundException.class)
+    public ResponseEntity<ErrorCode> handleTouristicPlaceNotFoundException(final TouristicPlaceNotFoundException ex)
+    {
+        return createResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(GuaranteedServiceNotFoundException.class)
+    public ResponseEntity<ErrorCode> handleGuaranteedServiceNotFoundException(final GuaranteedServiceNotFoundException ex)
+    {
+        return createResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidTouristicPlaceException.class)
+    public ResponseEntity<ErrorCode> handleInvalidTouristicPlaceException(final InvalidTouristicPlaceException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(TouristicPlaceUniqueAddressException.class)
+    public ResponseEntity<ErrorCode> handleTouristicPlaceUniqueAddressException(final TouristicPlaceUniqueAddressException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidGuaranteedServiceException.class)
+    public ResponseEntity<ErrorCode> handleInvalidGuaranteedServiceException(final InvalidGuaranteedServiceException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(GuaranteedServiceUniqueException.class)
+    public ResponseEntity<ErrorCode> handleGuaranteedServiceUniqueException(final GuaranteedServiceUniqueException ex)
     {
         return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }

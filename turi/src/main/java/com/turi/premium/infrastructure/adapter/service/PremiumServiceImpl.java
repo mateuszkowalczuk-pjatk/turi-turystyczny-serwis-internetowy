@@ -15,7 +15,6 @@ import com.turi.premium.domain.model.*;
 import com.turi.premium.domain.port.CeidgService;
 import com.turi.premium.domain.port.PremiumRepository;
 import com.turi.premium.domain.port.PremiumService;
-import com.turi.touristicplace.infrastructure.adapter.interfaces.TouristicPlaceFacade;
 import com.turi.user.domain.exception.UserResetCodeRecentlySentException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -36,7 +35,6 @@ public class PremiumServiceImpl implements PremiumService
     private final PremiumRepository repository;
     private final PremiumProperties premiumProperties;
     private final SecurityProperties securityProperties;
-    private final TouristicPlaceFacade touristicPlaceFacade;
 
     @Override
     public PremiumOffer getOffer()
@@ -96,8 +94,6 @@ public class PremiumServiceImpl implements PremiumService
         repository.update(premium.getPremiumId(), premiumToUpdate);
 
         accountFacade.updateAccountTypeToPremium();
-
-        touristicPlaceFacade.createTouristicPlace(premium.getPremiumId());
 
         return getById(premium.getPremiumId());
     }

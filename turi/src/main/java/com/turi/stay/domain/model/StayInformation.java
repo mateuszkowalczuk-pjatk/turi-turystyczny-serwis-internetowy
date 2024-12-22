@@ -18,6 +18,7 @@ public final class StayInformation
     public static StayInformation of(final StayInformationEntity entity)
     {
         return StayInformation.builder()
+                .withStayInformationId(entity.getStayInformationId())
                 .withStayId(entity.getStayId())
                 .withInformation(entity.getInformation())
                 .build();

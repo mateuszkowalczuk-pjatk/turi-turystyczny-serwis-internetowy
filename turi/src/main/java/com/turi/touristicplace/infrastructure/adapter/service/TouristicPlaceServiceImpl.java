@@ -65,8 +65,10 @@ public class TouristicPlaceServiceImpl implements TouristicPlaceService
     }
 
     @Override
-    public void create(final Long premiumId)
+    public void create()
     {
+        final var premiumId = Objects.requireNonNull(premiumFacade.getPremiumByAccount().getBody()).getPremiumId();
+
         final var touristicPlace = TouristicPlace.builder()
                 .withPremiumId(premiumId)
                 .build();

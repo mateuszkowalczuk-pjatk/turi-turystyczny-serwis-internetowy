@@ -24,7 +24,7 @@ public class GuaranteedServiceServiceImpl implements GuaranteedServiceService
     @Override
     public void create(final GuaranteedService guaranteedService)
     {
-        if (repository.findByTouristicPlaceIdAndService(guaranteedService.getTouristicPlaceId(), guaranteedService.getService()) == null)
+        if (repository.findByTouristicPlaceIdAndService(guaranteedService.getTouristicPlaceId(), guaranteedService.getService()) != null)
         {
             throw new GuaranteedServiceUniqueException(guaranteedService.getTouristicPlaceId(), guaranteedService.getService());
         }

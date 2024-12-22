@@ -10,7 +10,7 @@ public interface StayRepository
 
     Stay findById(final Long id);
 
-    void insert(final Stay stay);
+    Long insert(final Stay stay);
 
     void update(final Long id, final Stay stay);
 

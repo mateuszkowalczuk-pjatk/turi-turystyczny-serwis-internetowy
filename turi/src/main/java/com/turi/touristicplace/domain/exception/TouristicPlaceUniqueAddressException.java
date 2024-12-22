@@ -2,7 +2,7 @@ package com.turi.touristicplace.domain.exception;
 
 import java.io.Serial;
 
-public class TouristicPlaceUniqueAddressException extends RuntimeException
+public final class TouristicPlaceUniqueAddressException extends RuntimeException
 {
     @Serial
     private static final long serialVersionUID = 189608245519884241L;

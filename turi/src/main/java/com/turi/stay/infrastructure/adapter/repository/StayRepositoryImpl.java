@@ -32,11 +32,11 @@ public class StayRepositoryImpl implements StayRepository
     }
 
     @Override
-    public void insert(final Stay stay)
+    public Long insert(final Stay stay)
     {
         final var entity = StayEntity.of(stay);
 
-        repositoryDao.saveAndFlush(entity);
+        return repositoryDao.saveAndFlush(entity).getStayId();
     }
 
     @Override
