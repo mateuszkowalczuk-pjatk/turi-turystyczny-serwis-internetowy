@@ -286,6 +286,18 @@
         "error-invalid-bank-account": "Podany numer konta jest niepoprawny.",
         "error-invalid-nip": "Podany nip jest niepoprawny."
     },
+    "tourism": {
+        "title": "Turystyka",
+        "current-reservations-title": "Aktualnie realizowane rezerwacje",
+        "current-reservations-stays-plan": "Plan pobytów",
+        "upcoming-reservations-title": "Nadchodzące rezerwacje",
+        "upcoming-reservations-plan": "Plan rezerwacji",
+        "touristic-place-title": "Twoje miejsce turystyczne",
+        "offers-title": "Twoje oferty",
+        "offers-stay": "Dodaj pobyt",
+        "offers-attraction": "Dodaj atrakcje",
+        "all-reservations-title": "Wszystkie rezerwacje"
+    },
     "not-found": {
         "404": "404",
         "title": "Nie znaleziono strony!",

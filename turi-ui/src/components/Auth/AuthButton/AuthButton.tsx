@@ -1,4 +1,4 @@
-import { GreenButton } from '../../Controls/Button'
+import { GreenButton } from '../../Shared/Controls/Button'
 import styles from './AuthButton.module.css'
 
 interface Props {

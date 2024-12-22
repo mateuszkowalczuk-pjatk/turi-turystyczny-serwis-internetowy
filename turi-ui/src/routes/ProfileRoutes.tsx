@@ -18,15 +18,15 @@ const ProfileRoutes = () => {
                     element={<ProfilePage />}
                 />
                 <Route
-                    path="/personal"
+                    path="personal"
                     element={<ProfilePersonalPage />}
                 />
                 <Route
-                    path="/preference"
+                    path="preference"
                     element={<ProfilePreferencePage />}
                 />
                 <Route
-                    path="/premium"
+                    path="premium"
                     element={<ProfilePremiumPage />}
                 />
             </Route>

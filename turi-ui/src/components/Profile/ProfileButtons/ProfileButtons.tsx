@@ -1,14 +1,14 @@
-import styles from './ProfileButtons.module.css'
-import { GreenButton } from '../../Controls/Button'
-import { useTranslation } from 'react-i18next'
-import { premiumService } from '../../../services/premiumService.ts'
-import { PaymentMethod } from '../../../types'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { logout } from '../../../store/slices/auth.ts'
-import { notPremiumAccount } from '../../../store/slices/premium.ts'
+import { GreenButton } from '../../Shared/Controls/Button'
+import { PaymentMethod } from '../../../types'
+import { premiumService } from '../../../services/premiumService.ts'
 import { authService } from '../../../services/authService.ts'
+import { notPremiumAccount } from '../../../store/slices/premium.ts'
+import { logout } from '../../../store/slices/auth.ts'
+import styles from './ProfileButtons.module.css'
 
 const ProfileButtons = () => {
     const { t } = useTranslation()

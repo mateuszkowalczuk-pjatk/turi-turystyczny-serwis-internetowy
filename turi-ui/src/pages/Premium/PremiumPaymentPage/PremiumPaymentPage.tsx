@@ -8,11 +8,11 @@ import PremiumSection from '../../../components/Premium/PremiumSection'
 import PremiumVerify from '../../../components/Premium/PremiumVerify'
 import PremiumButtons from '../../../components/Premium/PremiumButtons'
 import PremiumPayment from '../../../components/Premium/PremiumPayment'
-import { GreenButton } from '../../../components/Controls/Button'
+import { GreenButton } from '../../../components/Shared/Controls/Button'
+import { useAuth } from '../../../hooks/useAuth.ts'
 import { premiumService } from '../../../services/premiumService.ts'
 import { Offer, PaymentMethod } from '../../../types'
 import { notPaymentPremiumFailed, paymentPremiumFailed } from '../../../store/slices/premiumPaymentFailed.ts'
-import { useAuth } from '../../../hooks/useAuth.ts'
 import { notBuyPremium } from '../../../store/slices/premiumBuy.ts'
 import styles from './PremiumPaymentPage.module.css'
 
@@ -30,7 +30,7 @@ const PremiumPaymentPage = () => {
     const [privacyPolicy, setPrivacyPolicy] = useState<boolean>(false)
     const [error, setError] = useState<string | null>(null)
 
-    useAuth()
+    useAuth('/')
 
     useEffect(() => {
         // if (isPremiumAccount) {

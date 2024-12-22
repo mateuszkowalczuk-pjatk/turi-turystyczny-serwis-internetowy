@@ -1,9 +1,4 @@
 import { useTranslation } from 'react-i18next'
-import PersonalPart from '../../../components/Personal/PersonalPart'
-import PersonalPanel from '../../../components/Personal/PersonalPanel'
-import PersonalLabel from '../../../components/Personal/PersonalLabel'
-import PersonalInput from '../../../components/Personal/PersonalInput'
-import PersonalGender from '../../../components/Personal/PersonalGender'
 import styles from './ProfilePersonalPage.module.css'
 import ProfileButton from '../../../components/Profile/ProfileButton'
 import React, { useEffect, useState } from 'react'
@@ -14,6 +9,11 @@ import { addressService } from '../../../services/addressService.ts'
 import { notPersonalization } from '../../../store/slices/personal.ts'
 import { RootState } from '../../../store/store.ts'
 import { Gender } from '../../../types'
+import PersonalPart from '../../../components/Shared/Personal/PersonalPart'
+import PersonalPanel from '../../../components/Shared/Personal/PersonalPanel'
+import PersonalLabel from '../../../components/Shared/Personal/PersonalLabel'
+import PersonalInput from '../../../components/Shared/Personal/PersonalInput'
+import PersonalGender from '../../../components/Shared/Personal/PersonalGender'
 
 interface FormData {
     firstName: string

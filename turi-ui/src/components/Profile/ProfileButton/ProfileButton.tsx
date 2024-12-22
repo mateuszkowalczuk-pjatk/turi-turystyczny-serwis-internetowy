@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { GreenButton } from '../../Controls/Button'
+import { GreenButton } from '../../Shared/Controls/Button'
 import styles from './ProfileButton.module.css'
 
 interface Props {

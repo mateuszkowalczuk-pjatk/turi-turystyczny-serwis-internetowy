@@ -1,5 +1,5 @@
 import React from 'react'
-import Input from '../../Controls/Input'
+import Input from '../../Shared/Controls/Input'
 import styles from './AuthInput.module.css'
 
 interface Props {

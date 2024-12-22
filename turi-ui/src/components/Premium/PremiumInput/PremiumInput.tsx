@@ -1,5 +1,5 @@
 import React from 'react'
-import Input from '../../Controls/Input'
+import Input from '../../Shared/Controls/Input'
 
 interface Props {
     type: string

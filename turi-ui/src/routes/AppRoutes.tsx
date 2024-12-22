@@ -1,53 +1,14 @@
 import { Route, Routes } from 'react-router-dom'
+import { useAuth } from '../hooks/useAuth.ts'
 import MainLayout from '../layouts/Main'
-import HomePage from '../pages/Home'
-import LoginRoutes from './LoginRoutes'
-import SignUpRoutes from './SignUpRoutes'
+import MainPage from '../pages/Main'
+import AuthRoutes from './AuthRoutes'
 import ProfileRoutes from './ProfileRoutes'
 import PremiumRoutes from './PremiumRoutes'
-import NotFoundPage from '../pages/NotFound'
-import { useDispatch, useSelector } from 'react-redux'
-import { useEffect } from 'react'
-import { authService } from '../services/authService.ts'
-import { login, logout } from '../store/slices/auth.ts'
-import { RootState } from '../store/store.ts'
-import { accountService } from '../services/accountService.ts'
-import { notPremiumAccount, premiumAccount } from '../store/slices/premium.ts'
-import TourismRoutes from './TourismRoutes.tsx'
+import TourismRoutes from './TourismRoutes'
 
 const AppRoutes = () => {
-    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
-    const dispatch = useDispatch()
-
-    useEffect(() => {
-        const checkUserAuth = async () => {
-            if (!isAuthenticated) {
-                const authorize = await authService.authorize()
-                if (authorize.status === 200) {
-                    dispatch(login())
-                    const account = await accountService.isPremium()
-                    if (account.status === 200 && (await account.json())) {
-                        dispatch(premiumAccount())
-                    }
-                } else {
-                    const refresh = await authService.refresh()
-                    if (refresh.status === 200) {
-                        dispatch(login())
-                        const account = await accountService.isPremium()
-                        console.log(account.json())
-                        if (account.status === 200 && (await account.json())) {
-                            dispatch(premiumAccount())
-                        }
-                    } else {
-                        dispatch(logout())
-                        dispatch(notPremiumAccount())
-                    }
-                }
-            }
-        }
-
-        checkUserAuth().catch((error) => error)
-    }, [dispatch, isAuthenticated])
+    useAuth(null)
 
     return (
         <Routes>
@@ -57,16 +18,12 @@ const AppRoutes = () => {
             >
                 <Route
                     index
-                    element={<HomePage />}
+                    element={<MainPage />}
                 />
             </Route>
             <Route
-                path="login/*"
-                element={<LoginRoutes />}
-            />
-            <Route
-                path="signup/*"
-                element={<SignUpRoutes />}
+                path="*"
+                element={<AuthRoutes />}
             />
             <Route
                 path="profile/*"
@@ -79,10 +36,6 @@ const AppRoutes = () => {
             <Route
                 path="tourism/*"
                 element={<TourismRoutes />}
-            />
-            <Route
-                path="*"
-                element={<NotFoundPage />}
             />
         </Routes>
     )

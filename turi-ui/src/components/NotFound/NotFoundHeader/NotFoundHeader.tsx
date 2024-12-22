@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import TextMediumExtra from '../../Controls/Text/TextMediumExtra'
+import TextMediumExtra from '../../Shared/Controls/Text/TextMediumExtra'
 import styles from './NotFoundHeader.module.css'
 
 const NotFoundHeader = () => {

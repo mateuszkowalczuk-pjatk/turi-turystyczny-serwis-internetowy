@@ -1,6 +1,6 @@
-import styles from './ProfileInput.module.css'
-import Input from '../../Controls/Input'
 import React from 'react'
+import Input from '../../Shared/Controls/Input'
+import styles from './ProfileInput.module.css'
 
 interface Props {
     type: string

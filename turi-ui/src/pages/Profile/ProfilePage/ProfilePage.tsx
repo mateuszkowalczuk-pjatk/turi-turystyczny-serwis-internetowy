@@ -89,12 +89,7 @@ const ProfilePage = () => {
                     return
                 }
 
-                const passwordError = passwordValidation(formData.password, t)
-                if (passwordError) {
-                    setError(passwordError)
-                    setLoading(false)
-                    return
-                }
+                passwordValidation(formData.password, setError, t, setLoading)
 
                 const passwordResponse = await userService.changePassword(formData.password)
                 if (passwordResponse.status !== 200) {

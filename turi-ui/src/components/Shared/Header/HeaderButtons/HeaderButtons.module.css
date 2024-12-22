@@ -1,0 +1,48 @@
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5%;
+}
+
+.buttons button {
+    width: 8rem;
+    height: 2.5rem;
+    font-size: 0.9rem;
+    border-radius: 0.3rem;
+}
+
+.buttons button:active {
+    font-size: 0.85rem;
+}
+
+@media (max-width: 768px) {
+    .buttons button {
+        width: 6rem;
+        height: 2rem;
+        font-size: 0.8rem;
+        border-radius: 0.25rem;
+    }
+
+    .buttons button:active {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .buttons {
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+
+    .buttons button {
+        width: 5.5rem;
+        height: 1.5rem;
+        font-size: 0.7rem;
+        border-radius: 0.2rem;
+    }
+
+    .buttons button:active {
+        font-size: 0.65rem;
+    }
+}

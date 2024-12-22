@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import TextRegular from '../../Controls/Text/TextRegular'
+import TextRegular from '../../Shared/Controls/Text/TextRegular'
 import styles from './PremiumOfferList.module.css'
 
 const PremiumOfferList = () => {

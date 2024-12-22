@@ -1,4 +1,4 @@
-import TextRegular from '../../Controls/Text/TextRegular'
+import TextRegular from '../../Shared/Controls/Text/TextRegular'
 import styles from './AuthDownLink.module.css'
 
 interface Props {

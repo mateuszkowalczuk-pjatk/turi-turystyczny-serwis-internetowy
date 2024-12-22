@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { GreenButton } from '../../Controls/Button'
+import { GreenButton } from '../../Shared/Controls/Button'
 import styles from './NotFoundButton.module.css'
 
 const NotFoundButton = () => {

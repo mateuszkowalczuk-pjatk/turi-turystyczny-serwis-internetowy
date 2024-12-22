@@ -9,13 +9,13 @@ import PremiumButtons from '../../../components/Premium/PremiumButtons'
 import PremiumVerify from '../../../components/Premium/PremiumVerify'
 import PremiumPersonalInput from '../../../components/Premium/PremiumPersonalInput'
 import PremiumInput from '../../../components/Premium/PremiumInput'
-import { GreenButton } from '../../../components/Controls/Button'
+import { GreenButton } from '../../../components/Shared/Controls/Button'
+import { useAuth } from '../../../hooks/useAuth.ts'
 import { premiumService } from '../../../services/premiumService.ts'
 import { buyPremium, notBuyPremium } from '../../../store/slices/premiumBuy.ts'
 import { bankAccountNumberValidation, nipValidation } from '../../../utils/companyValidation.ts'
 import { accountService } from '../../../services/accountService.ts'
 import { Account, Premium, PremiumCompanyParam, PremiumVerifyParam } from '../../../types'
-import { useAuth } from '../../../hooks/useAuth.ts'
 import styles from './PremiumVerifyPage.module.css'
 
 interface FormData {
@@ -41,7 +41,7 @@ const PremiumVerifyPage = () => {
     const [error, setError] = useState<string | null>(null)
     const [loading, setLoading] = useState(false)
 
-    useAuth()
+    useAuth('/')
 
     useEffect(() => {
         // if (isPremiumAccount) {

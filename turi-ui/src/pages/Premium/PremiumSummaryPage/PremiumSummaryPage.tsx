@@ -15,7 +15,7 @@ const PremiumSummaryPage = () => {
     const isPremiumAccount = useSelector((state: RootState) => state.premium.isPremiumAccount)
     const dispatch = useDispatch()
 
-    useAuth()
+    useAuth('/')
 
     useEffect(() => {
         // if (!isPremiumAccount) {

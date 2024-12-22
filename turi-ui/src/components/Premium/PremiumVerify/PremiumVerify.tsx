@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
-import TextMedium from '../../Controls/Text/TextMedium'
-import TextRegular from '../../Controls/Text/TextRegular'
+import TextMedium from '../../Shared/Controls/Text/TextMedium'
+import TextRegular from '../../Shared/Controls/Text/TextRegular'
 import styles from './PremiumVerify.module.css'
 
 interface Props {

@@ -1,5 +1,5 @@
+import TextRegular from '../../Shared/Controls/Text/TextRegular'
 import styles from './ProfileLabel.module.css'
-import TextRegular from '../../Controls/Text/TextRegular'
 
 const ProfileLabel = ({ text }: { text: string }) => {
     return (

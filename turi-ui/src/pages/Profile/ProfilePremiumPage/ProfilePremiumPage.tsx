@@ -1,19 +1,19 @@
-import styles from './ProfilePremiumPage.module.css'
-import PersonalPart from '../../../components/Personal/PersonalPart'
-import PersonalPanel from '../../../components/Personal/PersonalPanel'
-import PersonalLabel from '../../../components/Personal/PersonalLabel'
-import PersonalInput from '../../../components/Personal/PersonalInput'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../store/store.ts'
-import React, { useEffect, useState } from 'react'
 import { useAuth } from '../../../hooks/useAuth.ts'
 import { premiumService } from '../../../services/premiumService.ts'
 import { Premium, PremiumCompanyParam } from '../../../types'
 import ProfilePremium from '../../../components/Profile/ProfilePremium'
 import ProfileButton from '../../../components/Profile/ProfileButton'
 import { bankAccountNumberValidation, nipValidation } from '../../../utils/companyValidation.ts'
+import PersonalPart from '../../../components/Shared/Personal/PersonalPart'
+import PersonalPanel from '../../../components/Shared/Personal/PersonalPanel'
+import PersonalLabel from '../../../components/Shared/Personal/PersonalLabel'
+import PersonalInput from '../../../components/Shared/Personal/PersonalInput'
+import styles from './ProfilePremiumPage.module.css'
 
 interface FormData {
     companyName: string
@@ -33,7 +33,7 @@ const ProfilePremiumPage = () => {
     const [error, setError] = useState<string | null>(null)
     const [loading, setLoading] = useState(false)
 
-    useAuth()
+    useAuth('/')
 
     useEffect(() => {
         if (!isPremiumAccount) {

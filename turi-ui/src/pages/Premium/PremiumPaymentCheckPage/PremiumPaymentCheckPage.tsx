@@ -15,7 +15,7 @@ const PremiumPaymentCheckPage = () => {
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
     const [dots, setDots] = useState('')
 
-    useAuth()
+    useAuth('/')
 
     useEffect(() => {
         dispatch(notPaymentPremiumFailed())

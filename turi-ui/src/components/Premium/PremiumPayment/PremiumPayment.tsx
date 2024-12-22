@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next'
-import TextMedium from '../../Controls/Text/TextMedium'
-import Checkbox from '../../Controls/Checkbox'
+import { Link } from 'react-router-dom'
+import TextMedium from '../../Shared/Controls/Text/TextMedium'
+import Checkbox from '../../Shared/Controls/Checkbox'
 import { PaymentMethod } from '../../../types'
 import { Trans } from 'react-i18next'
-import { Link } from 'react-router-dom'
 import styles from './PremiumPayment.module.css'
 
 interface Props {

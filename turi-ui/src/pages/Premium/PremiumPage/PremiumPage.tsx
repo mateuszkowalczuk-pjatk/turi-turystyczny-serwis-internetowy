@@ -5,12 +5,12 @@ import PremiumDescription from '../../../components/Premium/PremiumDescription'
 import PremiumSection from '../../../components/Premium/PremiumSection'
 import PremiumButtons from '../../../components/Premium/PremiumButtons'
 import PremiumOffer from '../../../components/Premium/PremiumOffer'
-import { GreenButton } from '../../../components/Controls/Button'
 import { premiumService } from '../../../services/premiumService.ts'
 import { Offer } from '../../../types'
 import { useAuth } from '../../../hooks/useAuth.ts'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../store/store.ts'
+import { GreenButton } from '../../../components/Shared/Controls/Button'
 
 const PremiumPage = () => {
     const { t } = useTranslation()
@@ -18,7 +18,7 @@ const PremiumPage = () => {
     const isPremiumAccount = useSelector((state: RootState) => state.premium.isPremiumAccount)
     const [offer, setOffer] = useState<Offer | null>(null)
 
-    useAuth()
+    useAuth('/')
 
     useEffect(() => {
         // if (isPremiumAccount) {
