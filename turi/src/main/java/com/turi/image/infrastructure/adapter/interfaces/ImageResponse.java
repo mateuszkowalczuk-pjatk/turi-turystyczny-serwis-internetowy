@@ -30,4 +30,14 @@ public final class ImageResponse
 
         return ResponseEntity.ok(image);
     }
+
+    public static ResponseEntity<String> of(final String path)
+    {
+        if (path == null)
+        {
+            throw new BadRequestResponseException("Uploaded image path response must not be null.");
+        }
+
+        return ResponseEntity.ok(path);
+    }
 }

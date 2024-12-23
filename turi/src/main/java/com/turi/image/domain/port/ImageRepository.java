@@ -18,9 +18,5 @@ public interface ImageRepository
 
     void insert(final Image image);
 
-    void deleteById(final Long id);
-
-    void deleteAllByStayId(final Long stayId);
-
-    void deleteAllByAttractionId(final Long attractionId);
+    String deleteById(final Long id);
 }

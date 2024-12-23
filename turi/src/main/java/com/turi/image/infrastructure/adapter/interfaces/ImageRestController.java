@@ -1,9 +1,11 @@
 package com.turi.image.infrastructure.adapter.interfaces;
 
 import com.turi.image.domain.model.Image;
+import com.turi.image.domain.model.ImageMode;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -38,32 +40,12 @@ public class ImageRestController
         return facade.getAllImagesByAttractionId(attractionId);
     }
 
-    @PostMapping("/createForAccount")
-    public ResponseEntity<?> createImageForAccount(@RequestParam final String accountId,
-                                                   @RequestParam final String path)
+    @PostMapping(value = "/upload", consumes = "multipart/form-data")
+    public ResponseEntity<String> uploadImage(@RequestParam final MultipartFile file,
+                                              @RequestParam final ImageMode mode,
+                                              @RequestParam final String id)
     {
-        return facade.createImageForAccount(accountId, path);
-    }
-
-    @PostMapping("/createForTouristicPlace")
-    public ResponseEntity<?> createImageForTouristicPlace(@RequestParam final String touristicPlaceId,
-                                                          @RequestParam final String path)
-    {
-        return facade.createImageForTouristicPlace(touristicPlaceId, path);
-    }
-
-    @PostMapping("/createForStay")
-    public ResponseEntity<?> createImageForStay(@RequestParam final String stayId,
-                                                @RequestParam final String path)
-    {
-        return facade.createImageForStay(stayId, path);
-    }
-
-    @PostMapping("/createForAttraction")
-    public ResponseEntity<?> createImageForAttraction(@RequestParam final String attractionId,
-                                                      @RequestParam final String path)
-    {
-        return facade.createImageForAttraction(attractionId, path);
+        return facade.uploadImage(file, mode, id);
     }
 
     @DeleteMapping("/deleteById/{id}")

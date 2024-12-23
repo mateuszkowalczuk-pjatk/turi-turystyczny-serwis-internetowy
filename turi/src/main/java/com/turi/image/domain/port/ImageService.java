@@ -1,6 +1,8 @@
 package com.turi.image.domain.port;
 
 import com.turi.image.domain.model.Image;
+import com.turi.image.domain.model.ImageMode;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -14,13 +16,7 @@ public interface ImageService
 
     List<Image> getAllByAttractionId(final Long attractionId);
 
-    void createForAccount(final Long accountId, final String path);
-
-    void createForTouristicPlace(final Long touristicPlaceId, final String path);
-
-    void createForStay(final Long stayId, final String path);
-
-    void createForAttraction(final Long attractionId, final String path);
+    String upload(final MultipartFile file, final ImageMode mode, final Long id);
 
     void deleteById(final Long id);
 

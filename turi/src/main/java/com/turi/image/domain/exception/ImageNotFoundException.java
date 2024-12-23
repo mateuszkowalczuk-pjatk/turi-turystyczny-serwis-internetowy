@@ -2,7 +2,7 @@ package com.turi.image.domain.exception;
 
 import java.io.Serial;
 
-public class ImageNotFoundException extends RuntimeException
+public final class ImageNotFoundException extends RuntimeException
 {
     @Serial
     private static final long serialVersionUID = -4796056675568835515L;

@@ -63,22 +63,12 @@ public class ImageRepositoryImpl implements ImageRepository
     }
 
     @Override
-    public void deleteById(final Long id)
+    public String deleteById(final Long id)
     {
         final var image = findById(id);
 
         repositoryDao.deleteById(image.getImageId());
-    }
 
-    @Override
-    public void deleteAllByStayId(final Long stayId)
-    {
-        repositoryDao.deleteAllByStayId(stayId);
-    }
-
-    @Override
-    public void deleteAllByAttractionId(final Long attractionId)
-    {
-        repositoryDao.deleteAllByAttractionId(attractionId);
+        return image.getPath();
     }
 }

@@ -1,12 +1,14 @@
 package com.turi.image.infrastructure.adapter.interfaces;
 
 import com.turi.image.domain.model.Image;
+import com.turi.image.domain.model.ImageMode;
 import com.turi.image.domain.port.ImageService;
 import com.turi.infrastructure.common.ObjectId;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -64,60 +66,14 @@ public class ImageFacade
         return ImageResponse.of(service.getAllByAttractionId(id));
     }
 
-    public ResponseEntity<?> createImageForAccount(final String accountId, final String path)
+    public ResponseEntity<String> uploadImage(final MultipartFile file, final ImageMode mode, final String id)
     {
-        if (accountId == null || path == null)
+        if (file == null || mode == null || id == null)
         {
-            throw new BadRequestParameterException("Parameters accountId and path must not be null.");
+            throw new BadRequestParameterException("Parameters file, mode and id must not be null.");
         }
 
-        final var id = ObjectId.of(accountId).getValue();
-
-        service.createForAccount(id, path);
-
-        return ResponseEntity.ok().build();
-    }
-
-    public ResponseEntity<?> createImageForTouristicPlace(final String touristicPlaceId, final String path)
-    {
-        if (touristicPlaceId == null || path == null)
-        {
-            throw new BadRequestParameterException("Parameters touristicPlaceId and path must not be null.");
-        }
-
-        final var id = ObjectId.of(touristicPlaceId).getValue();
-
-        service.createForTouristicPlace(id, path);
-
-        return ResponseEntity.ok().build();
-    }
-
-    public ResponseEntity<?> createImageForStay(final String stayId, final String path)
-    {
-        if (stayId == null || path == null)
-        {
-            throw new BadRequestParameterException("Parameters stayId and path must not be null.");
-        }
-
-        final var id = ObjectId.of(stayId).getValue();
-
-        service.createForStay(id, path);
-
-        return ResponseEntity.ok().build();
-    }
-
-    public ResponseEntity<?> createImageForAttraction(final String attractionId, final String path)
-    {
-        if (attractionId == null || path == null)
-        {
-            throw new BadRequestParameterException("Parameters attractionId and path must not be null.");
-        }
-
-        final var id = ObjectId.of(attractionId).getValue();
-
-        service.createForAttraction(id, path);
-
-        return ResponseEntity.ok().build();
+        return ImageResponse.of(service.upload(file, mode, ObjectId.of(id).getValue()));
     }
 
     public ResponseEntity<?> deleteImageById(final String id)

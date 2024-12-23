@@ -6,8 +6,7 @@ import com.turi.address.domain.exception.InvalidAddressException;
 import com.turi.attraction.domain.exception.AttractionNotFoundException;
 import com.turi.attraction.domain.exception.InvalidAttractionException;
 import com.turi.authentication.domain.exception.*;
-import com.turi.image.domain.exception.ImageNotFoundException;
-import com.turi.image.domain.exception.InvalidImageException;
+import com.turi.image.domain.exception.*;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.infrastructure.exception.BadRequestResponseException;
 import com.turi.payment.domain.exception.*;
@@ -133,14 +132,38 @@ public final class RestControllerErrorHandler extends ErrorHandler
         return createResponse(HttpStatus.UNAUTHORIZED, ex.getMessage());
     }
 
+    @ExceptionHandler(AzureBlobStorageUploadException.class)
+    public ResponseEntity<ErrorCode> handleAzureBlobStorageUploadException(final AzureBlobStorageUploadException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
     @ExceptionHandler(ImageNotFoundException.class)
     public ResponseEntity<ErrorCode> handleImageNotFoundException(final ImageNotFoundException ex)
     {
         return createResponse(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
+    @ExceptionHandler(ImageStorageModeException.class)
+    public ResponseEntity<ErrorCode> handleImageStorageModeException(final ImageStorageModeException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
     @ExceptionHandler(InvalidImageException.class)
     public ResponseEntity<ErrorCode> handleInvalidAttractionException(final InvalidImageException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidImageNameException.class)
+    public ResponseEntity<ErrorCode> handleInvalidImageNameException(final InvalidImageNameException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(LocalStorageException.class)
+    public ResponseEntity<ErrorCode> handleLocalStorageException(final LocalStorageException ex)
     {
         return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
