@@ -54,7 +54,7 @@ public class SecurityConfig
                                 "/api/stay",
                                 "/api/attraction"
                         ).hasRole(AccountType.PREMIUM.getName())
-                        .requestMatchers("/api/**").hasAnyRole(AccountType.NORMAL.getName(), AccountType.PREMIUM.getName())
+                        .requestMatchers("/api/**", "/uploads/**").hasAnyRole(AccountType.NORMAL.getName(), AccountType.PREMIUM.getName())
                         .anyRequest().authenticated())
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)

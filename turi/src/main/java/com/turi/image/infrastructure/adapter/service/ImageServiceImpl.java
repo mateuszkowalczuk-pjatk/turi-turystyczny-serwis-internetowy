@@ -1,5 +1,6 @@
 package com.turi.image.infrastructure.adapter.service;
 
+import com.turi.image.domain.exception.ImageNotFoundForAccountException;
 import com.turi.image.domain.exception.InvalidImageNameException;
 import com.turi.image.domain.model.Image;
 import com.turi.image.domain.model.ImageMode;
@@ -27,6 +28,12 @@ public class ImageServiceImpl implements ImageService
     public Image getByAccountId(final Long accountId)
     {
         final var image = repository.findByAccountId(accountId);
+
+        if (image == null)
+        {
+            throw new ImageNotFoundForAccountException(accountId);
+        }
+
         image.setPath(generateImageUrl(image.getPath()));
 
         return image;
@@ -93,6 +100,13 @@ public class ImageServiceImpl implements ImageService
 
     private void createAccountImage(final String fileName, final Long accountId)
     {
+        final var accountImage = repository.findByAccountId(accountId);
+
+        if (accountImage != null)
+        {
+            deleteById(accountImage.getImageId());
+        }
+
         final var image = Image.builder()
                 .withAccountId(accountId)
                 .withPath(fileName)

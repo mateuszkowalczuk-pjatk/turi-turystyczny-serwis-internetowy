@@ -144,6 +144,12 @@ public final class RestControllerErrorHandler extends ErrorHandler
         return createResponse(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
+    @ExceptionHandler(ImageNotFoundForAccountException.class)
+    public ResponseEntity<ErrorCode> handleImageNotFoundForAccountException(final ImageNotFoundForAccountException ex)
+    {
+        return createResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
     @ExceptionHandler(ImageStorageModeException.class)
     public ResponseEntity<ErrorCode> handleImageStorageModeException(final ImageStorageModeException ex)
     {
