@@ -1,22 +1,19 @@
+import { useTranslation } from 'react-i18next'
 import TourismContent from '../../../components/Tourism/TourismContent'
-import PageTitle from '../../../components/Shared/PageTitle'
+import TourismReturn from '../../../components/Tourism/TourismReturn'
 import TourismPanel from '../../../components/Tourism/TourismPanel'
 import TourismHeader from '../../../components/Tourism/TourismHeader'
 import TourismCurrentReservations from '../../../components/Tourism/TourismCurrentReservations'
 
 const TourismStaysPlanPage = () => {
+    const { t } = useTranslation()
+
     return (
         <TourismContent
-            title={<PageTitle text={''} />}
+            title={<TourismReturn />}
             firstPanel={
                 <TourismPanel
-                    header={
-                        <TourismHeader
-                            text={''}
-                            secondButtonText={''}
-                            secondButtonOnClick={() => console.log('Powrót')}
-                        />
-                    }
+                    header={<TourismHeader text={t('tourism.stays-plan')} />}
                     content={<TourismCurrentReservations />}
                     size={'offer'}
                 />

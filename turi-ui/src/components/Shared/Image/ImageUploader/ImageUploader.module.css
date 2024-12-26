@@ -1,0 +1,36 @@
+.uploader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 8rem;
+    height: 8rem;
+    border: 2px solid var(--dark-green);
+    border-radius: 0.5rem;
+    background-color: var(--green);
+    color: var(--grey);
+    font-size: 5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition:
+        background-color 0.3s,
+        border-color 0.3s,
+        font-size 0.3s;
+}
+
+.button:hover {
+    background-color: var(--dark-green);
+}
+
+.button:active {
+    font-size: 4.5rem;
+}
+
+.input {
+    display: none;
+}

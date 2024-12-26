@@ -1,0 +1,16 @@
+.save {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    width: 96%;
+    height: 3rem;
+}
+
+.save button {
+    width: 7.5rem;
+    height: 2.5rem;
+}
+
+.save p {
+    color: var(--light-green);
+}

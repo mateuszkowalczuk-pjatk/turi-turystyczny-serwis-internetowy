@@ -16,6 +16,15 @@
     cursor: pointer;
 }
 
+.links .link {
+    color: var(--white);
+}
+
+.links .link.active p {
+    color: var(--dark-green);
+    font-weight: bold;
+}
+
 @media (max-width: 1024px) {
     .links {
         gap: 4vw;

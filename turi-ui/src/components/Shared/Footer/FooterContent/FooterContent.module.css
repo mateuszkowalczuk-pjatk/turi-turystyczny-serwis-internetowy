@@ -6,6 +6,11 @@
     height: 11rem;
 }
 
+.link {
+    text-decoration: none;
+    cursor: pointer;
+}
+
 @media (max-width: 1180px) {
     .content p {
         font-size: 0.8rem;

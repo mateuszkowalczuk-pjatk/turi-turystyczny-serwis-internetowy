@@ -8,6 +8,7 @@ import { notPaymentPremiumFailed, paymentPremiumFailed } from '../../../store/sl
 import { premiumService } from '../../../services/premiumService.ts'
 import { premiumAccount } from '../../../store/slices/premium.ts'
 import styles from './PremiumPaymentCheckPage.module.css'
+import { touristicPlaceService } from '../../../services/touristicPlaceService.ts'
 
 const PremiumPaymentCheckPage = () => {
     const navigate = useNavigate()
@@ -25,6 +26,7 @@ const PremiumPaymentCheckPage = () => {
             const checkPayment = async () => {
                 const response = await premiumService.checkPayment()
                 if (response.status === 200) {
+                    await touristicPlaceService.create()
                     dispatch(premiumAccount())
                     dispatch(notPaymentPremiumFailed())
                     navigate('/premium/summary')

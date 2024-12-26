@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 import FooterHeader from '../FooterHeader'
 import FooterContent from '../FooterContent'
 import FooterModule from '../FooterModule'
@@ -18,9 +19,22 @@ const GuestFooter = () => {
                     content={
                         <FooterModule
                             title={<TextExtraLight text={t('footer.community')} />}
-                            firstOption={<TextRegular text={t('footer.sign-in')} />}
-                            secondOption={<TextRegular text={t('footer.sign-up')} />}
-                            thirdOption={<TextRegular text={t('footer.premium')} />}
+                            firstOption={
+                                <Link
+                                    to="/login"
+                                    className={styles.link}
+                                >
+                                    <TextRegular text={t('footer.sign-in')} />
+                                </Link>
+                            }
+                            secondOption={
+                                <Link
+                                    to="/register"
+                                    className={styles.link}
+                                >
+                                    <TextRegular text={t('footer.sign-up')} />
+                                </Link>
+                            }
                         />
                     }
                 />

@@ -1,3 +1,5 @@
+import { RootState } from '../../../store/store.ts'
+import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import TourismContent from '../../../components/Tourism/TourismContent'
@@ -7,10 +9,15 @@ import TourismHeader from '../../../components/Tourism/TourismHeader'
 import TourismCurrentReservations from '../../../components/Tourism/TourismCurrentReservations'
 import TourismReservations from '../../../components/Tourism/TourismReservations'
 import TourismTouristicPlace from '../../../components/Tourism/TourismTouristicPlace'
+import { useRedirectSome } from '../../../hooks/useRedirect.ts'
 
 const TourismPage = () => {
     const { t } = useTranslation()
     const navigate = useNavigate()
+    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
+    const isPremium = useSelector((state: RootState) => state.premium.isPremiumAccount)
+
+    useRedirectSome([!isAuthenticated, !isPremium], '/')
 
     return (
         <TourismContent
@@ -54,9 +61,9 @@ const TourismPage = () => {
                         <TourismHeader
                             text={t('tourism.offers-title')}
                             firstButtonText={t('tourism.offers-stay')}
-                            firstButtonOnClick={() => navigate('/tourism/new-stay')}
+                            firstButtonOnClick={() => navigate('/tourism/stay-offer')}
                             secondButtonText={t('tourism.offers-attraction')}
-                            secondButtonOnClick={() => navigate('/tourism/new-attraction')}
+                            secondButtonOnClick={() => navigate('/tourism/attraction-offer')}
                         />
                     }
                     content={<TourismReservations />}

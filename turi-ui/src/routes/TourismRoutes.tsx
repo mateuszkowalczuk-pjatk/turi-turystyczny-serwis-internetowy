@@ -7,9 +7,6 @@ import TourismCreateStayOfferPage from '../pages/Tourism/TourismCreateStayOfferP
 import TourismCreateAttractionOfferPage from '../pages/Tourism/TourismCreateAttractionOfferPage'
 import TourismModifyStayOfferPage from '../pages/Tourism/TourismModifyStayOfferPage/TourismModifyStayOfferPage'
 import TourismModifyAttractionOfferPage from '../pages/Tourism/TourismModifyAttractionOfferPage'
-import TourismStayOfferPage from '../pages/Tourism/TourismStayOfferPage'
-import TourismAttractionOfferPage from '../pages/Tourism/TourismAttractionOfferPage'
-import TourismReservationOfferPage from '../pages/Tourism/TourismReservationOfferPage'
 import TourismStatisticsPage from '../pages/Tourism/TourismStatisticsPage'
 import NotFoundPage from '../pages/NotFound'
 
@@ -47,18 +44,6 @@ const TourismRoutes = () => {
                 <Route
                     path="modify-attraction-offer"
                     element={<TourismModifyAttractionOfferPage />}
-                />
-                <Route
-                    path="stay-offer"
-                    element={<TourismStayOfferPage />}
-                />
-                <Route
-                    path="attraction-offer"
-                    element={<TourismAttractionOfferPage />}
-                />
-                <Route
-                    path="reservation-offer"
-                    element={<TourismReservationOfferPage />}
                 />
                 <Route
                     path="statistics"

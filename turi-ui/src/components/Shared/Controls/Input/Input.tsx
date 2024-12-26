@@ -13,17 +13,7 @@ interface Props {
     disabled?: boolean
 }
 
-export const Input = ({
-    type,
-    name,
-    placeholder,
-    value,
-    onChange,
-    minLength,
-    maxLength,
-    required,
-    disabled
-}: Props) => {
+const Input = ({ type, name, placeholder, value, onChange, minLength, maxLength, required, disabled }: Props) => {
     return (
         <input
             type={type}

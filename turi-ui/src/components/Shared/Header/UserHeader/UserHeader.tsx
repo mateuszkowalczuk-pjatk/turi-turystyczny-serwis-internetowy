@@ -16,19 +16,19 @@ const UserHeader = () => {
                     firstLink={
                         <TextRegular
                             text={t('header.reservation')}
-                            onClick={() => console.log('Reservations')}
+                            onClick={() => navigate('reservations')}
                         />
                     }
                     secondLink={
                         <TextRegular
                             text={t('header.stays')}
-                            onClick={() => console.log('Stays')}
+                            onClick={() => navigate('/stays')}
                         />
                     }
                     thirdLink={
                         <TextRegular
                             text={t('header.favourites')}
-                            onClick={() => console.log('Favourites')}
+                            onClick={() => navigate('/favourites')}
                         />
                     }
                 />

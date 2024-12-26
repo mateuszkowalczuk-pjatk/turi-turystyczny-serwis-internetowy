@@ -15,7 +15,7 @@
 }
 
 .box.current {
-    height: 14rem;
+    height: 15rem;
 }
 
 .current {
@@ -23,7 +23,7 @@
 }
 
 .box.reservations {
-    height: 18rem;
+    height: 19rem;
 }
 
 .reservations {
@@ -31,15 +31,15 @@
 }
 
 .box.place {
-    height: 36rem;
+    height: 53rem;
 }
 
 .place {
-    height: 34rem;
+    height: 50rem;
 }
 
 .box.offer {
-    height: 42rem;
+    height: 37.5rem;
 }
 
 .offer {

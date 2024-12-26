@@ -1,5 +1,6 @@
 import { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 import FooterModule from '../FooterModule'
 import TextExtraLight from '../../Controls/Text/TextExtraLight'
 import TextRegular from '../../Controls/Text/TextRegular'
@@ -13,16 +14,65 @@ const FooterContent = ({ content }: { content: ReactNode }) => {
             {content}
             <FooterModule
                 title={<TextExtraLight text={t('footer.offers')} />}
-                firstOption={<TextRegular text={t('footer.stays')} />}
-                secondOption={<TextRegular text={t('footer.attractions')} />}
-                thirdOption={<TextRegular text={t('footer.rating')} />}
+                firstOption={
+                    <Link
+                        to="/stays"
+                        className={styles.link}
+                    >
+                        <TextRegular text={t('footer.stays')} />
+                    </Link>
+                }
+                secondOption={
+                    <Link
+                        to="/attractions"
+                        className={styles.link}
+                    >
+                        <TextRegular text={t('footer.attractions')} />
+                    </Link>
+                }
+                thirdOption={
+                    <Link
+                        to="/rating"
+                        className={styles.link}
+                    >
+                        <TextRegular text={t('footer.rating')} />
+                    </Link>
+                }
             />
             <FooterModule
                 title={<TextExtraLight text={t('footer.more')} />}
-                firstOption={<TextRegular text={t('footer.about')} />}
-                secondOption={<TextRegular text={t('footer.conditions')} />}
-                thirdOption={<TextRegular text={t('footer.privacy')} />}
-                fourthOption={<TextRegular text={t('footer.help')} />}
+                firstOption={
+                    <Link
+                        to="/about"
+                        className={styles.link}
+                    >
+                        <TextRegular text={t('footer.about')} />
+                    </Link>
+                }
+                secondOption={
+                    <Link
+                        to="/conditions"
+                        className={styles.link}
+                    >
+                        <TextRegular text={t('footer.conditions')} />
+                    </Link>
+                }
+                thirdOption={
+                    <Link
+                        to="/privacy"
+                        className={styles.link}
+                    >
+                        <TextRegular text={t('footer.privacy')} />
+                    </Link>
+                }
+                fourthOption={
+                    <Link
+                        to="/help"
+                        className={styles.link}
+                    >
+                        <TextRegular text={t('footer.help')} />
+                    </Link>
+                }
             />
             <FooterModule
                 title={<TextExtraLight text={t('footer.contact')} />}
