@@ -3,14 +3,18 @@ import styles from './Image.module.css'
 
 interface Props {
     id?: number
-    path: string
+    path?: string
     alt?: string
-    removeImage: (imageId: number) => void
+    removeImage?: (imageId: number) => void
+    file?: File
+    removeFile?: (file: File) => void
+    onlyDisplay?: boolean
 }
 
-const ImagePanel = ({ id, path, alt = 'Image', removeImage }: Props) => {
+const ImagePanel = ({ id, path, alt = 'Image', removeImage, file, removeFile, onlyDisplay }: Props) => {
     const handleImageDelete = async () => {
-        if (id != null) {
+        if (removeFile && file) removeFile(file)
+        else if (id != null && removeImage) {
             await imageService.deleteById(id)
             removeImage(id)
         }
@@ -18,18 +22,30 @@ const ImagePanel = ({ id, path, alt = 'Image', removeImage }: Props) => {
 
     return (
         <div className={styles.panel}>
-            <img
-                src={path}
-                alt={alt}
-                className={styles.image}
-            />
-            <button
-                className={styles.delete}
-                onClick={handleImageDelete}
-                aria-label="Delete image"
-            >
-                ✕
-            </button>
+            {path && (
+                <img
+                    src={path}
+                    alt={alt}
+                    className={styles.image}
+                />
+            )}
+            {file && (
+                <img
+                    src={URL.createObjectURL(file)}
+                    alt={alt}
+                    className={styles.image}
+                />
+            )}
+            {!onlyDisplay && (
+                <button
+                    className={styles.delete}
+                    onClick={handleImageDelete}
+                    aria-label="Delete image"
+                    type="button"
+                >
+                    ✕
+                </button>
+            )}
         </div>
     )
 }

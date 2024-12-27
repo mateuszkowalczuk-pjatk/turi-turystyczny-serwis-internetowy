@@ -10,14 +10,20 @@ import TourismCurrentReservations from '../../../components/Tourism/TourismCurre
 import TourismReservations from '../../../components/Tourism/TourismReservations'
 import TourismTouristicPlace from '../../../components/Tourism/TourismTouristicPlace'
 import { useRedirectSome } from '../../../hooks/useRedirect.ts'
+import { useTouristicPlace } from '../../../hooks/useTouristicPlace.ts'
+import { useState } from 'react'
+import TourismOffers from '../../../components/Tourism/TourismOffers'
 
 const TourismPage = () => {
     const { t } = useTranslation()
     const navigate = useNavigate()
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
     const isPremium = useSelector((state: RootState) => state.premium.isPremiumAccount)
+    const [touristicPlaceId, setTouristicPlaceId] = useState<number>()
 
     useRedirectSome([!isAuthenticated, !isPremium], '/')
+
+    useTouristicPlace(setTouristicPlaceId)
 
     return (
         <TourismContent
@@ -51,7 +57,7 @@ const TourismPage = () => {
             thirdPanel={
                 <TourismPanel
                     header={<TourismHeader text={t('tourism.touristic-place-title')} />}
-                    content={<TourismTouristicPlace />}
+                    content={touristicPlaceId && <TourismTouristicPlace touristicPlaceId={touristicPlaceId} />}
                     size={'place'}
                 />
             }
@@ -61,12 +67,20 @@ const TourismPage = () => {
                         <TourismHeader
                             text={t('tourism.offers-title')}
                             firstButtonText={t('tourism.offers-stay')}
-                            firstButtonOnClick={() => navigate('/tourism/stay-offer')}
+                            firstButtonOnClick={() =>
+                                navigate('/tourism/create-stay-offer', {
+                                    state: { touristicPlaceId: touristicPlaceId }
+                                })
+                            }
                             secondButtonText={t('tourism.offers-attraction')}
-                            secondButtonOnClick={() => navigate('/tourism/attraction-offer')}
+                            secondButtonOnClick={() =>
+                                navigate('/tourism/create-attraction-offer', {
+                                    state: { touristicPlaceId: touristicPlaceId }
+                                })
+                            }
                         />
                     }
-                    content={<TourismReservations />}
+                    content={touristicPlaceId && <TourismOffers touristicPlaceId={touristicPlaceId} />}
                     size={'reservations'}
                 />
             }

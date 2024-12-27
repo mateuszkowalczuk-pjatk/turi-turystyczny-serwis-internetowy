@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import TourismContent from '../../../components/Tourism/TourismContent'
-import TourismReturn from '../../../components/Tourism/TourismReturn'
+import Return from '../../../components/Shared/Return'
 import TourismPanel from '../../../components/Tourism/TourismPanel'
 import TourismHeader from '../../../components/Tourism/TourismHeader'
 import TourismCurrentReservations from '../../../components/Tourism/TourismCurrentReservations'
@@ -10,7 +10,12 @@ const TourismStatisticsPage = () => {
 
     return (
         <TourismContent
-            title={<TourismReturn />}
+            title={
+                <Return
+                    text={t('tourism.home-return')}
+                    url={'/'}
+                />
+            }
             firstPanel={
                 <TourismPanel
                     header={<TourismHeader text={t('tourism.statistics-title')} />}

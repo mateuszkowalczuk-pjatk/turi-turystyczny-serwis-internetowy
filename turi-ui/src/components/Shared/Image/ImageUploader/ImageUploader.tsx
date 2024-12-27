@@ -1,24 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { imageValidation } from '../../../../utils/imageValidation.ts'
 import { imageService } from '../../../../services/imageService.ts'
 import { Image, ImageMode } from '../../../../types/image.ts'
 import styles from './ImageUploader.module.css'
 
 interface Props {
-    uploadImage: (image: Image) => void
-    mode: ImageMode
+    uploadImage?: (image: Image) => void
+    mode?: ImageMode
     id?: number
+    uploadFile?: (file: File) => void
 }
 
-const ImageUploader = ({ uploadImage, mode, id }: Props) => {
-    const [currentMode, setCurrentMode] = useState(mode)
-    const [currentId, setCurrentId] = useState(id)
-
-    useEffect(() => {
-        setCurrentMode(mode)
-        setCurrentId(id)
-    }, [mode, id])
-
+const ImageUploader = ({ uploadImage, mode, id, uploadFile }: Props) => {
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         if (!event.target.files || event.target.files.length === 0) {
             return
@@ -28,13 +21,14 @@ const ImageUploader = ({ uploadImage, mode, id }: Props) => {
 
         imageValidation(file)
 
-        const response = await imageService.upload(file, currentMode, currentId)
-        if (response.status === 200) {
-            const path = await response.text()
-            const image: Image = {
-                path: path
+        if (uploadFile) uploadFile(file)
+        else if (mode) {
+            const response = await imageService.upload(file, mode, id)
+            if (response.status === 200 && uploadImage) {
+                const path = await response.text()
+                const image: Image = { path: path }
+                uploadImage(image)
             }
-            uploadImage(image)
         }
     }
 

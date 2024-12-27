@@ -3,10 +3,8 @@ import TourismLayout from '../layouts/Tourism'
 import TourismPage from '../pages/Tourism/TourismPage'
 import TourismStaysPlanPage from '../pages/Tourism/TourismStaysPlanPage'
 import TourismReservationsPlanPage from '../pages/Tourism/TourismReservationsPlanPage'
-import TourismCreateStayOfferPage from '../pages/Tourism/TourismCreateStayOfferPage'
-import TourismCreateAttractionOfferPage from '../pages/Tourism/TourismCreateAttractionOfferPage'
-import TourismModifyStayOfferPage from '../pages/Tourism/TourismModifyStayOfferPage/TourismModifyStayOfferPage'
-import TourismModifyAttractionOfferPage from '../pages/Tourism/TourismModifyAttractionOfferPage'
+import TourismStayOfferPage from '../pages/Tourism/TourismStayOfferPage'
+import TourismAttractionOfferPage from '../pages/Tourism/TourismAttractionOfferPage'
 import TourismStatisticsPage from '../pages/Tourism/TourismStatisticsPage'
 import NotFoundPage from '../pages/NotFound'
 
@@ -31,19 +29,19 @@ const TourismRoutes = () => {
                 />
                 <Route
                     path="create-stay-offer"
-                    element={<TourismCreateStayOfferPage />}
+                    element={<TourismStayOfferPage />}
                 />
                 <Route
                     path="create-attraction-offer"
-                    element={<TourismCreateAttractionOfferPage />}
+                    element={<TourismAttractionOfferPage />}
                 />
                 <Route
                     path="modify-stay-offer"
-                    element={<TourismModifyStayOfferPage />}
+                    element={<TourismStayOfferPage modify />}
                 />
                 <Route
                     path="modify-attraction-offer"
-                    element={<TourismModifyAttractionOfferPage />}
+                    element={<TourismAttractionOfferPage modify />}
                 />
                 <Route
                     path="statistics"

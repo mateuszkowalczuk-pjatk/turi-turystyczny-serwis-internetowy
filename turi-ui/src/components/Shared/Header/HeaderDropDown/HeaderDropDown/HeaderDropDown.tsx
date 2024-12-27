@@ -36,6 +36,7 @@ const HeaderDropDown = () => {
             {isVisible && (
                 <HeaderDropDownMenu
                     profileOnClick={() => navigate('/profile')}
+                    statisticsOnClick={() => navigate('/tourism/statistics')}
                     logoutOnClick={handleLogoutClick}
                 />
             )}

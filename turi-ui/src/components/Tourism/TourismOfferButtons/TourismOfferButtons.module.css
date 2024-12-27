@@ -1,16 +1,17 @@
-.save {
+.buttons {
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
-    width: 96%;
-    height: 3rem;
+    height: 4rem;
+    width: 100%;
+    gap: 0.8rem;
 }
 
-.save button {
-    width: 7.5rem;
+.buttons button {
     height: 2.5rem;
+    width: 8rem;
 }
 
-.save p {
+.buttons p {
     color: var(--light-green);
 }

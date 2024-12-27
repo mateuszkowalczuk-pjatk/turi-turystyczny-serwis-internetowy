@@ -13,11 +13,14 @@ export const useForm = <T extends Record<string, any>>({ initialValues }: Props<
         const { name, value } = e.target
         setFormData((prev) => ({ ...prev, [name]: value }))
     }
+    const setFormValues = (values: Partial<T>) => {
+        setFormData((prev) => ({ ...prev, ...values }))
+    }
 
     const resetForm = () => {
         setFormData(initialValues)
         setError(null)
     }
 
-    return { formData, setFormData, error, setError, handleChange, resetForm }
+    return { formData, setFormData, error, setError, handleChange, setFormValues, resetForm }
 }

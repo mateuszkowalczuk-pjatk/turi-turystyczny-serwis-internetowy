@@ -20,8 +20,12 @@ export interface Attraction {
 export enum AttractionType {
     RELAX = 1,
     SPORT = 2,
-    ENTERTAINMENT = 3,
-    FOOD = 4
+    RECREATION = 3,
+    ENTERTAINMENT = 4,
+    FOOD = 5,
+    EVENT = 6,
+    CHILDREN = 7,
+    OTHER = 8
 }
 
 export enum PriceType {

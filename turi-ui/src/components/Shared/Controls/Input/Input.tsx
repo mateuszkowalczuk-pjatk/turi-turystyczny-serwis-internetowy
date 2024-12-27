@@ -5,7 +5,7 @@ interface Props {
     type: string
     name: string
     placeholder: string
-    value: string | number | undefined
+    value: string | number | Date | undefined | null
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
     minLength?: number
     maxLength?: number

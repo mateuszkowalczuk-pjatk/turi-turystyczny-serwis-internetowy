@@ -1,0 +1,8 @@
+.informations {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 14rem;
+    width: 46%;
+    padding-top: 0.1rem;
+}

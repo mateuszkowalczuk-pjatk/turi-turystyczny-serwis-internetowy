@@ -70,12 +70,15 @@ export const stayService = {
     },
 
     deleteStayInformation: async (stayInformationId: number) => {
-        return await fetch(`${API_BASE_URL}${API.STAY.DELETE_STAY_INFORMATION}/${stayInformationId}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include'
-        })
+        return await fetch(
+            `${API_BASE_URL}${API.STAY.DELETE_STAY_INFORMATION}?stayInformationId=${stayInformationId}`,
+            {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include'
+            }
+        )
     }
 }
