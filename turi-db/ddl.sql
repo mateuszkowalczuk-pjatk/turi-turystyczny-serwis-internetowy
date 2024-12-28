@@ -1,4 +1,4 @@
-CREATE SCHEMA IF NOT EXISTS turi; 
+CREATE SCHEMA IF NOT EXISTS turi;
 
 SET search_path TO turi;
 
@@ -46,7 +46,7 @@ COMMENT ON COLUMN refreshtoken.token          IS 'Required user refresh token.';
 COMMENT ON COLUMN refreshtoken.expiresat      IS 'Required expiry date for refresh token.';
 
 
-CREATE TABLE IF NOT EXISTS address 
+CREATE TABLE IF NOT EXISTS address
 (
     addressid       SERIAL      PRIMARY KEY,
     country         VARCHAR(50) NOT NULL,
@@ -70,7 +70,7 @@ COMMENT ON COLUMN address.buildingnumber  IS 'Required building number on street
 COMMENT ON COLUMN address.apartmentnumber IS 'Optional apartment number, if there is more than one apartment under a building number.';
 
 
-CREATE TABLE IF NOT EXISTS account 
+CREATE TABLE IF NOT EXISTS account
 (
     accountid             SERIAL       PRIMARY KEY,
     userid                INTEGER      NOT NULL UNIQUE,
@@ -182,7 +182,7 @@ COMMENT ON COLUMN payment.method              IS 'Required payment method (1 - C
 COMMENT ON COLUMN payment.status              IS 'Required payment status (1 - Pending, 2 - Succeeded, 3 - Failed).';
 
 
-CREATE TABLE IF NOT EXISTS touristicplace 
+CREATE TABLE IF NOT EXISTS touristicplace
 (
     touristicplaceid      SERIAL       PRIMARY KEY,
     premiumid             INTEGER      NOT NULL UNIQUE,
@@ -209,7 +209,7 @@ COMMENT ON TABLE  touristicplace                       IS 'Table to store data a
 COMMENT ON COLUMN touristicplace.touristicplaceid      IS 'Unique required primary key of the touristicplace table.';
 COMMENT ON COLUMN touristicplace.premiumid             IS 'Unique required foreign key of user premium.';
 COMMENT ON COLUMN touristicplace.addressid             IS 'Unique foreign key of touristic place address.';
-COMMENT ON COLUMN touristicplace.touristicplacetype    IS 'Touristic place type (1 - Guesthouse, 2 - Apartment, 3 - Cottages, 4 - Hotel, 5 - B&B, 6 - Hostel).';
+COMMENT ON COLUMN touristicplace.touristicplacetype    IS 'Touristic place type (0 - Unassigned, 1 - Guesthouse, 2 - Apartment, 3 - Cottages, 4 - Hotel, 5 - B&B, 6 - Hostel).';
 COMMENT ON COLUMN touristicplace.name                  IS 'Touristic place name.';
 COMMENT ON COLUMN touristicplace.description           IS 'Touristic place description.';
 COMMENT ON COLUMN touristicplace.information           IS 'Touristic place important information.';
@@ -239,7 +239,7 @@ COMMENT ON COLUMN guaranteedservice.touristicplaceid    IS 'Required foreign key
 COMMENT ON COLUMN guaranteedservice.service             IS 'Required name of touristic place guaranteed service.';
 
 
-CREATE TABLE IF NOT EXISTS stay 
+CREATE TABLE IF NOT EXISTS stay
 (
     stayid           SERIAL         PRIMARY KEY,
     touristicplaceid INTEGER        NOT NULL,
@@ -280,7 +280,7 @@ COMMENT ON COLUMN stayinformation.stayid            IS 'Required foreign key of 
 COMMENT ON COLUMN stayinformation.information       IS 'Required name of stay information.';
 
 
-CREATE TABLE IF NOT EXISTS attraction 
+CREATE TABLE IF NOT EXISTS attraction
 (
     attractionid          SERIAL         PRIMARY KEY,
     touristicplaceid      INTEGER        NOT NULL,
@@ -306,11 +306,11 @@ CREATE INDEX IF NOT EXISTS attractiontouristicplaceindex ON attraction (touristi
 COMMENT ON TABLE  attraction                       IS 'TTable to store touristic place attractions offers.';
 COMMENT ON COLUMN attraction.attractionid          IS 'Unique required primary key of the attraction table.';
 COMMENT ON COLUMN attraction.touristicplaceid      IS 'Required foreign key of touristicplace table.';
-COMMENT ON COLUMN attraction.attractiontype        IS 'Required attraction type (1 - Relax, 2 - Sport, 3 - Entertainment, 4 - Food).';
+COMMENT ON COLUMN attraction.attractiontype        IS 'Required attraction type (0 - Unassigned, 1 - Relax, 2 - Sport, 3 - Recreation, 4 - Entertainment, 5 - Food, 6 - Event, 7 - Children, 8 - Other).';
 COMMENT ON COLUMN attraction.name                  IS 'Required attraction name.';
 COMMENT ON COLUMN attraction.description           IS 'Required attraction description.';
 COMMENT ON COLUMN attraction.price                 IS 'Required attraction price.';
-COMMENT ON COLUMN attraction.pricetype             IS 'Required attraction type of price (1 - Hour, 2 - Person, 3 - Item).';
+COMMENT ON COLUMN attraction.pricetype             IS 'Required attraction type of price (0 - Unassigned, 1 - Hour, 2 - Person, 3 - Item).';
 COMMENT ON COLUMN attraction.prepayment            IS 'Required attraction is pre-payment information.';
 COMMENT ON COLUMN attraction.cancelreservationdays IS 'Optional attraction information about max number of days before cancel reservation.';
 COMMENT ON COLUMN attraction.maxpeoplenumber       IS 'Optional attraction information about max people number.';

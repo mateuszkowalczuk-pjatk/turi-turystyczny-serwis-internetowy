@@ -11,6 +11,6 @@ public class StripeProperties
 {
     private String secretKey;
     private String successUrl;
-    private String canselUrl;
+    private String cancelUrl;
     private String webhookSecretKey;
 }
