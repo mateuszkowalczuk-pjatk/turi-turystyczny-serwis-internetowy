@@ -48,8 +48,13 @@ public class SecurityConfig
                                 "/api/payment/webhook"
                         ).permitAll()
                         .requestMatchers("/api/account/activate").hasRole(AccountType.INACTIVE.getName())
-                        .requestMatchers("/api/premium/premium/**").hasRole(AccountType.PREMIUM.getName())
-                        .requestMatchers("/api/**").hasAnyRole(AccountType.NORMAL.getName(), AccountType.PREMIUM.getName())
+                        .requestMatchers(
+                                "/api/premium/premium/**",
+                                "/api/touristicplace",
+                                "/api/stay",
+                                "/api/attraction"
+                        ).hasRole(AccountType.PREMIUM.getName())
+                        .requestMatchers("/api/**", "/uploads/**").hasAnyRole(AccountType.NORMAL.getName(), AccountType.PREMIUM.getName())
                         .anyRequest().authenticated())
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)

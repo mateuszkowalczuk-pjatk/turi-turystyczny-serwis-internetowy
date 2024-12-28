@@ -1,4 +1,4 @@
-CREATE SCHEMA IF NOT EXISTS turi; 
+CREATE SCHEMA IF NOT EXISTS turi;
 
 SET search_path TO turi;
 
@@ -46,7 +46,7 @@ COMMENT ON COLUMN refreshtoken.token          IS 'Required user refresh token.';
 COMMENT ON COLUMN refreshtoken.expiresat      IS 'Required expiry date for refresh token.';
 
 
-CREATE TABLE IF NOT EXISTS address 
+CREATE TABLE IF NOT EXISTS address
 (
     addressid       SERIAL      PRIMARY KEY,
     country         VARCHAR(50) NOT NULL,
@@ -70,7 +70,7 @@ COMMENT ON COLUMN address.buildingnumber  IS 'Required building number on street
 COMMENT ON COLUMN address.apartmentnumber IS 'Optional apartment number, if there is more than one apartment under a building number.';
 
 
-CREATE TABLE IF NOT EXISTS account 
+CREATE TABLE IF NOT EXISTS account
 (
     accountid             SERIAL       PRIMARY KEY,
     userid                INTEGER      NOT NULL UNIQUE,
@@ -182,438 +182,169 @@ COMMENT ON COLUMN payment.method              IS 'Required payment method (1 - C
 COMMENT ON COLUMN payment.status              IS 'Required payment status (1 - Pending, 2 - Succeeded, 3 - Failed).';
 
 
+CREATE TABLE IF NOT EXISTS touristicplace
+(
+    touristicplaceid      SERIAL       PRIMARY KEY,
+    premiumid             INTEGER      NOT NULL UNIQUE,
+    addressid             INTEGER               UNIQUE,
+    touristicplacetype    INTEGER,
+    name                  VARCHAR(50),
+    description           VARCHAR(255),
+    information           VARCHAR(255),
+    ownerdescription      VARCHAR(255),
+    checkintimefrom       TIME,
+    checkintimeto         TIME,
+    checkouttimefrom      TIME,
+    checkouttimeto        TIME,
+    prepayment            BOOLEAN,
+    cancelreservationdays INTEGER,
+    CONSTRAINT touristicplacepremium FOREIGN KEY (premiumid) REFERENCES premium (premiumid),
+    CONSTRAINT touristicplaceaddress FOREIGN KEY (addressid) REFERENCES address (addressid)
+);
 
--- -- Table: Attraction
--- CREATE TABLE Attraction (
---     attractionid serial  NOT NULL,
---     turisticplaceid int  NOT NULL,
---     attractiontypeid int  NOT NULL,
---     pricetypeid int  NOT NULL,
---     attractiondateintervalid int  NOT NULL,
---     name varchar(50)  NOT NULL,
---     description varchar(255)  NOT NULL,
---     price money  NOT NULL,
---     datefrom date  NOT NULL,
---     dateto date  NOT NULL,
---     hourfrom time  NOT NULL,
---     hourto time  NOT NULL,
---     prepayment boolean  NOT NULL,
---     cancelreservationdays int  NULL,
---     maxpeoples int  NULL,
---     maxitems int  NULL,
---     rentbeforedays int  NOT NULL,
---     CONSTRAINT Attraction_pk PRIMARY KEY (attractionid)
--- );
+CREATE INDEX IF NOT EXISTS touristicplacepremiumindex ON touristicplace (premiumid);
+CREATE INDEX IF NOT EXISTS touristicplaceaddressindex ON touristicplace (addressid);
 
--- -- Table: AttractionDateInterval
--- CREATE TABLE AttractionDateInterval (
---     attractiondateintervalid serial  NOT NULL,
---     name varchar(20)  NOT NULL,
---     CONSTRAINT AttractionDateInterval_pk PRIMARY KEY (attractiondateintervalid)
--- );
-
--- -- Table: AttractionType
--- CREATE TABLE AttractionType (
---     attractiontypeid serial  NOT NULL,
---     name varchar(100)  NOT NULL,
---     CONSTRAINT AttractionType_pk PRIMARY KEY (attractiontypeid)
--- );
-
--- -- Table: FavoriteOffer
--- CREATE TABLE FavoriteOffer (
---     accountid int  NOT NULL,
---     stayid int  NOT NULL
--- );
-
--- -- Table: GuaranteedService
--- CREATE TABLE GuaranteedService (
---     guaranteedserviceid serial  NOT NULL,
---     turisticplaceid int  NOT NULL,
---     name varchar(100)  NOT NULL,
---     CONSTRAINT GuaranteedService_pk PRIMARY KEY (guaranteedserviceid)
--- );
-
--- -- Table: Information
--- CREATE TABLE Information (
---     informationid serial  NOT NULL,
---     stayid int  NOT NULL,
---     name varchar(100)  NOT NULL,
---     CONSTRAINT Information_pk PRIMARY KEY (informationid)
--- );
-
--- -- Table: Item
--- CREATE TABLE Item (
---     itemid serial  NOT NULL,
---     attractionid int  NOT NULL,
---     name varchar(100)  NOT NULL,
---     CONSTRAINT Item_pk PRIMARY KEY (itemid)
--- );
-
--- -- Table: Owner
--- CREATE TABLE Owner (
---     ownerid serial  NOT NULL,
---     firstname varchar(50)  NOT NULL,
---     lastname varchar(50)  NOT NULL,
---     description varchar(255)  NOT NULL,
---     phonenumber varchar(20)  NOT NULL,
---     email varchar(30)  NOT NULL,
---     CONSTRAINT Owner_pk PRIMARY KEY (ownerid)
--- );
-
--- -- Table: Photo
--- CREATE TABLE Photo (
---     photoid int  NOT NULL,
---     turisticplaceid int  NULL,
---     stayid int  NULL,
---     attractionid int  NULL,
---     path varchar(255)  NOT NULL,
---     CONSTRAINT Photo_pk PRIMARY KEY (photoid)
--- );
-
--- -- Table: PriceType
--- CREATE TABLE PriceType (
---     pricetypeid serial  NOT NULL,
---     name varchar(100)  NOT NULL,
---     CONSTRAINT PriceType_pk PRIMARY KEY (pricetypeid)
--- );
-
--- -- Table: Reservation
--- CREATE TABLE Reservation (
---     reservationid serial  NOT NULL,
---     accountid int  NOT NULL,
---     stayid int  NOT NULL,
---     reservationstatusid int  NOT NULL,
---     datefrom date  NOT NULL,
---     dateto date  NOT NULL,
---     checkintime time  NOT NULL,
---     checkouttime time  NOT NULL,
---     price money  NOT NULL,
---     specialrequest text  NOT NULL,
---     firstname varchar(100)  NOT NULL,
---     lastname varchar(100)  NOT NULL,
---     email varchar(20)  NOT NULL,
---     phonenumber varchar(20)  NOT NULL,
---     guestfullname varchar(100)  NULL,
---     CONSTRAINT Reservation_pk PRIMARY KEY (reservationid)
--- );
-
--- -- Table: ReservationAttraction
--- CREATE TABLE ReservationAttraction (
---     reservationattractionid serial  NOT NULL,
---     reservationid int  NOT NULL,
---     attractionid int  NOT NULL,
---     datefrom date  NOT NULL,
---     dateto date  NOT NULL,
---     hourfrom time  NOT NULL,
---     hourto time  NOT NULL,
---     people int  NULL,
---     items int  NULL,
---     message text  NULL,
---     price money  NOT NULL,
---     paid boolean  NOT NULL,
---     cancelreservationdate date  NULL,
---     CONSTRAINT ReservationAttraction_pk PRIMARY KEY (reservationattractionid)
--- );
-
--- -- Table: ReservationAttractionItem
--- CREATE TABLE ReservationAttractionItem (
---     reservationattractionid int  NOT NULL,
---     itemid int  NOT NULL
--- );
-
--- -- Table: ReservationPlan
--- CREATE TABLE ReservationPlan (
---     reservationplanid serial  NOT NULL,
---     reservationid int  NOT NULL,
---     turisticplaceid int  NOT NULL,
---     name varchar(100)  NOT NULL,
---     date date  NOT NULL,
---     time time  NOT NULL,
---     note text  NOT NULL,
---     CONSTRAINT ReservationPlan_pk PRIMARY KEY (reservationplanid)
--- );
-
--- -- Table: ReservationStatus
--- CREATE TABLE ReservationStatus (
---     reservationstatusid serial  NOT NULL,
---     name varchar(50)  NOT NULL,
---     CONSTRAINT ReservationStatus_pk PRIMARY KEY (reservationstatusid)
--- );
-
--- -- Table: ReservationStayOpinon
--- CREATE TABLE ReservationStayOpinon (
---     stayid int  NOT NULL,
---     reservationid int  NOT NULL,
---     stars decimal(1,1)  NOT NULL,
---     comment int  NULL
--- );
-
--- -- Table: Stay
--- CREATE TABLE Stay (
---     stayid serial  NOT NULL,
---     turisticplaceid int  NOT NULL,
---     name varchar(100)  NOT NULL,
---     description varchar(255)  NOT NULL,
---     price money  NOT NULL,
---     datefrom date  NOT NULL,
---     dateto date  NULL,
---     people int  NOT NULL,
---     CONSTRAINT Stay_pk PRIMARY KEY (stayid)
--- );
-
--- -- Table: TuristicPlace
--- CREATE TABLE TuristicPlace (
---     turisticplaceid serial  NOT NULL,
---     premiumid int  NOT NULL,
---     addressid int  NOT NULL,
---     ownerid int  NOT NULL,
---     turisticplacetypeid int  NOT NULL,
---     name varchar(100)  NOT NULL,
---     description text  NOT NULL,
---     checkin time  NOT NULL,
---     checkout time  NOT NULL,
---     prepayment boolean  NOT NULL,
---     cancelreservationdays int  NULL,
---     importantinformation text  NULL,
---     CONSTRAINT TuristicPlace_pk PRIMARY KEY (turisticplaceid)
--- );
-
--- -- Table: TuristicPlaceType
--- CREATE TABLE TuristicPlaceType (
---     turisticplacetypeid serial  NOT NULL,
---     name varchar(100)  NOT NULL,
---     CONSTRAINT TuristicPlaceType_pk PRIMARY KEY (turisticplacetypeid)
--- );
+COMMENT ON TABLE  touristicplace                       IS 'Table to store data about premium user touristic place.';
+COMMENT ON COLUMN touristicplace.touristicplaceid      IS 'Unique required primary key of the touristicplace table.';
+COMMENT ON COLUMN touristicplace.premiumid             IS 'Unique required foreign key of user premium.';
+COMMENT ON COLUMN touristicplace.addressid             IS 'Unique foreign key of touristic place address.';
+COMMENT ON COLUMN touristicplace.touristicplacetype    IS 'Touristic place type (0 - Unassigned, 1 - Guesthouse, 2 - Apartment, 3 - Cottages, 4 - Hotel, 5 - B&B, 6 - Hostel).';
+COMMENT ON COLUMN touristicplace.name                  IS 'Touristic place name.';
+COMMENT ON COLUMN touristicplace.description           IS 'Touristic place description.';
+COMMENT ON COLUMN touristicplace.information           IS 'Touristic place important information.';
+COMMENT ON COLUMN touristicplace.ownerdescription      IS 'Touristic place owner description.';
+COMMENT ON COLUMN touristicplace.checkintimefrom       IS 'Touristic place check-in time from.';
+COMMENT ON COLUMN touristicplace.checkintimeto         IS 'Touristic place check-in time to.';
+COMMENT ON COLUMN touristicplace.checkouttimefrom      IS 'Touristic place check-out time from.';
+COMMENT ON COLUMN touristicplace.checkouttimeto        IS 'Touristic place check-out time to.';
+COMMENT ON COLUMN touristicplace.prepayment            IS 'Touristic place is pre-payment information.';
+COMMENT ON COLUMN touristicplace.cancelreservationdays IS 'Optional touristic place information about max number of days before cancel reservation.';
 
 
--- -- Reference: Attraction_AttractionDateInterval (table: Attraction)
--- ALTER TABLE Attraction ADD CONSTRAINT Attraction_AttractionDateInterval
---     FOREIGN KEY (attractiondateintervalid)
---     REFERENCES AttractionDateInterval (attractiondateintervalid)  
---     NOT DEFERRABLE 
---     INITIALLY IMMEDIATE
--- ;
+CREATE TABLE IF NOT EXISTS guaranteedservice
+(
+    guaranteedserviceid SERIAL       PRIMARY KEY,
+    touristicplaceid    INTEGER      NOT NULL,
+    service             VARCHAR(255) NOT NULL,
+    CONSTRAINT guaranteedserviceunique UNIQUE (touristicplaceid, service),
+    CONSTRAINT guaranteedservicetouristicplace FOREIGN KEY (touristicplaceid) REFERENCES touristicplace (touristicplaceid)
+);
 
--- -- Reference: Attraction_AttractionType (table: Attraction)
--- ALTER TABLE Attraction ADD CONSTRAINT Attraction_AttractionType
---     FOREIGN KEY (attractiontypeid)
---     REFERENCES AttractionType (attractiontypeid)  
---     NOT DEFERRABLE 
---     INITIALLY IMMEDIATE
--- ;
+CREATE INDEX IF NOT EXISTS guaranteedservicetouristicplaceindex ON guaranteedservice (touristicplaceid);
 
--- -- Reference: Attraction_PriceType (table: Attraction)
--- ALTER TABLE Attraction ADD CONSTRAINT Attraction_PriceType
---     FOREIGN KEY (pricetypeid)
---     REFERENCES PriceType (pricetypeid)  
---     NOT DEFERRABLE 
---     INITIALLY IMMEDIATE
--- ;
+COMMENT ON TABLE  guaranteedservice                     IS 'Table to store touristic place guaranteed services information.';
+COMMENT ON COLUMN guaranteedservice.guaranteedserviceid IS 'Unique required primary key of the guaranteedservice table.';
+COMMENT ON COLUMN guaranteedservice.touristicplaceid    IS 'Required foreign key of touristicplace table.';
+COMMENT ON COLUMN guaranteedservice.service             IS 'Required name of touristic place guaranteed service.';
 
--- -- Reference: Attraction_TuristicPlace (table: Attraction)
--- ALTER TABLE Attraction ADD CONSTRAINT Attraction_TuristicPlace
---     FOREIGN KEY (turisticplaceid)
---     REFERENCES TuristicPlace (turisticplaceid)  
---     NOT DEFERRABLE 
---     INITIALLY IMMEDIATE
--- ;
 
--- -- Reference: FavoriteOffer_Account (table: FavoriteOffer)
--- ALTER TABLE FavoriteOffer ADD CONSTRAINT FavoriteOffer_Account
---     FOREIGN KEY (accountid)
---     REFERENCES Account (accountid)  
---     NOT DEFERRABLE 
---     INITIALLY IMMEDIATE
--- ;
+CREATE TABLE IF NOT EXISTS stay
+(
+    stayid           SERIAL         PRIMARY KEY,
+    touristicplaceid INTEGER        NOT NULL,
+    name             VARCHAR(50)    NOT NULL,
+    description      VARCHAR(255)   NOT NULL,
+    price            DECIMAL(10, 2) NOT NULL,
+    peoplenumber     INTEGER        NOT NULL,
+    datefrom         DATE           NOT NULL,
+    dateto           DATE
+);
 
--- -- Reference: FavoriteOffer_Stay (table: FavoriteOffer)
--- ALTER TABLE FavoriteOffer ADD CONSTRAINT FavoriteOffer_Stay
---     FOREIGN KEY (stayid)
---     REFERENCES Stay (stayid)  
---     NOT DEFERRABLE 
---     INITIALLY IMMEDIATE
--- ;
+CREATE INDEX IF NOT EXISTS staytouristicplaceindex ON stay (touristicplaceid);
 
--- -- Reference: GuaranteedService_TuristicPlace (table: GuaranteedService)
--- ALTER TABLE GuaranteedService ADD CONSTRAINT GuaranteedService_TuristicPlace
---     FOREIGN KEY (turisticplaceid)
---     REFERENCES TuristicPlace (turisticplaceid)  
---     NOT DEFERRABLE 
---     INITIALLY IMMEDIATE
--- ;
+COMMENT ON TABLE  stay                  IS 'Table to store touristic place stays offers.';
+COMMENT ON COLUMN stay.stayid           IS 'Unique required primary key of the stay table.';
+COMMENT ON COLUMN stay.touristicplaceid IS 'Required foreign key of touristicplace table.';
+COMMENT ON COLUMN stay.name             IS 'Required stay name.';
+COMMENT ON COLUMN stay.description      IS 'Required stay descritpion.';
+COMMENT ON COLUMN stay.price            IS 'Required stay price per day, calculated from the minimum check-in hour, to the maximum check-out hour the next day.';
+COMMENT ON COLUMN stay.peoplenumber     IS 'Required stay max people number.';
+COMMENT ON COLUMN stay.datefrom         IS 'Required stay availibility date from.';
+COMMENT ON COLUMN stay.dateto           IS 'Required stay availibility date to.';
 
--- -- Reference: Information_Stay (table: Information)
--- ALTER TABLE Information ADD CONSTRAINT Information_Stay
---     FOREIGN KEY (stayid)
---     REFERENCES Stay (stayid)  
---     NOT DEFERRABLE 
---     INITIALLY IMMEDIATE
--- ;
 
--- -- Reference: Item_Attraction (table: Item)
--- ALTER TABLE Item ADD CONSTRAINT Item_Attraction
---     FOREIGN KEY (attractionid)
---     REFERENCES Attraction (attractionid)  
---     NOT DEFERRABLE 
---     INITIALLY IMMEDIATE
--- ;
+CREATE TABLE IF NOT EXISTS stayinformation
+(
+    stayinformationid SERIAL       PRIMARY KEY,
+    stayid            INTEGER      NOT NULL,
+    information       VARCHAR(255) NOT NULL,
+    CONSTRAINT stayinformationstay FOREIGN KEY (stayid) REFERENCES stay (stayid)
+);
 
--- -- Reference: Photo_Attraction (table: Photo)
--- ALTER TABLE Photo ADD CONSTRAINT Photo_Attraction
---     FOREIGN KEY (attractionid)
---     REFERENCES Attraction (attractionid)  
---     NOT DEFERRABLE 
---     INITIALLY IMMEDIATE
--- ;
+CREATE INDEX IF NOT EXISTS stayinformationstayindex ON stayinformation (stayid);
 
--- -- Reference: Photo_Stay (table: Photo)
--- ALTER TABLE Photo ADD CONSTRAINT Photo_Stay
---     FOREIGN KEY (stayid)
---     REFERENCES Stay (stayid)  
---     NOT DEFERRABLE 
---     INITIALLY IMMEDIATE
--- ;
+COMMENT ON TABLE  stayinformation                   IS 'Table to store touristic place stay information.';
+COMMENT ON COLUMN stayinformation.stayinformationid IS 'Unique required primary key of the stayinformation table.';
+COMMENT ON COLUMN stayinformation.stayid            IS 'Required foreign key of stay table.';
+COMMENT ON COLUMN stayinformation.information       IS 'Required name of stay information.';
 
--- -- Reference: Photo_TuristicPlace (table: Photo)
--- ALTER TABLE Photo ADD CONSTRAINT Photo_TuristicPlace
---     FOREIGN KEY (turisticplaceid)
---     REFERENCES TuristicPlace (turisticplaceid)  
---     NOT DEFERRABLE 
---     INITIALLY IMMEDIATE
--- ;
 
--- -- Reference: Premium_Account (table: Premium)
--- ALTER TABLE Premium ADD CONSTRAINT Premium_Account
---     FOREIGN KEY (accountid)
---     REFERENCES Account (accountid)  
---     NOT DEFERRABLE 
---     INITIALLY IMMEDIATE
--- ;
+CREATE TABLE IF NOT EXISTS attraction
+(
+    attractionid          SERIAL         PRIMARY KEY,
+    touristicplaceid      INTEGER        NOT NULL,
+    attractiontype        INTEGER        NOT NULL,
+    name                  VARCHAR(50)    NOT NULL,
+    description           VARCHAR(255)   NOT NULL,
+    price                 DECIMAL(10, 2) NOT NULL,
+    pricetype             INTEGER        NOT NULL,
+    prepayment            BOOLEAN        NOT NULL,
+    cancelreservationdays INTEGER,
+    maxpeoplenumber       INTEGER,
+    maxitems              INTEGER,
+    datefrom              DATE           NOT NULL,
+    dateto                DATE           NOT NULL,
+    hourfrom              TIME           NOT NULL,
+    hourto                TIME           NOT NULL,
+    daysreservationbefore INTEGER        NOT NULL,
+    CONSTRAINT attractiontouristicplace FOREIGN KEY (touristicplaceid) REFERENCES touristicplace (touristicplaceid)
+);
 
--- -- Reference: ReservationAttractionItem_Item (table: ReservationAttractionItem)
--- ALTER TABLE ReservationAttractionItem ADD CONSTRAINT ReservationAttractionItem_Item
---     FOREIGN KEY (itemid)
---     REFERENCES Item (itemid)  
---     NOT DEFERRABLE 
---     INITIALLY IMMEDIATE
--- ;
+CREATE INDEX IF NOT EXISTS attractiontouristicplaceindex ON attraction (touristicplaceid);
 
--- -- Reference: ReservationAttractionItem_ReservationAttraction (table: ReservationAttractionItem)
--- ALTER TABLE ReservationAttractionItem ADD CONSTRAINT ReservationAttractionItem_ReservationAttraction
---     FOREIGN KEY (reservationattractionid)
---     REFERENCES ReservationAttraction (reservationattractionid)  
---     NOT DEFERRABLE 
---     INITIALLY IMMEDIATE
--- ;
+COMMENT ON TABLE  attraction                       IS 'TTable to store touristic place attractions offers.';
+COMMENT ON COLUMN attraction.attractionid          IS 'Unique required primary key of the attraction table.';
+COMMENT ON COLUMN attraction.touristicplaceid      IS 'Required foreign key of touristicplace table.';
+COMMENT ON COLUMN attraction.attractiontype        IS 'Required attraction type (0 - Unassigned, 1 - Relax, 2 - Sport, 3 - Recreation, 4 - Entertainment, 5 - Food, 6 - Event, 7 - Children, 8 - Other).';
+COMMENT ON COLUMN attraction.name                  IS 'Required attraction name.';
+COMMENT ON COLUMN attraction.description           IS 'Required attraction description.';
+COMMENT ON COLUMN attraction.price                 IS 'Required attraction price.';
+COMMENT ON COLUMN attraction.pricetype             IS 'Required attraction type of price (0 - Unassigned, 1 - Hour, 2 - Person, 3 - Item).';
+COMMENT ON COLUMN attraction.prepayment            IS 'Required attraction is pre-payment information.';
+COMMENT ON COLUMN attraction.cancelreservationdays IS 'Optional attraction information about max number of days before cancel reservation.';
+COMMENT ON COLUMN attraction.maxpeoplenumber       IS 'Optional attraction information about max people number.';
+COMMENT ON COLUMN attraction.maxitems              IS 'Optional attraction information about max items number.';
+COMMENT ON COLUMN attraction.datefrom              IS 'Required attraction availibility date from.';
+COMMENT ON COLUMN attraction.dateto                IS 'Required attraction availibility date to.';
+COMMENT ON COLUMN attraction.hourfrom              IS 'Required attraction availibility hour from.';
+COMMENT ON COLUMN attraction.hourto                IS 'Required attraction availibility hour to.';
+COMMENT ON COLUMN attraction.daysreservationbefore IS 'Required attraction information about max number of days before make reservation.';
 
--- -- Reference: ReservationAttraction_Attraction (table: ReservationAttraction)
--- ALTER TABLE ReservationAttraction ADD CONSTRAINT ReservationAttraction_Attraction
---     FOREIGN KEY (attractionid)
---     REFERENCES Attraction (attractionid)  
---     NOT DEFERRABLE 
---     INITIALLY IMMEDIATE
--- ;
 
--- -- Reference: ReservationAttraction_Reservation (table: ReservationAttraction)
--- ALTER TABLE ReservationAttraction ADD CONSTRAINT ReservationAttraction_Reservation
---     FOREIGN KEY (reservationid)
---     REFERENCES Reservation (reservationid)  
---     NOT DEFERRABLE 
---     INITIALLY IMMEDIATE
--- ;
+CREATE TABLE IF NOT EXISTS image
+(
+    imageid          SERIAL       PRIMARY KEY,
+    accountid        INTEGER,
+    touristicplaceid INTEGER,
+    stayid           INTEGER,
+    attractionid     INTEGER,
+    path             VARCHAR(255) NOT NULL,
+    CONSTRAINT imageaccount        FOREIGN KEY (accountid)        REFERENCES account        (accountid),
+    CONSTRAINT imagetouristicplace FOREIGN KEY (touristicplaceid) REFERENCES touristicplace (touristicplaceid),
+    CONSTRAINT imagestay           FOREIGN KEY (stayid)           REFERENCES stay           (stayid),
+    CONSTRAINT imageattraction     FOREIGN KEY (attractionid)     REFERENCES attraction     (attractionid)
+);
 
--- -- Reference: ReservationPlan_Reservation (table: ReservationPlan)
--- ALTER TABLE ReservationPlan ADD CONSTRAINT ReservationPlan_Reservation
---     FOREIGN KEY (reservationid)
---     REFERENCES Reservation (reservationid)  
---     NOT DEFERRABLE 
---     INITIALLY IMMEDIATE
--- ;
+CREATE INDEX IF NOT EXISTS imageaccountindex        ON image (accountid);
+CREATE INDEX IF NOT EXISTS imagetouristicplaceindex ON image (touristicplaceid);
+CREATE INDEX IF NOT EXISTS imagestayindex           ON image (stayid);
+CREATE INDEX IF NOT EXISTS imageattractionindex     ON image (attractionid);
 
--- -- Reference: ReservationPlan_TuristicPlace (table: ReservationPlan)
--- ALTER TABLE ReservationPlan ADD CONSTRAINT ReservationPlan_TuristicPlace
---     FOREIGN KEY (turisticplaceid)
---     REFERENCES TuristicPlace (turisticplaceid)  
---     NOT DEFERRABLE 
---     INITIALLY IMMEDIATE
--- ;
-
--- -- Reference: ReservationStayOpinon_Reservation (table: ReservationStayOpinon)
--- ALTER TABLE ReservationStayOpinon ADD CONSTRAINT ReservationStayOpinon_Reservation
---     FOREIGN KEY (reservationid)
---     REFERENCES Reservation (reservationid)  
---     NOT DEFERRABLE 
---     INITIALLY IMMEDIATE
--- ;
-
--- -- Reference: ReservationStayOpinon_Stay (table: ReservationStayOpinon)
--- ALTER TABLE ReservationStayOpinon ADD CONSTRAINT ReservationStayOpinon_Stay
---     FOREIGN KEY (stayid)
---     REFERENCES Stay (stayid)  
---     NOT DEFERRABLE 
---     INITIALLY IMMEDIATE
--- ;
-
--- -- Reference: Reservation_Account (table: Reservation)
--- ALTER TABLE Reservation ADD CONSTRAINT Reservation_Account
---     FOREIGN KEY (accountid)
---     REFERENCES Account (accountid)  
---     NOT DEFERRABLE 
---     INITIALLY IMMEDIATE
--- ;
-
--- -- Reference: Reservation_ReservationStatus (table: Reservation)
--- ALTER TABLE Reservation ADD CONSTRAINT Reservation_ReservationStatus
---     FOREIGN KEY (reservationstatusid)
---     REFERENCES ReservationStatus (reservationstatusid)  
---     NOT DEFERRABLE 
---     INITIALLY IMMEDIATE
--- ;
-
--- -- Reference: Reservation_Stay (table: Reservation)
--- ALTER TABLE Reservation ADD CONSTRAINT Reservation_Stay
---     FOREIGN KEY (stayid)
---     REFERENCES Stay (stayid)  
---     NOT DEFERRABLE 
---     INITIALLY IMMEDIATE
--- ;
-
--- -- Reference: Stay_TuristicPlace (table: Stay)
--- ALTER TABLE Stay ADD CONSTRAINT Stay_TuristicPlace
---     FOREIGN KEY (turisticplaceid)
---     REFERENCES TuristicPlace (turisticplaceid)  
---     NOT DEFERRABLE 
---     INITIALLY IMMEDIATE
--- ;
-
--- -- Reference: TuristicPlace_Address (table: TuristicPlace)
--- ALTER TABLE TuristicPlace ADD CONSTRAINT TuristicPlace_Address
---     FOREIGN KEY (addressid)
---     REFERENCES Address (addressid)  
---     NOT DEFERRABLE 
---     INITIALLY IMMEDIATE
--- ;
-
--- -- Reference: TuristicPlace_Owner (table: TuristicPlace)
--- ALTER TABLE TuristicPlace ADD CONSTRAINT TuristicPlace_Owner
---     FOREIGN KEY (ownerid)
---     REFERENCES Owner (ownerid)  
---     NOT DEFERRABLE 
---     INITIALLY IMMEDIATE
--- ;
-
--- -- Reference: TuristicPlace_Premium (table: TuristicPlace)
--- ALTER TABLE TuristicPlace ADD CONSTRAINT TuristicPlace_Premium
---     FOREIGN KEY (premiumid)
---     REFERENCES Premium (premiumid)  
---     NOT DEFERRABLE 
---     INITIALLY IMMEDIATE
--- ;
-
--- -- Reference: TuristicPlace_TuristicPlaceType (table: TuristicPlace)
--- ALTER TABLE TuristicPlace ADD CONSTRAINT TuristicPlace_TuristicPlaceType
---     FOREIGN KEY (turisticplacetypeid)
---     REFERENCES TuristicPlaceType (turisticplacetypeid)  
---     NOT DEFERRABLE 
---     INITIALLY IMMEDIATE
--- ;
+COMMENT ON TABLE  image                  IS 'Table to store images paths related to account, touristicplace, stay or attraction tables.';
+COMMENT ON COLUMN image.imageid          IS 'Unique required primary key of the image table.';
+COMMENT ON COLUMN image.accountid        IS 'Optional foreign key of account table.';
+COMMENT ON COLUMN image.touristicplaceid IS 'Optional foreign key of touristicplace table.';
+COMMENT ON COLUMN image.stayid           IS 'Optional foreign key of stay table.';
+COMMENT ON COLUMN image.attractionid     IS 'Optional foreign key of attraction table.';
+COMMENT ON COLUMN image.path             IS 'Required image path.';

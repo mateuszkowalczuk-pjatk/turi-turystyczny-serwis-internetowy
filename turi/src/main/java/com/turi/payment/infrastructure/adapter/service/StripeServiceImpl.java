@@ -56,7 +56,7 @@ public class StripeServiceImpl implements StripeService
         final var params = SessionCreateParams.builder()
                 .setMode(SessionCreateParams.Mode.PAYMENT)
                 .setSuccessUrl(properties.getSuccessUrl())
-                .setCancelUrl(properties.getCanselUrl())
+                .setCancelUrl(properties.getCancelUrl())
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.valueOf(payment.getMethod().getName()))
                 .addLineItem(lineItem)
                 .build();

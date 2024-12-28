@@ -54,6 +54,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-mail")
 
     implementation("com.stripe:stripe-java:24.0.0")
+
+    implementation("com.azure:azure-storage-blob:12.18.0")
 }
 
 tasks.withType<Test> {

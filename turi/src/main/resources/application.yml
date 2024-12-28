@@ -2,6 +2,9 @@ server:
     port: 8080
 
 spring:
+    web:
+        resources:
+            static-locations: file:./uploads/
     datasource:
         url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/turi}
         username: ${SPRING_DATASOURCE_USERNAME:turi}
@@ -52,3 +55,16 @@ premium:
 ceidg:
     url: https://dane.biznes.gov.pl/api/ceidg/v3/firmy
     api-key:
+
+image:
+    storage:
+        mode: local
+        path: ./uploads/
+        local-url: http://localhost:8080/uploads/
+        azure-url:
+
+azure:
+  storage:
+    account-name:
+    account-key:
+    container-name:
