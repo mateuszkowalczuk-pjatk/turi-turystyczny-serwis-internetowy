@@ -4,13 +4,13 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 import org.junit.jupiter.api.Test;
 
-class StayTest
+class StayDtoTest
 {
     @Test
     void equalsContract()
     {
         EqualsVerifier.simple()
-            .forClass(Stay.class).suppress(Warning.BIGDECIMAL_EQUALITY)
+            .forClass(StayDto.class).suppress(Warning.BIGDECIMAL_EQUALITY)
             .verify();
     }
 }

@@ -1,6 +1,7 @@
 package com.turi.attraction.domain.model;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 import org.junit.jupiter.api.Test;
 
 class AttractionTest
@@ -9,7 +10,7 @@ class AttractionTest
     void equalsContract()
     {
         EqualsVerifier.simple()
-            .forClass(Attraction.class)
+            .forClass(Attraction.class).suppress(Warning.BIGDECIMAL_EQUALITY)
             .verify();
     }
 }
