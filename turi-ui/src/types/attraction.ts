@@ -18,6 +18,7 @@ export interface Attraction {
 }
 
 export enum AttractionType {
+    UNASSIGNED = 0,
     RELAX = 1,
     SPORT = 2,
     RECREATION = 3,
@@ -29,6 +30,7 @@ export enum AttractionType {
 }
 
 export enum PriceType {
+    UNASSIGNED = 0,
     HOUR = 1,
     PERSON = 2,
     ITEM = 3

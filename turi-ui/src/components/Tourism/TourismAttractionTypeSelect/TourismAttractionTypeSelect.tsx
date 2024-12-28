@@ -22,6 +22,9 @@ const TourismAttractionTypeSelect = ({ value, onChange, disabled }: Props) => {
                 }
                 disabled={disabled}
             >
+                <option value={AttractionType.UNASSIGNED}>
+                    {t('tourism.touristic-place-attraction-type-unassigned')}
+                </option>
                 <option value={AttractionType.RELAX}>{t('tourism.touristic-place-attraction-type-relax')}</option>
                 <option value={AttractionType.SPORT}>{t('tourism.touristic-place-attraction-type-sport')}</option>
                 <option value={AttractionType.RECREATION}>

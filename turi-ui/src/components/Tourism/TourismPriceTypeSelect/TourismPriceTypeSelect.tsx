@@ -20,6 +20,7 @@ const TourismPriceTypeSelect = ({ value, onChange, disabled }: Props) => {
                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) => onChange(e.target.value as unknown as PriceType)}
                 disabled={disabled}
             >
+                <option value={PriceType.UNASSIGNED}>{t('tourism.touristic-place-price-type-unassigned')}</option>
                 <option value={PriceType.HOUR}>{t('tourism.touristic-place-price-type-hour')}</option>
                 <option value={PriceType.PERSON}>{t('tourism.touristic-place-price-type-person')}</option>
                 <option value={PriceType.ITEM}>{t('tourism.touristic-place-price-type-item')}</option>

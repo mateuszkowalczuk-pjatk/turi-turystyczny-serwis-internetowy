@@ -17,10 +17,14 @@ export const useForm = <T extends Record<string, any>>({ initialValues }: Props<
         setFormData((prev) => ({ ...prev, ...values }))
     }
 
+    const updateFormData = (updater: (prev: T) => T) => {
+        setFormData((prev) => updater(prev))
+    }
+
     const resetForm = () => {
         setFormData(initialValues)
         setError(null)
     }
 
-    return { formData, setFormData, error, setError, handleChange, setFormValues, resetForm }
+    return { formData, setFormData, error, setError, handleChange, setFormValues, resetForm, updateFormData }
 }

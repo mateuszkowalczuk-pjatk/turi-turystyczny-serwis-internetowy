@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import ImageBanner from '../../Shared/Image/ImageBanner'
@@ -9,8 +9,16 @@ import PersonalLabel from '../../Shared/Personal/PersonalLabel'
 import Input from '../../Shared/Controls/Input'
 import { useForm } from '../../../hooks/useForm.ts'
 import { Image, ImageMode } from '../../../types/image.ts'
-import { AttractionType, PriceType } from '../../../types/attraction.ts'
+import { Attraction, AttractionType, PriceType } from '../../../types/attraction.ts'
 import styles from './TourismAttractionOfferPanel.module.css'
+import TourismAttractionTypeSelect from '../TourismAttractionTypeSelect'
+import TourismPriceTypeSelect from '../TourismPriceTypeSelect'
+import TourismTouristicPlaceCheckbox from '../TourismTouristicPlaceCheckbox'
+import Checkbox from '../../Shared/Controls/Checkbox'
+import { handle } from '../../../utils/handle.ts'
+import { attractionService } from '../../../services/attractionService.ts'
+import { imageService } from '../../../services/imageService.ts'
+import { handleFormError } from '../../../utils/handleFormError.ts'
 
 interface Props {
     touristicPlaceId: number
@@ -18,12 +26,13 @@ interface Props {
 }
 
 interface FormData {
-    attractionType: AttractionType | null
+    attractionType: AttractionType
     name: string
     description: string
     price: number | null
     priceType: PriceType
     prepayment: boolean
+    cancelReservation: boolean
     cancelReservationDays: number | null
     maxPeopleNumber: number | null
     maxItems: number | null
@@ -41,14 +50,15 @@ const TourismAttractionOfferPanel = ({ touristicPlaceId, modify }: Props) => {
     const [images, setImages] = useState<Image[]>([])
     const [files, setFiles] = useState<File[]>([])
     const [loading, setLoading] = useState(false)
-    const { formData, error, setError, handleChange, setFormValues } = useForm<FormData>({
+    const { formData, error, setError, handleChange, setFormValues, updateFormData } = useForm<FormData>({
         initialValues: {
-            attractionType: AttractionType.OTHER,
+            attractionType: AttractionType.UNASSIGNED,
             name: '',
             description: '',
             price: null,
-            priceType: PriceType.HOUR,
+            priceType: PriceType.UNASSIGNED,
             prepayment: false,
+            cancelReservation: false,
             cancelReservationDays: null,
             maxPeopleNumber: null,
             maxItems: null,
@@ -60,7 +70,125 @@ const TourismAttractionOfferPanel = ({ touristicPlaceId, modify }: Props) => {
         }
     })
 
-    const handleSave = async (e: React.FormEvent) => {}
+    useEffect(() => {
+        const fetchData = async () => {
+            const attractionResponse = await attractionService.getById(attractionId)
+            if (attractionResponse.status === 200) {
+                const attractionData: Attraction = await attractionResponse.json()
+                setFormValues({
+                    attractionType: AttractionType[attractionData.attractionType as keyof typeof AttractionType],
+                    name: attractionData.name,
+                    description: attractionData.description,
+                    price: attractionData.price,
+                    priceType: PriceType[attractionData.priceType as keyof typeof PriceType],
+                    prepayment: attractionData.prepayment,
+                    cancelReservationDays: attractionData.cancelReservationDays,
+                    maxPeopleNumber: attractionData.maxPeopleNumber,
+                    maxItems: attractionData.maxItems,
+                    dateFrom: convertToDate(attractionData.dateFrom),
+                    dateTo: convertToDate(attractionData.dateTo),
+                    hourFrom: convertToTime(attractionData.hourFrom),
+                    hourTo: convertToTime(attractionData.hourTo),
+                    daysReservationBefore: attractionData.daysReservationBefore
+                })
+                const imagesResponse = await imageService.getAllByAttractionId(attractionId)
+                if (imagesResponse.status === 200) {
+                    const imagesData = await imagesResponse.json()
+                    setImages(imagesData)
+                }
+            }
+        }
+
+        const convertToDate = (dateArray: any) => {
+            if (!dateArray) return null
+            const [year, month, day] = dateArray
+            const formattedMonth = ('0' + month).slice(-2)
+            const formattedDay = ('0' + day).slice(-2)
+            return `${year}-${formattedMonth}-${formattedDay}`
+        }
+
+        const convertToTime = (dateArray: any) => {
+            if (!dateArray) return null
+            const [hour, minute] = dateArray
+            const formattedHour = ('0' + hour).slice(-2)
+            const formattedMinute = ('0' + minute).slice(-2)
+            return `${formattedHour}:${formattedMinute}`
+        }
+
+        attractionId && fetchData().catch((error) => error)
+    }, [])
+
+    const handleSave = async (e: React.FormEvent) => {
+        handle(e, setLoading, setError)
+
+        if (
+            formData.attractionType.toString() === AttractionType.UNASSIGNED.toString() ||
+            formData.priceType.toString() === PriceType.UNASSIGNED.toString()
+        )
+            return handleFormError(setError, setLoading, 'tourism.touristic-place-attraction-type-error')
+
+        if (
+            formData.price === null ||
+            formData.dateFrom === null ||
+            formData.dateTo === null ||
+            formData.daysReservationBefore === null
+        )
+            return handleFormError(setError, setLoading, 'tourism.touristic-place-stay-offer-create-fields')
+
+        if (formData.dateFrom && formData.dateTo && formData.dateFrom > formData.dateTo)
+            return handleFormError(setError, setLoading, 'tourism.touristic-place-attraction-data-error')
+
+        if (formData.hourFrom && formData.hourTo && formData.hourFrom > formData.hourTo)
+            return handleFormError(setError, setLoading, 'tourism.touristic-place-attraction-hour-error')
+
+        if (modify) {
+            const attractionResponse = await attractionService.update(attractionId, {
+                touristicPlaceId: touristicPlaceId,
+                attractionType: formData.attractionType,
+                name: formData.name,
+                description: formData.description,
+                price: formData.price,
+                priceType: formData.priceType,
+                prepayment: formData.prepayment,
+                cancelReservationDays: formData.cancelReservationDays || undefined,
+                maxPeopleNumber: formData.maxPeopleNumber || undefined,
+                maxItems: formData.maxItems || undefined,
+                dateFrom: formData.dateFrom,
+                dateTo: formData.dateTo,
+                hourFrom: formData.hourFrom,
+                hourTo: formData.hourTo,
+                daysReservationBefore: formData.daysReservationBefore
+            })
+            setLoading(false)
+            if (attractionResponse.status !== 200)
+                return handleFormError(setError, setLoading, 'tourism.touristic-place-attraction-save-error')
+        } else {
+            const attractionResponse = await attractionService.create({
+                touristicPlaceId: touristicPlaceId,
+                attractionType: formData.attractionType,
+                name: formData.name,
+                description: formData.description,
+                price: formData.price,
+                priceType: formData.priceType,
+                prepayment: formData.prepayment,
+                cancelReservationDays: formData.cancelReservationDays || undefined,
+                maxPeopleNumber: formData.maxPeopleNumber || undefined,
+                maxItems: formData.maxItems || undefined,
+                dateFrom: formData.dateFrom,
+                dateTo: formData.dateTo,
+                hourFrom: formData.hourFrom,
+                hourTo: formData.hourTo,
+                daysReservationBefore: formData.daysReservationBefore
+            })
+            if (attractionResponse.status === 200) {
+                const attractionData: Attraction = await attractionResponse.json()
+                files.forEach((file) => {
+                    imageService.upload(file, ImageMode.ATTRACTION, attractionData.attractionId)
+                })
+                navigate('/tourism')
+            } else return handleFormError(setError, setLoading, 'tourism.touristic-place-attraction-create-error')
+        }
+    }
 
     return (
         <form
@@ -97,21 +225,23 @@ const TourismAttractionOfferPanel = ({ touristicPlaceId, modify }: Props) => {
                                     <Input
                                         type={'text'}
                                         name={'name'}
-                                        placeholder={t('tourism.')}
-                                        value={''}
-                                        onChange={null}
+                                        placeholder={t('tourism.touristic-place-attraction-name')}
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        maxLength={50}
                                         required={true}
                                         disabled={loading}
                                     />
                                 }
                                 secondInput={
-                                    <Input
-                                        type={'text'}
-                                        name={'name'}
-                                        placeholder={t('tourism.')}
-                                        value={''}
-                                        onChange={null}
-                                        required={true}
+                                    <TourismAttractionTypeSelect
+                                        value={formData.attractionType}
+                                        onChange={(attractionType: AttractionType) =>
+                                            updateFormData((prevData) => ({
+                                                ...prevData,
+                                                attractionType: attractionType
+                                            }))
+                                        }
                                         disabled={loading}
                                     />
                                 }
@@ -120,14 +250,27 @@ const TourismAttractionOfferPanel = ({ touristicPlaceId, modify }: Props) => {
                         }
                         secondPanel={
                             <PersonalPanel
-                                label={<PersonalLabel text={t('tourism.touristic-place-stay-offer-information')} />}
+                                label={<PersonalLabel text={t('tourism.touristic-place-attraction-description')} />}
                                 firstInput={
                                     <Input
                                         type={'text'}
-                                        name={'name'}
-                                        placeholder={t('tourism.')}
-                                        value={''}
-                                        onChange={null}
+                                        name={'description'}
+                                        placeholder={t('tourism.touristic-place-attraction-description')}
+                                        value={formData.description}
+                                        onChange={handleChange}
+                                        maxLength={255}
+                                        required={true}
+                                        disabled={loading}
+                                    />
+                                }
+                                secondInput={
+                                    <Input
+                                        type={'number'}
+                                        name={'daysReservationBefore'}
+                                        placeholder={t('tourism.touristic-place-attraction-days-before')}
+                                        value={formData.daysReservationBefore}
+                                        onChange={handleChange}
+                                        maxLength={255}
                                         required={true}
                                         disabled={loading}
                                     />
@@ -138,27 +281,27 @@ const TourismAttractionOfferPanel = ({ touristicPlaceId, modify }: Props) => {
                         thirdPanel={
                             <PersonalPanel
                                 label={
-                                    <PersonalLabel text={t('tourism.touristic-place-stay-offer-availability-range')} />
+                                    <PersonalLabel text={t('tourism.touristic-place-attraction-availability-range')} />
                                 }
                                 firstInput={
                                     <Input
-                                        type={'text'}
-                                        name={'name'}
-                                        placeholder={t('tourism.')}
-                                        value={''}
-                                        onChange={null}
+                                        type={'date'}
+                                        name={'dateFrom'}
+                                        placeholder={t('tourism.touristic-place-attraction-availability-range-from')}
+                                        value={formData.dateFrom}
+                                        onChange={handleChange}
                                         required={true}
                                         disabled={loading}
                                     />
                                 }
                                 secondInput={
                                     <Input
-                                        type={'text'}
-                                        name={'name'}
-                                        placeholder={t('tourism.')}
-                                        value={''}
-                                        onChange={null}
-                                        required={true}
+                                        type={'date'}
+                                        name={'dateTo'}
+                                        placeholder={t('tourism.touristic-place-attraction-availability-range-to')}
+                                        value={formData.dateTo}
+                                        onChange={handleChange}
+                                        required={false}
                                         disabled={loading}
                                     />
                                 }
@@ -166,33 +309,35 @@ const TourismAttractionOfferPanel = ({ touristicPlaceId, modify }: Props) => {
                             />
                         }
                     />
-
                     <TourismOfferDetails
                         firstPanel={
                             <PersonalPanel
                                 label={
                                     <PersonalLabel
-                                        text={t('tourism.touristic-place-stay-offer-name-and-description')}
+                                        text={t('tourism.touristic-place-attraction-price-type-and-price')}
                                     />
                                 }
                                 firstInput={
-                                    <Input
-                                        type={'text'}
-                                        name={'name'}
-                                        placeholder={t('tourism.')}
-                                        value={''}
-                                        onChange={null}
-                                        required={true}
+                                    <TourismPriceTypeSelect
+                                        value={formData.priceType}
+                                        onChange={(priceType: PriceType) =>
+                                            updateFormData((prevData) => ({
+                                                ...prevData,
+                                                priceType: priceType,
+                                                maxItems: null,
+                                                maxPeopleNumber: null
+                                            }))
+                                        }
                                         disabled={loading}
                                     />
                                 }
                                 secondInput={
                                     <Input
-                                        type={'text'}
-                                        name={'name'}
-                                        placeholder={t('tourism.')}
-                                        value={''}
-                                        onChange={null}
+                                        type={'number'}
+                                        name={'price'}
+                                        placeholder={t('tourism.touristic-place-attraction-price')}
+                                        value={formData.price}
+                                        onChange={handleChange}
                                         required={true}
                                         disabled={loading}
                                     />
@@ -202,36 +347,54 @@ const TourismAttractionOfferPanel = ({ touristicPlaceId, modify }: Props) => {
                         }
                         secondPanel={
                             <PersonalPanel
-                                label={<PersonalLabel text={t('tourism.touristic-place-stay-offer-information')} />}
-                                firstInput={
-                                    <Input
-                                        type={'text'}
-                                        name={'name'}
-                                        placeholder={t('tourism.')}
-                                        value={''}
-                                        onChange={null}
-                                        required={true}
-                                        disabled={loading}
+                                label={
+                                    <PersonalLabel
+                                        text={t(
+                                            'tourism.touristic-place-attraction-max-items-people-number-from-to-hour'
+                                        )}
                                     />
+                                }
+                                firstInput={
+                                    formData.priceType.toString() === PriceType.ITEM.toString() ? (
+                                        <Input
+                                            type={'number'}
+                                            name={'maxItems'}
+                                            placeholder={t('tourism.touristic-place-attraction-max-items-number')}
+                                            value={formData.maxItems}
+                                            onChange={handleChange}
+                                            required={true}
+                                            disabled={loading}
+                                        />
+                                    ) : formData.priceType.toString() === PriceType.PERSON.toString() ? (
+                                        <Input
+                                            type={'number'}
+                                            name={'maxPeopleNumber'}
+                                            placeholder={t('tourism.touristic-place-attraction-max-people-number')}
+                                            value={formData.maxPeopleNumber}
+                                            onChange={handleChange}
+                                            required={true}
+                                            disabled={loading}
+                                        />
+                                    ) : null
                                 }
                                 secondInput={
                                     <Input
-                                        type={'text'}
-                                        name={'name'}
-                                        placeholder={t('tourism.')}
-                                        value={''}
-                                        onChange={null}
+                                        type={'time'}
+                                        name={'hourFrom'}
+                                        placeholder={t('tourism.touristic-place-attraction-from-hour')}
+                                        value={formData.hourFrom}
+                                        onChange={handleChange}
                                         required={true}
                                         disabled={loading}
                                     />
                                 }
                                 thirdInput={
                                     <Input
-                                        type={'text'}
-                                        name={'name'}
-                                        placeholder={t('tourism.')}
-                                        value={''}
-                                        onChange={null}
+                                        type={'time'}
+                                        name={'hourTo'}
+                                        placeholder={t('tourism.touristic-place-attraction-to-hour')}
+                                        value={formData.hourTo}
+                                        onChange={handleChange}
                                         required={true}
                                         disabled={loading}
                                     />
@@ -241,40 +404,51 @@ const TourismAttractionOfferPanel = ({ touristicPlaceId, modify }: Props) => {
                         }
                         thirdPanel={
                             <PersonalPanel
-                                label={
-                                    <PersonalLabel text={t('tourism.touristic-place-stay-offer-availability-range')} />
-                                }
+                                label={<PersonalLabel text={t('tourism.touristic-place-attraction-reservation')} />}
                                 firstInput={
-                                    <Input
-                                        type={'text'}
-                                        name={'name'}
-                                        placeholder={t('tourism.')}
-                                        value={''}
-                                        onChange={null}
-                                        required={true}
-                                        disabled={loading}
+                                    <TourismTouristicPlaceCheckbox
+                                        checkbox={
+                                            <Checkbox
+                                                checked={formData.prepayment}
+                                                onChange={() =>
+                                                    updateFormData((prevData) => ({
+                                                        ...prevData,
+                                                        prepayment: !prevData.prepayment
+                                                    }))
+                                                }
+                                                text={t('tourism.touristic-place-attraction-reservation-prepayment')}
+                                            />
+                                        }
                                     />
                                 }
                                 secondInput={
-                                    <Input
-                                        type={'text'}
-                                        name={'name'}
-                                        placeholder={t('tourism.')}
-                                        value={''}
-                                        onChange={null}
-                                        required={true}
-                                        disabled={loading}
+                                    <TourismTouristicPlaceCheckbox
+                                        checkbox={
+                                            <Checkbox
+                                                checked={formData.cancelReservation}
+                                                onChange={() =>
+                                                    updateFormData((prevData) => ({
+                                                        ...prevData,
+                                                        cancelReservation: !prevData.cancelReservation,
+                                                        cancelReservationDays: !prevData.cancelReservation
+                                                            ? 0
+                                                            : prevData.cancelReservationDays
+                                                    }))
+                                                }
+                                                text={t('tourism.touristic-place-attraction-reservation-cancel')}
+                                            />
+                                        }
                                     />
                                 }
                                 thirdInput={
                                     <Input
-                                        type={'text'}
-                                        name={'name'}
-                                        placeholder={t('tourism.')}
-                                        value={''}
-                                        onChange={null}
-                                        required={true}
-                                        disabled={loading}
+                                        type="number"
+                                        name="cancelReservationDays"
+                                        placeholder={t('tourism.touristic-place-attraction-reservation-days')}
+                                        value={formData.cancelReservationDays}
+                                        onChange={handleChange}
+                                        required={false}
+                                        disabled={!formData.cancelReservation || loading}
                                     />
                                 }
                                 touristicPlace
