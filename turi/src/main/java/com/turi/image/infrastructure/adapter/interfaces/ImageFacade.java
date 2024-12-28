@@ -3,6 +3,7 @@ package com.turi.image.infrastructure.adapter.interfaces;
 import com.turi.image.domain.model.Image;
 import com.turi.image.domain.model.ImageMode;
 import com.turi.image.domain.port.ImageService;
+import com.turi.infrastructure.common.ContextHandler;
 import com.turi.infrastructure.common.ObjectId;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import lombok.AllArgsConstructor;
@@ -18,16 +19,11 @@ public class ImageFacade
 {
     private final ImageService service;
 
-    public ResponseEntity<Image> getImageByAccountId(final String accountId)
+    public ResponseEntity<Image> getImageByAccountId()
     {
-        if (accountId == null)
-        {
-            throw new BadRequestParameterException("Parameter accountId must not be null.");
-        }
+        final var accountId = ContextHandler.getIdFromContext();
 
-        final var id = ObjectId.of(accountId).getValue();
-
-        return ImageResponse.of(service.getByAccountId(id));
+        return ImageResponse.of(service.getByAccountId(accountId));
     }
 
     public ResponseEntity<List<Image>> getAllImagesByTouristicPlaceId(final String touristicPlaceId)
@@ -68,12 +64,41 @@ public class ImageFacade
 
     public ResponseEntity<String> uploadImage(final MultipartFile file, final ImageMode mode, final String id)
     {
-        if (file == null || mode == null || id == null)
+        if (file == null || mode == null)
         {
-            throw new BadRequestParameterException("Parameters file, mode and id must not be null.");
+            throw new BadRequestParameterException("Parameters file and mode must not be null.");
+        }
+
+        imageValidation(file);
+
+        if (mode.equals(ImageMode.ACCOUNT))
+        {
+            final var accountId = ContextHandler.getIdFromContext();
+
+            return ImageResponse.of(service.upload(file, mode, accountId));
+        }
+
+        if (id == null)
+        {
+            throw new BadRequestParameterException("Parameter id must not be null.");
         }
 
         return ImageResponse.of(service.upload(file, mode, ObjectId.of(id).getValue()));
+    }
+
+    private void imageValidation(final MultipartFile file)
+    {
+        if (file.getSize() > 2 * 1024 * 1024)
+        {
+            throw new BadRequestParameterException("Uploaded image must not exceed 2 MB in size.");
+        }
+
+        if (!"image/png".equals(file.getContentType())
+                && !"image/jpg".equals(file.getContentType())
+                && !"image/jpeg".equals(file.getContentType()))
+        {
+            throw new BadRequestParameterException("Uploaded image must be in format PNG or JPG.");
+        }
     }
 
     public ResponseEntity<?> deleteImageById(final String id)

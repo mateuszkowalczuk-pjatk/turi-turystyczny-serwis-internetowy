@@ -10,7 +10,7 @@ public interface AttractionService
 
     Attraction getById(final Long id);
 
-    void create(final Attraction attraction);
+    Attraction create(final Attraction attraction);
 
     void update(final Long id, final Attraction attraction);
 

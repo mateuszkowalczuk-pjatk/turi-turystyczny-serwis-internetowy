@@ -56,7 +56,7 @@ public class StayServiceImpl implements StayService
     }
 
     @Override
-    public void create(final StayDto stayDto)
+    public Stay create(final StayDto stayDto)
     {
         final var stay = Stay.builder()
                 .withStayId(stayDto.getStayId())
@@ -76,6 +76,8 @@ public class StayServiceImpl implements StayService
 
             stayInformationService.create(stayInformation);
         });
+
+        return repository.findById(stayId);
     }
 
     @Override

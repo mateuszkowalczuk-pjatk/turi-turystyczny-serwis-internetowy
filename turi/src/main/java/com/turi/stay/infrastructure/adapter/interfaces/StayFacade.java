@@ -49,9 +49,7 @@ public class StayFacade
             throw new BadRequestParameterException("Parameter stay must not be null.");
         }
 
-        service.create(stay);
-
-        return ResponseEntity.ok().build();
+    return StayResponse.of(service.create(stay));
     }
 
     public ResponseEntity<?> createStayInformation(final StayInformation stayInformation)

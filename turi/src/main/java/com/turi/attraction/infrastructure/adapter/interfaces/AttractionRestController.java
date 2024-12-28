@@ -27,7 +27,7 @@ public class AttractionRestController
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createAttraction(@RequestBody final Attraction attraction)
+    public ResponseEntity<Attraction> createAttraction(@RequestBody final Attraction attraction)
     {
         return facade.createAttraction(attraction);
     }

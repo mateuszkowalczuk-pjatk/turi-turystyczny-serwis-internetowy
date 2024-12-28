@@ -45,7 +45,7 @@ public class TouristicPlaceRestController
     }
 
     @PostMapping("/createGuaranteedService")
-    public ResponseEntity<?> createTouristicPlaceGuaranteedService(@RequestBody final GuaranteedService guaranteedService)
+    public ResponseEntity<GuaranteedService> createTouristicPlaceGuaranteedService(@RequestBody final GuaranteedService guaranteedService)
     {
         return facade.createTouristicPlaceGuaranteedService(guaranteedService);
     }

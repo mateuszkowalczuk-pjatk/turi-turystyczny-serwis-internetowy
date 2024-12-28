@@ -12,7 +12,7 @@ public interface GuaranteedServiceRepository
 
     GuaranteedService findByTouristicPlaceIdAndService(final Long touristicPlaceId, final String service);
 
-    void insert(final GuaranteedService guaranteedService);
+    Long insert(final GuaranteedService guaranteedService);
 
     void deleteById(final Long id);
 }

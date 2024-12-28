@@ -32,11 +32,11 @@ public class AttractionRepositoryImpl implements AttractionRepository
     }
 
     @Override
-    public void insert(final Attraction attraction)
+    public Long insert(final Attraction attraction)
     {
         final var entity = AttractionEntity.of(attraction);
 
-        repositoryDao.saveAndFlush(entity);
+        return repositoryDao.saveAndFlush(entity).getAttractionId();
     }
 
     @Override

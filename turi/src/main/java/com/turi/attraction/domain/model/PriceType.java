@@ -9,6 +9,7 @@ import java.util.Arrays;
 @AllArgsConstructor
 public enum PriceType
 {
+    UNASSIGNED(0),
     HOUR(1),
     PERSON(2),
     ITEM(3);

@@ -22,14 +22,16 @@ public class GuaranteedServiceServiceImpl implements GuaranteedServiceService
     }
 
     @Override
-    public void create(final GuaranteedService guaranteedService)
+    public GuaranteedService create(final GuaranteedService guaranteedService)
     {
         if (repository.findByTouristicPlaceIdAndService(guaranteedService.getTouristicPlaceId(), guaranteedService.getService()) != null)
         {
             throw new GuaranteedServiceUniqueException(guaranteedService.getTouristicPlaceId(), guaranteedService.getService());
         }
 
-        repository.insert(guaranteedService);
+        final var id = repository.insert(guaranteedService);
+
+        return repository.findById(id);
     }
 
     @Override

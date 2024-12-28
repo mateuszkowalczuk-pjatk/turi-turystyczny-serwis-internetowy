@@ -1,6 +1,7 @@
 package com.turi.stay.infrastructure.adapter.interfaces;
 
 import com.turi.infrastructure.exception.BadRequestResponseException;
+import com.turi.stay.domain.model.Stay;
 import com.turi.stay.domain.model.StayDto;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,16 @@ public final class StayResponse
     }
 
     public static ResponseEntity<StayDto> of(final StayDto stay)
+    {
+        if (stay == null)
+        {
+            throw new BadRequestResponseException("Stay response must not be null.");
+        }
+
+        return ResponseEntity.ok(stay);
+    }
+
+    public static ResponseEntity<Stay> of(final Stay stay)
     {
         if (stay == null)
         {

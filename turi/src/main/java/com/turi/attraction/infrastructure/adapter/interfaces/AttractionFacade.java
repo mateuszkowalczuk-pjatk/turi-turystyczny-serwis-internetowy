@@ -40,19 +40,17 @@ public class AttractionFacade
         return AttractionResponse.of(service.getById(attractionId));
     }
 
-    public ResponseEntity<?> createAttraction(final Attraction attraction)
+    public ResponseEntity<Attraction> createAttraction(final Attraction attraction)
     {
         if (attraction == null)
         {
             throw new BadRequestParameterException("Parameter attraction must not be null.");
         }
 
-        service.create(attraction);
-
-        return ResponseEntity.ok().build();
+        return AttractionResponse.of(service.create(attraction));
     }
 
-    public ResponseEntity<?> updateAttraction(final String id, final Attraction attraction)
+    public ResponseEntity<Attraction> updateAttraction(final String id, final Attraction attraction)
     {
         if (id == null || attraction == null)
         {

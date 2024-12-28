@@ -39,11 +39,11 @@ public class GuaranteedServiceRepositoryImpl implements GuaranteedServiceReposit
     }
 
     @Override
-    public void insert(final GuaranteedService guaranteedService)
+    public Long insert(final GuaranteedService guaranteedService)
     {
         final var entity = GuaranteedServiceEntity.of(guaranteedService);
 
-        repositoryDao.saveAndFlush(entity);
+        return repositoryDao.saveAndFlush(entity).getGuaranteedServiceId();
     }
 
     @Override

@@ -54,16 +54,14 @@ public class TouristicPlaceFacade
         return ResponseEntity.ok().build();
     }
 
-    public ResponseEntity<?> createTouristicPlaceGuaranteedService(final GuaranteedService guaranteedService)
+    public ResponseEntity<GuaranteedService> createTouristicPlaceGuaranteedService(final GuaranteedService guaranteedService)
     {
         if (guaranteedService == null)
         {
             throw new BadRequestParameterException("Parameter guaranteedService must not be null!");
         }
 
-        service.createGuaranteedService(guaranteedService);
-
-        return ResponseEntity.ok().build();
+        return TouristicPlaceResponse.of(service.createGuaranteedService(guaranteedService));
     }
 
     public ResponseEntity<?> updateTouristicPlaceDetails(final String id, final TouristicPlace touristicPlace)

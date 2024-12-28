@@ -31,11 +31,11 @@ public class AttractionServiceImpl implements AttractionService
     }
 
     @Override
-    public void create(final Attraction attraction)
+    public Attraction create(final Attraction attraction)
     {
         validatePriceType(attraction);
 
-        repository.insert(attraction);
+        return getById(repository.insert(attraction));
     }
 
     @Override

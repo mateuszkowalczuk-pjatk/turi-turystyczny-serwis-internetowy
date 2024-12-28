@@ -41,4 +41,14 @@ public final class TouristicPlaceResponse
 
         return ResponseEntity.ok(guaranteedServices);
     }
+
+    public static ResponseEntity<GuaranteedService> of(final GuaranteedService guaranteedService)
+    {
+        if (guaranteedService == null)
+        {
+            throw new BadRequestResponseException("Touristic place guaranteed service response must not be null.");
+        }
+
+        return ResponseEntity.ok(guaranteedService);
+    }
 }

@@ -45,7 +45,7 @@ public final class StayEntity implements Serializable
     @Column(name = "datefrom", nullable = false)
     private LocalDate dateFrom;
 
-    @Column(name = "dateto", nullable = false)
+    @Column(name = "dateto")
     private LocalDate dateTo;
 
     public static StayEntity of(final Stay stay)

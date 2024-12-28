@@ -10,7 +10,7 @@ public interface AttractionRepository
 
     Attraction findById(final Long id);
 
-    void insert(final Attraction attraction);
+    Long insert(final Attraction attraction);
 
     void update(final Long id, final Attraction attraction);
 

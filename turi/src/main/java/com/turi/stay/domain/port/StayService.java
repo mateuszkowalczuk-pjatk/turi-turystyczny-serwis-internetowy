@@ -12,7 +12,7 @@ public interface StayService
 
     StayDto getById(final Long id);
 
-    void create(final StayDto stayDto);
+    Stay create(final StayDto stayDto);
 
     void createStayInformation(final StayInformation stayInformation);
 

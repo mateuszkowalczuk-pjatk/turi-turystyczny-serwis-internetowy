@@ -17,9 +17,9 @@ public class ImageRestController
     private final ImageFacade facade;
 
     @GetMapping("/getByAccountId")
-    public ResponseEntity<Image> getImageByAccountId(@RequestParam final String accountId)
+    public ResponseEntity<Image> getImageByAccountId()
     {
-        return facade.getImageByAccountId(accountId);
+        return facade.getImageByAccountId();
     }
 
     @GetMapping("/getAllByTouristicPlaceId")
@@ -43,7 +43,7 @@ public class ImageRestController
     @PostMapping(value = "/upload", consumes = "multipart/form-data")
     public ResponseEntity<String> uploadImage(@RequestParam final MultipartFile file,
                                               @RequestParam final ImageMode mode,
-                                              @RequestParam final String id)
+                                              @RequestParam(required = false) final String id)
     {
         return facade.uploadImage(file, mode, id);
     }

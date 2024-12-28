@@ -55,7 +55,7 @@ public class TouristicPlaceServiceImpl implements TouristicPlaceService
             return false;
         }
 
-        return repository.findByAddressId(addressId) != null;
+        return repository.findByAddressId(address.getAddressId()) != null;
     }
 
     @Override
@@ -77,9 +77,9 @@ public class TouristicPlaceServiceImpl implements TouristicPlaceService
     }
 
     @Override
-    public void createGuaranteedService(final GuaranteedService guaranteedService)
+    public GuaranteedService createGuaranteedService(final GuaranteedService guaranteedService)
     {
-        guaranteedServiceService.create(guaranteedService);
+        return guaranteedServiceService.create(guaranteedService);
     }
 
     @Override

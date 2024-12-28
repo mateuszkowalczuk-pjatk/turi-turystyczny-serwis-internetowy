@@ -22,7 +22,7 @@ public interface TouristicPlaceService
 
     void create();
 
-    void createGuaranteedService(final GuaranteedService guaranteedService);
+    GuaranteedService createGuaranteedService(final GuaranteedService guaranteedService);
 
     void updateDetails(final Long id, final TouristicPlace touristicPlace);
 
