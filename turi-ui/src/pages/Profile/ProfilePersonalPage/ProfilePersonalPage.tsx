@@ -1,19 +1,19 @@
-import { useTranslation } from 'react-i18next'
-import PersonalPart from '../../../components/Personal/PersonalPart'
-import PersonalPanel from '../../../components/Personal/PersonalPanel'
-import PersonalLabel from '../../../components/Personal/PersonalLabel'
-import PersonalInput from '../../../components/Personal/PersonalInput'
-import PersonalGender from '../../../components/Personal/PersonalGender'
-import styles from './ProfilePersonalPage.module.css'
-import ProfileButton from '../../../components/Profile/ProfileButton'
 import React, { useEffect, useState } from 'react'
+import { useAuthenticated } from '../../../store/slices/auth.ts'
+import { useTranslation } from 'react-i18next'
+import { useAppDispatch } from '../../../hooks/useAppDispatch.ts'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import PersonalPart from '../../../components/Shared/Personal/PersonalPart'
+import PersonalPanel from '../../../components/Shared/Personal/PersonalPanel'
+import PersonalLabel from '../../../components/Shared/Personal/PersonalLabel'
+import PersonalInput from '../../../components/Shared/Personal/PersonalInput'
+import PersonalGender from '../../../components/Shared/Personal/PersonalGender'
+import ProfileButton from '../../../components/Profile/ProfileButton'
+import { Gender } from '../../../types'
+import { notPersonalization } from '../../../store/slices/personal.ts'
 import { accountService } from '../../../services/accountService.ts'
 import { addressService } from '../../../services/addressService.ts'
-import { notPersonalization } from '../../../store/slices/personal.ts'
-import { RootState } from '../../../store/store.ts'
-import { Gender } from '../../../types'
+import styles from './ProfilePersonalPage.module.css'
 
 interface FormData {
     firstName: string
@@ -37,8 +37,8 @@ interface FormData {
 const ProfilePersonalPage = () => {
     const { t } = useTranslation()
     const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
+    const dispatch = useAppDispatch()
+    const isAuthenticated = useAuthenticated()
     const [formData, setFormData] = useState<FormData>({
         firstName: '',
         lastName: '',
@@ -61,9 +61,7 @@ const ProfilePersonalPage = () => {
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
-        if (!isAuthenticated) {
-            navigate('/')
-        }
+        if (!isAuthenticated) navigate('/')
 
         const fetchData = async () => {
             setLoading(true)

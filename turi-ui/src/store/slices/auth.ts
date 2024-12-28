@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { AUTH_SLICE } from '../types.ts'
+import { useSelector } from 'react-redux'
+import { RootState } from '../store.ts'
 
 interface AuthState {
     isAuthenticated: boolean
@@ -23,5 +25,7 @@ const auth = createSlice({
 })
 
 export const { login, logout } = auth.actions
+
+export const useAuthenticated = () => useSelector((state: RootState) => state.auth.isAuthenticated)
 
 export default auth.reducer

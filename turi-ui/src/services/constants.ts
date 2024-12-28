@@ -40,5 +40,38 @@ export const API = {
         RENEW: '/api/premium/premium/renew',
         CANCEL: '/api/premium/premium/cancel',
         UPDATE_COMPANY_DETAILS: '/api/premium/updateCompanyDetails'
+    },
+    TOURISTIC_PLACE: {
+        GET_BY_PREMIUM_ID: '/api/touristicplace/getByPremiumId',
+        IS_ADDRESS_EXISTS: '/api/touristicplace/isAddressExists',
+        GET_ALL_GUARANTEED_SERVICES: '/api/touristicplace/getAllGuaranteedServices',
+        CREATE: '/api/touristicplace/create',
+        CREATE_GUARANTEED_SERVICE: '/api/touristicplace/createGuaranteedService',
+        UPDATE_DETAILS: '/api/touristicplace/updateDetails',
+        DELETE_GUARANTEED_SERVICE: '/api/touristicplace/deleteGuaranteedService'
+    },
+    STAY: {
+        GET_ALL_BY_TOURISTIC_PLACE_ID: '/api/stay/getAllByTouristicPlaceId',
+        GET_BY_ID: '/api/stay/getById',
+        CREATE: '/api/stay/create',
+        CREATE_STAY_INFORMATION: '/api/stay/createStayInformation',
+        UPDATE: '/api/stay/update',
+        DELETE: '/api/stay/delete',
+        DELETE_STAY_INFORMATION: '/api/stay/deleteStayInformation'
+    },
+    ATTRACTION: {
+        GET_ALL_BY_TOURISTIC_PLACE_ID: '/api/attraction/getAllByTouristicPlaceId',
+        GET_BY_ID: '/api/attraction/getById',
+        CREATE: '/api/attraction/create',
+        UPDATE: '/api/attraction/update',
+        DELETE: '/api/attraction/delete'
+    },
+    IMAGE: {
+        GET_BY_ACCOUNT_ID: '/api/image/getByAccountId',
+        GET_ALL_BY_TOURISTIC_PLACE_ID: '/api/image/getAllByTouristicPlaceId',
+        GET_ALL_BY_STAY_ID: '/api/image/getAllByStayId',
+        GET_ALL_BY_ATTRACTION_ID: '/api/image/getAllByAttractionId',
+        UPLOAD: '/api/image/upload',
+        DELETE_BY_ID: '/api/image/deleteById'
     }
 }

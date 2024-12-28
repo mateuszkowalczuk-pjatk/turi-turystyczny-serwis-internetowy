@@ -1,17 +1,7 @@
 .page {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     height: 26rem;
     width: 100%;
-}
-
-@media (max-width: 768px) {
-    .page {
-    }
-}
-
-@media (max-width: 480px) {
-    .page {
-    }
 }

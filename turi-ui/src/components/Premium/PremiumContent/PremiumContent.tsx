@@ -1,12 +1,15 @@
 import { ReactNode } from 'react'
-import PremiumTitle from '../PremiumTitle'
+import { useTranslation } from 'react-i18next'
+import PageTitle from '../../Shared/PageTitle'
 import PremiumPanel from '../PremiumPanel'
 import styles from './PremiumContent.module.css'
 
 const PremiumContent = ({ content }: { content: ReactNode }) => {
+    const { t } = useTranslation()
+
     return (
         <div className={styles.content}>
-            <PremiumTitle />
+            <PageTitle text={t('premium.title')} />
             <PremiumPanel content={content} />
         </div>
     )

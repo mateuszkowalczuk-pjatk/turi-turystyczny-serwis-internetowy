@@ -1,0 +1,9 @@
+.details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 14rem;
+    padding-top: 2rem;
+}

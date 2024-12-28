@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { setCookie } from '../../../utils/cookie'
 import ProfileLabel from '../ProfileLabel'
-import Checkbox from '../../Controls/Checkbox'
-import styles from './ProfileLanguage.module.css'
+import Checkbox from '../../Shared/Controls/Checkbox'
 import ProfileButton from '../ProfileButton'
+import styles from './ProfileLanguage.module.css'
 
 const LANGUAGE = {
     PL: 'pl',
@@ -26,10 +26,6 @@ const ProfileLanguage = () => {
         setTempLanguage(i18n.language)
     }, [i18n.language])
 
-    const handleLanguageChange = (language: string) => {
-        setTempLanguage(language)
-    }
-
     const handleSave = () => {
         if (tempLanguage !== selectedLanguage) {
             i18n.changeLanguage(tempLanguage)
@@ -46,12 +42,12 @@ const ProfileLanguage = () => {
             <ProfileLabel text={t('profile.language')} />
             <Checkbox
                 checked={tempLanguage === LANGUAGE.PL}
-                onChange={() => handleLanguageChange(LANGUAGE.PL)}
+                onChange={() => setTempLanguage(LANGUAGE.PL)}
                 text={LABEL.PL}
             />
             <Checkbox
                 checked={tempLanguage === LANGUAGE.EN}
-                onChange={() => handleLanguageChange(LANGUAGE.EN)}
+                onChange={() => setTempLanguage(LANGUAGE.EN)}
                 text={LABEL.EN}
             />
             <ProfileButton handleSave={handleSave} />

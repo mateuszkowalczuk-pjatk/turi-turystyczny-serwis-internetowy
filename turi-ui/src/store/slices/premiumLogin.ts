@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { PREMIUM_LOGIN_SLICE } from '../types.ts'
+import { useSelector } from 'react-redux'
+import { RootState } from '../store.ts'
 
 interface PremiumLoginState {
     isPremiumLogin: boolean
@@ -23,5 +25,7 @@ const premiumLogin = createSlice({
 })
 
 export const { loginPremium, notLoginPremium } = premiumLogin.actions
+
+export const usePremiumLogin = () => useSelector((state: RootState) => state.premiumLogin.isPremiumLogin)
 
 export default premiumLogin.reducer

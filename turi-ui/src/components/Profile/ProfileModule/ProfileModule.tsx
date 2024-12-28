@@ -1,7 +1,7 @@
+import React from 'react'
 import ProfileLabel from '../ProfileLabel'
 import ProfileInput from '../ProfileInput'
 import styles from './ProfileModule.module.css'
-import React from 'react'
 
 interface Props {
     text: string

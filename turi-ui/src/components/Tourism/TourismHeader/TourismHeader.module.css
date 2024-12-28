@@ -1,0 +1,26 @@
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 92%;
+    height: 4rem;
+    border-bottom: 2px solid var(--grey);
+}
+
+.header p {
+    color: var(--dark);
+    font-size: 1.2rem;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+.buttons button {
+    width: 7.5rem;
+    height: 2.5rem;
+    font-size: 0.9rem;
+}

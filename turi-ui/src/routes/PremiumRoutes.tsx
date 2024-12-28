@@ -19,19 +19,19 @@ const PremiumRoutes = () => {
                     element={<PremiumPage />}
                 />
                 <Route
-                    path="/verify"
+                    path="verify"
                     element={<PremiumVerifyPage />}
                 />
                 <Route
-                    path="/payment"
+                    path="payment"
                     element={<PremiumPaymentPage />}
                 />
                 <Route
-                    path="/payment-check"
+                    path="payment-check"
                     element={<PremiumPaymentCheckPage />}
                 />
                 <Route
-                    path="/summary"
+                    path="summary"
                     element={<PremiumSummaryPage />}
                 />
             </Route>

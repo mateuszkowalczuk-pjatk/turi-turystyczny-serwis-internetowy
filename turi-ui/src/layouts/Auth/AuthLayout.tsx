@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom'
-import AuthHeader from '../../components/Header/AuthHeader'
+import AuthHeader from '../../components/Shared/Header/AuthHeader'
 import AuthContent from '../../components/Auth/AuthContent'
-import AuthFooter from '../../components/Footer/AuthFooter'
+import AuthFooter from '../../components/Shared/Footer/AuthFooter'
 import styles from '../Layout.module.css'
 
 const AuthLayout = () => {

@@ -1,27 +1,21 @@
 import { useTranslation } from 'react-i18next'
-import PremiumDescription from '../../../components/Premium/PremiumDescription'
-import PremiumSummary from '../../../components/Premium/PremiumSummary'
+import { useAppDispatch } from '../../../hooks/useAppDispatch.ts'
 import { useEffect } from 'react'
 import { useAuth } from '../../../hooks/useAuth.ts'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../../store/store.ts'
-import { authService } from '../../../services/authService.ts'
+import PremiumDescription from '../../../components/Premium/PremiumDescription'
+import PremiumSummary from '../../../components/Premium/PremiumSummary'
+import { premiumAccount } from '../../../store/slices/premium.ts'
 import { login } from '../../../store/slices/auth.ts'
 import { accountService } from '../../../services/accountService.ts'
-import { premiumAccount } from '../../../store/slices/premium.ts'
+import { authService } from '../../../services/authService.ts'
 
 const PremiumSummaryPage = () => {
     const { t } = useTranslation()
-    const isPremiumAccount = useSelector((state: RootState) => state.premium.isPremiumAccount)
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
-    useAuth()
+    useAuth('/')
 
     useEffect(() => {
-        // if (!isPremiumAccount) {
-        //     navigate('/')
-        // }
-
         const fetchOffer = async () => {
             const refresh = await authService.refresh()
             if (refresh.status === 200) {
@@ -34,7 +28,7 @@ const PremiumSummaryPage = () => {
         }
 
         fetchOffer().catch((error) => error)
-    }, [isPremiumAccount])
+    }, [dispatch])
 
     return (
         <>

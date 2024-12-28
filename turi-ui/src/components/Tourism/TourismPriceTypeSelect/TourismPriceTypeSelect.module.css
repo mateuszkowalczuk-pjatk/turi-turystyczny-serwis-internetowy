@@ -1,0 +1,19 @@
+.panel {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.select {
+    padding: 0.55rem;
+    border: 2px solid var(--grey);
+    border-radius: 0.3rem;
+    font-size: 1rem;
+    background-color: var(--white);
+    cursor: pointer;
+}
+
+.select:disabled {
+    background-color: var(--grey);
+    cursor: not-allowed;
+}

@@ -4,23 +4,40 @@ import styles from './AuthPanel.module.css'
 interface Props {
     onSubmit: (e: React.FormEvent) => Promise<void>
     header: ReactNode
-    option: ReactNode
-    input: ReactNode
+    inputOrText: ReactNode
+    firstInput: ReactNode
+    secondInput?: ReactNode
+    thirdInput?: ReactNode
     error: ReactNode
     button: ReactNode
     top: ReactNode
     down: ReactNode
+    isRegister?: boolean
 }
 
-const AuthPanel = ({ onSubmit, header, option, input, error, button, top, down }: Props) => {
+const AuthPanel = ({
+    onSubmit,
+    header,
+    inputOrText,
+    firstInput,
+    secondInput,
+    thirdInput,
+    error,
+    button,
+    top,
+    down,
+    isRegister
+}: Props) => {
     return (
         <form
-            className={styles.panel}
+            className={`${styles.panel} ${isRegister ? styles.register : ''}`}
             onSubmit={onSubmit}
         >
             {header}
-            {option}
-            {input}
+            {inputOrText}
+            {firstInput}
+            {secondInput}
+            {thirdInput}
             {error}
             {button}
             {top}

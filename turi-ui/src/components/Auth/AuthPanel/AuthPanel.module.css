@@ -12,10 +12,18 @@
         0 3px 6px rgba(0, 0, 0, 0.05);
 }
 
+.panel.register {
+    height: 30rem;
+}
+
 @media (max-width: 768px) {
     .panel {
         width: 22rem;
         height: 20rem;
+    }
+
+    .panel.register {
+        height: 28rem;
     }
 }
 
@@ -23,5 +31,9 @@
     .panel {
         width: 18rem;
         height: 18rem;
+    }
+
+    .panel.register {
+        height: 24rem;
     }
 }

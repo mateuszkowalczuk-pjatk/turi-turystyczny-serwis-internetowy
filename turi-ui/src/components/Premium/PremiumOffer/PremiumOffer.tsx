@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
-import TextMedium from '../../Controls/Text/TextMedium'
+import TextMedium from '../../Shared/Controls/Text/TextMedium'
 import PremiumOfferList from '../PremiumOfferList'
-import TextRegular from '../../Controls/Text/TextRegular'
+import TextRegular from '../../Shared/Controls/Text/TextRegular'
 import styles from './PremiumOffer.module.css'
 
 interface Props {

@@ -1,0 +1,28 @@
+.create {
+    height: 4rem;
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-end;
+    width: 100%;
+}
+
+.input {
+    border: 2px solid var(--grey);
+    border-radius: 0.25rem;
+    font-size: 1rem;
+}
+
+.button {
+    color: var(--white);
+    background-color: var(--green);
+    border: 2px solid var(--dark-green);
+    height: 2.5rem;
+    width: 6rem;
+    font-size: 1rem;
+    border-radius: 0.3rem;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: var(--dark-green);
+}

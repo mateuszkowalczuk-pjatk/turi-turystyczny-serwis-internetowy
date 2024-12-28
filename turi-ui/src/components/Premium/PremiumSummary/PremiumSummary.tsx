@@ -1,6 +1,6 @@
-import styles from './PremiumSummary.module.css'
 import { Trans } from 'react-i18next'
 import { Link } from 'react-router-dom'
+import styles from './PremiumSummary.module.css'
 
 const PremiumSummary = () => {
     return (

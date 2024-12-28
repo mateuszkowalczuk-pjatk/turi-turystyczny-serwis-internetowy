@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
-import TextRegular from '../../Controls/Text/TextRegular'
-import styles from './PremiumLoader.module.css'
 import { useTranslation } from 'react-i18next'
+import TextRegular from '../../Shared/Controls/Text/TextRegular'
+import styles from './PremiumLoader.module.css'
 
 interface Props {
     dots: string

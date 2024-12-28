@@ -1,19 +1,18 @@
-import styles from './ProfilePremiumPage.module.css'
-import PersonalPart from '../../../components/Personal/PersonalPart'
-import PersonalPanel from '../../../components/Personal/PersonalPanel'
-import PersonalLabel from '../../../components/Personal/PersonalLabel'
-import PersonalInput from '../../../components/Personal/PersonalInput'
+import React, { useEffect, useState } from 'react'
+import { bankAccountNumberValidation, nipValidation } from '../../../utils/companyValidation.ts'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../../store/store.ts'
-import React, { useEffect, useState } from 'react'
+import { usePremium } from '../../../store/slices/premium.ts'
 import { useAuth } from '../../../hooks/useAuth.ts'
-import { premiumService } from '../../../services/premiumService.ts'
-import { Premium, PremiumCompanyParam } from '../../../types'
 import ProfilePremium from '../../../components/Profile/ProfilePremium'
 import ProfileButton from '../../../components/Profile/ProfileButton'
-import { bankAccountNumberValidation, nipValidation } from '../../../utils/companyValidation.ts'
+import PersonalPart from '../../../components/Shared/Personal/PersonalPart'
+import PersonalPanel from '../../../components/Shared/Personal/PersonalPanel'
+import PersonalLabel from '../../../components/Shared/Personal/PersonalLabel'
+import PersonalInput from '../../../components/Shared/Personal/PersonalInput'
+import { Premium, PremiumCompanyParam } from '../../../types'
+import { premiumService } from '../../../services/premiumService.ts'
+import styles from './ProfilePremiumPage.module.css'
 
 interface FormData {
     companyName: string
@@ -24,21 +23,20 @@ interface FormData {
 const ProfilePremiumPage = () => {
     const { t } = useTranslation()
     const navigate = useNavigate()
-    const isPremiumAccount = useSelector((state: RootState) => state.premium.isPremiumAccount)
+    const isPremium = usePremium()
+    const [error, setError] = useState<string | null>(null)
+    const [loading, setLoading] = useState(false)
     const [formData, setFormData] = useState<FormData>({
         companyName: '',
         nip: '',
         bankAccountNumber: ''
     })
-    const [error, setError] = useState<string | null>(null)
-    const [loading, setLoading] = useState(false)
 
-    useAuth()
+    useAuth('/')
 
     useEffect(() => {
-        if (!isPremiumAccount) {
-            navigate('/')
-        }
+        if (!isPremium) navigate('/')
+
         const fetchData = async () => {
             const premiumResponse = await premiumService.getByAccount()
             if (premiumResponse.status === 200) {
@@ -51,7 +49,7 @@ const ProfilePremiumPage = () => {
             }
         }
         fetchData().catch((error) => error)
-    }, [isPremiumAccount, navigate])
+    }, [isPremium, navigate])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setError(null)

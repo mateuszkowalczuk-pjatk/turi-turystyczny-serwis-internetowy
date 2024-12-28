@@ -1,0 +1,47 @@
+.box {
+    width: 70%;
+}
+
+.panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    border: 2px solid var(--grey);
+    border-radius: 0.4rem;
+    box-shadow:
+        0 8px 15px rgba(0, 0, 0, 0.1),
+        0 3px 6px rgba(0, 0, 0, 0.05);
+}
+
+.box.current {
+    height: 15rem;
+}
+
+.current {
+    height: 12rem;
+}
+
+.box.reservations {
+    height: 29rem;
+}
+
+.reservations {
+    height: 25rem;
+}
+
+.box.place {
+    height: 53rem;
+}
+
+.place {
+    height: 50rem;
+}
+
+.box.offer {
+    height: 37.5rem;
+}
+
+.offer {
+    height: 32rem;
+}

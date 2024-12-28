@@ -1,12 +1,15 @@
 import { ReactNode } from 'react'
-import ProfileTitle from '../ProfileTitle'
+import { useTranslation } from 'react-i18next'
+import PageTitle from '../../Shared/PageTitle'
 import ProfilePanel from '../ProfilePanel'
 import styles from './ProfileContent.module.css'
 
 const ProfileContent = ({ content }: { content: ReactNode }) => {
+    const { t } = useTranslation()
+
     return (
         <div className={styles.content}>
-            <ProfileTitle />
+            <PageTitle text={t('profile.title')} />
             <ProfilePanel content={content} />
         </div>
     )

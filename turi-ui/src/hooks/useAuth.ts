@@ -1,16 +1,15 @@
+import { useAppDispatch } from './useAppDispatch.ts'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../store/store.ts'
 import { useEffect } from 'react'
-import { authService } from '../services/authService.ts'
-import { login, logout } from '../store/slices/auth.ts'
-import { accountService } from '../services/accountService.ts'
+import { login, logout, useAuthenticated } from '../store/slices/auth.ts'
 import { notPremiumAccount, premiumAccount } from '../store/slices/premium.ts'
+import { accountService } from '../services/accountService.ts'
+import { authService } from '../services/authService.ts'
 
-export const useAuth = () => {
+export const useAuth = (path: string | null) => {
+    const dispatch = useAppDispatch()
     const navigate = useNavigate()
-    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
-    const dispatch = useDispatch()
+    const isAuthenticated = useAuthenticated()
 
     useEffect(() => {
         const checkUserAuth = async () => {
@@ -33,12 +32,12 @@ export const useAuth = () => {
                     } else {
                         dispatch(logout())
                         dispatch(notPremiumAccount())
-                        navigate('/')
+                        if (path) navigate(path)
                     }
                 }
             }
         }
 
         checkUserAuth().catch((error) => error)
-    }, [dispatch, isAuthenticated])
+    }, [isAuthenticated, dispatch, navigate, path])
 }

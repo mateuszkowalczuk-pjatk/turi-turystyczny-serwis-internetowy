@@ -1,13 +1,12 @@
-import { useTranslation } from 'react-i18next'
-import ProfileModule from '../../../components/Profile/ProfileModule'
-import styles from './ProfilePage.module.css'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../../store/store.ts'
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { userService } from '../../../services/userService.ts'
 import { passwordValidation } from '../../../utils/passwordValidation.ts'
+import { useAuthenticated } from '../../../store/slices/auth.ts'
+import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
+import ProfileModule from '../../../components/Profile/ProfileModule'
 import ProfileButton from '../../../components/Profile/ProfileButton'
+import { userService } from '../../../services/userService.ts'
+import styles from './ProfilePage.module.css'
 
 interface FormData {
     login: string
@@ -19,7 +18,7 @@ interface FormData {
 const ProfilePage = () => {
     const { t } = useTranslation()
     const navigate = useNavigate()
-    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
+    const isAuthenticated = useAuthenticated()
     const [login, setLogin] = useState<string>('')
     const [email, setEmail] = useState<string>('')
     const [formData, setFormData] = useState<FormData>({
@@ -32,9 +31,7 @@ const ProfilePage = () => {
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
-        if (!isAuthenticated) {
-            navigate('/')
-        }
+        if (!isAuthenticated) navigate('/')
 
         const fetchUsernameAndEmail = async () => {
             const usernameResponse = await userService.getUsername()
@@ -89,12 +86,7 @@ const ProfilePage = () => {
                     return
                 }
 
-                const passwordError = passwordValidation(formData.password, t)
-                if (passwordError) {
-                    setError(passwordError)
-                    setLoading(false)
-                    return
-                }
+                passwordValidation(formData.password, setError, t, setLoading)
 
                 const passwordResponse = await userService.changePassword(formData.password)
                 if (passwordResponse.status !== 200) {

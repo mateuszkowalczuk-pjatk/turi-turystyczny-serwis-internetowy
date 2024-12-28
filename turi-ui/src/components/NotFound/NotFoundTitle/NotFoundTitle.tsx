@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import TextMedium from '../../Controls/Text/TextMedium'
+import TextMedium from '../../Shared/Controls/Text/TextMedium'
 import styles from './NotFoundTitle.module.css'
 
 const NotFoundTitle = () => {

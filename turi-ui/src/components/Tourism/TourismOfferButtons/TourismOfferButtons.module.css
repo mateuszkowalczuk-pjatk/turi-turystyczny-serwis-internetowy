@@ -1,0 +1,17 @@
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    height: 4rem;
+    width: 100%;
+    gap: 0.8rem;
+}
+
+.buttons button {
+    height: 2.5rem;
+    width: 8rem;
+}
+
+.buttons p {
+    color: var(--light-green);
+}
