@@ -14,12 +14,17 @@ interface Props {
 }
 
 const Input = ({ type, name, placeholder, value, onChange, minLength, maxLength, required, disabled }: Props) => {
+    const formatValue = (value: string | number | Date | undefined | null): string | number | undefined => {
+        if (value instanceof Date) return value.toISOString().split('T')[0]
+        return value !== null ? value : ''
+    }
+
     return (
         <input
             type={type}
             name={name}
             placeholder={placeholder}
-            value={value}
+            value={formatValue(value)}
             onChange={onChange}
             minLength={minLength}
             maxLength={maxLength}

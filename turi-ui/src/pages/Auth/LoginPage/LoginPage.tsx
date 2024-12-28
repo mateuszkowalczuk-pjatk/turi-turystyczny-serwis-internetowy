@@ -1,7 +1,11 @@
-import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import React from 'react'
+import { useRedirectEvery } from '../../../hooks/useRedirect.ts'
 import { useTranslation } from 'react-i18next'
+import { useAppDispatch } from '../../../hooks/useAppDispatch.ts'
+import { usePersonal } from '../../../store/slices/personal.ts'
+import { useNavigate } from 'react-router-dom'
+import { useForm } from '../../../hooks/useForm.ts'
+import { handle } from '../../../utils/handle.ts'
 import AuthPanel from '../../../components/Auth/AuthPanel'
 import AuthTitle from '../../../components/Auth/AuthTitle'
 import AuthInput from '../../../components/Auth/AuthInput'
@@ -9,14 +13,10 @@ import AuthError from '../../../components/Auth/AuthError'
 import AuthButton from '../../../components/Auth/AuthButton'
 import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
-import { RootState } from '../../../store/store.ts'
-import { authService } from '../../../services/authService.ts'
-import { login } from '../../../store/slices/auth.ts'
-import { activation } from '../../../store/slices/activate.ts'
+import { login, useAuthenticated } from '../../../store/slices/auth.ts'
 import { loginPremium } from '../../../store/slices/premiumLogin.ts'
-import { useRedirectEvery } from '../../../hooks/useRedirect.ts'
-import { useForm } from '../../../hooks/useForm.ts'
-import { handle } from '../../../utils/handle.ts'
+import { activation } from '../../../store/slices/activate.ts'
+import { authService } from '../../../services/authService.ts'
 
 interface FormData {
     login: string
@@ -25,12 +25,11 @@ interface FormData {
 
 const LoginPage = () => {
     const { t } = useTranslation()
+    const dispatch = useAppDispatch()
     const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
-    const isPersonalization = useSelector((state: RootState) => state.personal.isPersonalization)
-    const [loading, setLoading] = useState(false)
-    const { formData, error, setError, handleChange, resetForm } = useForm<FormData>({
+    const isAuthenticated = useAuthenticated()
+    const isPersonalization = usePersonal()
+    const { formData, error, setError, handleChange, resetForm, loading, setLoading } = useForm<FormData>({
         initialValues: {
             login: '',
             password: ''

@@ -1,9 +1,9 @@
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Input from '../../Shared/Controls/Input'
-import styles from './TouristicPlaceGuaranteedServicesListAdd.module.css'
-import React, { useState } from 'react'
-import { touristicPlaceService } from '../../../services/touristicPlaceService.ts'
 import { GuaranteedService } from '../../../types/touristicPlace.ts'
+import { touristicPlaceService } from '../../../services/touristicPlaceService.ts'
+import styles from './TouristicPlaceGuaranteedServicesListAdd.module.css'
 
 interface Props {
     touristicPlaceId: number

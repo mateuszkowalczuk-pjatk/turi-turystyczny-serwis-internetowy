@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
 import PersonalPart from '../../../Shared/Personal/PersonalPart'
 import PersonalPanel from '../../../Shared/Personal/PersonalPanel'
 import PersonalLabel from '../../../Shared/Personal/PersonalLabel'
@@ -14,6 +13,7 @@ import { notPersonalization } from '../../../../store/slices/personal.ts'
 import { accountService } from '../../../../services/accountService.ts'
 import { addressService } from '../../../../services/addressService.ts'
 import styles from './AuthPersonalContent.module.css'
+import { useAppDispatch } from '../../../../hooks/useAppDispatch.ts'
 
 interface FormData {
     firstName: string
@@ -36,7 +36,7 @@ interface FormData {
 const AuthPersonalContent = () => {
     const { t } = useTranslation()
     const navigate = useNavigate()
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const [isPersonalSkip, setIsPersonalSkip] = useState(false)
     const [formData, setFormData] = useState<FormData>({
         firstName: '',

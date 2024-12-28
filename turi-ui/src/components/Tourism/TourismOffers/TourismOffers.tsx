@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
+import TourismAttractionOfferItem from '../TourismAttractionOfferItem'
 import TourismStayOfferItem from '../TourismStayOfferItem'
+import { Attraction } from '../../../types/attraction.ts'
 import { Stay } from '../../../types/stay.ts'
+import { attractionService } from '../../../services/attractionService.ts'
 import { stayService } from '../../../services/stayService.ts'
 import styles from './TourismOffers.module.css'
-import { Attraction } from '../../../types/attraction.ts'
-import { attractionService } from '../../../services/attractionService.ts'
-import TourismAttractionOfferItem from '../TourismAttractionOfferItem'
 
 const TourismOffers = ({ touristicPlaceId }: { touristicPlaceId: number }) => {
     const [stays, setStays] = useState<Stay[]>()

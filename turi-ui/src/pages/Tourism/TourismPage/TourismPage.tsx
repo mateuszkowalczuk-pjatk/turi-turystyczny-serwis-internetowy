@@ -1,7 +1,10 @@
-import { RootState } from '../../../store/store.ts'
-import { useSelector } from 'react-redux'
+import { useTouristicPlace } from '../../../hooks/useTouristicPlace.ts'
+import { useAuthenticated } from '../../../store/slices/auth.ts'
+import { useRedirectSome } from '../../../hooks/useRedirect.ts'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
+import { usePremium } from '../../../store/slices/premium.ts'
+import { useState } from 'react'
 import TourismContent from '../../../components/Tourism/TourismContent'
 import PageTitle from '../../../components/Shared/PageTitle'
 import TourismPanel from '../../../components/Tourism/TourismPanel'
@@ -9,16 +12,13 @@ import TourismHeader from '../../../components/Tourism/TourismHeader'
 import TourismCurrentReservations from '../../../components/Tourism/TourismCurrentReservations'
 import TourismReservations from '../../../components/Tourism/TourismReservations'
 import TourismTouristicPlace from '../../../components/Tourism/TourismTouristicPlace'
-import { useRedirectSome } from '../../../hooks/useRedirect.ts'
-import { useTouristicPlace } from '../../../hooks/useTouristicPlace.ts'
-import { useState } from 'react'
 import TourismOffers from '../../../components/Tourism/TourismOffers'
 
 const TourismPage = () => {
     const { t } = useTranslation()
     const navigate = useNavigate()
-    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
-    const isPremium = useSelector((state: RootState) => state.premium.isPremiumAccount)
+    const isAuthenticated = useAuthenticated()
+    const isPremium = usePremium()
     const [touristicPlaceId, setTouristicPlaceId] = useState<number>()
 
     useRedirectSome([!isAuthenticated, !isPremium], '/')

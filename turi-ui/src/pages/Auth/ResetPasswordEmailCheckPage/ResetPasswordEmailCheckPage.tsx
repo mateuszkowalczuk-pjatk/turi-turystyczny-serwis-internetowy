@@ -1,5 +1,9 @@
+import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { useAppDispatch } from '../../../hooks/useAppDispatch.ts'
 import { useNavigate } from 'react-router-dom'
+import { useForm } from '../../../hooks/useForm.ts'
+import { handle } from '../../../utils/handle.ts'
 import AuthPanel from '../../../components/Auth/AuthPanel'
 import AuthTitle from '../../../components/Auth/AuthTitle'
 import AuthDescription from '../../../components/Auth/AuthDescription'
@@ -7,13 +11,9 @@ import AuthInput from '../../../components/Auth/AuthInput'
 import AuthButton from '../../../components/Auth/AuthButton'
 import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import AuthError from '../../../components/Auth/AuthError'
 import { userService } from '../../../services/userService.ts'
 import { resetPassword } from '../../../store/slices/reset.ts'
-import AuthError from '../../../components/Auth/AuthError'
-import { useForm } from '../../../hooks/useForm.ts'
-import { handle } from '../../../utils/handle.ts'
 
 interface FormData {
     email: string
@@ -21,10 +21,9 @@ interface FormData {
 
 const ResetPasswordEmailCheckPage = () => {
     const { t } = useTranslation()
+    const dispatch = useAppDispatch()
     const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const [loading, setLoading] = useState(false)
-    const { formData, error, setError, handleChange, resetForm } = useForm<FormData>({
+    const { formData, error, setError, handleChange, resetForm, loading, setLoading } = useForm<FormData>({
         initialValues: {
             email: ''
         }

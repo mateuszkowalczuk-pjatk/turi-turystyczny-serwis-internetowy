@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { PERSONAL_SLICE } from '../types.ts'
+import { useSelector } from 'react-redux'
+import { RootState } from '../store.ts'
 
 interface PersonalState {
     isPersonalization: boolean
@@ -23,5 +25,7 @@ const personal = createSlice({
 })
 
 export const { personalization, notPersonalization } = personal.actions
+
+export const usePersonal = () => useSelector((state: RootState) => state.personal.isPersonalization)
 
 export default personal.reducer

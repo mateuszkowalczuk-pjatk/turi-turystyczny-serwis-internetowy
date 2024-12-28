@@ -1,5 +1,5 @@
-import { useSelector } from 'react-redux'
-import { RootState } from '../../store/store.ts'
+import { useAuthenticated } from '../../store/slices/auth.ts'
+import { usePremium } from '../../store/slices/premium.ts'
 import MainDashboard from '../../components/Main/MainDashboard/MainDashboard'
 import PremiumMainInformation from '../../components/Main/MainInformation/PremiumMainInformation'
 import UserMainInformation from '../../components/Main/MainInformation/UserMainInformation'
@@ -8,8 +8,8 @@ import MainProposition from '../../components/Main/MainProposition/MainPropositi
 import styles from '../Page.module.css'
 
 const MainPage = () => {
-    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
-    const isPremium = useSelector((state: RootState) => state.premium.isPremiumAccount)
+    const isAuthenticated = useAuthenticated()
+    const isPremium = usePremium()
 
     return (
         <div className={styles.page}>

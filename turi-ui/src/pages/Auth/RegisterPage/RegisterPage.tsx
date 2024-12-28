@@ -1,13 +1,11 @@
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import React, { useState } from 'react'
-import { useForm } from '../../../hooks/useForm.ts'
+import React from 'react'
+import { checkPasswordsMatch } from '../../../utils/checkPasswordsMatch.ts'
 import { passwordValidation } from '../../../utils/passwordValidation.ts'
-import { userService } from '../../../services/userService.ts'
-import { authService } from '../../../services/authService.ts'
-import { activation } from '../../../store/slices/activate.ts'
-import { logout } from '../../../store/slices/auth.ts'
+import { useTranslation } from 'react-i18next'
+import { useAppDispatch } from '../../../hooks/useAppDispatch.ts'
+import { useNavigate } from 'react-router-dom'
+import { useForm } from '../../../hooks/useForm.ts'
+import { handle } from '../../../utils/handle.ts'
 import AuthPanel from '../../../components/Auth/AuthPanel'
 import AuthTitle from '../../../components/Auth/AuthTitle'
 import AuthInput from '../../../components/Auth/AuthInput'
@@ -15,8 +13,10 @@ import AuthError from '../../../components/Auth/AuthError'
 import AuthButton from '../../../components/Auth/AuthButton'
 import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
-import { handle } from '../../../utils/handle.ts'
-import { checkPasswordsMatch } from '../../../utils/checkPasswordsMatch.ts'
+import { activation } from '../../../store/slices/activate.ts'
+import { logout } from '../../../store/slices/auth.ts'
+import { userService } from '../../../services/userService.ts'
+import { authService } from '../../../services/authService.ts'
 
 interface FormData {
     login: string
@@ -27,10 +27,9 @@ interface FormData {
 
 const RegisterPage = () => {
     const { t } = useTranslation()
+    const dispatch = useAppDispatch()
     const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const [loading, setLoading] = useState(false)
-    const { formData, error, setError, handleChange, resetForm } = useForm<FormData>({
+    const { formData, error, setError, handleChange, resetForm, loading, setLoading } = useForm<FormData>({
         initialValues: {
             login: '',
             email: '',

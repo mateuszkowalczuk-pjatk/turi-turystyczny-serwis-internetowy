@@ -1,11 +1,11 @@
 import { ReactNode, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import ImageUploader from '../../Shared/Image/ImageUploader'
 import PersonalLabel from '../../Shared/Personal/PersonalLabel'
 import ImagePanel from '../../Shared/Image/ImagePanel'
-import styles from './TourismTouristicPlaceOwner.module.css'
-import { imageService } from '../../../services/imageService.ts'
 import { Image, ImageMode } from '../../../types/image.ts'
-import ImageUploader from '../../Shared/Image/ImageUploader'
-import { useTranslation } from 'react-i18next'
+import { imageService } from '../../../services/imageService.ts'
+import styles from './TourismTouristicPlaceOwner.module.css'
 
 interface Props {
     firstPanel: ReactNode
@@ -22,9 +22,7 @@ const TourismTouristicPlaceOwner = ({ firstPanel, secondPanel, thirdPanel }: Pro
     }, [])
 
     const handleImageUpload = (path: { path: string }) => {
-        if (path != null) {
-            fetchAccountImage().catch((error) => error)
-        }
+        if (path != null) fetchAccountImage().catch((error) => error)
     }
 
     const fetchAccountImage = async () => {
@@ -36,9 +34,7 @@ const TourismTouristicPlaceOwner = ({ firstPanel, secondPanel, thirdPanel }: Pro
     }
 
     const removeImage = (imageId: number) => {
-        if (image !== null && image.imageId === imageId) {
-            setImage(null)
-        }
+        if (image !== null && image.imageId === imageId) setImage(null)
     }
 
     return (

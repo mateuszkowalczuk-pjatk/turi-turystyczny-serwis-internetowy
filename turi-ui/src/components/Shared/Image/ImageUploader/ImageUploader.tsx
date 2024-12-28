@@ -1,7 +1,7 @@
 import React from 'react'
 import { imageValidation } from '../../../../utils/imageValidation.ts'
-import { imageService } from '../../../../services/imageService.ts'
 import { Image, ImageMode } from '../../../../types/image.ts'
+import { imageService } from '../../../../services/imageService.ts'
 import styles from './ImageUploader.module.css'
 
 interface Props {
@@ -13,9 +13,7 @@ interface Props {
 
 const ImageUploader = ({ uploadImage, mode, id, uploadFile }: Props) => {
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (!event.target.files || event.target.files.length === 0) {
-            return
-        }
+        if (!event.target.files || event.target.files.length === 0) return
 
         const file = event.target.files[0]
 

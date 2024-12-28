@@ -1,6 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useRedirectEvery } from '../../../hooks/useRedirect.ts'
 import { useTranslation } from 'react-i18next'
+import { useAppDispatch } from '../../../hooks/useAppDispatch.ts'
+import { codeValidation } from '../../../utils/codeValidation.ts'
 import { useNavigate } from 'react-router-dom'
+import { useForm } from '../../../hooks/useForm.ts'
+import { handle } from '../../../utils/handle.ts'
 import AuthPanel from '../../../components/Auth/AuthPanel'
 import AuthTitle from '../../../components/Auth/AuthTitle'
 import AuthDescription from '../../../components/Auth/AuthDescription'
@@ -9,16 +14,10 @@ import AuthError from '../../../components/Auth/AuthError'
 import AuthButton from '../../../components/Auth/AuthButton'
 import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../../store/store.ts'
-import { authService } from '../../../services/authService.ts'
-import { login } from '../../../store/slices/auth.ts'
-import { notLoginPremium } from '../../../store/slices/premiumLogin.ts'
+import { notLoginPremium, usePremiumLogin } from '../../../store/slices/premiumLogin.ts'
 import { premiumAccount } from '../../../store/slices/premium.ts'
-import { useForm } from '../../../hooks/useForm.ts'
-import { useRedirectEvery } from '../../../hooks/useRedirect.ts'
-import { handle } from '../../../utils/handle.ts'
-import { codeValidation } from '../../../utils/codeValidation.ts'
+import { login } from '../../../store/slices/auth.ts'
+import { authService } from '../../../services/authService.ts'
 
 interface FormData {
     code: string
@@ -26,11 +25,10 @@ interface FormData {
 
 const LoginCodePage = () => {
     const { t } = useTranslation()
+    const dispatch = useAppDispatch()
     const navigate = useNavigate()
-    const isPremiumLogin = useSelector((state: RootState) => state.premiumLogin.isPremiumLogin)
-    const dispatch = useDispatch()
-    const [loading, setLoading] = useState(false)
-    const { formData, error, setError, handleChange, resetForm } = useForm<FormData>({
+    const isPremiumLogin = usePremiumLogin()
+    const { formData, error, setError, handleChange, resetForm, loading, setLoading } = useForm<FormData>({
         initialValues: {
             code: ''
         }

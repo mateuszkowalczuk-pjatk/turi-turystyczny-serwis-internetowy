@@ -1,5 +1,11 @@
+import React from 'react'
+import { useRedirectEvery } from '../../../hooks/useRedirect.ts'
 import { useTranslation } from 'react-i18next'
+import { codeValidation } from '../../../utils/codeValidation.ts'
+import { useAppDispatch } from '../../../hooks/useAppDispatch.ts'
 import { useNavigate } from 'react-router-dom'
+import { useForm } from '../../../hooks/useForm.ts'
+import { handle } from '../../../utils/handle.ts'
 import AuthPanel from '../../../components/Auth/AuthPanel'
 import AuthTitle from '../../../components/Auth/AuthTitle'
 import AuthDescription from '../../../components/Auth/AuthDescription'
@@ -8,17 +14,10 @@ import AuthButton from '../../../components/Auth/AuthButton'
 import AuthError from '../../../components/Auth/AuthError'
 import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
-import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../../store/store.ts'
-import { userService } from '../../../services/userService.ts'
-import { notResetPassword } from '../../../store/slices/reset.ts'
+import { notResetPassword, useReset } from '../../../store/slices/reset.ts'
 import { login } from '../../../store/slices/auth.ts'
+import { userService } from '../../../services/userService.ts'
 import { authService } from '../../../services/authService.ts'
-import { useForm } from '../../../hooks/useForm.ts'
-import { useRedirectEvery } from '../../../hooks/useRedirect.ts'
-import { handle } from '../../../utils/handle.ts'
-import { codeValidation } from '../../../utils/codeValidation.ts'
 
 interface FormData {
     code: string
@@ -26,11 +25,10 @@ interface FormData {
 
 const ResetPasswordCodePage = () => {
     const { t } = useTranslation()
+    const dispatch = useAppDispatch()
     const navigate = useNavigate()
-    const isResetPassword = useSelector((state: RootState) => state.reset.isResetPassword)
-    const dispatch = useDispatch()
-    const [loading, setLoading] = useState(false)
-    const { formData, error, setError, handleChange, resetForm } = useForm<FormData>({
+    const isResetPassword = useReset()
+    const { formData, error, setError, handleChange, resetForm, loading, setLoading } = useForm<FormData>({
         initialValues: {
             code: ''
         }

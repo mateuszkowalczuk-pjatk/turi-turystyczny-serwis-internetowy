@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from 'react'
-import styles from './TourismStayOfferPanel.module.css'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { handleFormError } from '../../../utils/handleFormError.ts'
+import { useTranslation } from 'react-i18next'
+import { useForm } from '../../../hooks/useForm.ts'
+import { handle } from '../../../utils/handle.ts'
+import { useId } from '../../../hooks/useId.ts'
 import ImageBanner from '../../Shared/Image/ImageBanner'
 import TourismOfferDetails from '../TourismOfferDetails'
 import TourismStayInformations from '../TourismStayInformations'
 import TourismOfferButtons from '../TourismOfferButtons'
-import { useTranslation } from 'react-i18next'
 import PersonalPanel from '../../Shared/Personal/PersonalPanel'
 import PersonalLabel from '../../Shared/Personal/PersonalLabel'
 import Input from '../../Shared/Controls/Input'
-import { useForm } from '../../../hooks/useForm.ts'
 import { StayDto, StayInformation } from '../../../types/stay.ts'
-import { handle } from '../../../utils/handle.ts'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { handleFormError } from '../../../utils/handleFormError.ts'
-import { stayService } from '../../../services/stayService.ts'
-import { imageService } from '../../../services/imageService.ts'
 import { Image, ImageMode } from '../../../types/image.ts'
+import { imageService } from '../../../services/imageService.ts'
+import { stayService } from '../../../services/stayService.ts'
+import styles from './TourismStayOfferPanel.module.css'
 
 interface Props {
     touristicPlaceId: number
@@ -31,10 +32,10 @@ interface FormData {
     dateTo: Date | null
 }
 
-const TourismStayOfferPanel = ({ touristicPlaceId, modify }: Props) => {
+const TourismStayOfferPanel = ({ touristicPlaceId, modify = false }: Props) => {
     const { t } = useTranslation()
     const navigate = useNavigate()
-    const { stayId } = useLocation().state
+    const stayId = useLocation().state?.stayId || null
     const [images, setImages] = useState<Image[]>([])
     const [files, setFiles] = useState<File[]>([])
     const [loading, setLoading] = useState(false)
@@ -49,6 +50,8 @@ const TourismStayOfferPanel = ({ touristicPlaceId, modify }: Props) => {
             dateTo: null
         }
     })
+
+    useId(stayId, '/tourism', modify)
 
     useEffect(() => {
         const fetchData = async () => {

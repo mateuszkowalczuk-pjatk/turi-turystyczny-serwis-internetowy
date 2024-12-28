@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../../../store/store.ts'
 import { GreenButton, GreyButton } from '../../Controls/Button'
 import HeaderDropDown from '../HeaderDropDown/HeaderDropDown'
+import { usePremium } from '../../../../store/slices/premium.ts'
+import { useAuthenticated } from '../../../../store/slices/auth.ts'
 import styles from './HeaderButtons.module.css'
 
 interface Props {
@@ -13,8 +13,8 @@ interface Props {
 
 const HeaderButtons = ({ text, firstOnClick, secondOnClick }: Props) => {
     const { t } = useTranslation()
-    const isPremium = useSelector((state: RootState) => state.premium.isPremiumAccount)
-    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
+    const isPremium = usePremium()
+    const isAuthenticated = useAuthenticated()
 
     return (
         <div className={styles.buttons}>

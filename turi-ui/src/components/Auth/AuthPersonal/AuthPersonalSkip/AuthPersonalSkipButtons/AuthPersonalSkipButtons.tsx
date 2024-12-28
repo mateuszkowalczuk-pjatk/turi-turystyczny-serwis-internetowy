@@ -1,14 +1,14 @@
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
 import { GreenButton } from '../../../../Shared/Controls/Button'
 import { notPersonalization } from '../../../../../store/slices/personal.ts'
+import { useAppDispatch } from '../../../../../hooks/useAppDispatch.ts'
 import styles from './AuthPersonalSkipButtons.module.css'
 
 const AuthPersonalSkipButtons = ({ onClick }: { onClick: () => void }) => {
     const { t } = useTranslation()
     const navigate = useNavigate()
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const navigateToHome = () => {
         dispatch(notPersonalization())

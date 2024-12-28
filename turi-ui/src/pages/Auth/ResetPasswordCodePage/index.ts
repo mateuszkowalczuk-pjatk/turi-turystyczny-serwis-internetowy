@@ -1,1 +1,1 @@
-export { default } from './ResetPasswordCodePage.tsx'
+export { default } from './ResetPasswordCodePage'

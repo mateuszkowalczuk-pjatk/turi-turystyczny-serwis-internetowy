@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { PREMIUM_BUY_SLICE } from '../types.ts'
+import { useSelector } from 'react-redux'
+import { RootState } from '../store.ts'
 
 interface PremiumBuyState {
     isPremiumBuy: boolean
@@ -23,5 +25,7 @@ const premiumBuy = createSlice({
 })
 
 export const { buyPremium, notBuyPremium } = premiumBuy.actions
+
+export const usePremiumBuy = () => useSelector((state: RootState) => state.premiumBuy.isPremiumBuy)
 
 export default premiumBuy.reducer

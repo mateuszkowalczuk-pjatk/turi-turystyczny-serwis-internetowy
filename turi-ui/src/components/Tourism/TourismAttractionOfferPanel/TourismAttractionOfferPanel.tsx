@@ -1,24 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { handleFormError } from '../../../utils/handleFormError.ts'
 import { useTranslation } from 'react-i18next'
-import ImageBanner from '../../Shared/Image/ImageBanner'
+import { useForm } from '../../../hooks/useForm.ts'
+import { handle } from '../../../utils/handle.ts'
+import { useId } from '../../../hooks/useId.ts'
+import TourismTouristicPlaceCheckbox from '../TourismTouristicPlaceCheckbox'
+import TourismAttractionTypeSelect from '../TourismAttractionTypeSelect'
+import TourismPriceTypeSelect from '../TourismPriceTypeSelect'
 import TourismOfferButtons from '../TourismOfferButtons'
 import TourismOfferDetails from '../TourismOfferDetails'
 import PersonalPanel from '../../Shared/Personal/PersonalPanel'
 import PersonalLabel from '../../Shared/Personal/PersonalLabel'
-import Input from '../../Shared/Controls/Input'
-import { useForm } from '../../../hooks/useForm.ts'
-import { Image, ImageMode } from '../../../types/image.ts'
-import { Attraction, AttractionType, PriceType } from '../../../types/attraction.ts'
-import styles from './TourismAttractionOfferPanel.module.css'
-import TourismAttractionTypeSelect from '../TourismAttractionTypeSelect'
-import TourismPriceTypeSelect from '../TourismPriceTypeSelect'
-import TourismTouristicPlaceCheckbox from '../TourismTouristicPlaceCheckbox'
+import ImageBanner from '../../Shared/Image/ImageBanner'
 import Checkbox from '../../Shared/Controls/Checkbox'
-import { handle } from '../../../utils/handle.ts'
+import Input from '../../Shared/Controls/Input'
+import { Attraction, AttractionType, PriceType } from '../../../types/attraction.ts'
+import { Image, ImageMode } from '../../../types/image.ts'
 import { attractionService } from '../../../services/attractionService.ts'
 import { imageService } from '../../../services/imageService.ts'
-import { handleFormError } from '../../../utils/handleFormError.ts'
+import styles from './TourismAttractionOfferPanel.module.css'
 
 interface Props {
     touristicPlaceId: number
@@ -43,10 +44,10 @@ interface FormData {
     daysReservationBefore: number | null
 }
 
-const TourismAttractionOfferPanel = ({ touristicPlaceId, modify }: Props) => {
+const TourismAttractionOfferPanel = ({ touristicPlaceId, modify = false }: Props) => {
     const { t } = useTranslation()
     const navigate = useNavigate()
-    const { attractionId } = useLocation().state
+    const attractionId = useLocation().state?.attractionId || null
     const [images, setImages] = useState<Image[]>([])
     const [files, setFiles] = useState<File[]>([])
     const [loading, setLoading] = useState(false)
@@ -69,6 +70,8 @@ const TourismAttractionOfferPanel = ({ touristicPlaceId, modify }: Props) => {
             daysReservationBefore: null
         }
     })
+
+    useId(attractionId, '/tourism', modify)
 
     useEffect(() => {
         const fetchData = async () => {

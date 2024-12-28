@@ -1,5 +1,5 @@
-import styles from './TourismOfferDetails.module.css'
 import { ReactNode } from 'react'
+import styles from './TourismOfferDetails.module.css'
 
 interface Props {
     firstPanel: ReactNode

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import AuthError from '../../Auth/AuthError'
 import { GreenButton } from '../../Shared/Controls/Button'
+import AuthError from '../../Auth/AuthError'
 import styles from './TourismTouristicPlaceSave.module.css'
 
 const TourismTouristicPlaceSave = ({ error }: { error: string | null }) => {

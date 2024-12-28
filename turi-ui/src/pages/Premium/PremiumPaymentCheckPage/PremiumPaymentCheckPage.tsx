@@ -1,19 +1,17 @@
-import { RootState } from '../../../store/store.ts'
-import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import PremiumLoader from '../../../components/Premium/PremiumLoader'
+import { useAppDispatch } from '../../../hooks/useAppDispatch.ts'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../../hooks/useAuth.ts'
+import PremiumLoader from '../../../components/Premium/PremiumLoader'
 import { notPaymentPremiumFailed, paymentPremiumFailed } from '../../../store/slices/premiumPaymentFailed.ts'
-import { premiumService } from '../../../services/premiumService.ts'
 import { premiumAccount } from '../../../store/slices/premium.ts'
-import styles from './PremiumPaymentCheckPage.module.css'
+import { premiumService } from '../../../services/premiumService.ts'
 import { touristicPlaceService } from '../../../services/touristicPlaceService.ts'
+import styles from './PremiumPaymentCheckPage.module.css'
 
 const PremiumPaymentCheckPage = () => {
+    const dispatch = useAppDispatch()
     const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
     const [dots, setDots] = useState('')
 
     useAuth('/')
@@ -46,7 +44,7 @@ const PremiumPaymentCheckPage = () => {
         }, 5000)
 
         return () => clearInterval(interval)
-    }, [dispatch, isAuthenticated, navigate])
+    }, [dispatch, navigate])
 
     return (
         <div className={styles.check}>

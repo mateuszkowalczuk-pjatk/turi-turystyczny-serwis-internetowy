@@ -1,1 +1,1 @@
-export { default } from './ResetPasswordEmailCheckPage.tsx'
+export { default } from './ResetPasswordEmailCheckPage'

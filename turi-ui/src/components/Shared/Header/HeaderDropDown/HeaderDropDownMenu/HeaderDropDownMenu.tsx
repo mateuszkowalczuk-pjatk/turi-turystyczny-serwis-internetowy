@@ -1,8 +1,7 @@
-import { RootState } from '../../../../../store/store.ts'
 import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
 import HeaderDropDownItem from '../HeaderDropDownItem'
 import styles from './HeaderDropDownMenu.module.css'
+import { usePremium } from '../../../../../store/slices/premium.ts'
 
 interface Props {
     profileOnClick: () => void
@@ -12,7 +11,7 @@ interface Props {
 
 const HeaderDropDownMenu = ({ profileOnClick, statisticsOnClick, logoutOnClick }: Props) => {
     const { t } = useTranslation()
-    const isPremium = useSelector((state: RootState) => state.premium.isPremiumAccount)
+    const isPremium = usePremium()
 
     return (
         <div className={styles.menu}>

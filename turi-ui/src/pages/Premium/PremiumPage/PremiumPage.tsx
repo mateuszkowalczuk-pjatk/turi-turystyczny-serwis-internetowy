@@ -1,30 +1,23 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
+import { GreenButton } from '../../../components/Shared/Controls/Button'
+import { useAuth } from '../../../hooks/useAuth.ts'
 import PremiumDescription from '../../../components/Premium/PremiumDescription'
 import PremiumSection from '../../../components/Premium/PremiumSection'
 import PremiumButtons from '../../../components/Premium/PremiumButtons'
 import PremiumOffer from '../../../components/Premium/PremiumOffer'
-import { premiumService } from '../../../services/premiumService.ts'
 import { Offer } from '../../../types'
-import { useAuth } from '../../../hooks/useAuth.ts'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../../store/store.ts'
-import { GreenButton } from '../../../components/Shared/Controls/Button'
+import { premiumService } from '../../../services/premiumService.ts'
 
 const PremiumPage = () => {
     const { t } = useTranslation()
     const navigate = useNavigate()
-    const isPremiumAccount = useSelector((state: RootState) => state.premium.isPremiumAccount)
     const [offer, setOffer] = useState<Offer | null>(null)
 
     useAuth('/')
 
     useEffect(() => {
-        // if (isPremiumAccount) {
-        //     navigate('/')
-        // }
-
         const fetchOffer = async () => {
             const response = await premiumService.getOffer()
             if (response.status === 200) {
@@ -33,7 +26,7 @@ const PremiumPage = () => {
             }
         }
         fetchOffer().catch((error) => error)
-    }, [isPremiumAccount])
+    }, [])
 
     return (
         <>

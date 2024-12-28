@@ -1,29 +1,30 @@
 import React, { useEffect, useState } from 'react'
+import { useAppDispatch } from '../../../hooks/useAppDispatch.ts'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../../store/store.ts'
+import { GreenButton } from '../../../components/Shared/Controls/Button'
+import { useAuth } from '../../../hooks/useAuth.ts'
 import PremiumDescription from '../../../components/Premium/PremiumDescription'
 import PremiumSection from '../../../components/Premium/PremiumSection'
 import PremiumVerify from '../../../components/Premium/PremiumVerify'
 import PremiumButtons from '../../../components/Premium/PremiumButtons'
 import PremiumPayment from '../../../components/Premium/PremiumPayment'
-import { GreenButton } from '../../../components/Shared/Controls/Button'
-import { useAuth } from '../../../hooks/useAuth.ts'
-import { premiumService } from '../../../services/premiumService.ts'
 import { Offer, PaymentMethod } from '../../../types'
-import { notPaymentPremiumFailed, paymentPremiumFailed } from '../../../store/slices/premiumPaymentFailed.ts'
-import { notBuyPremium } from '../../../store/slices/premiumBuy.ts'
+import {
+    notPaymentPremiumFailed,
+    paymentPremiumFailed,
+    usePremiumPaymentFailed
+} from '../../../store/slices/premiumPaymentFailed.ts'
+import { notBuyPremium, usePremiumBuy } from '../../../store/slices/premiumBuy.ts'
+import { premiumService } from '../../../services/premiumService.ts'
 import styles from './PremiumPaymentPage.module.css'
 
 const PremiumPaymentPage = () => {
     const { t } = useTranslation()
+    const dispatch = useAppDispatch()
     const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
-    const isPremiumBuy = useSelector((state: RootState) => state.premiumBuy.isPremiumBuy)
-    const isPremiumAccount = useSelector((state: RootState) => state.premium.isPremiumAccount)
-    const isPremiumPaymentFailed = useSelector((state: RootState) => state.premiumPaymentFailed.isPremiumPaymentFailed)
+    const isPremiumBuy = usePremiumBuy()
+    const isPremiumPaymentFailed = usePremiumPaymentFailed()
     const [months, setMonths] = useState<number | null>(null)
     const [date, setDate] = useState<string | null>(null)
     const [paymentMethod, setPaymentMethod] = useState<PaymentMethod | null>(null)
@@ -33,17 +34,9 @@ const PremiumPaymentPage = () => {
     useAuth('/')
 
     useEffect(() => {
-        // if (isPremiumAccount) {
-        //     navigate('/')
-        // }
+        if (!isPremiumBuy) navigate('/premium')
 
-        if (!isPremiumBuy) {
-            navigate('/premium')
-        }
-
-        if (isPremiumPaymentFailed) {
-            setError(t('premium.payment-failed'))
-        }
+        if (isPremiumPaymentFailed) setError(t('premium.payment-failed'))
 
         dispatch(notPaymentPremiumFailed())
 
@@ -66,7 +59,7 @@ const PremiumPaymentPage = () => {
             const finalDate = `${startDate || ''} - ${endDate || ''}`
             setDate(finalDate)
         }
-    }, [isAuthenticated, isPremiumAccount, isPremiumPaymentFailed, isPremiumBuy, months, navigate, dispatch, t])
+    }, [isPremiumPaymentFailed, isPremiumBuy, months, navigate, dispatch, t])
 
     const handlePayment = async (e: React.FormEvent) => {
         e.preventDefault()

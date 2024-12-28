@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import { RootState } from '../../../store/store.ts'
+import { bankAccountNumberValidation, nipValidation } from '../../../utils/companyValidation.ts'
+import { useAppDispatch } from '../../../hooks/useAppDispatch.ts'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { GreenButton } from '../../../components/Shared/Controls/Button'
+import { useAuth } from '../../../hooks/useAuth.ts'
 import PremiumDescription from '../../../components/Premium/PremiumDescription'
 import PremiumSection from '../../../components/Premium/PremiumSection'
 import PremiumButtons from '../../../components/Premium/PremiumButtons'
 import PremiumVerify from '../../../components/Premium/PremiumVerify'
 import PremiumPersonalInput from '../../../components/Premium/PremiumPersonalInput'
 import PremiumInput from '../../../components/Premium/PremiumInput'
-import { GreenButton } from '../../../components/Shared/Controls/Button'
-import { useAuth } from '../../../hooks/useAuth.ts'
-import { premiumService } from '../../../services/premiumService.ts'
-import { buyPremium, notBuyPremium } from '../../../store/slices/premiumBuy.ts'
-import { bankAccountNumberValidation, nipValidation } from '../../../utils/companyValidation.ts'
-import { accountService } from '../../../services/accountService.ts'
 import { Account, Premium, PremiumCompanyParam, PremiumVerifyParam } from '../../../types'
+import { buyPremium, notBuyPremium } from '../../../store/slices/premiumBuy.ts'
+import { accountService } from '../../../services/accountService.ts'
+import { premiumService } from '../../../services/premiumService.ts'
 import styles from './PremiumVerifyPage.module.css'
 
 interface FormData {
@@ -28,8 +27,8 @@ interface FormData {
 
 const PremiumVerifyPage = () => {
     const { t } = useTranslation()
+    const dispatch = useAppDispatch()
     const navigate = useNavigate()
-    const dispatch = useDispatch()
     const [formData, setFormData] = useState<FormData>({
         firstName: '',
         lastName: '',
@@ -37,17 +36,12 @@ const PremiumVerifyPage = () => {
         companyName: '',
         nip: ''
     })
-    const isPremiumAccount = useSelector((state: RootState) => state.premium.isPremiumAccount)
     const [error, setError] = useState<string | null>(null)
     const [loading, setLoading] = useState(false)
 
     useAuth('/')
 
     useEffect(() => {
-        // if (isPremiumAccount) {
-        //     navigate('/')
-        // }
-
         const fetchData = async () => {
             const isExistsForAccountResponse = await premiumService.isExistsForAccount()
             if (isExistsForAccountResponse.status === 200 && (await isExistsForAccountResponse.json())) {
@@ -68,7 +62,7 @@ const PremiumVerifyPage = () => {
         }
 
         fetchData().catch((error) => error)
-    }, [isPremiumAccount, navigate])
+    }, [navigate])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setError(null)

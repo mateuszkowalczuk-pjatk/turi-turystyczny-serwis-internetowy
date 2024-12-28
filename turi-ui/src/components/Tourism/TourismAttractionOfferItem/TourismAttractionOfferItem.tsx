@@ -1,12 +1,12 @@
-import { Attraction } from '../../../types/attraction.ts'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { GreyButton } from '../../Shared/Controls/Button'
+import { Attraction } from '../../../types/attraction.ts'
 import { Image } from '../../../types/image.ts'
-import { imageService } from '../../../services/imageService.ts'
 import ImagePanel from '../../Shared/Image/ImagePanel'
 import TextRegular from '../../Shared/Controls/Text/TextRegular'
-import { GreyButton } from '../../Shared/Controls/Button'
+import { imageService } from '../../../services/imageService.ts'
 import styles from './TourismAttractionOfferItem.module.css'
 
 interface Props {

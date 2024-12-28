@@ -1,15 +1,14 @@
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
 import TextRegular from '../../Shared/Controls/Text/TextRegular'
-import { RootState } from '../../../store/store.ts'
 import styles from './ProfileHeader.module.css'
+import { usePremium } from '../../../store/slices/premium.ts'
 
 const ProfileHeader = () => {
     const { t } = useTranslation()
     const navigate = useNavigate()
     const location = useLocation()
-    const isPremiumAccount = useSelector((state: RootState) => state.premium.isPremiumAccount)
+    const isPremium = usePremium()
 
     return (
         <div className={styles.header}>
@@ -28,7 +27,7 @@ const ProfileHeader = () => {
                 className={location.pathname === '/profile/preference' ? styles.active : ''}
                 onClick={() => navigate('/profile/preference')}
             />
-            {isPremiumAccount && (
+            {isPremium && (
                 <TextRegular
                     text={t('profile.premium')}
                     className={location.pathname === '/profile/premium' ? styles.active : ''}

@@ -7,6 +7,7 @@ interface Props<T> {
 export const useForm = <T extends Record<string, any>>({ initialValues }: Props<T>) => {
     const [formData, setFormData] = useState<T>(initialValues)
     const [error, setError] = useState<string | null>(null)
+    const [loading, setLoading] = useState(false)
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setError(null)
@@ -26,5 +27,16 @@ export const useForm = <T extends Record<string, any>>({ initialValues }: Props<
         setError(null)
     }
 
-    return { formData, setFormData, error, setError, handleChange, setFormValues, resetForm, updateFormData }
+    return {
+        formData,
+        setFormData,
+        handleChange,
+        setFormValues,
+        resetForm,
+        updateFormData,
+        error,
+        setError,
+        loading,
+        setLoading
+    }
 }

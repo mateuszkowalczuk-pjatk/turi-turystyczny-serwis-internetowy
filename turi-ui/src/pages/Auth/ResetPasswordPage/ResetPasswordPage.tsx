@@ -1,21 +1,21 @@
+import React from 'react'
+import { checkPasswordsMatch } from '../../../utils/checkPasswordsMatch.ts'
+import { passwordValidation } from '../../../utils/passwordValidation.ts'
+import { useRedirectEvery } from '../../../hooks/useRedirect.ts'
+import { useAuthenticated } from '../../../store/slices/auth.ts'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
+import { useReset } from '../../../store/slices/reset.ts'
+import { useForm } from '../../../hooks/useForm.ts'
+import { handle } from '../../../utils/handle.ts'
 import AuthPanel from '../../../components/Auth/AuthPanel'
 import AuthTitle from '../../../components/Auth/AuthTitle'
 import AuthInput from '../../../components/Auth/AuthInput'
 import AuthButton from '../../../components/Auth/AuthButton'
 import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../../store/store.ts'
-import { passwordValidation } from '../../../utils/passwordValidation.ts'
 import AuthError from '../../../components/Auth/AuthError'
 import { userService } from '../../../services/userService.ts'
-import { useForm } from '../../../hooks/useForm.ts'
-import { useRedirectEvery } from '../../../hooks/useRedirect.ts'
-import { handle } from '../../../utils/handle.ts'
-import { checkPasswordsMatch } from '../../../utils/checkPasswordsMatch.ts'
 
 interface FormData {
     password: string
@@ -25,10 +25,9 @@ interface FormData {
 const ResetPasswordPage = () => {
     const { t } = useTranslation()
     const navigate = useNavigate()
-    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
-    const isResetPassword = useSelector((state: RootState) => state.reset.isResetPassword)
-    const [loading, setLoading] = useState(false)
-    const { formData, error, setError, handleChange, resetForm } = useForm<FormData>({
+    const isAuthenticated = useAuthenticated()
+    const isResetPassword = useReset()
+    const { formData, error, setError, handleChange, resetForm, loading, setLoading } = useForm<FormData>({
         initialValues: {
             password: '',
             rePassword: ''

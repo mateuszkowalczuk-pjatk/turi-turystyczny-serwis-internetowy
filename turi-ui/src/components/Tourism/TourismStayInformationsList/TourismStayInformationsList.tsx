@@ -17,10 +17,8 @@ const TourismStayInformationsList = ({
     const { t } = useTranslation()
 
     const handleRemove = async (stayInformation: StayInformation) => {
-        if (modify && stayInformation.stayInformationId) {
-            console.log(stayInformation.stayInformationId)
+        if (modify && stayInformation.stayInformationId)
             await stayService.deleteStayInformation(stayInformation.stayInformationId)
-        }
     }
 
     return (
