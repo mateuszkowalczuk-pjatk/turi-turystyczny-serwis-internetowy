@@ -1,14 +1,17 @@
 package com.turi.touristicplace.infrastructure.adapter.interfaces;
 
+import com.turi.attraction.domain.model.AttractionType;
 import com.turi.infrastructure.common.ObjectId;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.touristicplace.domain.model.GuaranteedService;
 import com.turi.touristicplace.domain.model.TouristicPlace;
+import com.turi.touristicplace.domain.model.TouristicPlaceType;
 import com.turi.touristicplace.domain.port.TouristicPlaceService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -16,6 +19,40 @@ import java.util.List;
 public class TouristicPlaceFacade
 {
     private final TouristicPlaceService service;
+
+    public List<TouristicPlace> getTouristicPlacesForSearch(final String query,
+                                                            final LocalDate dateFrom,
+                                                            final LocalDate dateTo,
+                                                            final Long limit,
+                                                            final Long cursor)
+    {
+        return service.getForSearch(query, dateFrom, dateTo, limit, cursor);
+    }
+
+    public List<TouristicPlace> getTouristicPlacesByStaysForSearch(final String query,
+                                                                   final LocalDate dateFrom,
+                                                                   final LocalDate dateTo,
+                                                                   final Long limit,
+                                                                   final Long cursor,
+                                                                   final TouristicPlaceType type)
+    {
+        return service.getByStaysForSearch(query, dateFrom, dateTo, type, limit, cursor);
+    }
+
+    public List<TouristicPlace> getTouristicPlacesByAttractionsForSearch(final String query,
+                                                                         final LocalDate dateFrom,
+                                                                         final LocalDate dateTo,
+                                                                         final Long limit,
+                                                                         final Long cursor,
+                                                                         final AttractionType type)
+    {
+        return service.getByAttractionsForSearch(query, dateFrom, dateTo, type, limit, cursor);
+    }
+
+    public List<String> completeTouristicPlacesNames(final String query)
+    {
+        return service.completeNames(query);
+    }
 
     public ResponseEntity<TouristicPlace> getByTouristicPlacePremiumId()
     {
@@ -45,6 +82,11 @@ public class TouristicPlaceFacade
     public ResponseEntity<List<GuaranteedService>> getAllTouristicPlaceGuaranteedServices()
     {
         return TouristicPlaceResponse.of(service.getAllGuaranteedServices());
+    }
+
+    public ResponseEntity<List<GuaranteedService>> getAllTouristicPlaceGuaranteedServicesByTouristicPlaceId(final Long touristicPlaceId)
+    {
+        return TouristicPlaceResponse.of(service.getAllGuaranteedServicesByTouristicPlaceId(touristicPlaceId));
     }
 
     public ResponseEntity<?> createTouristicPlace()

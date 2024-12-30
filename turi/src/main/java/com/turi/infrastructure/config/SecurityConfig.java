@@ -45,7 +45,8 @@ public class SecurityConfig
                                 "/api/user/resetPassword",
                                 "/api/user/isUsernameExists",
                                 "/api/user/isEmailExists",
-                                "/api/payment/webhook"
+                                "/api/payment/webhook",
+                                "/api/search"
                         ).permitAll()
                         .requestMatchers("/api/account/activate").hasRole(AccountType.INACTIVE.getName())
                         .requestMatchers(

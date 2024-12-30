@@ -16,6 +16,12 @@ public class AttractionRepositoryImpl implements AttractionRepository
     private final AttractionRepositoryDao repositoryDao;
 
     @Override
+    public List<String> findForAutocomplete(final String query)
+    {
+        return repositoryDao.findForAutocomplete(query);
+    }
+
+    @Override
     public List<Attraction> findAllByTouristicPlaceId(final Long touristicPlaceId)
     {
         return repositoryDao.findAllByTouristicPlaceId(touristicPlaceId).stream()

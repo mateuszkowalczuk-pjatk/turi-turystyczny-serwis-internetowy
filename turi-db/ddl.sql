@@ -204,6 +204,7 @@ CREATE TABLE IF NOT EXISTS touristicplace
 
 CREATE INDEX IF NOT EXISTS touristicplacepremiumindex ON touristicplace (premiumid);
 CREATE INDEX IF NOT EXISTS touristicplaceaddressindex ON touristicplace (addressid);
+CREATE INDEX IF NOT EXISTS touristicplacenameindex    ON touristicplace USING gin(to_tsvector('polish', name));
 
 COMMENT ON TABLE  touristicplace                       IS 'Table to store data about premium user touristic place.';
 COMMENT ON COLUMN touristicplace.touristicplaceid      IS 'Unique required primary key of the touristicplace table.';
@@ -252,6 +253,8 @@ CREATE TABLE IF NOT EXISTS stay
 );
 
 CREATE INDEX IF NOT EXISTS staytouristicplaceindex ON stay (touristicplaceid);
+CREATE INDEX IF NOT EXISTS staynameindex           ON stay USING gin(to_tsvector('polish', name));
+CREATE INDEX IF NOT EXISTS staysearchindex         ON stay (touristicplaceid, dateFrom, dateTo);
 
 COMMENT ON TABLE  stay                  IS 'Table to store touristic place stays offers.';
 COMMENT ON COLUMN stay.stayid           IS 'Unique required primary key of the stay table.';
@@ -302,6 +305,8 @@ CREATE TABLE IF NOT EXISTS attraction
 );
 
 CREATE INDEX IF NOT EXISTS attractiontouristicplaceindex ON attraction (touristicplaceid);
+CREATE INDEX IF NOT EXISTS attractionnameindex           ON attraction USING gin(to_tsvector('polish', name));
+CREATE INDEX IF NOT EXISTS attractionsearchindex         ON attraction (touristicplaceid, dateFrom, dateTo);
 
 COMMENT ON TABLE  attraction                       IS 'TTable to store touristic place attractions offers.';
 COMMENT ON COLUMN attraction.attractionid          IS 'Unique required primary key of the attraction table.';

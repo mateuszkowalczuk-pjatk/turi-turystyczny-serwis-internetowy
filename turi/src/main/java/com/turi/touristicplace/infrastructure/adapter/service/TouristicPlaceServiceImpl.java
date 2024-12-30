@@ -2,16 +2,19 @@ package com.turi.touristicplace.infrastructure.adapter.service;
 
 import com.turi.address.domain.exception.AddressNotFoundException;
 import com.turi.address.infrastructure.adapter.interfaces.AddressFacade;
+import com.turi.attraction.domain.model.AttractionType;
 import com.turi.premium.infrastructure.adapter.interfaces.PremiumFacade;
 import com.turi.touristicplace.domain.exception.TouristicPlaceUniqueAddressException;
 import com.turi.touristicplace.domain.model.GuaranteedService;
 import com.turi.touristicplace.domain.model.TouristicPlace;
+import com.turi.touristicplace.domain.model.TouristicPlaceType;
 import com.turi.touristicplace.domain.port.GuaranteedServiceService;
 import com.turi.touristicplace.domain.port.TouristicPlaceRepository;
 import com.turi.touristicplace.domain.port.TouristicPlaceService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,6 +26,44 @@ public class TouristicPlaceServiceImpl implements TouristicPlaceService
     private final PremiumFacade premiumFacade;
     private final TouristicPlaceRepository repository;
     private final GuaranteedServiceService guaranteedServiceService;
+
+    @Override
+    public List<TouristicPlace> getForSearch(final String query,
+                                             final LocalDate dateFrom,
+                                             final LocalDate dateTo,
+                                             final Long limit,
+                                             final Long cursor)
+    {
+        return repository.findForSearch(query, dateFrom, dateTo, limit, cursor);
+    }
+
+    @Override
+    public List<TouristicPlace> getByStaysForSearch(final String query,
+                                                    final LocalDate dateFrom,
+                                                    final LocalDate dateTo,
+                                                    final TouristicPlaceType type,
+                                                    final Long limit,
+                                                    final Long cursor)
+    {
+        return repository.findByStaysForSearch(query, dateFrom, dateTo, type != null ? type.getValue() : null, limit, cursor);
+    }
+
+    @Override
+    public List<TouristicPlace> getByAttractionsForSearch(final String query,
+                                                          final LocalDate dateFrom,
+                                                          final LocalDate dateTo,
+                                                          final AttractionType type,
+                                                          final Long limit,
+                                                          final Long cursor)
+    {
+        return repository.findByAttractionsForSearch(query, dateFrom, dateTo, type != null ? type.getValue() : null, limit, cursor);
+    }
+
+    @Override
+    public List<String> completeNames(final String query)
+    {
+        return repository.findForAutocomplete(query);
+    }
 
     @Override
     public TouristicPlace getById(final Long id)
@@ -62,6 +103,12 @@ public class TouristicPlaceServiceImpl implements TouristicPlaceService
     public List<GuaranteedService> getAllGuaranteedServices()
     {
         return guaranteedServiceService.getAllByTouristicPlaceId(getByPremiumId().getTouristicPlaceId());
+    }
+
+    @Override
+    public List<GuaranteedService> getAllGuaranteedServicesByTouristicPlaceId(final Long touristicPlaceId)
+    {
+        return guaranteedServiceService.getAllByTouristicPlaceId(touristicPlaceId);
     }
 
     @Override

@@ -21,6 +21,12 @@ public class StayServiceImpl implements StayService
     private final StayInformationService stayInformationService;
 
     @Override
+    public List<String> completeNames(final String query)
+    {
+        return repository.findForAutocomplete(query);
+    }
+
+    @Override
     public List<StayDto> getAllByTouristicPlaceId(final Long touristicPlaceId)
     {
         final var stays = repository.findAllByTouristicPlaceId(touristicPlaceId);

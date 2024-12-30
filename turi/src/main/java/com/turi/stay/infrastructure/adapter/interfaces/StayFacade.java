@@ -42,6 +42,11 @@ public class StayFacade
         return StayResponse.of(service.getById(stayId));
     }
 
+    public List<String> completeStaysNames(final String query)
+    {
+        return service.completeNames(query);
+    }
+
     public ResponseEntity<?> createStay(final StayDto stay)
     {
         if (stay == null)

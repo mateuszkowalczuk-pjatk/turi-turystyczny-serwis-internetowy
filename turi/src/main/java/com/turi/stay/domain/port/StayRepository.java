@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface StayRepository
 {
+    List<String> findForAutocomplete(final String query);
+
     List<Stay> findAllByTouristicPlaceId(final Long touristicPlaceId);
 
     Stay findById(final Long id);

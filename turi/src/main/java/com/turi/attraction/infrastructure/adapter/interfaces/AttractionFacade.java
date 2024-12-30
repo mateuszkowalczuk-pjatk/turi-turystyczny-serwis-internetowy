@@ -40,6 +40,11 @@ public class AttractionFacade
         return AttractionResponse.of(service.getById(attractionId));
     }
 
+    public List<String> completeAttractionsNames(final String query)
+    {
+        return service.completeNames(query);
+    }
+
     public ResponseEntity<Attraction> createAttraction(final Attraction attraction)
     {
         if (attraction == null)

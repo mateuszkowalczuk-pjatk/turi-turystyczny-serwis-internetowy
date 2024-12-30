@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface AttractionRepository
 {
+    List<String> findForAutocomplete(final String query);
+
     List<Attraction> findAllByTouristicPlaceId(final Long touristicPlaceId);
 
     Attraction findById(final Long id);

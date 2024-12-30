@@ -6,6 +6,8 @@ import com.turi.touristicplace.domain.port.TouristicPlaceRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -13,6 +15,49 @@ import java.util.Optional;
 public class TouristicPlaceRepositoryImpl implements TouristicPlaceRepository
 {
     private final TouristicPlaceRepositoryDao repositoryDao;
+
+    public List<TouristicPlace> findForSearch(final String query,
+                                              final LocalDate dateFrom,
+                                              final LocalDate dateTo,
+                                              final Long limit,
+                                              final Long cursor)
+    {
+        return repositoryDao.findForSearch(query, dateFrom, dateTo, limit, cursor).stream()
+                .map(TouristicPlace::of)
+                .toList();
+    }
+
+    @Override
+    public List<TouristicPlace> findByStaysForSearch(final String query,
+                                                     final LocalDate dateFrom,
+                                                     final LocalDate dateTo,
+                                                     final Integer type,
+                                                     final Long limit,
+                                                     final Long cursor)
+    {
+        return repositoryDao.findByStaysForSearch(query, dateFrom, dateTo, type, limit, cursor).stream()
+                .map(TouristicPlace::of)
+                .toList();
+    }
+
+    @Override
+    public List<TouristicPlace> findByAttractionsForSearch(final String query,
+                                                           final LocalDate dateFrom,
+                                                           final LocalDate dateTo,
+                                                           final Integer type,
+                                                           final Long limit,
+                                                           final Long cursor)
+    {
+        return repositoryDao.findByAttractionsForSearch(query, dateFrom, dateTo, type, limit, cursor).stream()
+                .map(TouristicPlace::of)
+                .toList();
+    }
+
+    @Override
+    public List<String> findForAutocomplete(final String query)
+    {
+        return repositoryDao.findForAutocomplete(query);
+    }
 
     @Override
     public TouristicPlace findById(final Long id)
