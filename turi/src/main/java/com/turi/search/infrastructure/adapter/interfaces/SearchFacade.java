@@ -22,7 +22,8 @@ public class SearchFacade
 
     public ResponseEntity<Search> search(final SearchMode mode,
                                          final String limit,
-                                         final String cursor,
+                                         final String touristicPlaceId,
+                                         final String rank,
                                          final String query,
                                          final LocalDate dateFrom,
                                          final LocalDate dateTo,
@@ -41,16 +42,23 @@ public class SearchFacade
 
         final var searchLimit = ObjectId.of(limit).getValue();
 
-        final Long searchCursor = cursor != null ? ObjectId.of(limit).getValue() : null;
+        final var searchTouristicPlaceId = touristicPlaceId != null ? ObjectId.of(touristicPlaceId).getValue() : null;
+
+        final var searchRank = rank != null ? Double.valueOf(rank) : null;
+
+        if ((searchTouristicPlaceId == null && searchRank != null) || (searchTouristicPlaceId != null && searchRank == null))
+        {
+            throw new BadRequestParameterException("Parameters touristicPlaceId and rank must not be null or both must have cursor value.");
+        }
 
         if (mode.equals(SearchMode.STAY))
         {
-            return SearchResponse.of(service.searchByStay(searchLimit, searchCursor, query, dateFrom, dateTo, touristicPlaceType));
+            return SearchResponse.of(service.searchByStay(searchLimit, searchTouristicPlaceId, searchRank, query, dateFrom, dateTo, touristicPlaceType));
         }
 
         if (mode.equals(SearchMode.ATTRACTION))
         {
-            return SearchResponse.of(service.searchByAttraction(searchLimit, searchCursor, query, dateFrom, dateTo, attractionType));
+            return SearchResponse.of(service.searchByAttraction(searchLimit, searchTouristicPlaceId, searchRank, query, dateFrom, dateTo, attractionType));
         }
 
         if (query.isEmpty() || query.isBlank())
@@ -58,7 +66,7 @@ public class SearchFacade
             throw new BadRequestParameterException("Parameter query must not be empty or blank for 'ALL' search mode.");
         }
 
-        return SearchResponse.of(service.search(searchLimit, searchCursor, query, dateFrom, dateTo));
+        return SearchResponse.of(service.search(searchLimit, searchTouristicPlaceId, searchRank, query, dateFrom, dateTo));
     }
 
     public ResponseEntity<List<String>> autocomplete(final SearchMode mode, final String query)

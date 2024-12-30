@@ -24,14 +24,15 @@ public class SearchRestController
     @GetMapping("/")
     public ResponseEntity<Search> search(@RequestParam final SearchMode mode,
                                          @RequestParam final String limit,
-                                         @RequestParam(required = false) final String cursor,
+                                         @RequestParam(required = false) final String touristicPlaceId,
+                                         @RequestParam(required = false) final String rank,
                                          @RequestParam(required = false) final String query,
                                          @RequestParam(required = false) final LocalDate dateFrom,
                                          @RequestParam(required = false) final LocalDate dateTo,
                                          @RequestParam(required = false) final TouristicPlaceType touristicPlaceType,
                                          @RequestParam(required = false) final AttractionType attractionType)
     {
-        return facade.search(mode, limit, cursor, query, dateFrom, dateTo, touristicPlaceType, attractionType);
+        return facade.search(mode, limit, touristicPlaceId, rank, query, dateFrom, dateTo, touristicPlaceType, attractionType);
     }
 
     @GetMapping("/autocomplete")

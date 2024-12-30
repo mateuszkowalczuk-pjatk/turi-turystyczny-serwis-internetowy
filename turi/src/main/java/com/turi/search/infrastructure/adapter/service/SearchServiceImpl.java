@@ -28,53 +28,71 @@ public class SearchServiceImpl implements SearchService
 
     @Override
     public Search search(final Long limit,
-                         final Long cursor,
+                         final Long touristicPlaceId,
+                         final Double rank,
                          final String query,
                          final LocalDate dateFrom,
                          final LocalDate dateTo)
     {
-        final var searchTouristicPlaces = touristicPlaceFacade.getTouristicPlacesForSearch(query, dateFrom, dateTo, limit, cursor).stream()
+        final var touristicPlacesForSearch = touristicPlaceFacade.getTouristicPlacesForSearch(query, dateFrom, dateTo, limit, touristicPlaceId, rank);
+
+        final var searchTouristicPlaces = touristicPlacesForSearch.stream()
+                .map(result -> (TouristicPlace) result[0])
                 .map(touristicPlace -> getSearchTouristicPlace(touristicPlace, dateFrom, dateTo))
                 .toList();
 
-        final var searchCursor = getSearchCursor(searchTouristicPlaces);
+        final var searchTouristicPlaceId = getSearchTouristicPlaceId(searchTouristicPlaces);
+
+        final var searchRank = getSearchRank(touristicPlacesForSearch);
 
         return Search.builder()
                 .withSearchTouristicPlaces(searchTouristicPlaces)
-                .withCursor(searchCursor)
+                .withTouristicPlaceId(searchTouristicPlaceId)
+                .withRank(searchRank)
                 .build();
     }
 
     @Override
     public Search searchByStay(final Long limit,
-                               final Long cursor,
+                               final Long touristicPlaceId,
+                               final Double rank,
                                final String query,
                                final LocalDate dateFrom,
                                final LocalDate dateTo,
                                final TouristicPlaceType type)
     {
-        final var searchTouristicPlaces = touristicPlaceFacade.getTouristicPlacesByStaysForSearch(query, dateFrom, dateTo, limit, cursor, type).stream()
+        final var touristicPlacesForSearch = touristicPlaceFacade.getTouristicPlacesByStaysForSearch(query, dateFrom, dateTo, limit, touristicPlaceId, rank, type);
+
+        final var searchTouristicPlaces = touristicPlacesForSearch.stream()
+                .map(result -> (TouristicPlace) result[0])
                 .filter(touristicPlace -> touristicPlace.getTouristicPlaceType().equals(type))
                 .map(touristicPlace -> getSearchTouristicPlace(touristicPlace, dateFrom, dateTo))
                 .toList();
 
-        final var searchCursor = getSearchCursor(searchTouristicPlaces);
+        final var searchTouristicPlaceId = getSearchTouristicPlaceId(searchTouristicPlaces);
+
+        final var searchRank = getSearchRank(touristicPlacesForSearch);
 
         return Search.builder()
                 .withSearchTouristicPlaces(searchTouristicPlaces)
-                .withCursor(searchCursor)
+                .withTouristicPlaceId(searchTouristicPlaceId)
+                .withRank(searchRank)
                 .build();
     }
 
     @Override
     public Search searchByAttraction(final Long limit,
-                                     final Long cursor,
+                                     final Long touristicPlaceId,
+                                     final Double rank,
                                      final String query,
                                      final LocalDate dateFrom,
                                      final LocalDate dateTo,
                                      final AttractionType type)
     {
-        final var searchTouristicPlaces = touristicPlaceFacade.getTouristicPlacesByAttractionsForSearch(query, dateFrom, dateTo, limit, cursor, type).stream()
+        final var touristicPlacesForSearch = touristicPlaceFacade.getTouristicPlacesByAttractionsForSearch(query, dateFrom, dateTo, limit, touristicPlaceId, rank, type);
+
+        final var searchTouristicPlaces = touristicPlacesForSearch.stream()
+                .map(result -> (TouristicPlace) result[0])
                 .map(touristicPlace -> {
                     final var guaranteedServices = getTouristicPlaceGuaranteedServices(touristicPlace.getTouristicPlaceId());
 
@@ -94,11 +112,14 @@ public class SearchServiceImpl implements SearchService
                 })
                 .toList();
 
-        final var searchCursor = getSearchCursor(searchTouristicPlaces);
+        final var searchTouristicPlaceId = getSearchTouristicPlaceId(searchTouristicPlaces);
+
+        final var searchRank = getSearchRank(touristicPlacesForSearch);
 
         return Search.builder()
                 .withSearchTouristicPlaces(searchTouristicPlaces)
-                .withCursor(searchCursor)
+                .withTouristicPlaceId(searchTouristicPlaceId)
+                .withRank(searchRank)
                 .build();
     }
 
@@ -159,9 +180,18 @@ public class SearchServiceImpl implements SearchService
                 && (dateTo == null || searchDateFrom == null || !dateTo.isBefore(searchDateFrom));
     }
 
-    private Long getSearchCursor(final List<Search.SearchTouristicPlace> searchTouristicPlaces)
+    private Long getSearchTouristicPlaceId(final List<Search.SearchTouristicPlace> searchTouristicPlaces)
     {
         return searchTouristicPlaces.isEmpty() ? null : searchTouristicPlaces.get(searchTouristicPlaces.size() - 1).getTouristicPlace().getTouristicPlaceId();
+    }
+
+    private Double getSearchRank(final List<Object[]> touristicPlacesForSearch)
+    {
+        final var ranks = touristicPlacesForSearch.stream()
+                .map(result -> (Double) result[1])
+                .toList();
+
+        return ranks.isEmpty() ? null : ranks.get(ranks.size() - 1);
     }
 
     @Override

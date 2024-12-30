@@ -10,25 +10,28 @@ import java.util.List;
 
 public interface TouristicPlaceService
 {
-    List<TouristicPlace> getForSearch(final String query,
-                                      final LocalDate dateFrom,
-                                      final LocalDate dateTo,
-                                      final Long limit,
-                                      final Long cursor);
+    List<Object[]> getForSearch(final String query,
+                                final LocalDate dateFrom,
+                                final LocalDate dateTo,
+                                final Long limit,
+                                final Long touristicPlaceId,
+                                final Double rank);
 
-    List<TouristicPlace> getByStaysForSearch(final String query,
+    List<Object[]> getByStaysForSearch(final String query,
+                                       final LocalDate dateFrom,
+                                       final LocalDate dateTo,
+                                       final TouristicPlaceType type,
+                                       final Long limit,
+                                       final Long touristicPlaceId,
+                                       final Double rank);
+
+    List<Object[]> getByAttractionsForSearch(final String query,
                                              final LocalDate dateFrom,
                                              final LocalDate dateTo,
-                                             final TouristicPlaceType type,
+                                             final AttractionType type,
                                              final Long limit,
-                                             final Long cursor);
-
-    List<TouristicPlace> getByAttractionsForSearch(final String query,
-                                                   final LocalDate dateFrom,
-                                                   final LocalDate dateTo,
-                                                   final AttractionType type,
-                                                   final Long limit,
-                                                   final Long cursor);
+                                             final Long touristicPlaceId,
+                                             final Double rank);
 
     List<String> completeNames(final String query);
 

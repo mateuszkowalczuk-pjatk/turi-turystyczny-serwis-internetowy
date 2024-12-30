@@ -12,61 +12,66 @@ import java.util.Optional;
 @Repository
 public interface TouristicPlaceRepositoryDao extends JpaRepository<TouristicPlaceEntity, Long>
 {
-//    ToDo - do przerobienia ORDER BY bo nie sortuje po fulltext
     @Query(value = """
-        SELECT DISTINCT tp.*
+        SELECT DISTINCT tp.*, ts_rank(to_tsvector('polish', tp.name), plainto_tsquery('polish', :query)) AS rank
         FROM touristicplace tp
         JOIN stay s ON tp.touristicplaceid = s.touristicplaceid
         WHERE to_tsvector('polish', tp.name) @@ plainto_tsquery('polish', :query)
         AND (:dateFrom IS NULL OR s.dateFrom <= :dateTo)
         AND (:dateTo IS NULL OR s.dateTo >= :dateFrom)
-        AND (:cursor IS NULL OR tp.touristicplaceid > :cursor)
-        ORDER BY tp.touristicplaceid ASC
+        AND (:touristicPlaceId IS NULL OR :rank IS NULL 
+            OR(ts_rank(to_tsvector('polish', tp.name), plainto_tsquery('polish', :query)) <= :rank AND tp.touristicplaceid > :touristicPlaceId))
+        ORDER BY ts_rank(to_tsvector('polish', tp.name), plainto_tsquery('polish', :query)) DESC, tp.touristicplaceid ASC        
         LIMIT :limit;
     """, nativeQuery = true)
-    List<TouristicPlaceEntity> findForSearch(@Param("query") final String query,
-                                             @Param("dateFrom") final LocalDate dateFrom,
-                                             @Param("dateTo") final LocalDate dateTo,
-                                             @Param("limit") final Long limit,
-                                             @Param("cursor") final Long cursor);
+    List<Object[]> findForSearch(@Param("query") final String query,
+                                 @Param("dateFrom") final LocalDate dateFrom,
+                                 @Param("dateTo") final LocalDate dateTo,
+                                 @Param("limit") final Long limit,
+                                 @Param("touristicPlaceId") final Long touristicPlaceId,
+                                 @Param("rank") final Double rank);
 
     @Query(value = """
-        SELECT DISTINCT tp.*
+        SELECT DISTINCT tp.*, ts_rank(to_tsvector('polish', s.name), plainto_tsquery('polish', :query)) AS rank
         FROM touristicplace tp
         JOIN stay s ON tp.touristicplaceid = s.touristicplaceid
         WHERE to_tsvector('polish', s.name) @@ plainto_tsquery('polish', :query)
         AND (:dateFrom IS NULL OR s.dateFrom <= :dateTo)
         AND (:dateTo IS NULL OR s.dateTo >= :dateFrom)
         AND (:touristicplacetype IS NULL OR tp.touristicplacetype = :touristicplacetype)
-        AND (:cursor IS NULL OR tp.touristicplaceid > :cursor)
-        ORDER BY tp.touristicplaceid ASC
+        AND (:touristicPlaceId IS NULL OR :rank IS NULL 
+            OR(ts_rank(to_tsvector('polish', s.name), plainto_tsquery('polish', :query)) <= :rank AND tp.touristicplaceid > :touristicPlaceId))
+        ORDER BY ts_rank(to_tsvector('polish', s.name), plainto_tsquery('polish', :query)) DESC, tp.touristicplaceid ASC
         LIMIT :limit;
     """, nativeQuery = true)
-    List<TouristicPlaceEntity> findByStaysForSearch(@Param("query") final String query,
-                                                    @Param("dateFrom") final LocalDate dateFrom,
-                                                    @Param("dateTo") final LocalDate dateTo,
-                                                    @Param("type") final Integer type,
-                                                    @Param("limit") final Long limit,
-                                                    @Param("cursor") final Long cursor);
+    List<Object[]> findByStaysForSearch(@Param("query") final String query,
+                                        @Param("dateFrom") final LocalDate dateFrom,
+                                        @Param("dateTo") final LocalDate dateTo,
+                                        @Param("type") final Integer type,
+                                        @Param("limit") final Long limit,
+                                        @Param("touristicPlaceId") final Long touristicPlaceId,
+                                        @Param("cursor") final Double cursor);
 
     @Query(value = """
-        SELECT DISTINCT tp.*
+        SELECT DISTINCT tp.*, ts_rank(to_tsvector('polish', a.name), plainto_tsquery('polish', :query)) AS rank
         FROM touristicplace tp
         JOIN attraction a ON tp.touristicplaceid = a.touristicplaceid
         WHERE to_tsvector('polish', a.name) @@ plainto_tsquery('polish', :query)
         AND (:dateFrom IS NULL OR a.dateFrom <= :dateTo)
         AND (:dateTo IS NULL OR a.dateTo >= :dateFrom)
         AND (:attractiontype IS NULL OR a.attractiontype = :attractiontype)
-        AND (:cursor IS NULL OR tp.touristicplaceid > :cursor)
-        ORDER BY tp.touristicplaceid ASC
+        AND (:touristicPlaceId IS NULL OR :rank IS NULL 
+            OR(ts_rank(to_tsvector('polish', a.name), plainto_tsquery('polish', :query)) <= :rank AND tp.touristicplaceid > :touristicPlaceId))
+        ORDER BY ts_rank(to_tsvector('polish', a.name), plainto_tsquery('polish', :query)) DESC, tp.touristicplaceid ASC
         LIMIT :limit;
     """, nativeQuery = true)
-    List<TouristicPlaceEntity> findByAttractionsForSearch(@Param("query") final String query,
-                                                          @Param("dateFrom") final LocalDate dateFrom,
-                                                          @Param("dateTo") final LocalDate dateTo,
-                                                          @Param("type") final Integer type,
-                                                          @Param("limit") final Long limit,
-                                                          @Param("cursor") final Long cursor);
+    List<Object[]> findByAttractionsForSearch(@Param("query") final String query,
+                                              @Param("dateFrom") final LocalDate dateFrom,
+                                              @Param("dateTo") final LocalDate dateTo,
+                                              @Param("type") final Integer type,
+                                              @Param("limit") final Long limit,
+                                              @Param("touristicPlaceId") final Long touristicPlaceId,
+                                              @Param("cursor") final Double cursor);
 
     @Query(value = """
         SELECT DISTINCT tp.name

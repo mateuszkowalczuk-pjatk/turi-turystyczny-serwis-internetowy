@@ -7,25 +7,28 @@ import java.util.List;
 
 public interface TouristicPlaceRepository
 {
-    List<TouristicPlace> findForSearch(final String query,
-                                       final LocalDate dateFrom,
-                                       final LocalDate dateTo,
-                                       final Long limit,
-                                       final Long cursor);
+    List<Object[]> findForSearch(final String query,
+                                 final LocalDate dateFrom,
+                                 final LocalDate dateTo,
+                                 final Long limit,
+                                 final Long touristicPlaceId,
+                                 final Double rank);
 
-    List<TouristicPlace> findByStaysForSearch(final String query,
+    List<Object[]> findByStaysForSearch(final String query,
+                                        final LocalDate dateFrom,
+                                        final LocalDate dateTo,
+                                        final Integer type,
+                                        final Long limit,
+                                        final Long touristicPlaceId,
+                                        final Double rank);
+
+    List<Object[]> findByAttractionsForSearch(final String query,
                                               final LocalDate dateFrom,
                                               final LocalDate dateTo,
                                               final Integer type,
                                               final Long limit,
-                                              final Long cursor);
-
-    List<TouristicPlace> findByAttractionsForSearch(final String query,
-                                                    final LocalDate dateFrom,
-                                                    final LocalDate dateTo,
-                                                    final Integer type,
-                                                    final Long limit,
-                                                    final Long cursor);
+                                              final Long touristicPlaceId,
+                                              final Double rank);
 
     List<String> findForAutocomplete(final String query);
 

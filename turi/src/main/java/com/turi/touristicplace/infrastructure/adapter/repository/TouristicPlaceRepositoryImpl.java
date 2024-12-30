@@ -16,40 +16,44 @@ public class TouristicPlaceRepositoryImpl implements TouristicPlaceRepository
 {
     private final TouristicPlaceRepositoryDao repositoryDao;
 
-    public List<TouristicPlace> findForSearch(final String query,
+    public List<Object[]> findForSearch(final String query,
                                               final LocalDate dateFrom,
                                               final LocalDate dateTo,
                                               final Long limit,
-                                              final Long cursor)
+                                              final Long touristicPlaceId,
+                                              final Double rank)
     {
-        return repositoryDao.findForSearch(query, dateFrom, dateTo, limit, cursor).stream()
-                .map(TouristicPlace::of)
+        return repositoryDao.findForSearch(query, dateFrom, dateTo, limit, touristicPlaceId, rank)
+                .stream()
+                .map(result -> new Object[]{TouristicPlace.of((TouristicPlaceEntity) result[0]), result[1]})
                 .toList();
     }
 
     @Override
-    public List<TouristicPlace> findByStaysForSearch(final String query,
+    public List<Object[]> findByStaysForSearch(final String query,
                                                      final LocalDate dateFrom,
                                                      final LocalDate dateTo,
                                                      final Integer type,
                                                      final Long limit,
-                                                     final Long cursor)
+                                                     final Long touristicPlaceId,
+                                                     final Double rank)
     {
-        return repositoryDao.findByStaysForSearch(query, dateFrom, dateTo, type, limit, cursor).stream()
-                .map(TouristicPlace::of)
+        return repositoryDao.findByStaysForSearch(query, dateFrom, dateTo, type, limit, touristicPlaceId, rank).stream()
+                .map(result -> new Object[]{TouristicPlace.of((TouristicPlaceEntity) result[0]), result[1]})
                 .toList();
     }
 
     @Override
-    public List<TouristicPlace> findByAttractionsForSearch(final String query,
+    public List<Object[]> findByAttractionsForSearch(final String query,
                                                            final LocalDate dateFrom,
                                                            final LocalDate dateTo,
                                                            final Integer type,
                                                            final Long limit,
-                                                           final Long cursor)
+                                                           final Long touristicPlaceId,
+                                                           final Double rank)
     {
-        return repositoryDao.findByAttractionsForSearch(query, dateFrom, dateTo, type, limit, cursor).stream()
-                .map(TouristicPlace::of)
+        return repositoryDao.findByAttractionsForSearch(query, dateFrom, dateTo, type, limit, touristicPlaceId, rank).stream()
+                .map(result -> new Object[]{TouristicPlace.of((TouristicPlaceEntity) result[0]), result[1]})
                 .toList();
     }
 

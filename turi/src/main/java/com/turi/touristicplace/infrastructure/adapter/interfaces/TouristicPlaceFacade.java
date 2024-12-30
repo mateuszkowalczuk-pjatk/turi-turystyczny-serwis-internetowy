@@ -20,33 +20,36 @@ public class TouristicPlaceFacade
 {
     private final TouristicPlaceService service;
 
-    public List<TouristicPlace> getTouristicPlacesForSearch(final String query,
-                                                            final LocalDate dateFrom,
-                                                            final LocalDate dateTo,
-                                                            final Long limit,
-                                                            final Long cursor)
+    public List<Object[]> getTouristicPlacesForSearch(final String query,
+                                                      final LocalDate dateFrom,
+                                                      final LocalDate dateTo,
+                                                      final Long limit,
+                                                      final Long touristicPlaceId,
+                                                      final Double rank)
     {
-        return service.getForSearch(query, dateFrom, dateTo, limit, cursor);
+        return service.getForSearch(query, dateFrom, dateTo, limit, touristicPlaceId, rank);
     }
 
-    public List<TouristicPlace> getTouristicPlacesByStaysForSearch(final String query,
+    public List<Object[]> getTouristicPlacesByStaysForSearch(final String query,
+                                                             final LocalDate dateFrom,
+                                                             final LocalDate dateTo,
+                                                             final Long limit,
+                                                             final Long touristicPlaceId,
+                                                             final Double rank,
+                                                             final TouristicPlaceType type)
+    {
+        return service.getByStaysForSearch(query, dateFrom, dateTo, type, limit, touristicPlaceId, rank);
+    }
+
+    public List<Object[]> getTouristicPlacesByAttractionsForSearch(final String query,
                                                                    final LocalDate dateFrom,
                                                                    final LocalDate dateTo,
                                                                    final Long limit,
-                                                                   final Long cursor,
-                                                                   final TouristicPlaceType type)
+                                                                   final Long touristicPlaceId,
+                                                                   final Double rank,
+                                                                   final AttractionType type)
     {
-        return service.getByStaysForSearch(query, dateFrom, dateTo, type, limit, cursor);
-    }
-
-    public List<TouristicPlace> getTouristicPlacesByAttractionsForSearch(final String query,
-                                                                         final LocalDate dateFrom,
-                                                                         final LocalDate dateTo,
-                                                                         final Long limit,
-                                                                         final Long cursor,
-                                                                         final AttractionType type)
-    {
-        return service.getByAttractionsForSearch(query, dateFrom, dateTo, type, limit, cursor);
+        return service.getByAttractionsForSearch(query, dateFrom, dateTo, type, limit, touristicPlaceId, rank);
     }
 
     public List<String> completeTouristicPlacesNames(final String query)

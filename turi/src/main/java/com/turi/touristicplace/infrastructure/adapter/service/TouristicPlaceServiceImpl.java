@@ -28,35 +28,38 @@ public class TouristicPlaceServiceImpl implements TouristicPlaceService
     private final GuaranteedServiceService guaranteedServiceService;
 
     @Override
-    public List<TouristicPlace> getForSearch(final String query,
+    public List<Object[]> getForSearch(final String query,
                                              final LocalDate dateFrom,
                                              final LocalDate dateTo,
                                              final Long limit,
-                                             final Long cursor)
+                                             final Long touristicPlaceId,
+                                             final Double rank)
     {
-        return repository.findForSearch(query, dateFrom, dateTo, limit, cursor);
+        return repository.findForSearch(query, dateFrom, dateTo, limit, touristicPlaceId, rank);
     }
 
     @Override
-    public List<TouristicPlace> getByStaysForSearch(final String query,
+    public List<Object[]> getByStaysForSearch(final String query,
+                                              final LocalDate dateFrom,
+                                              final LocalDate dateTo,
+                                              final TouristicPlaceType type,
+                                              final Long limit,
+                                              final Long touristicPlaceId,
+                                              final Double rank)
+    {
+        return repository.findByStaysForSearch(query, dateFrom, dateTo, type != null ? type.getValue() : null, limit, touristicPlaceId, rank);
+    }
+
+    @Override
+    public List<Object[]> getByAttractionsForSearch(final String query,
                                                     final LocalDate dateFrom,
                                                     final LocalDate dateTo,
-                                                    final TouristicPlaceType type,
+                                                    final AttractionType type,
                                                     final Long limit,
-                                                    final Long cursor)
+                                                    final Long touristicPlaceId,
+                                                    final Double rank)
     {
-        return repository.findByStaysForSearch(query, dateFrom, dateTo, type != null ? type.getValue() : null, limit, cursor);
-    }
-
-    @Override
-    public List<TouristicPlace> getByAttractionsForSearch(final String query,
-                                                          final LocalDate dateFrom,
-                                                          final LocalDate dateTo,
-                                                          final AttractionType type,
-                                                          final Long limit,
-                                                          final Long cursor)
-    {
-        return repository.findByAttractionsForSearch(query, dateFrom, dateTo, type != null ? type.getValue() : null, limit, cursor);
+        return repository.findByAttractionsForSearch(query, dateFrom, dateTo, type != null ? type.getValue() : null, limit, touristicPlaceId, rank);
     }
 
     @Override

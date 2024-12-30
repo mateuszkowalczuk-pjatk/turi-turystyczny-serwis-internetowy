@@ -17,7 +17,8 @@ import java.util.List;
 public final class Search
 {
     private List<SearchTouristicPlace> searchTouristicPlaces;
-    private Long cursor;
+    private Long touristicPlaceId;
+    private Double rank;
 
     @Getter
     @Setter
