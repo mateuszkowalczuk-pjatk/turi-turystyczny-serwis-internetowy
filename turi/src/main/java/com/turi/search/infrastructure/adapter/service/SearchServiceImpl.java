@@ -59,13 +59,13 @@ public class SearchServiceImpl implements SearchService
                                final String query,
                                final LocalDate dateFrom,
                                final LocalDate dateTo,
-                               final TouristicPlaceType type)
+                               final TouristicPlaceType touristicPlaceType)
     {
-        final var touristicPlacesForSearch = touristicPlaceFacade.getTouristicPlacesByStaysForSearch(query, dateFrom, dateTo, limit, touristicPlaceId, rank, type);
+        final var touristicPlacesForSearch = touristicPlaceFacade.getTouristicPlacesByStaysForSearch(query, dateFrom, dateTo, limit, touristicPlaceId, rank, touristicPlaceType);
 
         final var searchTouristicPlaces = touristicPlacesForSearch.stream()
                 .map(result -> (TouristicPlace) result[0])
-                .filter(touristicPlace -> touristicPlace.getTouristicPlaceType().equals(type))
+                .filter(touristicPlace -> touristicPlaceType == null || touristicPlace.getTouristicPlaceType().equals(touristicPlaceType))
                 .map(touristicPlace -> getSearchTouristicPlace(touristicPlace, dateFrom, dateTo))
                 .toList();
 
@@ -87,9 +87,9 @@ public class SearchServiceImpl implements SearchService
                                      final String query,
                                      final LocalDate dateFrom,
                                      final LocalDate dateTo,
-                                     final AttractionType type)
+                                     final AttractionType attractionType)
     {
-        final var touristicPlacesForSearch = touristicPlaceFacade.getTouristicPlacesByAttractionsForSearch(query, dateFrom, dateTo, limit, touristicPlaceId, rank, type);
+        final var touristicPlacesForSearch = touristicPlaceFacade.getTouristicPlacesByAttractionsForSearch(query, dateFrom, dateTo, limit, touristicPlaceId, rank, attractionType);
 
         final var searchTouristicPlaces = touristicPlacesForSearch.stream()
                 .map(result -> (TouristicPlace) result[0])
@@ -100,7 +100,7 @@ public class SearchServiceImpl implements SearchService
 
                     final var attractions = getTouristicPlaceAttractions(touristicPlace.getTouristicPlaceId(), dateFrom, dateTo)
                             .stream()
-                            .filter(attraction -> attraction.getAttractionType().equals(type))
+                            .filter(attraction -> attractionType == null || attraction.getAttractionType().equals(attractionType))
                             .toList();
 
                     return Search.SearchTouristicPlace.builder()
@@ -188,7 +188,7 @@ public class SearchServiceImpl implements SearchService
     private Double getSearchRank(final List<Object[]> touristicPlacesForSearch)
     {
         final var ranks = touristicPlacesForSearch.stream()
-                .map(result -> (Double) result[1])
+                .map(result -> Double.valueOf(String.valueOf(result[1])))
                 .toList();
 
         return ranks.isEmpty() ? null : ranks.get(ranks.size() - 1);

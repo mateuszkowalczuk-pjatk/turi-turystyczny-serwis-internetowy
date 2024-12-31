@@ -36,9 +36,9 @@ public class TouristicPlaceFacade
                                                              final Long limit,
                                                              final Long touristicPlaceId,
                                                              final Double rank,
-                                                             final TouristicPlaceType type)
+                                                             final TouristicPlaceType touristicPlaceType)
     {
-        return service.getByStaysForSearch(query, dateFrom, dateTo, type, limit, touristicPlaceId, rank);
+        return service.getByStaysForSearch(query, dateFrom, dateTo, touristicPlaceType, limit, touristicPlaceId, rank);
     }
 
     public List<Object[]> getTouristicPlacesByAttractionsForSearch(final String query,
@@ -47,9 +47,9 @@ public class TouristicPlaceFacade
                                                                    final Long limit,
                                                                    final Long touristicPlaceId,
                                                                    final Double rank,
-                                                                   final AttractionType type)
+                                                                   final AttractionType attractionType)
     {
-        return service.getByAttractionsForSearch(query, dateFrom, dateTo, type, limit, touristicPlaceId, rank);
+        return service.getByAttractionsForSearch(query, dateFrom, dateTo, attractionType, limit, touristicPlaceId, rank);
     }
 
     public List<String> completeTouristicPlacesNames(final String query)

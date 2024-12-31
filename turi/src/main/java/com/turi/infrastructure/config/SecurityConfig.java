@@ -46,14 +46,15 @@ public class SecurityConfig
                                 "/api/user/isUsernameExists",
                                 "/api/user/isEmailExists",
                                 "/api/payment/webhook",
-                                "/api/search"
+                                "/api/search/autocomplete",
+                                "/api/search/"
                         ).permitAll()
                         .requestMatchers("/api/account/activate").hasRole(AccountType.INACTIVE.getName())
                         .requestMatchers(
                                 "/api/premium/premium/**",
-                                "/api/touristicplace",
-                                "/api/stay",
-                                "/api/attraction"
+                                "/api/touristicplace/**",
+                                "/api/stay/**",
+                                "/api/attraction/**"
                         ).hasRole(AccountType.PREMIUM.getName())
                         .requestMatchers("/api/**", "/uploads/**").hasAnyRole(AccountType.NORMAL.getName(), AccountType.PREMIUM.getName())
                         .anyRequest().authenticated())

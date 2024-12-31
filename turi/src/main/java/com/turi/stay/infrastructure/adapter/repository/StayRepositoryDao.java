@@ -11,11 +11,13 @@ import java.util.List;
 public interface StayRepositoryDao extends JpaRepository<StayEntity, Long>
 {
     @Query(value = """
-        SELECT DISTINCT s.name
+    SELECT name FROM (
+        SELECT DISTINCT s.name, ts_rank(to_tsvector('simple', s.name), plainto_tsquery('simple', :query)) AS rank
         FROM stay s
-        WHERE to_tsvector('polish', s.name) @@ plainto_tsquery('polish', :query)
-        ORDER BY ts_rank(to_tsvector('polish', s.name), plainto_tsquery('polish', :query)) DESC
-        LIMIT 6;
+        WHERE to_tsvector('simple', s.name) @@ plainto_tsquery('simple', :query) OR s.name ILIKE '%' || :query || '%'
+        ORDER BY rank DESC NULLS LAST
+        LIMIT 6
+    ) AS subquery;
     """, nativeQuery = true)
     List<String> findForAutocomplete(@Param("query") final String query);
 

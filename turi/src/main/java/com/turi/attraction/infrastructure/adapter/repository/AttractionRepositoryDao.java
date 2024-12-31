@@ -11,11 +11,13 @@ import java.util.List;
 public interface AttractionRepositoryDao extends JpaRepository<AttractionEntity, Long>
 {
     @Query(value = """
-        SELECT DISTINCT a.name
+    SELECT name FROM (
+        SELECT DISTINCT a.name, ts_rank(to_tsvector('simple', a.name), plainto_tsquery('simple', :query)) AS rank
         FROM attraction a
-        WHERE to_tsvector('polish', a.name) @@ plainto_tsquery('polish', :query)
-        ORDER BY ts_rank(to_tsvector('polish', a.name), plainto_tsquery('polish', :query)) DESC
-        LIMIT 6;
+        WHERE to_tsvector('simple', a.name) @@ plainto_tsquery('simple', :query) OR a.name ILIKE '%' || :query || '%'
+        ORDER BY rank DESC NULLS LAST
+        LIMIT 6
+    ) AS subquery;
     """, nativeQuery = true)
     List<String> findForAutocomplete(@Param("query") final String query);
 
