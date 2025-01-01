@@ -73,5 +73,9 @@ export const API = {
         GET_ALL_BY_ATTRACTION_ID: '/api/image/getAllByAttractionId',
         UPLOAD: '/api/image/upload',
         DELETE_BY_ID: '/api/image/deleteById'
+    },
+    SEARCH: {
+        SEARCH: '/api/search',
+        AUTOCOMPLETE: '/api/search/autocomplete'
     }
 }

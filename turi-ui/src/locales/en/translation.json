@@ -34,19 +34,19 @@
         },
         "proposition": {
             "stay": "Most popular places to stay!",
-            "hotels": "Hotels",
-            "houses": "Houses",
-            "apartments": "Apartments",
             "guesthouses": "Guesthouses",
-            "privates": "Private objects",
+            "apartments": "Apartments",
+            "cottages": "Cottages",
+            "hotels": "Hotels",
             "b&b": "B&B",
+            "hostels": "Hostels",
             "attraction": "Get swept up in your favorite attractions!",
-            "kayaks": "Canoes",
-            "ski-slopes": "Ski slopes",
-            "saunas": "Saunas",
-            "pools": "Pools",
-            "quads": "Quads",
-            "bicycles": "Bicycles"
+            "relax": "Relax",
+            "sport": "Sport",
+            "recreation": "Recreation",
+            "entertainment": "Entertainment",
+            "food": "Food",
+            "event": "Events"
         }
     },
     "footer": {
@@ -261,7 +261,7 @@
         "offer-price": "The premium package costs {{price}} for the stated duration. After this time, the offered options will expire until you purchase the premium package again.",
         "offer-button": "Next",
         "verify-description": "Enter your personal and company information so that we can verify your business activity.",
-        "verify-personal-title": "Presonal data",
+        "verify-personal-title": "Personal data",
         "verify-personal-name": "Name and surname",
         "verify-personal-first-name-placeholder": "Name",
         "verify-personal-last-name-placeholder": "Surname",
