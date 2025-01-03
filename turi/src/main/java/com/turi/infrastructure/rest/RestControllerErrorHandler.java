@@ -312,6 +312,12 @@ public final class RestControllerErrorHandler extends ErrorHandler
         return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
+    @ExceptionHandler(TouristicPlaceAlreadyExistsException.class)
+    public ResponseEntity<ErrorCode> handleTouristicPlaceAlreadyExistsException(final TouristicPlaceAlreadyExistsException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
     @ExceptionHandler(TouristicPlaceUniqueAddressException.class)
     public ResponseEntity<ErrorCode> handleTouristicPlaceUniqueAddressException(final TouristicPlaceUniqueAddressException ex)
     {

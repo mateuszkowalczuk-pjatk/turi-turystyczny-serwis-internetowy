@@ -4,6 +4,7 @@ import com.turi.address.domain.exception.AddressNotFoundException;
 import com.turi.address.infrastructure.adapter.interfaces.AddressFacade;
 import com.turi.attraction.domain.model.AttractionType;
 import com.turi.premium.infrastructure.adapter.interfaces.PremiumFacade;
+import com.turi.touristicplace.domain.exception.TouristicPlaceAlreadyExistsException;
 import com.turi.touristicplace.domain.exception.TouristicPlaceUniqueAddressException;
 import com.turi.touristicplace.domain.model.GuaranteedService;
 import com.turi.touristicplace.domain.model.TouristicPlace;
@@ -117,6 +118,11 @@ public class TouristicPlaceServiceImpl implements TouristicPlaceService
     @Override
     public void create()
     {
+        if (getByPremiumId() != null)
+        {
+            throw new TouristicPlaceAlreadyExistsException();
+        }
+
         final var premiumId = Objects.requireNonNull(premiumFacade.getPremiumByAccount().getBody()).getPremiumId();
 
         final var touristicPlace = TouristicPlace.builder()

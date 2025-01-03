@@ -1,12 +1,53 @@
+import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 import BrowserSearch from '../BrowserSearch/BrowserSearch'
 import BrowserTypeButtons from '../BrowserTypeButtons'
+import { SearchMode } from '../../../../types/search.ts'
 import styles from './Browser.module.css'
 
 const Browser = () => {
+    const navigate = useNavigate()
+    const [mode, setMode] = useState<string>(SearchMode.ALL)
+    const [query, setQuery] = useState<string>('')
+    const [dateFrom, setDateFrom] = useState<string | null>(null)
+    const [dateTo, setDateTo] = useState<string | null>(null)
+
+    const handleSearch = () => {
+        if (
+            query !== '' &&
+            ((dateFrom !== null && dateTo !== null && dateFrom <= dateTo) || (dateFrom === null && dateTo === null))
+        ) {
+            navigate(
+                '/search' +
+                    '?mode=' +
+                    mode +
+                    '&query=' +
+                    query +
+                    (dateFrom != null ? '&dateFrom=' + dateFrom : '') +
+                    (dateTo != null ? '&dateTo=' + dateTo : '')
+            )
+        } else {
+            setDateFrom(null)
+            setDateTo(null)
+        }
+    }
+
     return (
         <div className={styles.browser}>
-            <BrowserSearch />
-            <BrowserTypeButtons />
+            <BrowserSearch
+                query={query}
+                setQuery={setQuery}
+                dateFrom={dateFrom}
+                setDateFrom={setDateFrom}
+                dateTo={dateTo}
+                setDateTo={setDateTo}
+                handleSearch={handleSearch}
+                mode={mode}
+            />
+            <BrowserTypeButtons
+                mode={mode}
+                setMode={setMode}
+            />
         </div>
     )
 }

@@ -1,34 +1,32 @@
 import { useTranslation } from 'react-i18next'
-import { useState } from 'react'
 import { GreyButton } from '../../Controls/Button'
+import { SearchMode } from '../../../../types/search.ts'
 import styles from './BrowserTypeButtons.module.css'
 
-const STATES = {
-    ALL: 'all',
-    STAY: 'stay',
-    ATTRACTION: 'attraction'
+interface Props {
+    mode: string
+    setMode: (value: ((prevState: string) => string) | string) => void
 }
 
-const BrowserTypeButtons = () => {
+const BrowserTypeButtons = ({ mode, setMode }: Props) => {
     const { t } = useTranslation()
-    const [selectedButton, setSelectedButton] = useState<string>(STATES.ALL)
 
     return (
         <div className={styles.buttons}>
             <GreyButton
                 text={t('home.dashboard.all-button')}
-                onClick={() => setSelectedButton(STATES.ALL)}
-                className={selectedButton === STATES.ALL ? styles.selected : ''}
+                onClick={() => setMode(SearchMode.ALL)}
+                className={mode === SearchMode.ALL ? styles.selected : ''}
             />
             <GreyButton
                 text={t('home.dashboard.stay-button')}
-                onClick={() => setSelectedButton(STATES.STAY)}
-                className={selectedButton === STATES.STAY ? styles.selected : ''}
+                onClick={() => setMode(SearchMode.STAY)}
+                className={mode === SearchMode.STAY ? styles.selected : ''}
             />
             <GreyButton
                 text={t('home.dashboard.attraction-button')}
-                onClick={() => setSelectedButton(STATES.ATTRACTION)}
-                className={selectedButton === STATES.ATTRACTION ? styles.selected : ''}
+                onClick={() => setMode(SearchMode.ATTRACTION)}
+                className={mode === SearchMode.ATTRACTION ? styles.selected : ''}
             />
         </div>
     )

@@ -1,25 +1,31 @@
 import { useTranslation } from 'react-i18next'
-import BrowserSearchCalendar from '../BrowserSearchCalendar'
+import BrowserSearchDateInput from '../BrowserSearchDateInput'
 import BrowserSearchText from '../BrowserSearchText'
 import styles from './BrowserSearchDate.module.css'
 
-const BrowserSearchDate = () => {
+interface Props {
+    dateFrom: string | null
+    setDateFrom: (value: ((prevState: string | null) => string | null) | string | null) => void
+    dateTo: string | null
+    setDateTo: (value: ((prevState: string | null) => string | null) | string | null) => void
+}
+
+const BrowserSearchDate = ({ dateFrom, setDateFrom, dateTo, setDateTo }: Props) => {
     const { t } = useTranslation()
 
     return (
-        <div
-            className={styles.date}
-            onClick={() => console.log('Search')}
-            role="button"
-            tabIndex={0}
-        >
-            <BrowserSearchCalendar />
-            <BrowserSearchText text={t('home.dashboard.calendar-from')} />
-            <BrowserSearchText
-                text={t('home.dashboard.calendar-dash')}
-                dash={true}
+        <div className={styles.date}>
+            <BrowserSearchDateInput
+                date={dateFrom}
+                setDate={setDateFrom}
+                text={t('home.dashboard.calendar-from')}
             />
-            <BrowserSearchText text={t('home.dashboard.calendar-to')} />
+            <BrowserSearchText text={t('home.dashboard.calendar-dash')} />
+            <BrowserSearchDateInput
+                date={dateTo}
+                setDate={setDateTo}
+                text={t('home.dashboard.calendar-to')}
+            />
         </div>
     )
 }

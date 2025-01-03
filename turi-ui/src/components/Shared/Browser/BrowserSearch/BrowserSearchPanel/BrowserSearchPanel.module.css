@@ -1,7 +1,39 @@
+.wrapper {
+    width: 78%;
+    position: relative;
+}
+
+.autocompletes {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--white);
+    border: 1px solid var(--light-green);
+    border-radius: 0.3rem;
+    list-style: none;
+    padding: 0;
+    margin: 4px 0 0;
+    z-index: 10;
+    overflow-y: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 78%;
+}
+
+.autocomplete {
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.autocomplete:hover {
+    background: var(--grey);
+}
+
 .panel {
     display: flex;
     align-items: center;
-    width: 78%;
+    width: 100%;
     height: 3.5rem;
 }
 

@@ -1,9 +1,14 @@
-import { ChangeEvent } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import Input from '../../../Controls/Input'
 import styles from './BrowserSearchInput.module.css'
 
-const BrowserSearchInput = () => {
+interface Props {
+    query: string
+    setQuery: (value: ((prevState: string) => string) | string) => void
+}
+
+const BrowserSearchInput = ({ query, setQuery }: Props) => {
     const { t } = useTranslation()
 
     return (
@@ -11,9 +16,9 @@ const BrowserSearchInput = () => {
             <Input
                 type={'text'}
                 placeholder={t('home.dashboard.placeholder')}
-                name={''}
-                value={''}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => console.log(e)}
+                name={'query'}
+                value={query}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
                 required
             />
         </div>

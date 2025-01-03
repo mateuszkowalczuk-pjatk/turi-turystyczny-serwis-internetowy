@@ -4,7 +4,7 @@ import { SearchMode } from '../types/search.ts'
 import { TouristicPlaceType } from '../types/touristicPlace.ts'
 import { AttractionType } from '../types/attraction.ts'
 
-export const addressService = {
+export const searchService = {
     search: async (
         mode: SearchMode,
         limit: string,
@@ -28,7 +28,7 @@ export const addressService = {
         )
     },
 
-    create: async (mode: SearchMode, query: string) => {
+    autocomplete: async (mode: string, query: string) => {
         return await fetch(`${API_BASE_URL}${API.SEARCH.AUTOCOMPLETE}?mode=${mode}&query=${query}`, {
             method: 'GET',
             headers: {
