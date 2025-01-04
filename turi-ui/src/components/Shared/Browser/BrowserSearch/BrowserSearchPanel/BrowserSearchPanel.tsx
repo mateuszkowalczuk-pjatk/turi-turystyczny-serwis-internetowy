@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import BrowserSearchIcon from '../BrowserSearchIcon'
 import BrowserSearchInput from '../BrowserSearchInput'
 import BrowserSearchButton from '../BrowserSearchButton'
-import { searchService } from '../../../../../services/searchService.ts'
+import { offerService } from '../../../../../services/offerService.ts'
 import styles from './BrowserSearchPanel.module.css'
 
 interface Props {
@@ -19,7 +19,7 @@ const BrowserSearchPanel = ({ query, setQuery, handleSearch, mode }: Props) => {
 
     useEffect(() => {
         const fetchAutocomplete = async (query: string) => {
-            const response = await searchService.autocomplete(mode, query)
+            const response = await offerService.autocomplete(mode, query)
             const data = await response.json()
             setAutocomplete(data)
         }

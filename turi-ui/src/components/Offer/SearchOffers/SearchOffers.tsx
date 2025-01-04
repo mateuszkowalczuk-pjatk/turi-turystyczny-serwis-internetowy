@@ -1,15 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import SearchOffersItem from '../SearchOffersItem'
-import { Search, SearchTouristicPlaces } from '../../../types/search.ts'
-import { searchService } from '../../../services/searchService.ts'
+import { Search, Offer } from '../../../types/offer.ts'
+import { offerService } from '../../../services/offerService.ts'
 import styles from './SearchOffers.module.css'
 
 interface Props {
-    offers: SearchTouristicPlaces[]
-    setOffers: (
-        value: ((prevState: SearchTouristicPlaces[]) => SearchTouristicPlaces[]) | SearchTouristicPlaces[]
-    ) => void
+    offers: Offer[]
+    setOffers: (value: ((prevState: Offer[]) => Offer[]) | Offer[]) => void
     touristicPlaceId: string | null
     setTouristicPlaceId: (value: ((prevState: string | null) => string | null) | string | null) => void
     rank: string | null
@@ -46,7 +44,7 @@ const SearchOffers = ({
 
         setLoading(true)
 
-        const offersResponse = await searchService.search(
+        const offersResponse = await offerService.search(
             mode,
             touristicPlaceId,
             rank,
@@ -57,8 +55,8 @@ const SearchOffers = ({
             attractionType
         )
         const offersData: Search = await offersResponse.json()
-        if (offersData.searchTouristicPlaces.length > 0) {
-            setOffers((prevOffers) => [...prevOffers, ...offersData.searchTouristicPlaces])
+        if (offersData.offers.length > 0) {
+            setOffers((prevOffers) => [...prevOffers, ...offersData.offers])
             setTouristicPlaceId(offersData.touristicPlaceId.toString())
             setRank(offersData.rank.toString())
         } else setCursor(false)

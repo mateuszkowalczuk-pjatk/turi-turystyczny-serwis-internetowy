@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import ImagePanel from '../../Shared/Image/ImagePanel'
 import TextRegular from '../../Shared/Controls/Text/TextRegular'
-import { SearchTouristicPlaces } from '../../../types/search.ts'
+import { Offer } from '../../../types/offer.ts'
 import { TouristicPlaceType } from '../../../types/touristicPlace.ts'
 import { Address } from '../../../types'
 import { Image } from '../../../types/image.ts'
@@ -13,10 +13,11 @@ import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons'
 import { addressService } from '../../../services/addressService.ts'
 import { imageService } from '../../../services/imageService.ts'
+import { offerService } from '../../../services/offerService.ts'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 import styles from './SearchOffersItem.module.css'
 
-const SearchOffersItem = ({ offer }: { offer: SearchTouristicPlaces }) => {
+const SearchOffersItem = ({ offer }: { offer: Offer }) => {
     const { t } = useTranslation()
     const navigate = useNavigate()
     const [image, setImage] = useState<Image>()
@@ -24,10 +25,13 @@ const SearchOffersItem = ({ offer }: { offer: SearchTouristicPlaces }) => {
     const [isFavourite, setIsFavourite] = useState<boolean>(false)
     const [rating, setRating] = useState<number | null>(null)
 
-    const toggleFavorite = () => {
+    const toggleFavorite = async () => {
+        if (!isFavourite && offer.touristicPlace.touristicPlaceId) {
+            await offerService.addFavouriteForAccount(offer.touristicPlace.touristicPlaceId)
+        } else if (offer.touristicPlace.touristicPlaceId) {
+            await offerService.deleteFavouriteForAccount(offer.touristicPlace.touristicPlaceId)
+        }
         setIsFavourite((prev) => !prev)
-        // 1. Dodanie oferty do ulubiony
-        // 2. Usuniecie oferty z ulubionych
     }
 
     useEffect(() => {
@@ -47,7 +51,11 @@ const SearchOffersItem = ({ offer }: { offer: SearchTouristicPlaces }) => {
                         setAddress(addressData)
                     }
                 }
-                // pobranie czy oferta jest ulubiona - isOfferAccountFauvoirte
+                const favouriteResponse = await offerService.isFavouriteForAccount(
+                    offer.touristicPlace.touristicPlaceId
+                )
+                const favouriteData: boolean = await favouriteResponse.json()
+                setIsFavourite(favouriteData)
                 // ToDo - Pobranie średniej oceny gości, którzy zrealizowali i ocenili pobyt
             }
         }

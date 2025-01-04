@@ -74,8 +74,12 @@ export const API = {
         UPLOAD: '/api/image/upload',
         DELETE_BY_ID: '/api/image/deleteById'
     },
-    SEARCH: {
-        SEARCH: '/api/search/search',
-        AUTOCOMPLETE: '/api/search/autocomplete'
+    OFFER: {
+        SEARCH: '/api/offer/search',
+        AUTOCOMPLETE: '/api/offer/autocomplete',
+        GET_ALL_FAVOURITE_BY_ACCOUNT: '/api/offer/getAllFavouriteByAccount',
+        IS_FAVOURITE_FOR_ACCOUNT: '/api/offer/isFavouriteForAccount',
+        ADD_FAVOURITE_FOR_ACCOUNT: '/api/offer/addFavouriteForAccount',
+        DELETE_FAVOURITE_FOR_ACCOUNT: '/api/offer/deleteFavouriteForAccount'
     }
 }

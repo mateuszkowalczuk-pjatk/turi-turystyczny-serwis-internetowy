@@ -1,6 +1,7 @@
 package com.turi.offer.infrastructure.adapter.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -24,10 +25,11 @@ public interface FavouriteRepositoryDao extends JpaRepository<FavouriteEntity, F
     Optional<FavouriteEntity> findByAccountIdAndTouristicPlaceId(@Param("accountId") final Long accountId,
                                                                  @Param("touristicPlaceId") final Long touristicPlaceId);
 
+    @Modifying
     @Query(value = """
-    DELETE FROM favourite f
-    WHERE f.accountId = :accountId AND f.touristicplaceid = :touristicPlaceId
+    DELETE FROM favourite
+    WHERE accountid = :accountId AND touristicplaceid = :touristicPlaceId
     """, nativeQuery = true)
-    void deleteByAccountIdAndTouristicPlaceId(@Param("accountId") final Long accountId,
-                                              @Param("touristicPlaceId") final Long touristicPlaceId);
+    void deleteForAccount(@Param("accountId") final Long accountId,
+                          @Param("touristicPlaceId") final Long touristicPlaceId);
 }

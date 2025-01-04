@@ -3,8 +3,8 @@ import { useLocation } from 'react-router-dom'
 import SearchBrowser from '../../../components/Offer/SearchBrowser'
 import SearchFilter from '../../../components/Offer/SearchFilter'
 import SearchOffers from '../../../components/Offer/SearchOffers'
-import { Search, SearchMode, SearchTouristicPlaces } from '../../../types/search.ts'
-import { searchService } from '../../../services/searchService.ts'
+import { Search, SearchMode, Offer } from '../../../types/offer.ts'
+import { offerService } from '../../../services/offerService.ts'
 import styles from '../../Page.module.css'
 
 const SearchPage = () => {
@@ -21,13 +21,13 @@ const SearchPage = () => {
     const attractionType = params.get('attractionType') || null
     const [touristicPlaceId, setTouristicPlaceId] = useState<string | null>(null)
     const [rank, setRank] = useState<string | null>(null)
-    const [offers, setOffers] = useState<SearchTouristicPlaces[]>([])
+    const [offers, setOffers] = useState<Offer[]>([])
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const fetchOffers = async () => {
             setOffers([])
-            const offersResponse = await searchService.search(
+            const offersResponse = await offerService.search(
                 mode,
                 null,
                 null,
@@ -38,10 +38,10 @@ const SearchPage = () => {
                 attractionType
             )
             const offersData: Search = await offersResponse.json()
-            if (offersData.searchTouristicPlaces.length !== 0) {
+            if (offersData.offers.length !== 0) {
                 setTouristicPlaceId(offersData.touristicPlaceId.toString())
                 setRank(offersData.rank.toString())
-                setOffers(offersData.searchTouristicPlaces)
+                setOffers(offersData.offers)
             }
             setLoading(false)
         }

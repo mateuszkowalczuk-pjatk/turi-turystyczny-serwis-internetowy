@@ -28,7 +28,7 @@ const UserHeader = () => {
                     thirdLink={
                         <TextRegular
                             text={t('header.favourites')}
-                            onClick={() => navigate('/favourites')}
+                            onClick={() => navigate('/favourite')}
                         />
                     }
                 />

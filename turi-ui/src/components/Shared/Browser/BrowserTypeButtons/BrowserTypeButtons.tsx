@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { GreyButton } from '../../Controls/Button'
-import { SearchMode } from '../../../../types/search.ts'
+import { SearchMode } from '../../../../types/offer.ts'
 import styles from './BrowserTypeButtons.module.css'
 
 interface Props {

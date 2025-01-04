@@ -47,8 +47,12 @@ public class FavouriteRepositoryImpl implements FavouriteRepository
     @Override
     public void deleteForAccount(final Long accountId, final Long touristicPlaceId)
     {
-        final var favourite = findByAccountIdAndTouristicPlaceId(accountId, touristicPlaceId);
-
-        repositoryDao.deleteByAccountIdAndTouristicPlaceId(favourite.getAccountId(), favourite.getTouristicPlaceId());
+        if (findByAccountIdAndTouristicPlaceId(accountId, touristicPlaceId) != null)
+        {
+            repositoryDao.deleteById(FavouriteId.builder()
+                    .withAccountId(accountId)
+                    .withTouristicPlaceId(touristicPlaceId)
+                    .build());
+        }
     }
 }

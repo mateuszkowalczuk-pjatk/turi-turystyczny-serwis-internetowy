@@ -3,12 +3,12 @@ import { StayDto } from './stay.ts'
 import { Attraction } from './attraction.ts'
 
 export interface Search {
-    searchTouristicPlaces: SearchTouristicPlaces[]
+    offers: Offer[]
     touristicPlaceId: number
     rank: number
 }
 
-export interface SearchTouristicPlaces {
+export interface Offer {
     touristicPlace: TouristicPlace
     guaranteedServices: GuaranteedService[]
     stays: StayDto[]

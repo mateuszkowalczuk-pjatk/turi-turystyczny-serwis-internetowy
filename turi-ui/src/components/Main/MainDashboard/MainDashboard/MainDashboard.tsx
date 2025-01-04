@@ -1,6 +1,6 @@
 import MainDashboardBanner from '../MainDashboardBanner'
 import Browser from '../../../Shared/Browser/Browser'
-import { SearchMode } from '../../../../types/search.ts'
+import { SearchMode } from '../../../../types/offer.ts'
 import styles from './MainDashboard.module.css'
 
 const MainDashboard = () => {

@@ -47,19 +47,19 @@ public class OfferRestController
     }
 
     @GetMapping("/isFavouriteForAccount")
-    public ResponseEntity<Boolean> isOfferFavouriteForAccount(final String touristicPlaceId)
+    public ResponseEntity<Boolean> isOfferFavouriteForAccount(@RequestParam final String touristicPlaceId)
     {
         return facade.isOfferFavouriteForAccount(touristicPlaceId);
     }
 
     @PostMapping("/addFavouriteForAccount")
-    public ResponseEntity<?> addFavouriteOfferForAccount(final String touristicPlaceId)
+    public ResponseEntity<?> addFavouriteOfferForAccount(@RequestParam final String touristicPlaceId)
     {
         return facade.addFavouriteOfferForAccount(touristicPlaceId);
     }
 
     @DeleteMapping("/deleteFavouriteForAccount")
-    public ResponseEntity<?> deleteFavouriteOfferForAccount(final String touristicPlaceId)
+    public ResponseEntity<?> deleteFavouriteOfferForAccount(@RequestParam final String touristicPlaceId)
     {
         return facade.deleteFavouriteOfferForAccount(touristicPlaceId);
     }

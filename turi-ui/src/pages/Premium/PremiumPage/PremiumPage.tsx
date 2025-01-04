@@ -4,16 +4,16 @@ import { useNavigate } from 'react-router-dom'
 import { GreenButton } from '../../../components/Shared/Controls/Button'
 import { useAuth } from '../../../hooks/useAuth.ts'
 import PremiumDescription from '../../../components/Premium/PremiumDescription'
+import PremiumOfferComp from '../../../components/Premium/PremiumOfferComp'
 import PremiumSection from '../../../components/Premium/PremiumSection'
 import PremiumButtons from '../../../components/Premium/PremiumButtons'
-import PremiumOffer from '../../../components/Premium/PremiumOffer'
-import { Offer } from '../../../types'
+import { PremiumOffer } from '../../../types'
 import { premiumService } from '../../../services/premiumService.ts'
 
 const PremiumPage = () => {
     const { t } = useTranslation()
     const navigate = useNavigate()
-    const [offer, setOffer] = useState<Offer | null>(null)
+    const [offer, setOffer] = useState<PremiumOffer | null>(null)
 
     useAuth('/')
 
@@ -21,7 +21,7 @@ const PremiumPage = () => {
         const fetchOffer = async () => {
             const response = await premiumService.getOffer()
             if (response.status === 200) {
-                const offer: Offer = await response.json()
+                const offer: PremiumOffer = await response.json()
                 setOffer(offer)
             }
         }
@@ -33,13 +33,13 @@ const PremiumPage = () => {
             <PremiumDescription text={t('premium.offer-description')} />
             <PremiumSection
                 leftPanel={
-                    <PremiumOffer
+                    <PremiumOfferComp
                         text={t('premium.offer-list-title')}
                         list={true}
                     />
                 }
                 rightPanel={
-                    <PremiumOffer
+                    <PremiumOfferComp
                         text={t('premium.offer-access-price-title')}
                         list={false}
                         length={offer?.length}

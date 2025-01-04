@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import TextBold from '../../../Shared/Controls/Text/TextBold'
-import { SearchMode } from '../../../../types/search.ts'
+import { SearchMode } from '../../../../types/offer.ts'
 import { TouristicPlaceType } from '../../../../types/touristicPlace.ts'
 import { AttractionType } from '../../../../types/attraction.ts'
 import styles from './MainPropositionPanel.module.css'

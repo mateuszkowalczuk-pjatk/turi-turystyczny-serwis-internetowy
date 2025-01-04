@@ -1,7 +1,7 @@
 import MainPropositionPanel from '../MainPropositionPanel'
 import { TouristicPlaceType } from '../../../../types/touristicPlace.ts'
 import { AttractionType } from '../../../../types/attraction.ts'
-import { SearchMode } from '../../../../types/search.ts'
+import { SearchMode } from '../../../../types/offer.ts'
 import styles from './MainPropositionPanels.module.css'
 
 interface Props {
