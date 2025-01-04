@@ -1,4 +1,4 @@
-package com.turi.search.domain.model;
+package com.turi.offer.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

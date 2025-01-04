@@ -9,6 +9,8 @@ import com.turi.authentication.domain.exception.*;
 import com.turi.image.domain.exception.*;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.infrastructure.exception.BadRequestResponseException;
+import com.turi.offer.domain.exception.InvalidFavouriteException;
+import com.turi.offer.domain.exception.UniqueFavouriteException;
 import com.turi.payment.domain.exception.*;
 import com.turi.premium.domain.exception.*;
 import com.turi.stay.domain.exception.InvalidStayException;
@@ -182,6 +184,18 @@ public final class RestControllerErrorHandler extends ErrorHandler
 
     @ExceptionHandler(BadRequestResponseException.class)
     public ResponseEntity<ErrorCode> handleBadRequestResponseException(final BadRequestResponseException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidFavouriteException.class)
+    public ResponseEntity<ErrorCode> handleInvalidFavouriteException(final InvalidFavouriteException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(UniqueFavouriteException.class)
+    public ResponseEntity<ErrorCode> handleUniqueFavouriteException(final UniqueFavouriteException ex)
     {
         return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }

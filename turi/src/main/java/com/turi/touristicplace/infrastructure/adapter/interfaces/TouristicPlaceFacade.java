@@ -20,6 +20,11 @@ public class TouristicPlaceFacade
 {
     private final TouristicPlaceService service;
 
+    public TouristicPlace getTouristicPlaceById(final Long id)
+    {
+        return service.getById(id);
+    }
+
     public List<Object[]> getTouristicPlacesForSearch(final String query,
                                                       final LocalDate dateFrom,
                                                       final LocalDate dateTo,

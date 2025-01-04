@@ -1,10 +1,11 @@
-package com.turi.search.infrastructure.adapter.service;
+package com.turi.offer.infrastructure.adapter.service;
 
 import com.turi.attraction.domain.model.Attraction;
 import com.turi.attraction.domain.model.AttractionType;
 import com.turi.attraction.infrastructure.adapter.interfaces.AttractionFacade;
-import com.turi.search.domain.model.Search;
-import com.turi.search.domain.port.SearchService;
+import com.turi.offer.domain.model.Offer;
+import com.turi.offer.domain.model.Search;
+import com.turi.offer.domain.port.SearchService;
 import com.turi.stay.domain.model.StayDto;
 import com.turi.stay.infrastructure.adapter.interfaces.StayFacade;
 import com.turi.touristicplace.domain.model.GuaranteedService;
@@ -36,17 +37,17 @@ public class SearchServiceImpl implements SearchService
     {
         final var touristicPlacesForSearch = touristicPlaceFacade.getTouristicPlacesForSearch(query, dateFrom, dateTo, limit, touristicPlaceId, rank);
 
-        final var searchTouristicPlaces = touristicPlacesForSearch.stream()
+        final var offers = touristicPlacesForSearch.stream()
                 .map(result -> (TouristicPlace) result[0])
                 .map(touristicPlace -> getSearchTouristicPlace(touristicPlace, dateFrom, dateTo))
                 .toList();
 
-        final var searchTouristicPlaceId = getSearchTouristicPlaceId(searchTouristicPlaces);
+        final var searchTouristicPlaceId = getSearchTouristicPlaceId(offers);
 
         final var searchRank = getSearchRank(touristicPlacesForSearch);
 
         return Search.builder()
-                .withSearchTouristicPlaces(searchTouristicPlaces)
+                .withOffers(offers)
                 .withTouristicPlaceId(searchTouristicPlaceId)
                 .withRank(searchRank)
                 .build();
@@ -63,18 +64,18 @@ public class SearchServiceImpl implements SearchService
     {
         final var touristicPlacesForSearch = touristicPlaceFacade.getTouristicPlacesByStaysForSearch(query, dateFrom, dateTo, limit, touristicPlaceId, rank, touristicPlaceType);
 
-        final var searchTouristicPlaces = touristicPlacesForSearch.stream()
+        final var offers = touristicPlacesForSearch.stream()
                 .map(result -> (TouristicPlace) result[0])
                 .filter(touristicPlace -> touristicPlaceType == null || touristicPlace.getTouristicPlaceType().equals(touristicPlaceType))
                 .map(touristicPlace -> getSearchTouristicPlace(touristicPlace, dateFrom, dateTo))
                 .toList();
 
-        final var searchTouristicPlaceId = getSearchTouristicPlaceId(searchTouristicPlaces);
+        final var searchTouristicPlaceId = getSearchTouristicPlaceId(offers);
 
         final var searchRank = getSearchRank(touristicPlacesForSearch);
 
         return Search.builder()
-                .withSearchTouristicPlaces(searchTouristicPlaces)
+                .withOffers(offers)
                 .withTouristicPlaceId(searchTouristicPlaceId)
                 .withRank(searchRank)
                 .build();
@@ -91,7 +92,7 @@ public class SearchServiceImpl implements SearchService
     {
         final var touristicPlacesForSearch = touristicPlaceFacade.getTouristicPlacesByAttractionsForSearch(query, dateFrom, dateTo, limit, touristicPlaceId, rank, attractionType);
 
-        final var searchTouristicPlaces = touristicPlacesForSearch.stream()
+        final var offers = touristicPlacesForSearch.stream()
                 .map(result -> (TouristicPlace) result[0])
                 .map(touristicPlace -> {
                     final var guaranteedServices = getTouristicPlaceGuaranteedServices(touristicPlace.getTouristicPlaceId());
@@ -103,7 +104,7 @@ public class SearchServiceImpl implements SearchService
                             .filter(attraction -> attractionType == null || attraction.getAttractionType().equals(attractionType))
                             .toList();
 
-                    return Search.SearchTouristicPlace.builder()
+                    return Offer.builder()
                             .withTouristicPlace(touristicPlace)
                             .withGuaranteedServices(guaranteedServices)
                             .withStays(stays)
@@ -112,18 +113,18 @@ public class SearchServiceImpl implements SearchService
                 })
                 .toList();
 
-        final var searchTouristicPlaceId = getSearchTouristicPlaceId(searchTouristicPlaces);
+        final var searchTouristicPlaceId = getSearchTouristicPlaceId(offers);
 
         final var searchRank = getSearchRank(touristicPlacesForSearch);
 
         return Search.builder()
-                .withSearchTouristicPlaces(searchTouristicPlaces)
+                .withOffers(offers)
                 .withTouristicPlaceId(searchTouristicPlaceId)
                 .withRank(searchRank)
                 .build();
     }
 
-    private Search.SearchTouristicPlace getSearchTouristicPlace(final TouristicPlace touristicPlace,
+    private Offer getSearchTouristicPlace(final TouristicPlace touristicPlace,
                                                                 final LocalDate dateFrom,
                                                                 final LocalDate dateTo)
     {
@@ -133,7 +134,7 @@ public class SearchServiceImpl implements SearchService
 
         final var attractions = getTouristicPlaceAttractions(touristicPlace.getTouristicPlaceId(), dateFrom, dateTo);
 
-        return Search.SearchTouristicPlace.builder()
+        return Offer.builder()
                 .withTouristicPlace(touristicPlace)
                 .withGuaranteedServices(guaranteedServices)
                 .withStays(stays)
@@ -180,9 +181,9 @@ public class SearchServiceImpl implements SearchService
                 && (dateTo == null || searchDateFrom == null || !dateTo.isBefore(searchDateFrom));
     }
 
-    private Long getSearchTouristicPlaceId(final List<Search.SearchTouristicPlace> searchTouristicPlaces)
+    private Long getSearchTouristicPlaceId(final List<Offer> offers)
     {
-        return searchTouristicPlaces.isEmpty() ? null : searchTouristicPlaces.get(searchTouristicPlaces.size() - 1).getTouristicPlace().getTouristicPlaceId();
+        return offers.isEmpty() ? null : offers.get(offers.size() - 1).getTouristicPlace().getTouristicPlaceId();
     }
 
     private Double getSearchRank(final List<Object[]> touristicPlacesForSearch)

@@ -1,7 +1,7 @@
-package com.turi.search.domain.port;
+package com.turi.offer.domain.port;
 
 import com.turi.attraction.domain.model.AttractionType;
-import com.turi.search.domain.model.Search;
+import com.turi.offer.domain.model.Search;
 import com.turi.touristicplace.domain.model.TouristicPlaceType;
 
 import java.time.LocalDate;

@@ -46,8 +46,8 @@ public class SecurityConfig
                                 "/api/user/isUsernameExists",
                                 "/api/user/isEmailExists",
                                 "/api/payment/webhook",
-                                "/api/search/search",
-                                "/api/search/autocomplete"
+                                "/api/offer/search",
+                                "/api/offer/autocomplete"
                         ).permitAll()
                         .requestMatchers("/api/account/activate").hasRole(AccountType.INACTIVE.getName())
                         .requestMatchers(

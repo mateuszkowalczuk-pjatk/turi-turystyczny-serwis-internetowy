@@ -353,3 +353,20 @@ COMMENT ON COLUMN image.touristicplaceid IS 'Optional foreign key of touristicpl
 COMMENT ON COLUMN image.stayid           IS 'Optional foreign key of stay table.';
 COMMENT ON COLUMN image.attractionid     IS 'Optional foreign key of attraction table.';
 COMMENT ON COLUMN image.path             IS 'Required image path.';
+
+
+CREATE TABLE IF NOT EXISTS favourite
+(
+    accountid        INTEGER NOT NULL,
+    touristicplaceid INTEGER NOT NULL,
+    CONSTRAINT favouriteaccount        FOREIGN KEY (accountid)        REFERENCES account        (accountid),
+    CONSTRAINT favouritetouristicplace FOREIGN KEY (touristicplaceid) REFERENCES touristicplace (touristicplaceid),
+    CONSTRAINT favouriteunique         UNIQUE (accountid, touristicplaceid)
+);
+
+CREATE INDEX IF NOT EXISTS favouriteaccountindex        ON favourite (accountid);
+CREATE INDEX IF NOT EXISTS favouritetouristicplaceindex ON favourite (touristicplaceid);
+
+COMMENT ON TABLE  favourite                  IS 'Table to store offers (touristic places) that user has pinned to his account as favorites.';
+COMMENT ON COLUMN favourite.accountid        IS 'Required foreign key of user account table.';
+COMMENT ON COLUMN favourite.touristicplaceid IS 'Required foreign key of touristicplace (offer) table.';

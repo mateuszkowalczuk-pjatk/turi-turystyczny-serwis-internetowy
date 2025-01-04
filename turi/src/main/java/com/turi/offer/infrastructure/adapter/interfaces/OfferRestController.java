@@ -1,25 +1,23 @@
-package com.turi.search.infrastructure.adapter.interfaces;
+package com.turi.offer.infrastructure.adapter.interfaces;
 
 import com.turi.attraction.domain.model.AttractionType;
-import com.turi.search.domain.model.Search;
-import com.turi.search.domain.model.SearchMode;
+import com.turi.offer.domain.model.Offer;
+import com.turi.offer.domain.model.Search;
+import com.turi.offer.domain.model.SearchMode;
 import com.turi.touristicplace.domain.model.TouristicPlaceType;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping(value = "/api/search", produces = "application/json")
-public class SearchRestController
+@RequestMapping(value = "/api/offer", produces = "application/json")
+public class OfferRestController
 {
-    private final SearchFacade facade;
+    private final OfferFacade facade;
 
     @GetMapping("/search")
     public ResponseEntity<Search> search(@RequestParam final SearchMode mode,
@@ -40,5 +38,29 @@ public class SearchRestController
                                                      @RequestParam final String query)
     {
         return facade.autocomplete(mode, query);
+    }
+
+    @GetMapping("/getAllFavouriteByAccount")
+    public ResponseEntity<List<Offer>> getAllFavouriteOffersByAccount()
+    {
+        return facade.getAllFavouriteOffersByAccount();
+    }
+
+    @GetMapping("/isFavouriteForAccount")
+    public ResponseEntity<Boolean> isOfferFavouriteForAccount(final String touristicPlaceId)
+    {
+        return facade.isOfferFavouriteForAccount(touristicPlaceId);
+    }
+
+    @PostMapping("/addFavouriteForAccount")
+    public ResponseEntity<?> addFavouriteOfferForAccount(final String touristicPlaceId)
+    {
+        return facade.addFavouriteOfferForAccount(touristicPlaceId);
+    }
+
+    @DeleteMapping("/deleteFavouriteForAccount")
+    public ResponseEntity<?> deleteFavouriteOfferForAccount(final String touristicPlaceId)
+    {
+        return facade.deleteFavouriteOfferForAccount(touristicPlaceId);
     }
 }
