@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import BrowserSearchIcon from '../BrowserSearchIcon'
 import BrowserSearchInput from '../BrowserSearchInput'
 import BrowserSearchButton from '../BrowserSearchButton'
@@ -15,6 +15,7 @@ interface Props {
 const BrowserSearchPanel = ({ query, setQuery, handleSearch, mode }: Props) => {
     const [autocomplete, setAutocomplete] = useState<string[]>([])
     const [isFocused, setIsFocused] = useState(false)
+    const wrapper = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         const fetchAutocomplete = async (query: string) => {
@@ -31,8 +32,24 @@ const BrowserSearchPanel = ({ query, setQuery, handleSearch, mode }: Props) => {
         return () => clearTimeout(debounceFetch)
     }, [mode, query])
 
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (wrapper.current && !wrapper.current.contains(event.target as Node)) {
+                setIsFocused(false)
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [])
+
     return (
-        <div className={styles.wrapper}>
+        <div
+            className={styles.wrapper}
+            ref={wrapper}
+        >
             <div className={styles.panel}>
                 <BrowserSearchIcon />
                 <BrowserSearchInput

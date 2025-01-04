@@ -409,6 +409,9 @@
         "statistics-title": "Statistics",
         "home-return": "< back to home page"
     },
+    "offer": {
+        "offers-not-found": "Offers not found!"
+    },
     "not-found": {
         "404": "404",
         "title": "Page not found!",

@@ -3,7 +3,7 @@ import { StayDto } from './stay.ts'
 import { Attraction } from './attraction.ts'
 
 export interface Search {
-    searchTouristicPlaces: SearchTouristicPlaces
+    searchTouristicPlaces: SearchTouristicPlaces[]
     touristicPlaceId: number
     rank: number
 }

@@ -409,6 +409,9 @@
         "statistics-title": "Statystyki",
         "home-return": "< wróć na stronę główną"
     },
+    "offer": {
+        "offers-not-found": "Nie znaleziono ofert!"
+    },
     "not-found": {
         "404": "404",
         "title": "Nie znaleziono strony!",

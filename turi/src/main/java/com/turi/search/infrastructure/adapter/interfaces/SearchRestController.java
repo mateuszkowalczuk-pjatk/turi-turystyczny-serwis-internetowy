@@ -21,7 +21,7 @@ public class SearchRestController
 {
     private final SearchFacade facade;
 
-    @GetMapping("/")
+    @GetMapping("/search")
     public ResponseEntity<Search> search(@RequestParam final SearchMode mode,
                                          @RequestParam final String limit,
                                          @RequestParam(required = false) final String touristicPlaceId,

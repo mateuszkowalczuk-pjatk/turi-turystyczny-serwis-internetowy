@@ -75,7 +75,7 @@ export const API = {
         DELETE_BY_ID: '/api/image/deleteById'
     },
     SEARCH: {
-        SEARCH: '/api/search',
+        SEARCH: '/api/search/search',
         AUTOCOMPLETE: '/api/search/autocomplete'
     }
 }
