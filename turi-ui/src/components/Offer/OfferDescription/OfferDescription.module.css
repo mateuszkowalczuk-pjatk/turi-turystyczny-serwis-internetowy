@@ -1,0 +1,21 @@
+.description {
+    width: 99.1%;
+    height: 15rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.text {
+    height: 13rem;
+    width: 70%;
+}
+
+.text p {
+    line-height: 1.5rem;
+}
+
+.services {
+    height: 14rem;
+    width: 30%;
+}

@@ -2,19 +2,20 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { GreyButton } from '../../Shared/Controls/Button'
+import TextRegular from '../../Shared/Controls/Text/TextRegular'
+import ImagePanel from '../../Shared/Image/ImagePanel'
 import { Attraction } from '../../../types/attraction.ts'
 import { Image } from '../../../types/image.ts'
-import ImagePanel from '../../Shared/Image/ImagePanel'
-import TextRegular from '../../Shared/Controls/Text/TextRegular'
 import { imageService } from '../../../services/imageService.ts'
 import styles from './TourismAttractionOfferItem.module.css'
 
 interface Props {
     attraction: Attraction
     index: number
+    offer?: boolean
 }
 
-const TourismAttractionOfferItem = ({ attraction, index }: Props) => {
+const TourismAttractionOfferItem = ({ attraction, index, offer }: Props) => {
     const { t } = useTranslation()
     const navigate = useNavigate()
     const [image, setImage] = useState<Image>()
@@ -77,16 +78,18 @@ const TourismAttractionOfferItem = ({ attraction, index }: Props) => {
                 )}
             </div>
             <div className={styles.modify}>
-                <GreyButton
-                    className={styles.modifyButton}
-                    type="button"
-                    onClick={() =>
-                        navigate('/tourism/modify-attraction-offer', {
-                            state: { attractionId: attraction.attractionId }
-                        })
-                    }
-                    text={t('tourism.touristic-place-stay-offer-modify')}
-                />
+                {!offer && (
+                    <GreyButton
+                        className={styles.modifyButton}
+                        type="button"
+                        onClick={() =>
+                            navigate('/tourism/modify-attraction-offer', {
+                                state: { attractionId: attraction.attractionId }
+                            })
+                        }
+                        text={t('tourism.touristic-place-stay-offer-modify')}
+                    />
+                )}
             </div>
         </div>
     )

@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import SearchBrowser from '../../../components/Offer/SearchBrowser'
-import SearchFilter from '../../../components/Offer/SearchFilter'
 import SearchOffers from '../../../components/Offer/SearchOffers'
-import { Search, SearchMode, Offer } from '../../../types/offer.ts'
+import { Offer, Search, SearchMode } from '../../../types/offer.ts'
 import { offerService } from '../../../services/offerService.ts'
 import styles from '../../Page.module.css'
 
@@ -56,7 +55,6 @@ const SearchPage = () => {
                 defaultDateFrom={dateFrom}
                 defaultDateTo={dateTo}
             />
-            {offers.length !== 0 && <SearchFilter />}
             {!loading && (
                 <SearchOffers
                     offers={offers}

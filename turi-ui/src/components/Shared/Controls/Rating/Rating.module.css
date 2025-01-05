@@ -1,0 +1,11 @@
+.rating {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.icon {
+    color: var(--light-green);
+    font-size: 1.5rem;
+}

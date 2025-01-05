@@ -410,7 +410,32 @@
         "home-return": "< back to home page"
     },
     "offer": {
-        "offers-not-found": "Offers not found!"
+        "offers-not-found": "Offers not found!",
+        "rating": "Guest rating: ",
+        "rating-not-found": "Guest rating not found",
+        "reservation": "Reserve",
+        "favourite": "Your favourites offers",
+        "return": "< back to previous page",
+        "information": "Important information",
+        "check-in-hours": "Check-in hours: ",
+        "check-out-hours": "Check-out hours: ",
+        "prepayment-required": "Prepayment: required",
+        "prepayment-not-required": "Prepayment: not required",
+        "cancel-reservation-day-before": "Cancellation reservation before (days): ",
+        "street": "st. ",
+        "opinion": "Guest opinion",
+        "opinion-not-found": "The touristic place currently has no opinions.",
+        "owner": "Owner",
+        "owner-email": "Email: ",
+        "owner-phone-number": "Phone number: ",
+        "attraction": "Attractions",
+        "attraction-not-found": "Attractions not found",
+        "price": "Price ",
+        "currency": " zł per night",
+        "room": "Room ",
+        "people-number": " - person",
+        "available-offers": "Available offers",
+        "available-attractions": "Available attractions"
     },
     "not-found": {
         "404": "404",

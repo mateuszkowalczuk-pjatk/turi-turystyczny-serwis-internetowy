@@ -49,4 +49,14 @@ public final class PremiumResponse
 
         return ResponseEntity.ok(premium);
     }
+
+    public static ResponseEntity<Long> of(final Long accountId)
+    {
+        if (accountId == null)
+        {
+            throw new BadRequestResponseException("Premium accountId response must not be null.");
+        }
+
+        return ResponseEntity.ok(accountId);
+    }
 }

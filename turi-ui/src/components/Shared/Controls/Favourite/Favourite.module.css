@@ -1,0 +1,11 @@
+.favourite {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--dark);
+}
+
+.favourite.isFavourite {
+    color: var(--light-green);
+}

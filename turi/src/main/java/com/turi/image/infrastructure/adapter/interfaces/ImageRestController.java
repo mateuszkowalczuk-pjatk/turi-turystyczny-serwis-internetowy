@@ -16,6 +16,12 @@ public class ImageRestController
 {
     private final ImageFacade facade;
 
+    @GetMapping("/getByAccount")
+    public ResponseEntity<Image> getImageByAccountId(@RequestParam final String accountId)
+    {
+        return facade.getImageByAccount(accountId);
+    }
+
     @GetMapping("/getByAccountId")
     public ResponseEntity<Image> getImageByAccountId()
     {

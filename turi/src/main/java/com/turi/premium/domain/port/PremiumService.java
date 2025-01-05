@@ -11,6 +11,8 @@ public interface PremiumService
 
     Premium getByAccount(final Long accountId);
 
+    Long getAccountId(final Long premiumId);
+
     Premium getByLoginToken(final String loginToken);
 
     Boolean isExistsForAccount(final Long accountId);

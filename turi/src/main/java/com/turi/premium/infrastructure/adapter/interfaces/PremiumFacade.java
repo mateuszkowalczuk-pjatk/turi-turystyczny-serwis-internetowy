@@ -1,6 +1,7 @@
 package com.turi.premium.infrastructure.adapter.interfaces;
 
 import com.turi.infrastructure.common.ContextHandler;
+import com.turi.infrastructure.common.ObjectId;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.payment.domain.model.PaymentMethod;
 import com.turi.premium.domain.model.*;
@@ -25,6 +26,18 @@ public class PremiumFacade
         final var accountId = ContextHandler.getIdFromContext();
 
         return PremiumResponse.of(service.getByAccount(accountId));
+    }
+
+    public ResponseEntity<Long> getPremiumAccountId(final String id)
+    {
+        if (id == null)
+        {
+            throw new BadRequestParameterException("Parameter id must not be null.");
+        }
+
+        final var premiumId = ObjectId.of(id).getValue();
+
+        return PremiumResponse.of(service.getAccountId(premiumId));
     }
 
     public ResponseEntity<Boolean> isPremiumExistsForAccount()

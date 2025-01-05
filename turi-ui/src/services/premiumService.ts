@@ -23,6 +23,16 @@ export const premiumService = {
         })
     },
 
+    getAccountId: async (premiumId: number) => {
+        return await fetch(`${API_BASE_URL}${API.PREMIUM.GET_ACCOUNT_ID}/${premiumId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        })
+    },
+
     isExistsForAccount: async () => {
         return await fetch(`${API_BASE_URL}${API.PREMIUM.IS_EXISTS_FOR_ACCOUNT}`, {
             method: 'GET',

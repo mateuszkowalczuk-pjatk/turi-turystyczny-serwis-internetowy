@@ -1,0 +1,49 @@
+.main {
+    width: 99.1%;
+    height: 15rem;
+    border-bottom: 1px solid var(--grey);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.data {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 99.1%;
+    height: 5.5rem;
+}
+
+.information {
+    width: 70%;
+    height: 3.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.name {
+    display: flex;
+    gap: 1rem;
+}
+
+.name p {
+    font-size: 1.25rem;
+    color: var(--light-green);
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.rating {
+    width: 30%;
+    height: 3rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}

@@ -10,6 +10,7 @@ export const API = {
     USER: {
         GET_USERNAME: '/api/user/getUsername',
         GET_EMAIL: '/api/user/getEmail',
+        GET_EMAIL_BY_ID: '/api/user/getEmailById',
         IS_USERNAME_EXISTS: '/api/user/isUsernameExists',
         IS_EMAIL_EXISTS: '/api/user/isEmailExists',
         SEND_RESET_PASSWORD_CODE: '/api/user/sendResetPasswordCode',
@@ -19,6 +20,7 @@ export const API = {
         CHANGE_PASSWORD: '/api/user/changePassword'
     },
     ACCOUNT: {
+        GET: '/api/account/get',
         GET_BY_ID: '/api/account/getById',
         IS_ADDRESS_EXISTS: '/api/account/isAddressExists',
         IS_PHONE_NUMBER_EXISTS: '/api/account/isPhoneNumberExists',
@@ -33,6 +35,7 @@ export const API = {
     PREMIUM: {
         GET_OFFER: '/api/premium/getOffer',
         GET_BY_ACCOUNT: '/api/premium/getByAccount',
+        GET_ACCOUNT_ID: '/api/premium/getAccountId',
         IS_EXISTS_FOR_ACCOUNT: '/api/premium/isExistsForAccount',
         CHECK_PAYMENT: '/api/premium/checkPayment',
         VERIFY: '/api/premium/verify',
@@ -67,6 +70,7 @@ export const API = {
         DELETE: '/api/attraction/delete'
     },
     IMAGE: {
+        GET_BY_ACCOUNT: '/api/image/getByAccount',
         GET_BY_ACCOUNT_ID: '/api/image/getByAccountId',
         GET_ALL_BY_TOURISTIC_PLACE_ID: '/api/image/getAllByTouristicPlaceId',
         GET_ALL_BY_STAY_ID: '/api/image/getAllByStayId',

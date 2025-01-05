@@ -3,6 +3,16 @@ import { API } from './constants.ts'
 import { ImageMode } from '../types/image.ts'
 
 export const imageService = {
+    getByAccount: async (accountId: number) => {
+        return await fetch(`${API_BASE_URL}${API.IMAGE.GET_BY_ACCOUNT}?accountId=${accountId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        })
+    },
+
     getByAccountId: async () => {
         return await fetch(`${API_BASE_URL}${API.IMAGE.GET_BY_ACCOUNT_ID}`, {
             method: 'GET',

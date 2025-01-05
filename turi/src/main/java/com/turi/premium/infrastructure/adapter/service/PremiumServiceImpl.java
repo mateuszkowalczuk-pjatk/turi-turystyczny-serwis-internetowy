@@ -58,6 +58,12 @@ public class PremiumServiceImpl implements PremiumService
     }
 
     @Override
+    public Long getAccountId(final Long premiumId)
+    {
+        return getById(premiumId).getAccountId();
+    }
+
+    @Override
     public Premium getByLoginToken(final String loginToken)
     {
         return repository.findByLoginToken(loginToken);

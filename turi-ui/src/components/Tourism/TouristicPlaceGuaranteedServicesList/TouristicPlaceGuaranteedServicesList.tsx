@@ -6,7 +6,7 @@ import styles from './TouristicPlaceGuaranteedServicesList.module.css'
 
 interface Props {
     guaranteedServices: GuaranteedService[]
-    removeGuaranteedServices: (guaranteedServiceId: number) => void
+    removeGuaranteedServices?: (guaranteedServiceId: number) => void
 }
 
 const TouristicPlaceGuaranteedServicesList = ({ guaranteedServices, removeGuaranteedServices }: Props) => {
@@ -18,7 +18,7 @@ const TouristicPlaceGuaranteedServicesList = ({ guaranteedServices, removeGuaran
             const guaranteedServiceResponse = await touristicPlaceService.deleteGuaranteedService(
                 guaranteedService.guaranteedServiceId
             )
-            if (guaranteedServiceResponse.status === 200) {
+            if (guaranteedServiceResponse.status === 200 && removeGuaranteedServices) {
                 removeGuaranteedServices(guaranteedService.guaranteedServiceId)
             }
         }
@@ -32,12 +32,14 @@ const TouristicPlaceGuaranteedServicesList = ({ guaranteedServices, removeGuaran
                     className={styles.item}
                 >
                     <span>{guaranteedService.service}</span>
-                    <button
-                        className={styles.delete}
-                        onClick={(e) => handleDelete(guaranteedService, e)}
-                    >
-                        {t('tourism.touristic-place-guaranteed-services-delete')}
-                    </button>
+                    {removeGuaranteedServices && (
+                        <button
+                            className={styles.delete}
+                            onClick={(e) => handleDelete(guaranteedService, e)}
+                        >
+                            {t('tourism.touristic-place-guaranteed-services-delete')}
+                        </button>
+                    )}
                 </div>
             ))}
         </div>

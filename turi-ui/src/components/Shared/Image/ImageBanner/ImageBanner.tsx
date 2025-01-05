@@ -12,17 +12,30 @@ interface Props {
     files?: File[]
     uploadFile?: (file: File) => void
     removeFile?: (file: File) => void
+    presentation?: boolean
 }
 
-const ImageBanner = ({ images, uploadImage, mode, id, removeImage, files, uploadFile, removeFile }: Props) => {
+const ImageBanner = ({
+    images,
+    uploadImage,
+    mode,
+    id,
+    removeImage,
+    files,
+    uploadFile,
+    removeFile,
+    presentation
+}: Props) => {
     return (
         <div className={styles.banner}>
-            <ImageUploader
-                uploadImage={uploadImage}
-                mode={mode}
-                id={id}
-                uploadFile={uploadFile}
-            />
+            {!presentation && (
+                <ImageUploader
+                    uploadImage={uploadImage}
+                    mode={mode}
+                    id={id}
+                    uploadFile={uploadFile}
+                />
+            )}
             {images &&
                 images.map((image, index) => (
                     <ImagePanel
@@ -31,6 +44,7 @@ const ImageBanner = ({ images, uploadImage, mode, id, removeImage, files, upload
                         alt={`Image ${index + 1}`}
                         key={image.imageId}
                         removeImage={removeImage}
+                        onlyDisplay={presentation}
                     />
                 ))}
             {files &&

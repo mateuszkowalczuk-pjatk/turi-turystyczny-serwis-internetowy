@@ -3,6 +3,7 @@ package com.turi.account.infrastructure.adapter.interfaces;
 import com.turi.account.domain.model.Account;
 import com.turi.account.domain.port.AccountService;
 import com.turi.infrastructure.common.ContextHandler;
+import com.turi.infrastructure.common.ObjectId;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.infrastructure.exception.BadRequestResponseException;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,6 +16,18 @@ import org.springframework.stereotype.Component;
 public class AccountFacade
 {
     private final AccountService service;
+
+    public ResponseEntity<Account> getAccount(final String id)
+    {
+        if (id == null)
+        {
+            throw new BadRequestParameterException("Parameter ID must not be null.");
+        }
+
+        final var accountId = ObjectId.of(id).getValue();
+
+        return AccountResponse.of(service.getById(accountId));
+    }
 
     public ResponseEntity<Account> getAccountById()
     {

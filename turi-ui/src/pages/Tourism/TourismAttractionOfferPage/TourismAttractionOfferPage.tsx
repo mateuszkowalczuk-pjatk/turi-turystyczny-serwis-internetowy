@@ -3,7 +3,7 @@ import { useRedirectSome } from '../../../hooks/useRedirect.ts'
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
 import { usePremium } from '../../../store/slices/premium.ts'
-import TourismContent from '../../../components/Tourism/TourismContent'
+import Content from '../../../components/Shared/Content'
 import Return from '../../../components/Shared/Return'
 import TourismPanel from '../../../components/Tourism/TourismPanel'
 import TourismHeader from '../../../components/Tourism/TourismHeader'
@@ -18,7 +18,7 @@ const TourismAttractionOfferPage = ({ modify }: { modify?: boolean }) => {
     useRedirectSome([!isAuthenticated, !isPremium], '/')
 
     return (
-        <TourismContent
+        <Content
             title={
                 <Return
                     text={t('tourism.touristic-place-return')}

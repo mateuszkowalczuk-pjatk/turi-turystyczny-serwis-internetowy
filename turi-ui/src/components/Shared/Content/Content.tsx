@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import styles from './TourismContent.module.css'
+import styles from './Content.module.css'
 
 interface Props {
     title: ReactNode
@@ -10,7 +10,7 @@ interface Props {
     fifthPanel?: ReactNode
 }
 
-const TourismContent = ({ title, firstPanel, secondPanel, thirdPanel, fourthPanel, fifthPanel }: Props) => {
+const Content = ({ title, firstPanel, secondPanel, thirdPanel, fourthPanel, fifthPanel }: Props) => {
     return (
         <div className={styles.content}>
             {title}
@@ -23,4 +23,4 @@ const TourismContent = ({ title, firstPanel, secondPanel, thirdPanel, fourthPane
     )
 }
 
-export default TourismContent
+export default Content
