@@ -19,6 +19,12 @@ public class AttractionServiceImpl implements AttractionService
     private final AttractionRepository repository;
 
     @Override
+    public List<String> completeNames(final String query)
+    {
+        return repository.findForAutocomplete(query);
+    }
+
+    @Override
     public List<Attraction> getAllByTouristicPlaceId(final Long touristicPlaceId)
     {
         return repository.findAllByTouristicPlaceId(touristicPlaceId);

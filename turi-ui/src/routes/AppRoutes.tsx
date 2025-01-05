@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth.ts'
 import MainLayout from '../layouts/Main'
 import MainPage from '../pages/Main'
+import OfferRoutes from './OfferRoutes.tsx'
 import AuthRoutes from './AuthRoutes'
 import ProfileRoutes from './ProfileRoutes'
 import PremiumRoutes from './PremiumRoutes'
@@ -21,6 +22,10 @@ const AppRoutes = () => {
                     element={<MainPage />}
                 />
             </Route>
+            <Route
+                path="*"
+                element={<OfferRoutes />}
+            />
             <Route
                 path="*"
                 element={<AuthRoutes />}

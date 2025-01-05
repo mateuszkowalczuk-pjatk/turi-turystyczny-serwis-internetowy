@@ -28,6 +28,12 @@ public class PremiumRestController
         return facade.getPremiumByAccount();
     }
 
+    @GetMapping("/getAccountId/{premiumId}")
+    public ResponseEntity<Long> getPremiumAccountId(@PathVariable final String premiumId)
+    {
+        return facade.getPremiumAccountId(premiumId);
+    }
+
     @GetMapping("/isExistsForAccount")
     public ResponseEntity<Boolean> isPremiumExistsForAccount()
     {

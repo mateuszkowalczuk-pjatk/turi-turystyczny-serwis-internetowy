@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface AttractionService
 {
+    List<String> completeNames(final String query);
+
     List<Attraction> getAllByTouristicPlaceId(final Long touristicPlaceId);
 
     Attraction getById(final Long id);

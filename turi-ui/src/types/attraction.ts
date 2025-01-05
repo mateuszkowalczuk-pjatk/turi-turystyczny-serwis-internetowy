@@ -18,15 +18,15 @@ export interface Attraction {
 }
 
 export enum AttractionType {
-    UNASSIGNED = 0,
-    RELAX = 1,
-    SPORT = 2,
-    RECREATION = 3,
-    ENTERTAINMENT = 4,
-    FOOD = 5,
-    EVENT = 6,
-    CHILDREN = 7,
-    OTHER = 8
+    UNASSIGNED = 'UNASSIGNED',
+    RELAX = 'RELAX',
+    SPORT = 'SPORT',
+    RECREATION = 'RECREATION',
+    ENTERTAINMENT = 'ENTERTAINMENT',
+    FOOD = 'FOOD',
+    EVENT = 'EVENT',
+    CHILDREN = 'CHILDREN',
+    OTHER = 'OTHER'
 }
 
 export enum PriceType {

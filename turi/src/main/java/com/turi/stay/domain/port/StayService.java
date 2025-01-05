@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface StayService
 {
+    List<String> completeNames(final String query);
+
     List<StayDto> getAllByTouristicPlaceId(final Long touristicPlaceId);
 
     StayDto getById(final Long id);

@@ -1,0 +1,15 @@
+.panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 70%;
+    height: 116rem;
+    background-color: var(--white);
+    border: 2px solid var(--grey);
+    border-radius: 0.6rem;
+    box-shadow:
+        0 8px 15px rgba(0, 0, 0, 0.1),
+        0 3px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2.5rem;
+}

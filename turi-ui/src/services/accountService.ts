@@ -3,6 +3,16 @@ import { API } from './constants.ts'
 import { Account } from '../types'
 
 export const accountService = {
+    get: async (accountId: number) => {
+        return await fetch(`${API_BASE_URL}${API.ACCOUNT.GET}/${accountId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        })
+    },
+
     getById: async () => {
         return await fetch(`${API_BASE_URL}${API.ACCOUNT.GET_BY_ID}`, {
             method: 'GET',

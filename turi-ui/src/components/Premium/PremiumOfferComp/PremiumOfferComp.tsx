@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import TextMedium from '../../Shared/Controls/Text/TextMedium'
 import PremiumOfferList from '../PremiumOfferList'
 import TextRegular from '../../Shared/Controls/Text/TextRegular'
-import styles from './PremiumOffer.module.css'
+import styles from './PremiumOfferComp.module.css'
 
 interface Props {
     text: string
@@ -11,7 +11,7 @@ interface Props {
     price?: number
 }
 
-const PremiumOffer = ({ text, list, length, price }: Props) => {
+const PremiumOfferComp = ({ text, list, length, price }: Props) => {
     const { t } = useTranslation()
 
     return (
@@ -29,4 +29,4 @@ const PremiumOffer = ({ text, list, length, price }: Props) => {
     )
 }
 
-export default PremiumOffer
+export default PremiumOfferComp

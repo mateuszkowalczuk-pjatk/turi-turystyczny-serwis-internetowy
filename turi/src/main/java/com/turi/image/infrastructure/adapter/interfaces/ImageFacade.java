@@ -19,6 +19,18 @@ public class ImageFacade
 {
     private final ImageService service;
 
+    public ResponseEntity<Image> getImageByAccount(final String accountId)
+    {
+        if (accountId == null)
+        {
+            throw new BadRequestParameterException("Parameter accountId must not be null.");
+        }
+
+        final var id = ObjectId.of(accountId).getValue();
+
+        return ImageResponse.of(service.getByAccountId(id));
+    }
+
     public ResponseEntity<Image> getImageByAccountId()
     {
         final var accountId = ContextHandler.getIdFromContext();

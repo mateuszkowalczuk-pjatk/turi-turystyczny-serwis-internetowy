@@ -1,0 +1,15 @@
+.content {
+    width: 100%;
+    background: var(--light-green);
+    padding-top: 5rem;
+}
+
+.browser {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10rem;
+    max-width: 1440px;
+    width: 100%;
+    margin: 0 auto;
+}

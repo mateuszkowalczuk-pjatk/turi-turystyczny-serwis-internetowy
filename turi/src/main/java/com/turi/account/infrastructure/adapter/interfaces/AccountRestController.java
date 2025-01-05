@@ -13,6 +13,12 @@ public class AccountRestController
 {
     private final AccountFacade facade;
 
+    @GetMapping("/get/{accountId}")
+    public ResponseEntity<Account> getAccount(@PathVariable final String accountId)
+    {
+        return facade.getAccount(accountId);
+    }
+
     @GetMapping("/getById")
     public ResponseEntity<Account> getAccountById()
     {

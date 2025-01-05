@@ -16,10 +16,11 @@ const TourismStayInformationsCreate = ({ createStayInformation, stayId, modify }
     const [information, setInformation] = useState<string>('')
 
     const handleCreate = async (information: string) => {
-        if (modify && stayId) await stayService.createStayInformation({
-            stayId: stayId,
-            information: information
-        })
+        if (modify && stayId)
+            await stayService.createStayInformation({
+                stayId: stayId,
+                information: information
+            })
     }
 
     return (

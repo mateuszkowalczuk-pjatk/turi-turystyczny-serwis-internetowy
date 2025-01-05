@@ -22,6 +22,16 @@ export const userService = {
         })
     },
 
+    getEmailById: async (userId: number) => {
+        return await fetch(`${API_BASE_URL}${API.USER.GET_EMAIL_BY_ID}/${userId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        })
+    },
+
     checkIsUsernameExists: async (username: string) => {
         return await fetch(`${API_BASE_URL}${API.USER.IS_USERNAME_EXISTS}?username=${username}`, {
             method: 'GET',

@@ -18,7 +18,7 @@ export interface PremiumCompanyParam {
     bankAccountNumber: string
 }
 
-export interface Offer {
+export interface PremiumOffer {
     length: number
     price: number
 }

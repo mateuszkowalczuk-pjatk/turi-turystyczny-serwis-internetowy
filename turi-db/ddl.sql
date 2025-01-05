@@ -204,6 +204,7 @@ CREATE TABLE IF NOT EXISTS touristicplace
 
 CREATE INDEX IF NOT EXISTS touristicplacepremiumindex ON touristicplace (premiumid);
 CREATE INDEX IF NOT EXISTS touristicplaceaddressindex ON touristicplace (addressid);
+CREATE INDEX IF NOT EXISTS touristicplacenameindex    ON touristicplace USING gin(to_tsvector('simple', name));
 
 COMMENT ON TABLE  touristicplace                       IS 'Table to store data about premium user touristic place.';
 COMMENT ON COLUMN touristicplace.touristicplaceid      IS 'Unique required primary key of the touristicplace table.';
@@ -252,6 +253,8 @@ CREATE TABLE IF NOT EXISTS stay
 );
 
 CREATE INDEX IF NOT EXISTS staytouristicplaceindex ON stay (touristicplaceid);
+CREATE INDEX IF NOT EXISTS staynameindex           ON stay USING gin(to_tsvector('simple', name));
+CREATE INDEX IF NOT EXISTS staysearchindex         ON stay (touristicplaceid, dateFrom, dateTo);
 
 COMMENT ON TABLE  stay                  IS 'Table to store touristic place stays offers.';
 COMMENT ON COLUMN stay.stayid           IS 'Unique required primary key of the stay table.';
@@ -302,6 +305,8 @@ CREATE TABLE IF NOT EXISTS attraction
 );
 
 CREATE INDEX IF NOT EXISTS attractiontouristicplaceindex ON attraction (touristicplaceid);
+CREATE INDEX IF NOT EXISTS attractionnameindex           ON attraction USING gin(to_tsvector('simple', name));
+CREATE INDEX IF NOT EXISTS attractionsearchindex         ON attraction (touristicplaceid, dateFrom, dateTo);
 
 COMMENT ON TABLE  attraction                       IS 'TTable to store touristic place attractions offers.';
 COMMENT ON COLUMN attraction.attractionid          IS 'Unique required primary key of the attraction table.';
@@ -348,3 +353,20 @@ COMMENT ON COLUMN image.touristicplaceid IS 'Optional foreign key of touristicpl
 COMMENT ON COLUMN image.stayid           IS 'Optional foreign key of stay table.';
 COMMENT ON COLUMN image.attractionid     IS 'Optional foreign key of attraction table.';
 COMMENT ON COLUMN image.path             IS 'Required image path.';
+
+
+CREATE TABLE IF NOT EXISTS favourite
+(
+    accountid        INTEGER NOT NULL,
+    touristicplaceid INTEGER NOT NULL,
+    CONSTRAINT favouriteaccount        FOREIGN KEY (accountid)        REFERENCES account        (accountid),
+    CONSTRAINT favouritetouristicplace FOREIGN KEY (touristicplaceid) REFERENCES touristicplace (touristicplaceid),
+    CONSTRAINT favouriteunique         UNIQUE (accountid, touristicplaceid)
+);
+
+CREATE INDEX IF NOT EXISTS favouriteaccountindex        ON favourite (accountid);
+CREATE INDEX IF NOT EXISTS favouritetouristicplaceindex ON favourite (touristicplaceid);
+
+COMMENT ON TABLE  favourite                  IS 'Table to store offers (touristic places) that user has pinned to his account as favorites.';
+COMMENT ON COLUMN favourite.accountid        IS 'Required foreign key of user account table.';
+COMMENT ON COLUMN favourite.touristicplaceid IS 'Required foreign key of touristicplace (offer) table.';

@@ -9,7 +9,7 @@ import PremiumSection from '../../../components/Premium/PremiumSection'
 import PremiumVerify from '../../../components/Premium/PremiumVerify'
 import PremiumButtons from '../../../components/Premium/PremiumButtons'
 import PremiumPayment from '../../../components/Premium/PremiumPayment'
-import { Offer, PaymentMethod } from '../../../types'
+import { PremiumOffer, PaymentMethod } from '../../../types'
 import {
     notPaymentPremiumFailed,
     paymentPremiumFailed,
@@ -43,7 +43,7 @@ const PremiumPaymentPage = () => {
         const fetchOffer = async () => {
             const response = await premiumService.getOffer()
             if (response.status === 200) {
-                const offer: Offer = await response.json()
+                const offer: PremiumOffer = await response.json()
                 setMonths(offer.length)
             }
         }

@@ -24,6 +24,12 @@ public class UserRestController
         return facade.getUserEmail();
     }
 
+    @GetMapping("/getEmailById/{userId}")
+    public ResponseEntity<String> getUserEmailById(@PathVariable final String userId)
+    {
+        return facade.getUserEmailById(userId);
+    }
+
     @GetMapping("/isUsernameExists")
     public ResponseEntity<Boolean> isUserUsernameExists(@RequestParam final String username)
     {

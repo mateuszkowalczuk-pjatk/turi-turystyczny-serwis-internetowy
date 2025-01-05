@@ -2,16 +2,20 @@ package com.turi.touristicplace.infrastructure.adapter.service;
 
 import com.turi.address.domain.exception.AddressNotFoundException;
 import com.turi.address.infrastructure.adapter.interfaces.AddressFacade;
+import com.turi.attraction.domain.model.AttractionType;
 import com.turi.premium.infrastructure.adapter.interfaces.PremiumFacade;
+import com.turi.touristicplace.domain.exception.TouristicPlaceAlreadyExistsException;
 import com.turi.touristicplace.domain.exception.TouristicPlaceUniqueAddressException;
 import com.turi.touristicplace.domain.model.GuaranteedService;
 import com.turi.touristicplace.domain.model.TouristicPlace;
+import com.turi.touristicplace.domain.model.TouristicPlaceType;
 import com.turi.touristicplace.domain.port.GuaranteedServiceService;
 import com.turi.touristicplace.domain.port.TouristicPlaceRepository;
 import com.turi.touristicplace.domain.port.TouristicPlaceService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,6 +27,47 @@ public class TouristicPlaceServiceImpl implements TouristicPlaceService
     private final PremiumFacade premiumFacade;
     private final TouristicPlaceRepository repository;
     private final GuaranteedServiceService guaranteedServiceService;
+
+    @Override
+    public List<Object[]> getForSearch(final String query,
+                                       final LocalDate dateFrom,
+                                       final LocalDate dateTo,
+                                       final Long limit,
+                                       final Long touristicPlaceId,
+                                       final Double rank)
+    {
+        return repository.findForSearch(query, dateFrom, dateTo, limit, touristicPlaceId, rank);
+    }
+
+    @Override
+    public List<Object[]> getByStaysForSearch(final String query,
+                                              final LocalDate dateFrom,
+                                              final LocalDate dateTo,
+                                              final TouristicPlaceType touristicPlaceType,
+                                              final Long limit,
+                                              final Long touristicPlaceId,
+                                              final Double rank)
+    {
+        return repository.findByStaysForSearch(query, dateFrom, dateTo, touristicPlaceType != null ? touristicPlaceType.getValue() : null, limit, touristicPlaceId, rank);
+    }
+
+    @Override
+    public List<Object[]> getByAttractionsForSearch(final String query,
+                                                    final LocalDate dateFrom,
+                                                    final LocalDate dateTo,
+                                                    final AttractionType attractionType,
+                                                    final Long limit,
+                                                    final Long touristicPlaceId,
+                                                    final Double rank)
+    {
+        return repository.findByAttractionsForSearch(query, dateFrom, dateTo, attractionType != null ? attractionType.getValue() : null, limit, touristicPlaceId, rank);
+    }
+
+    @Override
+    public List<String> completeNames(final String query)
+    {
+        return repository.findForAutocomplete(query);
+    }
 
     @Override
     public TouristicPlace getById(final Long id)
@@ -65,8 +110,19 @@ public class TouristicPlaceServiceImpl implements TouristicPlaceService
     }
 
     @Override
+    public List<GuaranteedService> getAllGuaranteedServicesByTouristicPlaceId(final Long touristicPlaceId)
+    {
+        return guaranteedServiceService.getAllByTouristicPlaceId(touristicPlaceId);
+    }
+
+    @Override
     public void create()
     {
+        if (getByPremiumId() != null)
+        {
+            throw new TouristicPlaceAlreadyExistsException();
+        }
+
         final var premiumId = Objects.requireNonNull(premiumFacade.getPremiumByAccount().getBody()).getPremiumId();
 
         final var touristicPlace = TouristicPlace.builder()

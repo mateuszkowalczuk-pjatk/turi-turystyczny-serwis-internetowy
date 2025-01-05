@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { usePremium } from '../../../store/slices/premium.ts'
 import { useState } from 'react'
-import TourismContent from '../../../components/Tourism/TourismContent'
+import Content from '../../../components/Shared/Content'
 import PageTitle from '../../../components/Shared/PageTitle'
 import TourismPanel from '../../../components/Tourism/TourismPanel'
 import TourismHeader from '../../../components/Tourism/TourismHeader'
@@ -26,7 +26,7 @@ const TourismPage = () => {
     useTouristicPlace(setTouristicPlaceId)
 
     return (
-        <TourismContent
+        <Content
             title={<PageTitle text={t('tourism.title')} />}
             firstPanel={
                 <TourismPanel

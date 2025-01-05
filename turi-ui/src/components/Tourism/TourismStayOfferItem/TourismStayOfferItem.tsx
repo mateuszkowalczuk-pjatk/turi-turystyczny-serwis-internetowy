@@ -12,9 +12,10 @@ import styles from './TourismStayOfferItem.module.css'
 interface Props {
     stay: Stay
     index: number
+    reservation?: boolean
 }
 
-const TourismStayOfferItem = ({ stay, index }: Props) => {
+const TourismStayOfferItem = ({ stay, index, reservation }: Props) => {
     const { t } = useTranslation()
     const navigate = useNavigate()
     const [image, setImage] = useState<Image>()
@@ -61,12 +62,22 @@ const TourismStayOfferItem = ({ stay, index }: Props) => {
                 <TextRegular text={t('tourism.touristic-place-stay-offer-people') + stay.peopleNumber} />
             </div>
             <div className={styles.modify}>
-                <GreyButton
-                    className={styles.modifyButton}
-                    type="button"
-                    onClick={() => navigate('/tourism/modify-stay-offer', { state: { stayId: stay.stayId } })}
-                    text={t('tourism.touristic-place-stay-offer-modify')}
-                />
+                {reservation && (
+                    <GreyButton
+                        className={styles.modifyButton}
+                        type="button"
+                        onClick={() => navigate('/reservation')}
+                        text={t('offer.reservation')}
+                    />
+                )}
+                {!reservation && (
+                    <GreyButton
+                        className={styles.modifyButton}
+                        type="button"
+                        onClick={() => navigate('/tourism/modify-stay-offer', { state: { stayId: stay.stayId } })}
+                        text={t('tourism.touristic-place-stay-offer-modify')}
+                    />
+                )}
             </div>
         </div>
     )

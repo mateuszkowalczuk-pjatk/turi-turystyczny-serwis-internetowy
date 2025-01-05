@@ -1,6 +1,7 @@
 package com.turi.user.infrastructure.adapter.interfaces;
 
 import com.turi.infrastructure.common.ContextHandler;
+import com.turi.infrastructure.common.ObjectId;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.user.domain.model.User;
 import com.turi.user.domain.port.UserService;
@@ -45,6 +46,18 @@ public class UserFacade
     public ResponseEntity<String> getUserEmail()
     {
         final var userId = ContextHandler.getIdFromContext();
+
+        return UserResponse.of(service.getEmail(userId));
+    }
+
+    public ResponseEntity<String> getUserEmailById(final String id)
+    {
+        if (id == null)
+        {
+            throw new BadRequestParameterException("Parameter ID must not be null.");
+        }
+
+        final var userId = ObjectId.of(id).getValue();
 
         return UserResponse.of(service.getEmail(userId));
     }

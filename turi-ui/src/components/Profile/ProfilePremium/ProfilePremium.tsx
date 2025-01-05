@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import TextMedium from '../../Shared/Controls/Text/TextMedium'
 import TextRegular from '../../Shared/Controls/Text/TextRegular'
 import ProfileButtons from '../ProfileButtons'
-import { Offer, Premium } from '../../../types'
+import { PremiumOffer, Premium } from '../../../types'
 import { premiumService } from '../../../services/premiumService.ts'
 import styles from './ProfilePremium.module.css'
 
@@ -16,7 +16,7 @@ const ProfilePremium = () => {
         const fetchOffer = async () => {
             const response = await premiumService.getOffer()
             if (response.status === 200) {
-                const offer: Offer = await response.json()
+                const offer: PremiumOffer = await response.json()
                 setMonths(offer.length)
             }
         }

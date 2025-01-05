@@ -37,7 +37,7 @@ const PremiumFooter = () => {
                             }
                             thirdOption={
                                 <Link
-                                    to="/favourites"
+                                    to="/favourite"
                                     className={styles.link}
                                 >
                                     <TextRegular text={t('footer.favourites')} />

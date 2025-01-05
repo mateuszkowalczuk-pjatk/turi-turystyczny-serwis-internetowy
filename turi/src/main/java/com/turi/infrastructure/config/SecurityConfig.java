@@ -45,14 +45,16 @@ public class SecurityConfig
                                 "/api/user/resetPassword",
                                 "/api/user/isUsernameExists",
                                 "/api/user/isEmailExists",
-                                "/api/payment/webhook"
+                                "/api/payment/webhook",
+                                "/api/offer/search",
+                                "/api/offer/autocomplete"
                         ).permitAll()
                         .requestMatchers("/api/account/activate").hasRole(AccountType.INACTIVE.getName())
                         .requestMatchers(
                                 "/api/premium/premium/**",
-                                "/api/touristicplace",
-                                "/api/stay",
-                                "/api/attraction"
+                                "/api/touristicplace/**",
+                                "/api/stay/**",
+                                "/api/attraction/**"
                         ).hasRole(AccountType.PREMIUM.getName())
                         .requestMatchers("/api/**", "/uploads/**").hasAnyRole(AccountType.NORMAL.getName(), AccountType.PREMIUM.getName())
                         .anyRequest().authenticated())

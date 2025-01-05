@@ -16,6 +16,12 @@ public class StayRepositoryImpl implements StayRepository
     private final StayRepositoryDao repositoryDao;
 
     @Override
+    public List<String> findForAutocomplete(final String query)
+    {
+        return repositoryDao.findForAutocomplete(query);
+    }
+
+    @Override
     public List<Stay> findAllByTouristicPlaceId(final Long touristicPlaceId)
     {
         return repositoryDao.findAllByTouristicPlaceId(touristicPlaceId).stream()
