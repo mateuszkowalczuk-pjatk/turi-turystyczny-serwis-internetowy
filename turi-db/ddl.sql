@@ -361,7 +361,7 @@ COMMENT ON COLUMN reservation.request       IS 'Optional user reservation specia
 COMMENT ON COLUMN reservation.guestname     IS 'Optional user guest full name.';
 COMMENT ON COLUMN reservation.rating        IS 'Optional user reservation rating after realization.';
 COMMENT ON COLUMN reservation.opinion       IS 'Optional user reservation opinion after realization.';
-COMMENT ON COLUMN reservation.status        IS 'Required reservation status (0 - Unpaid, 1 - Reservation, 2 - Realization, 3 - Realized, 4 - Unrealized).';
+COMMENT ON COLUMN reservation.status        IS 'Required reservation status (0 - Unpaid, 1 - Reservation, 2 - Realization, 3 - Realized, 4 - Canceled).';
 
 
 CREATE TABLE IF NOT EXISTS reservationattraction
@@ -397,7 +397,7 @@ COMMENT ON COLUMN reservationattraction.people                  IS 'Optional att
 COMMENT ON COLUMN reservationattraction.items                   IS 'Optional attraction items, depends from attraction type.';
 COMMENT ON COLUMN reservationattraction.message                 IS 'Optional user message about attraction reservation.';
 COMMENT ON COLUMN reservationattraction.price                   IS 'Required attraction total price.';
-COMMENT ON COLUMN reservationattraction.status                  IS 'Required attraction reservation status (0 - Unpaid, 1 - Reservation, 2 - Realization, 3 - Realized, 4 - Unrealized).';
+COMMENT ON COLUMN reservationattraction.status                  IS 'Required attraction reservation status (0 - Unpaid, 1 - Reservation, 2 - Realization, 3 - Realized, 4 - Canceled).';
 
 
 CREATE TABLE IF NOT EXISTS stripepayment
