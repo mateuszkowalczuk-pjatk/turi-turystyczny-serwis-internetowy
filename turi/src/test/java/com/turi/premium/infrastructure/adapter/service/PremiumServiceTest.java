@@ -1,10 +1,10 @@
 package com.turi.premium.infrastructure.adapter.service;
 
-import com.turi.infrastructure.properties.PremiumProperties;
 import com.turi.premium.domain.exception.PremiumNotFoundException;
 import com.turi.premium.domain.model.Premium;
 import com.turi.premium.domain.model.PremiumStatus;
 import com.turi.premium.domain.port.PremiumService;
+import com.turi.premium.infrastructure.config.PremiumProperties;
 import com.turi.testhelper.annotation.ServiceTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ServiceTest
 class PremiumServiceTest

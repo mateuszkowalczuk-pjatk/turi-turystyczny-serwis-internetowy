@@ -2,12 +2,12 @@ package com.turi.premium.infrastructure.adapter.interfaces;
 
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.infrastructure.exception.BadRequestResponseException;
-import com.turi.infrastructure.properties.PremiumProperties;
 import com.turi.payment.domain.model.PaymentMethod;
 import com.turi.premium.domain.model.Premium;
 import com.turi.premium.domain.model.PremiumCompanyParam;
 import com.turi.premium.domain.model.PremiumStatus;
 import com.turi.premium.domain.model.PremiumVerifyParam;
+import com.turi.premium.infrastructure.config.PremiumProperties;
 import com.turi.testhelper.annotation.RestControllerTest;
 import com.turi.testhelper.utils.ContextHelper;
 import org.junit.jupiter.api.Test;

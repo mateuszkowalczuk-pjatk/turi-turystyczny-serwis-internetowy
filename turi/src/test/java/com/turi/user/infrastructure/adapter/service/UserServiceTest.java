@@ -1,6 +1,6 @@
 package com.turi.user.infrastructure.adapter.service;
 
-import com.turi.infrastructure.properties.SecurityProperties;
+import com.turi.authentication.infrastructure.config.SecurityProperties;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.testhelper.annotation.ServiceTest;
 import com.turi.user.domain.exception.*;

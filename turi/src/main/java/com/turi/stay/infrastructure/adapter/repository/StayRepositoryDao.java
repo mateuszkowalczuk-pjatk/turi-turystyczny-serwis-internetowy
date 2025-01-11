@@ -16,7 +16,7 @@ public interface StayRepositoryDao extends JpaRepository<StayEntity, Long>
         FROM stay s
         WHERE to_tsvector('simple', s.name) @@ plainto_tsquery('simple', :query) OR s.name ILIKE '%' || :query || '%'
         ORDER BY rank DESC NULLS LAST
-        LIMIT 6
+        LIMIT 5
     ) AS subquery;
     """, nativeQuery = true)
     List<String> findForAutocomplete(@Param("query") final String query);

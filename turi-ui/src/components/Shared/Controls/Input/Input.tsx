@@ -30,6 +30,7 @@ const Input = ({ type, name, placeholder, value, onChange, minLength, maxLength,
             maxLength={maxLength}
             required={required}
             disabled={disabled}
+            autoComplete="off"
         />
     )
 }

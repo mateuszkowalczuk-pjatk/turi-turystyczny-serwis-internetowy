@@ -8,12 +8,12 @@ import com.stripe.model.checkout.Session;
 import com.stripe.net.Webhook;
 import com.stripe.param.checkout.SessionCreateParams;
 import com.turi.infrastructure.exception.BadRequestParameterException;
-import com.turi.infrastructure.properties.StripeProperties;
 import com.turi.payment.domain.exception.PaymentStripeException;
 import com.turi.payment.domain.exception.PaymentWebhookException;
 import com.turi.payment.domain.model.*;
 import com.turi.payment.domain.port.StripePaymentRepository;
 import com.turi.payment.domain.port.StripeService;
+import com.turi.payment.infrastructure.config.StripeProperties;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

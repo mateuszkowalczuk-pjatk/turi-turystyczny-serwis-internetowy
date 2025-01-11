@@ -4,7 +4,7 @@ import com.turi.authentication.domain.port.RefreshTokenService;
 import com.turi.infrastructure.common.CodeGenerator;
 import com.turi.infrastructure.common.EmailSender;
 import com.turi.infrastructure.common.HashToken;
-import com.turi.infrastructure.properties.SecurityProperties;
+import com.turi.authentication.infrastructure.config.SecurityProperties;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.user.domain.exception.*;
 import com.turi.user.domain.model.RefreshToken;

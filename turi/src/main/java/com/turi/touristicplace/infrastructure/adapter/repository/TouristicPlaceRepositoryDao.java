@@ -76,7 +76,7 @@ public interface TouristicPlaceRepositoryDao extends JpaRepository<TouristicPlac
         FROM touristicplace tp
         WHERE to_tsvector('simple', tp.name) @@ plainto_tsquery('simple', :query) OR tp.name ILIKE '%' || :query || '%'
         ORDER BY rank DESC NULLS LAST
-        LIMIT 6
+        LIMIT 5
     ) AS subquery;
     """, nativeQuery = true)
     List<String> findForAutocomplete(@Param("query") final String query);

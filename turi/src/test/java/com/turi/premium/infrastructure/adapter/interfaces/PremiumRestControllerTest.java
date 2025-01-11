@@ -2,9 +2,9 @@ package com.turi.premium.infrastructure.adapter.interfaces;
 
 import com.turi.account.domain.model.AccountType;
 import com.turi.authentication.domain.port.JwtService;
-import com.turi.infrastructure.properties.PremiumProperties;
 import com.turi.infrastructure.rest.ErrorCode;
 import com.turi.premium.domain.model.*;
+import com.turi.premium.infrastructure.config.PremiumProperties;
 import com.turi.testhelper.annotation.RestControllerTest;
 import com.turi.testhelper.rest.AbstractRestControllerIntegrationTest;
 import org.junit.jupiter.api.Test;

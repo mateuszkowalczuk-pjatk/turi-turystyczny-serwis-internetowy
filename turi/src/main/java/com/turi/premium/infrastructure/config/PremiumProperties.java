@@ -1,4 +1,4 @@
-package com.turi.infrastructure.properties;
+package com.turi.premium.infrastructure.config;
 
 import lombok.Getter;
 import lombok.Setter;
