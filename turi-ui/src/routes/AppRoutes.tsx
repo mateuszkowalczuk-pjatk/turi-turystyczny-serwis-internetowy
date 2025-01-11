@@ -7,6 +7,7 @@ import ProfileRoutes from './ProfileRoutes'
 import PremiumRoutes from './PremiumRoutes'
 import TourismRoutes from './TourismRoutes'
 import ReservationRoutes from './ReservationRoutes.tsx'
+import InfoRoutes from './InfoRoutes.tsx'
 
 const AppRoutes = () => {
     useAuth(null)
@@ -41,6 +42,10 @@ const AppRoutes = () => {
             <Route
                 path="reservation/*"
                 element={<ReservationRoutes />}
+            />
+            <Route
+                path="info/*"
+                element={<InfoRoutes />}
             />
         </Routes>
     )

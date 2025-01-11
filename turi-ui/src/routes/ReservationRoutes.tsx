@@ -1,6 +1,14 @@
 import { Route, Routes } from 'react-router-dom'
 import MainLayout from '../layouts/Main'
 import ReservationPage from '../pages/Reservation/ReservationPage'
+import ReservationOfferPage from '../pages/Reservation/ReservationOfferPage'
+import ReservationPlanPage from '../pages/Reservation/ReservationPlanPage'
+import ReservationPersonalPage from '../pages/Reservation/ReservationPersonalPage'
+import ReservationPaymentPage from '../pages/Reservation/ReservationPaymentPage'
+import ReservationPaymentCheckPage from '../pages/Reservation/ReservationPaymentCheckPage'
+import ReservationModifyPage from '../pages/Reservation/ReservationModifyPage'
+import ReservationsPage from '../pages/Reservation/ReservationsPage'
+import ReservationsRealizedPage from '../pages/Reservation/ReservationsRealizedPage'
 import NotFoundPage from '../pages/NotFound'
 
 const ReservationRoutes = () => {
@@ -14,22 +22,38 @@ const ReservationRoutes = () => {
                     index
                     element={<ReservationPage />}
                 />
-                {/*<Route*/}
-                {/*    path="personal"*/}
-                {/*    element={<ReservationPersonalPage />}*/}
-                {/*/>*/}
-                {/*<Route*/}
-                {/*    path="payment"*/}
-                {/*    element={<ReservationPaymentPage />}*/}
-                {/*/>*/}
-                {/*<Route*/}
-                {/*    path="payment-check"*/}
-                {/*    element={<ReservationPaymentCheckPage />}*/}
-                {/*/>*/}
-                {/*<Route*/}
-                {/*    path="summary"*/}
-                {/*    element={<ReservationSummaryPage />}*/}
-                {/*/>*/}
+                <Route
+                    path="offer"
+                    element={<ReservationOfferPage />}
+                />
+                <Route
+                    path="plan"
+                    element={<ReservationPlanPage />}
+                />
+                <Route
+                    path="personal"
+                    element={<ReservationPersonalPage />}
+                />
+                <Route
+                    path="payment"
+                    element={<ReservationPaymentPage />}
+                />
+                <Route
+                    path="payment-check"
+                    element={<ReservationPaymentCheckPage />}
+                />
+                <Route
+                    path="modify"
+                    element={<ReservationModifyPage />}
+                />
+                <Route
+                    path="reservations"
+                    element={<ReservationsPage />}
+                />
+                <Route
+                    path="realized"
+                    element={<ReservationsRealizedPage />}
+                />
             </Route>
             <Route
                 path="*"
