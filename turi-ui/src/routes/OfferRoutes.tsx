@@ -3,6 +3,7 @@ import MainLayout from '../layouts/Main'
 import SearchPage from '../pages/Offer/SearchPage'
 import OfferPage from '../pages/Offer/OfferPage'
 import FavouritePage from '../pages/Offer/FavouritePage'
+import NotFoundPage from '../pages/NotFound'
 
 const AuthRoutes = () => {
     return (
@@ -24,6 +25,10 @@ const AuthRoutes = () => {
                     element={<FavouritePage />}
                 />
             </Route>
+            <Route
+                path="*"
+                element={<NotFoundPage />}
+            />
         </Routes>
     )
 }

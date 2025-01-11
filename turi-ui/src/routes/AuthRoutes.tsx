@@ -8,7 +8,7 @@ import LoginCodePage from '../pages/Auth/LoginCodePage'
 import ResetPasswordEmailCheckPage from '../pages/Auth/ResetPasswordEmailCheckPage'
 import ResetPasswordCodePage from '../pages/Auth/ResetPasswordCodePage'
 import ResetPasswordPage from '../pages/Auth/ResetPasswordPage'
-import NotFoundPage from '../pages/NotFound'
+import OfferRoutes from './OfferRoutes.tsx'
 
 const AuthRoutes = () => {
     return (
@@ -52,7 +52,7 @@ const AuthRoutes = () => {
             </Route>
             <Route
                 path="*"
-                element={<NotFoundPage />}
+                element={<OfferRoutes />}
             />
         </Routes>
     )
