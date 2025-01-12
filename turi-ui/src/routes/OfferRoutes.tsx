@@ -2,10 +2,12 @@ import { Route, Routes } from 'react-router-dom'
 import MainLayout from '../layouts/Main'
 import SearchPage from '../pages/Offer/SearchPage'
 import OfferPage from '../pages/Offer/OfferPage'
+import ReservationsPage from '../pages/Reservation/ReservationsPage'
+import ReservationRealizedPage from '../pages/Reservation/ReservationsRealizedPage'
 import FavouritePage from '../pages/Offer/FavouritePage'
 import NotFoundPage from '../pages/NotFound'
 
-const AuthRoutes = () => {
+const OfferRoutes = () => {
     return (
         <Routes>
             <Route
@@ -21,7 +23,15 @@ const AuthRoutes = () => {
                     element={<OfferPage />}
                 />
                 <Route
-                    path="favourite"
+                    path="reservations"
+                    element={<ReservationsPage />}
+                />
+                <Route
+                    path="realized"
+                    element={<ReservationRealizedPage />}
+                />
+                <Route
+                    path="favourites"
                     element={<FavouritePage />}
                 />
             </Route>
@@ -33,4 +43,4 @@ const AuthRoutes = () => {
     )
 }
 
-export default AuthRoutes
+export default OfferRoutes

@@ -1,11 +1,11 @@
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
-import FooterHeader from '../FooterHeader'
+import FooterTitle from '../FooterTitle'
 import FooterContent from '../FooterContent'
 import FooterModule from '../FooterModule'
 import TextExtraLight from '../../Controls/Text/TextExtraLight'
 import TextRegular from '../../Controls/Text/TextRegular'
 import FooterCopyright from '../FooterCopyright'
+import { Link } from 'react-router-dom'
 import styles from '../Footer.module.css'
 
 const UserFooter = () => {
@@ -14,12 +14,20 @@ const UserFooter = () => {
     return (
         <div className={styles.wrapper}>
             <div className={styles.footer}>
-                <FooterHeader />
+                <FooterTitle />
                 <FooterContent
                     content={
                         <FooterModule
                             title={<TextExtraLight text={t('footer.your-account')} />}
                             firstOption={
+                                <Link
+                                    to="/profile"
+                                    className={styles.link}
+                                >
+                                    <TextRegular text={t('footer.profile')} />
+                                </Link>
+                            }
+                            secondOption={
                                 <Link
                                     to="/reservations"
                                     className={styles.link}
@@ -27,20 +35,12 @@ const UserFooter = () => {
                                     <TextRegular text={t('footer.reservations')} />
                                 </Link>
                             }
-                            secondOption={
-                                <Link
-                                    to="/stays"
-                                    className={styles.link}
-                                >
-                                    <TextRegular text={t('footer.stays')} />
-                                </Link>
-                            }
                             thirdOption={
                                 <Link
-                                    to="/favourites"
+                                    to="/realized"
                                     className={styles.link}
                                 >
-                                    <TextRegular text={t('footer.favourites')} />
+                                    <TextRegular text={t('footer.realized')} />
                                 </Link>
                             }
                             fourthOption={
@@ -49,14 +49,6 @@ const UserFooter = () => {
                                     className={styles.link}
                                 >
                                     <TextRegular text={t('footer.premium')} />
-                                </Link>
-                            }
-                            fifthOption={
-                                <Link
-                                    to="/profile"
-                                    className={styles.link}
-                                >
-                                    <TextRegular text={t('footer.account')} />
                                 </Link>
                             }
                         />

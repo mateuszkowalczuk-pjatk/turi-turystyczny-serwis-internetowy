@@ -7,8 +7,6 @@ import ReservationPersonalPage from '../pages/Reservation/ReservationPersonalPag
 import ReservationPaymentPage from '../pages/Reservation/ReservationPaymentPage'
 import ReservationPaymentCheckPage from '../pages/Reservation/ReservationPaymentCheckPage'
 import ReservationModifyPage from '../pages/Reservation/ReservationModifyPage'
-import ReservationsPage from '../pages/Reservation/ReservationsPage'
-import ReservationsRealizedPage from '../pages/Reservation/ReservationsRealizedPage'
 import NotFoundPage from '../pages/NotFound'
 
 const ReservationRoutes = () => {
@@ -45,14 +43,6 @@ const ReservationRoutes = () => {
                 <Route
                     path="modify"
                     element={<ReservationModifyPage />}
-                />
-                <Route
-                    path="reservations"
-                    element={<ReservationsPage />}
-                />
-                <Route
-                    path="realized"
-                    element={<ReservationsRealizedPage />}
                 />
             </Route>
             <Route

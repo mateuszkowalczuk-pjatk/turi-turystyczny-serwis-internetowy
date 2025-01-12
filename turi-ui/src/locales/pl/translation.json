@@ -2,8 +2,8 @@
     "header": {
         "sign-in-button": "Zaloguj się",
         "sign-up-button": "Zarejestruj się",
-        "reservation": "Rezerwacje",
-        "stays": "Zrealizowane",
+        "reservations": "Rezerwacje",
+        "realized": "Zrealizowane",
         "favourites": "Ulubione",
         "premium": "Premium",
         "tourism": "Turystyka",
@@ -11,6 +11,31 @@
         "profile": "Profil",
         "statistics": "Statystyki",
         "logout": "Wyloguj się"
+    },
+    "footer": {
+        "title": "Witaj na turystycznym serwisie internetowy Turi!",
+        "auth-description": "Korzystając z Turi akceptujesz Warunki użytkowania oraz Politykę prywatności.",
+        "become-turi-member": "Zostań członkiem Turi",
+        "login": "Zaloguj się",
+        "register": "Zarejestruj się",
+        "your-account": "Twoje konto",
+        "profile": "Profil",
+        "reservations": "Rezerwacje",
+        "realized": "Zrealizowane",
+        "premium": "Pakiet premium",
+        "tourism": "Turystyka",
+        "search-offers": "Przeglądaj oferty",
+        "favourites": "Ulubione",
+        "stays": "Pobyty",
+        "attractions": "Atrakcje",
+        "read-more": "Dowiedz się więcej",
+        "about-turi": "O Turi",
+        "terms-of-use": "Warunki użytkowania",
+        "privacy-policy": "Polityka prywatności",
+        "contact": "Skontaktuj się z nami",
+        "email": "Email: turicontact@turi.pl",
+        "phone-number": "Telefon: +24 123 456 789",
+        "copyright": "Turi © 2025. Wszelkie prawa zastrzeżone."
     },
     "home": {
         "dashboard": {
@@ -48,32 +73,6 @@
             "food": "Jedzenie",
             "event": "Wydarzenia"
         }
-    },
-    "footer": {
-        "header": "Witaj na turystycznym serwisie internetowy Turi!",
-        "community": "Zostań członkiem Turi",
-        "sign-in": "Zaloguj się",
-        "sign-up": "Zarejestruj się",
-        "premium": "Pakiet premium",
-        "your-account": "Twoje konto",
-        "reservations": "Rezerwacje",
-        "favourites": "Ulubione",
-        "tourism": "Turystyka",
-        "account": "Konto",
-        "offers": "Przeglądaj oferty",
-        "stays": "Pobyty",
-        "attractions": "Atrakcje",
-        "rating": "Najlepiej oceniane",
-        "more": "Dowiedz się więcej",
-        "about": "O Turi",
-        "conditions": "Warunki użytkowania",
-        "privacy": "Polityka prywatności",
-        "help": "Uzyskaj pomoc",
-        "contact": "Skontaktuj się z nami",
-        "email": "Email: turicontact@turi.pl",
-        "phone-number": "Telefon: +24 123 456 789",
-        "description": "Korzystając z Turi akceptujesz Warunki użytkowania oraz Dokument o ochronie prywatności.",
-        "copyright": "Turi © 2024. Wszelkie prawa zastrzeżone."
     },
     "address": {
         "title": "Adres",
@@ -436,6 +435,12 @@
         "people-number": " osobowy",
         "available-offers": "Dostępne oferty",
         "available-attractions": "Dostępne atrakcje"
+    },
+    "reservation": {
+        "a": "a"
+    },
+    "info": {
+        "about-turi": "O Turi"
     },
     "not-found": {
         "404": "404",

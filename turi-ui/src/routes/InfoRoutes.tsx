@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
-import MainLayout from '../layouts/Main'
+import DefaultLayout from '../layouts/Default'
 import InfoPage from '../pages/Info/InfoPage'
-import InfoTermsOfServicePage from '../pages/Info/InfoTermsOfServicePage'
+import InfoTermsOfUsePage from '../pages/Info/InfoTermsOfUsePage'
 import InfoPrivacyPolicyPage from '../pages/Info/InfoPrivacyPolicyPage'
 import NotFoundPage from '../pages/NotFound'
 
@@ -10,15 +10,15 @@ const ReservationRoutes = () => {
         <Routes>
             <Route
                 path="/"
-                element={<MainLayout />}
+                element={<DefaultLayout />}
             >
                 <Route
                     index
                     element={<InfoPage />}
                 />
                 <Route
-                    path="terms-of-service"
-                    element={<InfoTermsOfServicePage />}
+                    path="terms-of-use"
+                    element={<InfoTermsOfUsePage />}
                 />
                 <Route
                     path="privacy-policy"

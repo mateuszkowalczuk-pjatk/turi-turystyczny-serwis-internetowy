@@ -10,7 +10,7 @@ const AuthFooter = () => {
     return (
         <div className={styles.footer}>
             <FooterLanguage />
-            <TextRegular text={t('footer.description')} />
+            <TextRegular text={t('footer.auth-description')} />
             <FooterCopyright />
         </div>
     )

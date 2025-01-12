@@ -15,20 +15,20 @@ const PremiumHeader = () => {
                 <HeaderLinks
                     firstLink={
                         <TextRegular
-                            text={t('header.reservation')}
+                            text={t('header.reservations')}
                             onClick={() => navigate('reservations')}
                         />
                     }
                     secondLink={
                         <TextRegular
-                            text={t('header.stays')}
-                            onClick={() => navigate('/stays')}
+                            text={t('header.realized')}
+                            onClick={() => navigate('/realized')}
                         />
                     }
                     thirdLink={
                         <TextRegular
                             text={t('header.favourites')}
-                            onClick={() => navigate('/favourite')}
+                            onClick={() => navigate('/favourites')}
                         />
                     }
                     fourthLink={
