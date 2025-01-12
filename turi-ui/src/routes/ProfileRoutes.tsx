@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
-import ProfileLayout from '../layouts/Profile'
+import CustomLayout from '../layouts/Custom'
 import ProfilePage from '../pages/Profile/ProfilePage'
 import ProfilePersonalPage from '../pages/Profile/ProfilePersonalPage'
 import ProfilePreferencePage from '../pages/Profile/ProfilePreferencePage'
@@ -11,7 +11,7 @@ const ProfileRoutes = () => {
         <Routes>
             <Route
                 path="/"
-                element={<ProfileLayout />}
+                element={<CustomLayout profile />}
             >
                 <Route
                     index

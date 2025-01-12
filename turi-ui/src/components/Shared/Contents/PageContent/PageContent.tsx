@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import styles from './Content.module.css'
+import styles from './PageContent.module.css'
 
 interface Props {
     title: ReactNode
@@ -10,7 +10,7 @@ interface Props {
     fifthPanel?: ReactNode
 }
 
-const Content = ({ title, firstPanel, secondPanel, thirdPanel, fourthPanel, fifthPanel }: Props) => {
+const PageContent = ({ title, firstPanel, secondPanel, thirdPanel, fourthPanel, fifthPanel }: Props) => {
     return (
         <div className={styles.content}>
             {title}
@@ -23,4 +23,4 @@ const Content = ({ title, firstPanel, secondPanel, thirdPanel, fourthPanel, fift
     )
 }
 
-export default Content
+export default PageContent

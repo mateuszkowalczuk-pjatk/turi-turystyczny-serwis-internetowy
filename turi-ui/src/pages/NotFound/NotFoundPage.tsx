@@ -1,8 +1,8 @@
 import DefaultLayout from '../../layouts/Default'
-import NotFound from '../../components/NotFound/NotFound'
+import NotFoundPanel from '../../components/NotFound/NotFoundPanel'
 
 const NotFoundPage = () => {
-    return <DefaultLayout content={<NotFound />} />
+    return <DefaultLayout content={<NotFoundPanel />} />
 }
 
 export default NotFoundPage

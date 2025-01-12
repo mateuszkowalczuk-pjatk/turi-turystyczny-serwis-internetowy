@@ -4,7 +4,6 @@ import SearchBrowser from '../../../components/Offer/SearchBrowser'
 import SearchOffers from '../../../components/Offer/SearchOffers'
 import { Offer, Search, SearchMode } from '../../../types/offer.ts'
 import { offerService } from '../../../services/offerService.ts'
-import styles from '../../Page.module.css'
 
 const SearchPage = () => {
     const location = useLocation()
@@ -48,7 +47,7 @@ const SearchPage = () => {
     }, [location])
 
     return (
-        <div className={styles.page}>
+        <>
             <SearchBrowser
                 defaultMode={mode}
                 defaultQuery={query}
@@ -71,7 +70,7 @@ const SearchPage = () => {
                     attractionType={attractionType}
                 />
             )}
-        </div>
+        </>
     )
 }
 

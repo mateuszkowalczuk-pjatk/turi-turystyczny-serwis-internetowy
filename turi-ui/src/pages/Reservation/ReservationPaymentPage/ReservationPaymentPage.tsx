@@ -1,9 +1,5 @@
 const ReservationPaymentPage = () => {
-    return (
-        <div>
-
-        </div>
-    )
+    return <div></div>
 }
 
 export default ReservationPaymentPage

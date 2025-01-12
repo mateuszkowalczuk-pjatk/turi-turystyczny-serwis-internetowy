@@ -5,14 +5,13 @@ import PremiumMainInformation from '../../components/Main/MainInformation/Premiu
 import UserMainInformation from '../../components/Main/MainInformation/UserMainInformation'
 import GuestMainInformation from '../../components/Main/MainInformation/GuestMainInformation'
 import MainProposition from '../../components/Main/MainProposition/MainProposition'
-import styles from '../Page.module.css'
 
 const MainPage = () => {
     const isAuthenticated = useAuthenticated()
     const isPremium = usePremium()
 
     return (
-        <div className={styles.page}>
+        <>
             <MainDashboard />
             {isAuthenticated ? (
                 isPremium ? (
@@ -24,7 +23,7 @@ const MainPage = () => {
                 <GuestMainInformation />
             )}
             <MainProposition />
-        </div>
+        </>
     )
 }
 

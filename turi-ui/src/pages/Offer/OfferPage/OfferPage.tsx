@@ -1,8 +1,8 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useEffect } from 'react'
-import Content from '../../../components/Shared/Content'
-import Return from '../../../components/Shared/Return'
+import PageContent from '../../../components/Shared/Contents/PageContent'
+import PageReturn from '../../../components/Shared/PageReturn'
 import OfferPanel from '../../../components/Offer/OfferPanel'
 
 const OfferPage = () => {
@@ -16,9 +16,9 @@ const OfferPage = () => {
     }, [navigate, offer])
 
     return (
-        <Content
+        <PageContent
             title={
-                <Return
+                <PageReturn
                     text={t('offer.return')}
                     url={url}
                 />

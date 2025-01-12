@@ -1,16 +1,17 @@
 import { ReactNode } from 'react'
 import { Outlet } from 'react-router-dom'
+import Layout from '../../components/Shared/Layout'
 import AuthHeader from '../../components/Shared/Header/AuthHeader'
+import DefaultContent from '../../components/Shared/Contents/DefaultContent'
 import DefaultFooter from '../../components/Shared/Footer/DefaultFooter'
-import styles from '../Layout.module.css'
 
 const DefaultLayout = ({ content }: { content?: ReactNode }) => {
     return (
-        <div className={styles.layout}>
-            <AuthHeader />
-            {content ? content : <Outlet />}
-            <DefaultFooter />
-        </div>
+        <Layout
+            header={<AuthHeader />}
+            content={<DefaultContent content={content ? content : <Outlet />} />}
+            footer={<DefaultFooter />}
+        />
     )
 }
 

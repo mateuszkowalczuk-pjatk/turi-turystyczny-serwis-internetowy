@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
-import TourismLayout from '../layouts/Tourism'
+import MainLayout from '../layouts/Main'
 import TourismPage from '../pages/Tourism/TourismPage'
 import TourismStaysPlanPage from '../pages/Tourism/TourismStaysPlanPage'
 import TourismReservationsPlanPage from '../pages/Tourism/TourismReservationsPlanPage'
@@ -13,7 +13,7 @@ const TourismRoutes = () => {
         <Routes>
             <Route
                 path="/"
-                element={<TourismLayout />}
+                element={<MainLayout />}
             >
                 <Route
                     index

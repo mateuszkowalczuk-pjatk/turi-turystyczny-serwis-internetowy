@@ -1,9 +1,5 @@
 const ReservationsPage = () => {
-    return (
-        <div>
-
-        </div>
-    )
+    return <div></div>
 }
 
 export default ReservationsPage

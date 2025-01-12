@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom'
-import styles from './Return.module.css'
+import styles from './PageReturn.module.css'
 
 interface TourismReturnProps {
     url: string
     text: string
 }
 
-const Return = ({ url, text }: TourismReturnProps) => {
+const PageReturn = ({ url, text }: TourismReturnProps) => {
     const navigate = useNavigate()
 
     return (
@@ -21,4 +21,4 @@ const Return = ({ url, text }: TourismReturnProps) => {
     )
 }
 
-export default Return
+export default PageReturn
