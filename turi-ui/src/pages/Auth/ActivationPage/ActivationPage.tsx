@@ -1,9 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useRedirectEvery } from '../../../hooks/useRedirect.ts'
-import { useTranslation } from 'react-i18next'
 import { codeValidation } from '../../../utils/codeValidation.ts'
-import { useAppDispatch } from '../../../hooks/useAppDispatch.ts'
-import { useNavigate } from 'react-router-dom'
+import { useHooks } from '../../../hooks/useHooks.ts'
 import { useForm } from '../../../hooks/useForm.ts'
 import { handle } from '../../../utils/handle.ts'
 import AuthPanel from '../../../components/Auth/AuthPanel'
@@ -23,12 +21,9 @@ interface FormData {
 }
 
 const ActivationPage = () => {
-    const { t } = useTranslation()
-    const dispatch = useAppDispatch()
-    const navigate = useNavigate()
+    const { t, dispatch, navigate } = useHooks()
     const isActivation = useActivation()
-    const [loading, setLoading] = useState(false)
-    const { formData, error, setError, handleChange, resetForm } = useForm<FormData>({
+    const { formData, error, setError, handleChange, resetForm, loading, setLoading } = useForm<FormData>({
         initialValues: {
             code: ''
         }

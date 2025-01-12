@@ -1,9 +1,7 @@
 import React from 'react'
 import { useRedirectEvery } from '../../../hooks/useRedirect.ts'
-import { useTranslation } from 'react-i18next'
-import { useAppDispatch } from '../../../hooks/useAppDispatch.ts'
 import { usePersonal } from '../../../store/slices/personal.ts'
-import { useNavigate } from 'react-router-dom'
+import { useHooks } from '../../../hooks/useHooks.ts'
 import { useForm } from '../../../hooks/useForm.ts'
 import { handle } from '../../../utils/handle.ts'
 import AuthPanel from '../../../components/Auth/AuthPanel'
@@ -15,8 +13,8 @@ import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
 import { login, useAuthenticated } from '../../../store/slices/auth.ts'
 import { loginPremium } from '../../../store/slices/premiumLogin.ts'
-import { activation } from '../../../store/slices/activate.ts'
 import { authService } from '../../../services/authService.ts'
+import { activation } from '../../../store/slices/activate.ts'
 
 interface FormData {
     login: string
@@ -24,9 +22,7 @@ interface FormData {
 }
 
 const LoginPage = () => {
-    const { t } = useTranslation()
-    const dispatch = useAppDispatch()
-    const navigate = useNavigate()
+    const { t, dispatch, navigate } = useHooks()
     const isAuthenticated = useAuthenticated()
     const isPersonalization = usePersonal()
     const { formData, error, setError, handleChange, resetForm, loading, setLoading } = useForm<FormData>({

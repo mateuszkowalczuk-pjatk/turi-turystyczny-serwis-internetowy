@@ -3,8 +3,7 @@ import { checkPasswordsMatch } from '../../../utils/checkPasswordsMatch.ts'
 import { passwordValidation } from '../../../utils/passwordValidation.ts'
 import { useRedirectEvery } from '../../../hooks/useRedirect.ts'
 import { useAuthenticated } from '../../../store/slices/auth.ts'
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useHooks } from '../../../hooks/useHooks.ts'
 import { useReset } from '../../../store/slices/reset.ts'
 import { useForm } from '../../../hooks/useForm.ts'
 import { handle } from '../../../utils/handle.ts'
@@ -23,8 +22,7 @@ interface FormData {
 }
 
 const ResetPasswordPage = () => {
-    const { t } = useTranslation()
-    const navigate = useNavigate()
+    const { t, navigate } = useHooks()
     const isAuthenticated = useAuthenticated()
     const isResetPassword = useReset()
     const { formData, error, setError, handleChange, resetForm, loading, setLoading } = useForm<FormData>({

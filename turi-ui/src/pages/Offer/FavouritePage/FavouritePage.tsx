@@ -1,12 +1,12 @@
 import { useRedirectEvery } from '../../../hooks/useRedirect.ts'
 import { useAuthenticated } from '../../../store/slices/auth.ts'
-import { useTranslation } from 'react-i18next'
+import { useHooks } from '../../../hooks/useHooks.ts'
 import PageContent from '../../../components/Shared/Contents/PageContent'
 import FavouriteOffers from '../../../components/Offer/FavouriteOffers'
 import PageTitle from '../../../components/Shared/PageTitle'
 
 const FavouritePage = () => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
     const isAuthenticated = useAuthenticated()
 
     useRedirectEvery([!isAuthenticated], '/')

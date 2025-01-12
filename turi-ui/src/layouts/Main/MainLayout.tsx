@@ -1,6 +1,5 @@
+import { useStates } from '../../hooks/useStates.ts'
 import { Outlet } from 'react-router-dom'
-import { useAuthenticated } from '../../store/slices/auth.ts'
-import { usePremium } from '../../store/slices/premium.ts'
 import Layout from '../../components/Shared/Layout'
 import PremiumHeader from '../../components/Shared/Header/PremiumHeader'
 import UserHeader from '../../components/Shared/Header/UserHeader'
@@ -11,8 +10,7 @@ import UserFooter from '../../components/Shared/Footer/UserFooter'
 import GuestFooter from '../../components/Shared/Footer/GuestFooter'
 
 const MainLayout = () => {
-    const isAuthenticated = useAuthenticated()
-    const isPremium = usePremium()
+    const { isAuthenticated, isPremium } = useStates()
 
     return (
         <Layout

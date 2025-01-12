@@ -1,19 +1,16 @@
 import React, { useState } from 'react'
 
-interface Props<T> {
-    initialValues: T
-}
-
-export const useForm = <T extends Record<string, any>>({ initialValues }: Props<T>) => {
+export const useForm = <T extends Record<string, any>>({ initialValues }: { initialValues: T }) => {
     const [formData, setFormData] = useState<T>(initialValues)
     const [error, setError] = useState<string | null>(null)
     const [loading, setLoading] = useState(false)
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setError(null)
         const { name, value } = e.target
         setFormData((prev) => ({ ...prev, [name]: value }))
+        setError(null)
     }
+
     const setFormValues = (values: Partial<T>) => {
         setFormData((prev) => ({ ...prev, ...values }))
     }
