@@ -1,0 +1,7 @@
+.rating {
+    width: 30%;
+    height: 3rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}

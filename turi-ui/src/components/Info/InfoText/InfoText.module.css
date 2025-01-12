@@ -1,0 +1,8 @@
+.text {
+    height: 5rem;
+    width: 95%;
+}
+
+.text p {
+    line-height: 1.5rem;
+}

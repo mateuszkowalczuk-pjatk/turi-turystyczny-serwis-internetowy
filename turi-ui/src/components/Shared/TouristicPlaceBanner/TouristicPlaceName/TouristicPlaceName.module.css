@@ -1,0 +1,14 @@
+.name {
+    display: flex;
+    gap: 1rem;
+}
+
+.name p {
+    font-size: 1.25rem;
+    color: var(--light-green);
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

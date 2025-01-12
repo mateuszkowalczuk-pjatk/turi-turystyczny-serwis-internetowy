@@ -1,0 +1,11 @@
+.title {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 2.5rem;
+    width: 95%;
+}
+
+.title p {
+    color: var(--light-green);
+}

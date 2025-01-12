@@ -1,8 +1,7 @@
-.content {
+.banner {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 42rem;
-    width: 100%;
-    max-width: 1440px;
+    width: 99.1%;
+    height: 5.5rem;
 }
