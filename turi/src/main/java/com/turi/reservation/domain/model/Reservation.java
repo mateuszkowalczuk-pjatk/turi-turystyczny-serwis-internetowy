@@ -4,6 +4,7 @@ import com.turi.reservation.infrastructure.adapter.repository.ReservationEntity;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Getter
@@ -22,9 +23,9 @@ public final class Reservation
     private Double price;
     private LocalTime checkInTime;
     private String request;
-    private String guestName;
     private Double rating;
     private String opinion;
+    private LocalDateTime modifyDate;
     private ReservationStatus status;
 
     public static Reservation of(final ReservationEntity entity)
@@ -38,9 +39,9 @@ public final class Reservation
                 .withPrice(entity.getPrice())
                 .withCheckInTime(entity.getCheckInTime())
                 .withRequest(entity.getRequest())
-                .withGuestName(entity.getGuestName())
                 .withRating(entity.getRating())
                 .withOpinion(entity.getOpinion())
+                .withModifyDate(entity.getModifyDate())
                 .withStatus(ReservationStatus.fromValue(entity.getStatus()))
                 .build();
     }

@@ -8,6 +8,7 @@ import lombok.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
@@ -39,23 +40,23 @@ public final class ReservationEntity implements Serializable
     @Column(name = "dateto", nullable = false)
     private LocalDate dateTo;
 
-    @Column(name = "price", nullable = false)
+    @Column(name = "price")
     private Double price;
 
-    @Column(name = "checkintime", nullable = false)
+    @Column(name = "checkintime")
     private LocalTime checkInTime;
 
     @Column(name = "request")
     private String request;
-
-    @Column(name = "guestname", length = 50)
-    private String guestName;
 
     @Column(name = "rating")
     private Double rating;
 
     @Column(name = "opinion")
     private String opinion;
+
+    @Column(name = "modifydate", nullable = false)
+    private LocalDateTime modifyDate;
 
     @Column(name = "status", nullable = false)
     private int status;
@@ -75,9 +76,9 @@ public final class ReservationEntity implements Serializable
                 .withPrice(reservation.getPrice())
                 .withCheckInTime(reservation.getCheckInTime())
                 .withRequest(reservation.getRequest())
-                .withGuestName(reservation.getGuestName())
                 .withRating(reservation.getRating())
                 .withOpinion(reservation.getOpinion())
+                .withModifyDate(reservation.getModifyDate())
                 .withStatus(reservation.getStatus().getValue())
                 .build();
     }
@@ -88,7 +89,7 @@ public final class ReservationEntity implements Serializable
                 && reservation.getAccountId() != null
                 && reservation.getDateFrom() != null
                 && reservation.getDateTo() != null
-                && reservation.getCheckInTime() != null
+                && reservation.getModifyDate() != null
                 && reservation.getStatus() != null;
     }
 }

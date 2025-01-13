@@ -10,7 +10,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class StripeProperties
 {
     private String secretKey;
-    private String successUrl;
-    private String cancelUrl;
+    private String premiumSuccessUrl;
+    private String premiumCancelUrl;
+    private String reservationSuccessUrl;
+    private String reservationCancelUrl;
     private String webhookSecretKey;
 }

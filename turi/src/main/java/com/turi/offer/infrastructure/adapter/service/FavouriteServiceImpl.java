@@ -53,7 +53,7 @@ public class FavouriteServiceImpl implements FavouriteService
     }
 
     @Override
-    public void addForAccount(final Long accountId, final Long touristicPlaceId)
+    public void create(final Long accountId, final Long touristicPlaceId)
     {
         if (isOfferForAccount(accountId, touristicPlaceId))
         {
@@ -64,7 +64,7 @@ public class FavouriteServiceImpl implements FavouriteService
     }
 
     @Override
-    public void deleteForAccount(final Long accountId, final Long touristicPlaceId)
+    public void delete(final Long accountId, final Long touristicPlaceId)
     {
         if (isOfferForAccount(accountId, touristicPlaceId))
         {

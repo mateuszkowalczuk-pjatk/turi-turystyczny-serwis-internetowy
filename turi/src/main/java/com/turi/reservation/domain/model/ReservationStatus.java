@@ -9,11 +9,12 @@ import java.util.Arrays;
 @AllArgsConstructor
 public enum ReservationStatus
 {
-    UNPAID(0, "UNPAID"),
-    RESERVATION(1, "RESERVATION"),
-    REALIZATION(2, "REALIZATION"),
-    REALIZED(3, "REALIZED"),
-    CANCELED(4, "CANCELED");
+    LOCKED(0, "LOCKED"),
+    UNPAID(1, "UNPAID"),
+    RESERVATION(2, "RESERVATION"),
+    REALIZATION(3, "REALIZATION"),
+    REALIZED(4, "REALIZED"),
+    CANCELED(5, "CANCELED");
 
     private final int value;
     private final String name;

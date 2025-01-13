@@ -24,6 +24,14 @@ public class PaymentRepositoryImpl implements PaymentRepository
     }
 
     @Override
+    public List<Payment> findAllByReservationId(final Long reservationId)
+    {
+        return repositoryDao.findAllByReservationId(reservationId).stream()
+                .map(Payment::of)
+                .toList();
+    }
+
+    @Override
     public Payment findById(final Long id)
     {
         return repositoryDao.findById(id)

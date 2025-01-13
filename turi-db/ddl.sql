@@ -335,11 +335,12 @@ CREATE TABLE IF NOT EXISTS reservation
     accountid     INTEGER        NOT NULL,
     datefrom      DATE           NOT NULL,
     dateto        DATE           NOT NULL,
-    price         DECIMAL(10, 2) NOT NULL,
-    checkintime   TIME           NOT NULL,
+    price         DECIMAL(10, 2),
+    checkintime   TIME,
     request       VARCHAR(255),
     rating        DECIMAL(1, 1),
     opinion       VARCHAR(255),
+    modifydate    TIMESTAMP      NOT NULL,
     status        INTEGER        NOT NULL,
     CONSTRAINT reservationstay    FOREIGN KEY (stayid)    REFERENCES stay    (stayid),
     CONSTRAINT reservationaccount FOREIGN KEY (accountid) REFERENCES account (accountid)
@@ -354,11 +355,12 @@ COMMENT ON COLUMN reservation.stayid        IS 'Required foreign key of stay tab
 COMMENT ON COLUMN reservation.accountid     IS 'Required foreign key of account table.';
 COMMENT ON COLUMN reservation.datefrom      IS 'Required reservation date from.';
 COMMENT ON COLUMN reservation.dateto        IS 'Required reservation date to.';
-COMMENT ON COLUMN reservation.price         IS 'Required reservation price.';
-COMMENT ON COLUMN reservation.checkintime   IS 'Required required user check-in hour.';
+COMMENT ON COLUMN reservation.price         IS 'Optional reservation price.';
+COMMENT ON COLUMN reservation.checkintime   IS 'Optional required user check-in hour.';
 COMMENT ON COLUMN reservation.request       IS 'Optional user reservation special request.';
 COMMENT ON COLUMN reservation.rating        IS 'Optional user reservation rating after realization.';
 COMMENT ON COLUMN reservation.opinion       IS 'Optional user reservation opinion after realization.';
+COMMENT ON COLUMN reservation.modifydate    IS 'Required reservation last modify date.';
 COMMENT ON COLUMN reservation.status        IS 'Required reservation status (0 - Locked, 1 - Unpaid, 2 - Reservation, 3 - Realization, 4 - Realized, 5 - Canceled).';
 
 
@@ -375,6 +377,7 @@ CREATE TABLE IF NOT EXISTS reservationattraction
     items                   INTEGER,
     message                 VARCHAR(255),
     price                   DECIMAL(10, 2) NOT NULL,
+    modifydate              TIMESTAMP      NOT NULL,
     status                  INTEGER        NOT NULL,
     CONSTRAINT reservationattractionreservation FOREIGN KEY (reservationid) REFERENCES reservation (reservationid),
     CONSTRAINT reservationattractionattraction  FOREIGN KEY (attractionid)  REFERENCES attraction  (attractionid)
@@ -394,7 +397,7 @@ COMMENT ON COLUMN reservationattraction.hourto                  IS 'Required att
 COMMENT ON COLUMN reservationattraction.people                  IS 'Optional attraction people number, depends from attraction type.';
 COMMENT ON COLUMN reservationattraction.items                   IS 'Optional attraction items, depends from attraction type.';
 COMMENT ON COLUMN reservationattraction.message                 IS 'Optional user message about attraction reservation.';
-COMMENT ON COLUMN reservationattraction.price                   IS 'Required attraction total price.';
+COMMENT ON COLUMN reservationattraction.modifydate              IS 'Required reservation attraction last modify date.';
 COMMENT ON COLUMN reservationattraction.status                  IS 'Required attraction reservation status (0 - Locked, 1 - Unpaid, 2 - Reservation, 3 - Realization, 4 - Realized, 5 - Canceled).';
 
 

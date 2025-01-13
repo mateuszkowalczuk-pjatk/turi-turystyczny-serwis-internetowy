@@ -16,6 +16,7 @@ public final class Payment
 {
     private Long paymentId;
     private Long premiumId;
+    private Long reservationId;
     private String stripeId;
     private String stripePaymentIntent;
     private BigDecimal amount;
@@ -27,6 +28,7 @@ public final class Payment
     {
         return Payment.builder()
                 .withPaymentId(entity.getPaymentId())
+                .withReservationId(entity.getReservationId())
                 .withPremiumId(entity.getPremiumId())
                 .withStripeId(entity.getStripeId())
                 .withStripePaymentIntent(entity.getStripePaymentIntent())

@@ -27,8 +27,11 @@ public final class PaymentEntity implements Serializable
     @Column(name = "paymentid")
     private Long paymentId;
 
-    @Column(name = "premiumid", nullable = false)
+    @Column(name = "premiumid")
     private Long premiumId;
+
+    @Column(name = "reservationid")
+    private Long reservationId;
 
     @Column(name = "stripeid", nullable = false, unique = true)
     private String stripeId;
@@ -68,7 +71,7 @@ public final class PaymentEntity implements Serializable
 
     private static boolean validation(final Payment payment)
     {
-        return payment.getPremiumId() != null
+        return (payment.getPremiumId() != null || payment.getReservationId() != null)
                 && payment.getStripeId() != null
                 && payment.getAmount() != null
                 && payment.getPaymentDate() != null

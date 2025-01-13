@@ -9,6 +9,6 @@ public final class InvalidReservationException extends RuntimeException
 
     public InvalidReservationException()
     {
-        super("The specified reservation is invalid. Parameters stayId, accountId, dateFrom, dateTo, checkInTime and status are required!");
+        super("The specified reservation is invalid. Parameters stayId, accountId, dateFrom, dateTo, modifyDate and status are required!");
     }
 }
