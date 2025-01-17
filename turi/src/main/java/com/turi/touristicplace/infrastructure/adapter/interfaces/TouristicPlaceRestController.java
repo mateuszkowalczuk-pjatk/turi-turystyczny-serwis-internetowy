@@ -18,7 +18,7 @@ public class TouristicPlaceRestController
     @GetMapping("/getByPremiumId")
     public ResponseEntity<TouristicPlace> getTouristicPlaceByPremiumId()
     {
-        return facade.getByTouristicPlacePremiumId();
+        return facade.getTouristicPlaceByPremiumId();
     }
 
     @GetMapping("/isAddressExists")

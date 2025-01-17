@@ -9,6 +9,6 @@ public final class InvalidReservationAttractionException extends RuntimeExceptio
 
     public InvalidReservationAttractionException()
     {
-        super("The specified reservation attraction is invalid. Parameters reservationId, attractionId, dateFrom, hourFrom, hourTo, price, modifyDate and status are required!");
+        super("The specified reservation attraction is invalid. Parameters reservationId, attractionId, dateFrom, dateTo, hourFrom, hourTo, price, modifyDate and status are required!");
     }
 }

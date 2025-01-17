@@ -6,6 +6,7 @@ import com.turi.reservation.domain.port.ReservationRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -13,6 +14,22 @@ import java.util.Optional;
 public class ReservationRepositoryImpl implements ReservationRepository
 {
     private final ReservationRepositoryDao repositoryDao;
+
+    @Override
+    public List<Reservation> findAllByStayId(final Long stayId)
+    {
+        return repositoryDao.findAllByStayId(stayId).stream()
+                .map(Reservation::of)
+                .toList();
+    }
+
+    @Override
+    public List<Reservation> findAllByAccountId(final Long accountId)
+    {
+        return repositoryDao.findAllByAccountId(accountId).stream()
+                .map(Reservation::of)
+                .toList();
+    }
 
     @Override
     public Reservation findById(final Long id)
@@ -38,11 +55,16 @@ public class ReservationRepositoryImpl implements ReservationRepository
         final var entity = ReservationEntity.of(reservation);
 
         Optional.ofNullable(reservationEntity).ifPresent(e -> {
+            e.setStayId(e.getStayId());
+            e.setAccountId(e.getAccountId());
+            e.setDateFrom(entity.getDateFrom());
             e.setDateTo(entity.getDateTo());
             e.setPrice(entity.getPrice());
             e.setCheckInTime(entity.getCheckInTime());
             e.setRequest(entity.getRequest());
             e.setRating(entity.getRating());
+            e.setOpinion(entity.getOpinion());
+            e.setModifyDate(entity.getModifyDate());
             e.setStatus(entity.getStatus());
 
             repositoryDao.saveAndFlush(reservationEntity);

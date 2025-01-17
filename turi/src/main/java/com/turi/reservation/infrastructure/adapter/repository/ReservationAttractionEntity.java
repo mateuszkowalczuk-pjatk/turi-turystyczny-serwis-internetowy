@@ -8,6 +8,7 @@ import lombok.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
@@ -36,7 +37,7 @@ public final class ReservationAttractionEntity implements Serializable
     @Column(name = "datefrom", nullable = false)
     private LocalDate dateFrom;
 
-    @Column(name = "dateto")
+    @Column(name = "dateto", nullable = false)
     private LocalDate dateTo;
 
     @Column(name = "hourfrom", nullable = false)
@@ -56,6 +57,9 @@ public final class ReservationAttractionEntity implements Serializable
 
     @Column(name = "price", nullable = false)
     private Double price;
+
+    @Column(name = "modifydate", nullable = false)
+    private LocalDateTime modifyDate;
 
     @Column(name = "status", nullable = false)
     private int status;
@@ -78,6 +82,7 @@ public final class ReservationAttractionEntity implements Serializable
                 .withItems(reservationAttraction.getItems())
                 .withMessage(reservationAttraction.getMessage())
                 .withPrice(reservationAttraction.getPrice())
+                .withModifyDate(reservationAttraction.getModifyDate())
                 .withStatus(reservationAttraction.getStatus().getValue())
                 .build();
     }
@@ -87,9 +92,11 @@ public final class ReservationAttractionEntity implements Serializable
         return reservationAttraction.getReservationId() != null
                 && reservationAttraction.getAttractionId() != null
                 && reservationAttraction.getDateFrom() != null
+                && reservationAttraction.getDateTo() != null
                 && reservationAttraction.getHourFrom() != null
                 && reservationAttraction.getHourTo() != null
                 && reservationAttraction.getPrice() != null
+                && reservationAttraction.getModifyDate() != null
                 && reservationAttraction.getStatus() != null;
     }
 }

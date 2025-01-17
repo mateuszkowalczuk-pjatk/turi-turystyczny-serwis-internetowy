@@ -361,7 +361,7 @@ COMMENT ON COLUMN reservation.request       IS 'Optional user reservation specia
 COMMENT ON COLUMN reservation.rating        IS 'Optional user reservation rating after realization.';
 COMMENT ON COLUMN reservation.opinion       IS 'Optional user reservation opinion after realization.';
 COMMENT ON COLUMN reservation.modifydate    IS 'Required reservation last modify date.';
-COMMENT ON COLUMN reservation.status        IS 'Required reservation status (0 - Locked, 1 - Unpaid, 2 - Reservation, 3 - Realization, 4 - Realized, 5 - Canceled).';
+COMMENT ON COLUMN reservation.status        IS 'Required reservation status (0 - Locked, 1 - Unpaid, 2 - Pay on site, 3 - Reservation, 4 - Reservation with unpaid date extension, 5 - Realization, 6 - Realization with unpaid date extension, 7 - Realized, 8 - Canceled).';
 
 
 CREATE TABLE IF NOT EXISTS reservationattraction
@@ -370,7 +370,7 @@ CREATE TABLE IF NOT EXISTS reservationattraction
     reservationid           INTEGER        NOT NULL,
     attractionid            INTEGER        NOT NULL,
     datefrom                DATE           NOT NULL,
-    dateto                  DATE,
+    dateto                  DATE           NOT NULL,
     hourfrom                TIME           NOT NULL,
     hourto                  TIME           NOT NULL,
     people                  INTEGER,
@@ -391,14 +391,14 @@ COMMENT ON COLUMN reservationattraction.reservationattractionid IS 'Unique requi
 COMMENT ON COLUMN reservationattraction.reservationid           IS 'Required foreign key of reservation table.';
 COMMENT ON COLUMN reservationattraction.attractionid            IS 'Required foreign key of attraction table.';
 COMMENT ON COLUMN reservationattraction.datefrom                IS 'Required attraction date from.';
-COMMENT ON COLUMN reservationattraction.dateto                  IS 'Optional attraction date to, if it lasts more than one day.';
+COMMENT ON COLUMN reservationattraction.dateto                  IS 'Required attraction date to.';
 COMMENT ON COLUMN reservationattraction.hourfrom                IS 'Required attraction hour from.';
 COMMENT ON COLUMN reservationattraction.hourto                  IS 'Required attraction hour to.';
 COMMENT ON COLUMN reservationattraction.people                  IS 'Optional attraction people number, depends from attraction type.';
 COMMENT ON COLUMN reservationattraction.items                   IS 'Optional attraction items, depends from attraction type.';
 COMMENT ON COLUMN reservationattraction.message                 IS 'Optional user message about attraction reservation.';
 COMMENT ON COLUMN reservationattraction.modifydate              IS 'Required reservation attraction last modify date.';
-COMMENT ON COLUMN reservationattraction.status                  IS 'Required attraction reservation status (0 - Locked, 1 - Unpaid, 2 - Reservation, 3 - Realization, 4 - Realized, 5 - Canceled).';
+COMMENT ON COLUMN reservationattraction.status                  IS 'Required attraction reservation status (0 - Locked, 1 - Unpaid, 2 - Pay on site, 3 - Reservation, 4 - Reservation with unpaid date extension, 5 - Realization, 6 - Realization with unpaid date extension, 7 - Realized, 8 - Canceled).';
 
 
 CREATE TABLE IF NOT EXISTS stripepayment

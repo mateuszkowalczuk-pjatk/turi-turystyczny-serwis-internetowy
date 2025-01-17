@@ -1,8 +1,9 @@
 package com.turi.reservation.domain.port;
 
+import com.turi.attraction.domain.model.Attraction;
 import com.turi.payment.domain.model.PaymentMethod;
-import com.turi.reservation.domain.model.Reservation;
-import com.turi.reservation.domain.model.ReservationAttraction;
+import com.turi.reservation.domain.model.*;
+import com.turi.stay.domain.model.StayDto;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -10,55 +11,73 @@ import java.util.List;
 
 public interface ReservationService
 {
-    //ToDo - GET
+    List<ReservationDto> getAllByAccountId(final Long accountId,
+                                           final ReservationStatus[] statuses);
 
-    Reservation getById(final Long id);
+    List<ReservationDto> getAllByTouristicPlaceId(final Long touristicPlaceId,
+                                                  final ReservationStatus[] statuses);
 
-    Reservation checkPayment(final Long reservationId, final Boolean initial);
+    ReservationDto getWithAttractionsById(final Long id);
 
-    Boolean isStayLocked(final Long stayId, final LocalDate dateFrom, final LocalDate dateTo);
+    List<StayDto> getAllTouristicPlaceStaysAvailableInDate(final Long touristicPlaceId,
+                                                           final LocalDate dateFrom,
+                                                           final LocalDate dateTo);
 
-    Boolean isAttractionLocked(final Long stayId,
-                               final LocalDate dateFrom,
-                               final LocalDate dateTo,
-                               final LocalTime hourFrom,
-                               final LocalTime hourTo);
+    List<Attraction> getAllTouristicPlaceAttractionsAvailableInDate(final Long touristicPlaceId,
+                                                                    final LocalDate dateFrom,
+                                                                    final LocalDate dateTo);
 
-    Reservation create(final Long stayId, final Long accountId, final LocalDate dateFrom, final LocalDate dateTo);
+    ReservationDto checkPayment(final Long id,
+                                final ReservationMode[] modes);
 
-    ReservationAttraction createAttraction();
+    Reservation create(final Long stayId,
+                       final Long accountId,
+                       final LocalDate dateFrom,
+                       final LocalDate dateTo);
 
-    String pay(final Long reservationId,
+    ReservationAttraction createAttraction(final Long id,
+                                           final Long attractionId,
+                                           final LocalDate dateFrom,
+                                           final LocalDate dateTo,
+                                           final LocalTime hourFrom,
+                                           final LocalTime hourTo);
+
+    String pay(final Long id,
                final PaymentMethod method,
+               final ReservationMode mode,
+               final LocalDate dateTo,
                final List<ReservationAttraction> reservationAttractions);
 
-    String payForDateExtension(final Long reservationId,
-                               final PaymentMethod method,
-                               final LocalDate dateTo);
+    ReservationDto makePayOnSite(final Long id,
+                                 final ReservationMode mode,
+                                 final List<ReservationAttraction> reservationAttractions);
 
-    String payForAttractions(final Long reservationId,
-                             final PaymentMethod method,
+    ReservationDto payOnSite(final Long id,
+                             final ReservationMode mode,
                              final List<ReservationAttraction> reservationAttractions);
 
     void createAllReservationsReminder();
 
-    Reservation updateDetails(final Long reservationId, final LocalTime checkInTime, final String request);
+    ReservationDto updateDetails(final Long id,
+                                 final LocalTime checkInTime,
+                                 final String request);
 
-    Reservation updateOpinion(final Long reservationId, final Double rating, final String opinion);
+    ReservationDto updateOpinion(final Long id,
+                                 final Double rating,
+                                 final String opinion);
+
+    ReservationDto updateDateTo(final Long id,
+                                final LocalDate dateTo);
 
     void updateAllReservationsStatuses();
 
     void updateAllReservationsAttractionsStatuses();
 
-    void cancel(final Long reservationId);
+    void cancel(final Long id);
 
-    void cancelAttraction(final Long reservationId);
+    void cancelAttraction(final Long reservationAttractionId);
 
     void deleteAllExpiredLockedReservations();
 
     void deleteAllExpiredLockedReservationsAttractions();
-
-    // ToDo - locked na update DatyDo
-
-    // ToDo - locked na update rezerwacji
 }

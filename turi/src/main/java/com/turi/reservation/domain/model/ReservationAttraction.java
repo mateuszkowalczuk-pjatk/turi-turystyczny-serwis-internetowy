@@ -4,6 +4,7 @@ import com.turi.reservation.infrastructure.adapter.repository.ReservationAttract
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Getter
@@ -25,6 +26,7 @@ public final class ReservationAttraction
     private Integer items;
     private String message;
     private Double price;
+    private LocalDateTime modifyDate;
     private ReservationStatus status;
 
     public static ReservationAttraction of(final ReservationAttractionEntity entity)
@@ -41,6 +43,7 @@ public final class ReservationAttraction
                 .withItems(entity.getItems())
                 .withMessage(entity.getMessage())
                 .withPrice(entity.getPrice())
+                .withModifyDate(entity.getModifyDate())
                 .withStatus(ReservationStatus.fromValue(entity.getStatus()))
                 .build();
     }

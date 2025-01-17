@@ -62,7 +62,7 @@ public class TouristicPlaceFacade
         return service.completeNames(query);
     }
 
-    public ResponseEntity<TouristicPlace> getByTouristicPlacePremiumId()
+    public ResponseEntity<TouristicPlace> getTouristicPlaceByPremiumId()
     {
         return TouristicPlaceResponse.of(service.getByPremiumId());
     }
