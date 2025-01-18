@@ -31,20 +31,8 @@ export const accountService = {
         buildingNumber: string,
         apartmentNumber: string | null
     ) => {
-        if (apartmentNumber === null) {
-            return await fetch(
-                `${API_BASE_URL}${API.ACCOUNT.IS_ADDRESS_EXISTS}?country=${country}&city=${city}&zipCode=${zipCode}&street=${street}&buildingNumber=${buildingNumber}`,
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    credentials: 'include'
-                }
-            )
-        }
         return await fetch(
-            `${API_BASE_URL}${API.ACCOUNT.IS_ADDRESS_EXISTS}?country=${country}&city=${city}&zipCode=${zipCode}&street=${street}&buildingNumber=${buildingNumber}&apartmentNumber=${apartmentNumber}`,
+            `${API_BASE_URL}${API.ACCOUNT.IS_ADDRESS_EXISTS}?country=${country}&city=${city}&zipCode=${zipCode}&street=${street}&buildingNumber=${buildingNumber}${defaultParamIfNull('apartmentNumber', apartmentNumber)}`,
             {
                 method: 'GET',
                 headers: {
