@@ -1,6 +1,7 @@
 import { API_BASE_URL } from '../config/api'
 import { API } from './constants.ts'
 import { Account } from '../types'
+import { defaultParamIfNull } from '../utils/handleRequest.ts'
 
 export const accountService = {
     get: async (accountId: number) => {
