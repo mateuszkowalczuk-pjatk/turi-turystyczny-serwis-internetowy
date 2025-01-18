@@ -126,7 +126,7 @@ public class PremiumServiceImpl implements PremiumService
 
             repository.update(premium.getPremiumId(), premium);
 
-            emailSender.sendEmail(email, "Premium account login code.", premium.getLoginCode());
+            emailSender.sendEmailCode(email, "Kod logowania na konto premium.", premium.getLoginCode());
 
             return PremiumLogin.builder()
                     .withLoginToken(premium.getLoginToken())

@@ -15,6 +15,14 @@ public class ReservationAttractionRepositoryImpl implements ReservationAttractio
     private final ReservationAttractionRepositoryDao repositoryDao;
 
     @Override
+    public List<ReservationAttraction> findAll()
+    {
+        return repositoryDao.findAll().stream()
+                .map(ReservationAttraction::of)
+                .toList();
+    }
+
+    @Override
     public List<ReservationAttraction> findAllByReservationId(final Long reservationId)
     {
         return repositoryDao.findAllByReservationId(reservationId).stream()

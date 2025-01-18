@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{title}}</title>
+        <style>
+            body {
+                margin: 0;
+                font-family: Inter, sans-serif;
+                background: #fcfcfc;
+                padding: 1.3rem;
+            }
+            .panel {
+                max-width: 40rem;
+                margin: auto;
+                background: #fcfcfc;
+                border-radius: 0.4rem;
+                box-shadow:
+                        0 8px 15px rgba(0, 0, 0, 0.1),
+                        0 3px 6px rgba(0, 0, 0, 0.05);
+                border: 2px solid #e8e8e8;
+                overflow: hidden;
+            }
+            .header {
+                background: #117e1d;
+                color: #fcfcfc;
+                padding: 0.7rem 1.3rem;
+                text-align: center;
+            }
+            .content {
+                padding: 1.3rem;
+            }
+            .date {
+                font-size: 1rem;
+                font-weight: bold;
+                color: #031500;
+                text-align: center;
+                margin: 1.3rem 0;
+            }
+            .footer {
+                text-align: center;
+                padding: 0.8rem;
+                font-size: 0.8rem;
+                color: #09390e;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="panel">
+            <div class="header">
+                <h2>{{title}}</h2>
+            </div>
+            <div class="content">
+                <p>Witaj,</p>
+                <p>{{text}}</p>
+                <div class="date">Data: {{date}}</div>
+                <p>Jeśli masz jakiekolwiek pytania, prosimy o kontakt z naszym zespołem wsparcia.</p>
+            </div>
+            <div class="footer">
+                <p>Z wyrazami szacunku,</p>
+                <p>Zespół Turi</p>
+            </div>
+        </div>
+    </body>
+</html>

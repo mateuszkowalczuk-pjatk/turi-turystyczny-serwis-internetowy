@@ -93,9 +93,10 @@ public class ReservationRestController
     @PostMapping("/makePayOnSite/{id}")
     public ResponseEntity<ReservationDto> makePayForReservationOnSite(@PathVariable final String id,
                                                                       @RequestParam final ReservationMode mode,
+                                                                      @RequestParam(required = false) final LocalDate dateTo,
                                                                       @RequestBody(required = false) final List<ReservationAttraction> reservationAttractions)
     {
-        return facade.makePayForReservationOnSite(id, mode, reservationAttractions);
+        return facade.makePayForReservationOnSite(id, mode, dateTo, reservationAttractions);
     }
 
     @PostMapping("payOnSite/{id}")

@@ -135,6 +135,7 @@ public class ReservationFacade
 
     public ResponseEntity<ReservationDto> makePayForReservationOnSite(final String id,
                                                                       final ReservationMode mode,
+                                                                      final LocalDate dateTo,
                                                                       final List<ReservationAttraction> reservationAttractions)
     {
         if (id == null || mode == null)
@@ -142,7 +143,7 @@ public class ReservationFacade
             throw new BadRequestParameterException("Parameters ID and mode are required.");
         }
 
-        return ReservationResponse.of(service.makePayOnSite(ObjectId.of(id).getValue(), mode, reservationAttractions));
+        return ReservationResponse.of(service.makePayOnSite(ObjectId.of(id).getValue(), mode, dateTo, reservationAttractions));
     }
 
     public ResponseEntity<ReservationDto> payForReservationOnSite(final String id,

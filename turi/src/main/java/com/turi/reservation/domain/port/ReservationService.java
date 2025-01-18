@@ -50,6 +50,7 @@ public interface ReservationService
 
     ReservationDto makePayOnSite(final Long id,
                                  final ReservationMode mode,
+                                 final LocalDate dateTo,
                                  final List<ReservationAttraction> reservationAttractions);
 
     ReservationDto payOnSite(final Long id,

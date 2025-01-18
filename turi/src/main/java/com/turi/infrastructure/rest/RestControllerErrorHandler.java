@@ -315,8 +315,26 @@ public final class RestControllerErrorHandler extends ErrorHandler
         return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
+    @ExceptionHandler(InvalidReservationDateException.class)
+    public ResponseEntity<ErrorCode> handleInvalidReservationDateException(final InvalidReservationDateException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
     @ExceptionHandler(InvalidReservationException.class)
     public ResponseEntity<ErrorCode> handleInvalidReservationException(final InvalidReservationException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidReservationTimeException.class)
+    public ResponseEntity<ErrorCode> handleInvalidReservationTimeException(final InvalidReservationTimeException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(ReservationAttractionUnavailableException.class)
+    public ResponseEntity<ErrorCode> handleReservationAttractionUnavailableException(final ReservationAttractionUnavailableException ex)
     {
         return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
@@ -331,6 +349,18 @@ public final class RestControllerErrorHandler extends ErrorHandler
     public ResponseEntity<ErrorCode> handleReservationNotFoundException(final ReservationNotFoundException ex)
     {
         return createResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(ReservationPaidOnSiteException.class)
+    public ResponseEntity<ErrorCode> handleReservationPaidOnSiteException(final ReservationPaidOnSiteException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(ReservationStayUnavailableException.class)
+    public ResponseEntity<ErrorCode> handleReservationStayUnavailableException(final ReservationStayUnavailableException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
     @ExceptionHandler(ReservationUnpaidException.class)

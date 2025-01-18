@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface ReservationRepository
 {
+    List<Reservation> findAll();
+
     List<Reservation> findAllByStayId(final Long stayId);
 
     List<Reservation> findAllByAccountId(final Long accountId);

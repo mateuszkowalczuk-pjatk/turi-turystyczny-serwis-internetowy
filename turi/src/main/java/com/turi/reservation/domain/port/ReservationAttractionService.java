@@ -19,5 +19,9 @@ public interface ReservationAttractionService
     void updatePrice(final Long reservationAttractionId,
                      final Double price);
 
+    void updateAllReservationsAttractionsStatuses();
+
     void cancel(final Long id);
+
+    void deleteAllExpiredLockedReservationsAttractions();
 }

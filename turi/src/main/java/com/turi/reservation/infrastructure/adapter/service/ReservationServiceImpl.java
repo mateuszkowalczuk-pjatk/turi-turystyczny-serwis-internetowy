@@ -1,9 +1,13 @@
 package com.turi.reservation.infrastructure.adapter.service;
 
 import com.turi.attraction.domain.model.Attraction;
+import com.turi.attraction.domain.model.PriceType;
 import com.turi.attraction.infrastructure.adapter.interfaces.AttractionFacade;
+import com.turi.infrastructure.common.EmailSender;
+import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.payment.domain.model.PaymentMethod;
 import com.turi.payment.infrastructure.adapter.interfaces.PaymentFacade;
+import com.turi.premium.infrastructure.adapter.interfaces.PremiumFacade;
 import com.turi.reservation.domain.exception.*;
 import com.turi.reservation.domain.model.*;
 import com.turi.reservation.domain.port.ReservationAttractionService;
@@ -11,7 +15,9 @@ import com.turi.reservation.domain.port.ReservationRepository;
 import com.turi.reservation.domain.port.ReservationService;
 import com.turi.stay.domain.model.StayDto;
 import com.turi.stay.infrastructure.adapter.interfaces.StayFacade;
+import com.turi.touristicplace.domain.model.TouristicPlace;
 import com.turi.touristicplace.infrastructure.adapter.interfaces.TouristicPlaceFacade;
+import com.turi.user.infrastructure.adapter.interfaces.UserFacade;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,21 +25,33 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+
+import static com.turi.reservation.domain.model.ReservationStatus.REALIZATION;
+import static com.turi.reservation.domain.model.ReservationStatus.RESERVATION;
 
 @Service
 @AllArgsConstructor
 public class ReservationServiceImpl implements ReservationService
 {
     private final StayFacade stayFacade;
+    private final UserFacade userFacade;
+    private final EmailSender emailSender;
     private final PaymentFacade paymentFacade;
+    private final PremiumFacade premiumFacade;
     private final ReservationRepository repository;
     private final AttractionFacade attractionFacade;
     private final TouristicPlaceFacade touristicPlaceFacade;
     private final ReservationAttractionService reservationAttractionService;
+
+    private List<Reservation> getAll()
+    {
+        return repository.findAll();
+    }
 
     @Override
     public List<ReservationDto> getAllByAccountId(final Long accountId,
@@ -124,20 +142,20 @@ public class ReservationServiceImpl implements ReservationService
 
         if (Arrays.asList(modes).contains(ReservationMode.INITIAL))
         {
-            updateStatus(reservation, ReservationStatus.RESERVATION);
+            updateStatus(reservation, RESERVATION);
         }
 
         if (Arrays.asList(modes).contains(ReservationMode.DATE_EXTENSION))
         {
             updateStatus(reservation,
                     reservation.getStatus().equals(ReservationStatus.RESERVATION_UNPAID_DATE_EXTENSION)
-                            ? ReservationStatus.RESERVATION : ReservationStatus.REALIZATION
+                            ? RESERVATION : ReservationStatus.REALIZATION
             );
         }
 
         if (Arrays.asList(modes).contains(ReservationMode.INITIAL) || Arrays.asList(modes).contains(ReservationMode.ATTRACTIONS))
         {
-            reservationAttractionService.updateAllStatusesByReservationId(reservation.getReservationId(), ReservationStatus.RESERVATION);
+            reservationAttractionService.updateAllStatusesByReservationId(reservation.getReservationId(), RESERVATION);
         }
 
         return getWithAttractionsById(id);
@@ -187,12 +205,12 @@ public class ReservationServiceImpl implements ReservationService
     {
         if (!isStayAvailable(stayId, dateFrom, dateTo))
         {
-            throw new StayUnavailableException(stayId);
+            throw new ReservationStayUnavailableException(stayId);
         }
 
         if (!(dateFrom.isAfter(LocalDate.now()) && dateTo.isAfter(dateFrom)))
         {
-            throw new InvalidDateException();
+            throw new InvalidReservationDateException();
         }
 
         final var reservation = Reservation.builder()
@@ -214,17 +232,17 @@ public class ReservationServiceImpl implements ReservationService
     {
         if (!isAttractionAvailable(attractionId, dateFrom, dateTo, hourFrom, hourTo, false))
         {
-            throw new AttractionUnavailableException(attractionId);
+            throw new ReservationAttractionUnavailableException(attractionId);
         }
 
         if (!(dateFrom.isAfter(LocalDate.now()) && !dateTo.isBefore(dateFrom)))
         {
-            throw new InvalidDateException();
+            throw new InvalidReservationDateException();
         }
 
         if (!(hourFrom.isAfter(LocalTime.now().plusHours(1)) && hourTo.isAfter(hourFrom.plusHours(1))))
         {
-            throw new InvalidTimeException();
+            throw new InvalidReservationTimeException();
         }
 
         final var reservationAttraction = ReservationAttraction.builder()
@@ -248,8 +266,6 @@ public class ReservationServiceImpl implements ReservationService
                       final LocalDate dateTo,
                       final List<ReservationAttraction> reservationAttractions)
     {
-        // ToDo - nie jest updatowana cena | obliczanie oddzielnie dla reservation attraction i updatowanie dla niego
-
         final var reservation = getById(id);
 
         if (reservation.getStatus().equals(ReservationStatus.REALIZED) || reservation.getStatus().equals(ReservationStatus.CANCELED))
@@ -278,7 +294,11 @@ public class ReservationServiceImpl implements ReservationService
 
         updateStatus(reservation, ReservationStatus.UNPAID);
 
+        updatePrice(reservation, price);
+
         reservationAttractionService.updateAllStatusesByReservationId(reservation.getReservationId(), ReservationStatus.UNPAID);
+
+        updatePriceForAttractions(reservationAttractions);
 
         return paymentFacade.payForReservation(reservation.getReservationId(), price, method, reservationAttractions);
     }
@@ -289,7 +309,7 @@ public class ReservationServiceImpl implements ReservationService
     {
         final var price = calculatePrice(reservation, null, dateTo);
 
-        if (reservation.getStatus().equals(ReservationStatus.RESERVATION))
+        if (reservation.getStatus().equals(RESERVATION))
         {
             updateStatus(reservation, ReservationStatus.RESERVATION_UNPAID_DATE_EXTENSION);
         }
@@ -298,6 +318,8 @@ public class ReservationServiceImpl implements ReservationService
         {
             updateStatus(reservation, ReservationStatus.REALIZATION_UNPAID_DATE_EXTENSION);
         }
+
+        updatePrice(reservation, reservation.getPrice() + price);
 
         return paymentFacade.payForReservation(reservation.getReservationId(), price, method, Collections.emptyList());
     }
@@ -310,19 +332,80 @@ public class ReservationServiceImpl implements ReservationService
 
         reservationAttractionService.updateAllStatusesByReservationId(reservation.getReservationId(), ReservationStatus.UNPAID);
 
+        updatePriceForAttractions(reservationAttractions);
+
         return paymentFacade.payForReservation(reservation.getReservationId(), price, method, reservationAttractions);
     }
 
     @Override
     public ReservationDto makePayOnSite(final Long id,
                                         final ReservationMode mode,
+                                        final LocalDate dateTo,
                                         final List<ReservationAttraction> reservationAttractions)
     {
-        // ToDo - obliczenie i update ceny - to samo co w zwykłym pay
+        final var reservation = getById(id);
 
-        // ustaiwnie statusu paid_on_site
+        if (reservation.getStatus().equals(ReservationStatus.REALIZED) || reservation.getStatus().equals(ReservationStatus.CANCELED))
+        {
+            throw new ReservationCompletedException(reservation.getReservationId());
+        }
 
-        return null;
+        if (mode.equals(ReservationMode.INITIAL))
+        {
+            makePayOnSiteForReservation(reservation, reservationAttractions);
+        }
+
+        if (mode.equals(ReservationMode.DATE_EXTENSION))
+        {
+            makePayOnSiteForDateExtension(reservation, dateTo);
+        }
+
+        if (mode.equals(ReservationMode.ATTRACTIONS))
+        {
+            makePayOnSiteForAttractions(reservation, reservationAttractions);
+        }
+
+        return getWithAttractionsById(id);
+    }
+
+    private void makePayOnSiteForReservation(final Reservation reservation,
+                                             final List<ReservationAttraction> reservationAttractions)
+    {
+        final var price = calculatePrice(reservation, reservationAttractions, null);
+
+        updateStatus(reservation, ReservationStatus.PAY_ON_SITE);
+
+        updatePrice(reservation, price);
+
+        reservationAttractionService.updateAllStatusesByReservationId(reservation.getReservationId(), ReservationStatus.PAY_ON_SITE);
+
+        updatePriceForAttractions(reservationAttractions);
+    }
+
+    private void makePayOnSiteForDateExtension(final Reservation reservation,
+                                               final LocalDate dateTo)
+    {
+        final var price = calculatePrice(reservation, null, dateTo);
+
+        if (reservation.getStatus().equals(RESERVATION))
+        {
+            updateStatus(reservation, ReservationStatus.PAY_ON_SITE);
+        }
+
+        if (reservation.getStatus().equals(ReservationStatus.REALIZATION))
+        {
+            updateStatus(reservation, ReservationStatus.REALIZATION_PAY_ON_SITE_DATE_EXTENSION);
+        }
+
+        updatePrice(reservation, reservation.getPrice() + price);
+    }
+
+    private void makePayOnSiteForAttractions(final Reservation reservation,
+                                             final List<ReservationAttraction> reservationAttractions)
+    {
+        reservationAttractionService.updateAllStatusesByReservationId(reservation.getReservationId(), ReservationStatus.UNPAID);
+
+        updatePriceForAttractions(reservationAttractions);
     }
 
     @Override
@@ -330,46 +413,97 @@ public class ReservationServiceImpl implements ReservationService
                                     final ReservationMode mode,
                                     final List<ReservationAttraction> reservationAttractions)
     {
-        // według mode - zmiana statusu
+        final var reservation = getById(id);
 
-        return null;
+        if (!reservation.getStatus().equals(ReservationStatus.PAY_ON_SITE) && !reservation.getStatus().equals(ReservationStatus.REALIZATION_PAY_ON_SITE_DATE_EXTENSION))
+        {
+            throw new ReservationPaidOnSiteException(id);
+        }
+
+        if (mode.equals(ReservationMode.INITIAL))
+        {
+            updateStatus(reservation, REALIZATION);
+
+            reservationAttractionService.updateAllStatusesByReservationId(reservation.getReservationId(), REALIZATION);
+        }
+
+        if (mode.equals(ReservationMode.DATE_EXTENSION))
+        {
+            updateStatus(reservation, REALIZATION);
+        }
+
+        if (mode.equals(ReservationMode.ATTRACTIONS))
+        {
+            reservationAttractionService.updateAllStatusesByReservationId(reservation.getReservationId(), RESERVATION);
+        }
+
+        return getWithAttractionsById(id);
     }
 
-    // private x updatePrice - ToDo - nowa metoda
+     private void updatePrice(final Reservation reservation,
+                              final Double price)
+     {
+        reservation.setPrice(price);
+
+        repository.update(reservation.getReservationId(), reservation);
+     }
+
+     private void updatePriceForAttractions(final List<ReservationAttraction> attractions)
+     {
+         attractions.forEach(reservationAttraction -> reservationAttractionService.updatePrice(
+                 reservationAttraction.getReservationAttractionId(),
+                 calculatePrice(null, List.of(reservationAttraction), null)
+         ));
+     }
 
     private Double calculatePrice(final Reservation reservation,
                                   final List<ReservationAttraction> reservationAttractions,
                                   final LocalDate dateTo)
     {
-        // jak za date extension to tez musi brac pod uwage reservation zeby pobrac cene za noc i aktualne date to zeby obliczyc roznice
-
-        // w ten metodzie tez update ceny w reservation / reservationAttraction
         var price = 0.0;
 
-        if (reservation != null)
+        if (reservation != null && dateTo == null)
         {
-            final var touristicPlaceId = Objects.requireNonNull(stayFacade.getStayById(String.valueOf(reservation.getStayId())).getBody()).getTouristicPlaceId();
+            final var stay = Objects.requireNonNull(stayFacade.getStayById(String.valueOf(reservation.getStayId())).getBody());
 
-            final var touristicPlace = touristicPlaceFacade.getTouristicPlaceById(touristicPlaceId);
-            // pobranie liczby nocy
-            // przemnozenie przez cene za noc
-            // ToDo - logika obliczania ceny pobytu na podstawie ceny za noc
+            final var days = ChronoUnit.DAYS.between(reservation.getDateFrom(), reservation.getDateTo());
+
+            price += stay.getPrice().doubleValue() * days;
         }
 
         if (reservationAttractions != null)
         {
-            // pobranie ceny atrakcji per item/hour/person i na podstaiwe typuprice atrakcji okreslenie
-            // ToDo - logika obliczania ceny za dodane atrakcje
+            price += reservationAttractions.stream()
+                    .mapToDouble(reservationAttraction -> {
+                        final var attraction = attractionFacade.getAttractionById(String.valueOf(reservationAttraction.getReservationId())).getBody();
+
+                        if (attraction != null && attraction.getPriceType().equals(PriceType.HOUR))
+                        {
+                            final var hours = ChronoUnit.HOURS.between(reservationAttraction.getHourFrom(), reservationAttraction.getHourTo());
+
+                            return attraction.getPrice().doubleValue() * hours;
+                        }
+                        else if (attraction != null && attraction.getPriceType().equals(PriceType.PERSON) && reservationAttraction.getPeople() != null)
+                        {
+                            return attraction.getPrice().doubleValue() * reservationAttraction.getPeople();
+                        }
+                        else if (attraction != null && attraction.getPriceType().equals(PriceType.ITEM) && reservationAttraction.getItems() != null)
+                        {
+                            return attraction.getPrice().doubleValue() * reservationAttraction.getItems();
+                        }
+
+                        return 0.0;
+                    })
+                    .sum();
         }
 
-        if (dateTo != null)
+        if (reservation != null && dateTo != null)
         {
-            final var touristicPlaceId = Objects.requireNonNull(stayFacade.getStayById(String.valueOf(reservation.getStayId())).getBody()).getTouristicPlaceId();
+            final var stay = Objects.requireNonNull(stayFacade.getStayById(String.valueOf(reservation.getStayId())).getBody());
 
-            final var touristicPlace = touristicPlaceFacade.getTouristicPlaceById(touristicPlaceId);
+            final var days = ChronoUnit.DAYS.between(reservation.getDateTo(), dateTo);
 
-            //dodanie do aktualej ceny liczby dodanych nocy * cena za noc TP
-            // ToDo - logika obliczania ceny pobytu na podstawie różnicy pomiędzy aktualną datą pobytu do i nową datą pobytu do
+            price += stay.getPrice().doubleValue() * days;
         }
 
         return price;
@@ -387,7 +521,81 @@ public class ReservationServiceImpl implements ReservationService
     @Override
     public void createAllReservationsReminder()
     {
-        // ToDo
+        getAll().forEach(reservation -> {
+            final var touristicPlace = getTouristicPlaceByStayId(reservation.getStayId());
+            final var stay = Objects.requireNonNull(stayFacade.getStayById(String.valueOf(reservation.getStayId())).getBody());
+            final var clientEmail = userFacade.getUserEmailByUserId(reservation.getAccountId());
+            final var ownerEmail = userFacade.getUserEmailByUserId(premiumFacade.getPremiumAccountId(String.valueOf(touristicPlace.getPremiumId())).getBody());
+            final var reservationDate = reservation.getDateFrom().toString();
+
+            if (reservation.getDateFrom().isBefore(LocalDate.now().plusDays(1)))
+            {
+                emailSender.sendEmailReminder(clientEmail,
+                        "Przypomnienie o rezerwacji",
+                        String.format("Przypominamy, że jutro rozpoczyna się twój pobyt w %s.", touristicPlace.getName()),
+                        reservationDate);
+
+                emailSender.sendEmailReminder(ownerEmail,
+                        "Przypomnienie o rezerwacji",
+                        String.format("Przypominamy, że jutro rozpoczyna się pobyt w twoim miejscu turystycznym w %s.", stay.getName()),
+                        reservationDate);
+            }
+
+            if (reservation.getDateFrom().equals(LocalDate.now()) && reservation.getCheckInTime().isBefore(LocalTime.now().plusHours(1)))
+            {
+                emailSender.sendEmailReminder(ownerEmail,
+                        "Przypomnienie o rezerwacji",
+                        String.format("Przypominamy, że za godzinę rozpoczyna się pobyt w twoim miejscu turystycznym w %s.", stay.getName()),
+                        reservationDate);
+            }
+
+            if (reservation.getDateTo().isBefore(LocalDate.now().plusDays(1)))
+            {
+                emailSender.sendEmailReminder(clientEmail,
+                        "Przypomnienie o końcu pobytu",
+                        String.format("Przypominamy, że jutro kończy się twój pobyt w %s.", touristicPlace.getName()),
+                        reservationDate);
+
+                emailSender.sendEmailReminder(ownerEmail,
+                        "Przypomnienie o końcu pobytu",
+                        String.format("Przypominamy, że jutro kończy się pobyt w twoim miejscu turystycznym w %s.", stay.getName()),
+                        reservationDate);
+            }
+
+            if (reservation.getDateTo().equals(LocalDate.now()) && touristicPlace.getCheckOutTimeFrom().isBefore(LocalTime.now().plusHours(1)))
+            {
+                emailSender.sendEmailReminder(ownerEmail,
+                        "Przypomnienie o końcu pobytu",
+                        String.format("Przypominamy, że za godzinę kończy się pobyt w twoim miejscu turystycznym w %s.", stay.getName()),
+                        reservationDate);
+            }
+
+            reservationAttractionService.getAllByReservationId(reservation.getReservationId()).forEach(reservationAttraction -> {
+                final var attraction = attractionFacade.getAttractionById(String.valueOf(reservationAttraction.getAttractionId())).getBody();
+                final var attractionDate = reservationAttraction.getDateFrom().toString() + ", o " + reservationAttraction.getHourFrom().toString();
+
+                if (reservationAttraction.getDateFrom().isBefore(LocalDate.now().plusDays(1)))
+                {
+                    emailSender.sendEmailReminder(clientEmail,
+                            "Przypomnienie o rezerwacji",
+                            String.format("Przypominamy, że jutro rozpoczyna się twoja atrakcja %s.", Objects.requireNonNull(attraction).getName()),
+                            attractionDate);
+
+                    emailSender.sendEmailReminder(ownerEmail,
+                            "Przypomnienie o rezerwacji",
+                            String.format("Przypominamy, że jutro w twoim miejscu turystycznym rozpoczyna się atrakcja %s.", attraction.getName()),
+                            attractionDate);
+                }
+
+                if (reservationAttraction.getDateFrom().equals(LocalDate.now()) && reservationAttraction.getHourFrom().isBefore(LocalTime.now().plusHours(1)))
+                {
+                    emailSender.sendEmailReminder(ownerEmail,
+                            "Przypomnienie o rezerwacji",
+                            String.format("Przypominamy, że za godzinę w twoim miejscu turystycznym rozpoczyna się atrakcja %s.", Objects.requireNonNull(attraction).getName()),
+                            attractionDate);
+                }
+            });
+        });
     }
 
     @Override
@@ -397,17 +605,19 @@ public class ReservationServiceImpl implements ReservationService
     {
         final var reservation = getById(id);
 
-//        if (true)
-//        {
-//            // sprawdzenie czy checkintime jest w przedziałach
-//        }
+        final var touristicPlace = getTouristicPlaceByStayId(reservation.getStayId());
+
+        if (checkInTime.isBefore(touristicPlace.getCheckInTimeFrom()) || checkInTime.isAfter(touristicPlace.getCheckInTimeTo()))
+        {
+            throw new BadRequestParameterException("Check in time must be in touristic place check in time range.");
+        }
 
         reservation.setCheckInTime(checkInTime);
         reservation.setRequest(request);
 
         repository.update(reservation.getReservationId(), reservation);
 
-        return null;
+        return getWithAttractionsById(id);
     }
 
     @Override
@@ -417,59 +627,113 @@ public class ReservationServiceImpl implements ReservationService
     {
         final var reservation = getById(id);
 
-//        if ()
-//        {
-//            // sprawdzenie czy rating jest w przedziałach
-//        }
+        if (rating < 1.0 || rating > 5.0)
+        {
+            throw new BadRequestParameterException("Rating must be in 1.0 - 5.0 range.");
+        }
 
         reservation.setRating(rating);
         reservation.setOpinion(opinion);
 
         repository.update(reservation.getReservationId(), reservation);
 
-        return null;
+        return getWithAttractionsById(id);
     }
 
     @Override
     public ReservationDto updateDateTo(final Long id,
                                        final LocalDate dateTo)
     {
-        return null;
+        final var reservation = getById(id);
+
+        if (dateTo.isBefore(reservation.getDateTo()) || dateTo.isEqual(reservation.getDateTo()))
+        {
+            throw new BadRequestParameterException("Updated reservation date to must be after current reservation date to.");
+        }
+
+        reservation.setDateTo(dateTo);
+
+        repository.update(reservation.getReservationId(), reservation);
+
+        return getWithAttractionsById(id);
     }
 
     @Override
     public void updateAllReservationsStatuses()
     {
-        // ToDo
+        getAll().forEach(reservation -> {
+            final var touristicPlace = getTouristicPlaceByStayId(reservation.getStayId());
+
+            if (reservation.getStatus().equals(ReservationStatus.UNPAID)
+                    && touristicPlace != null && touristicPlace.getCancelReservationDays() != 0
+                    && reservation.getDateFrom().plusDays(touristicPlace.getCancelReservationDays()).isBefore(LocalDate.now()))
+            {
+                updateStatus(reservation, ReservationStatus.CANCELED);
+            }
+            else if (reservation.getStatus().equals(ReservationStatus.PAY_ON_SITE)
+                    && reservation.getDateFrom().equals(LocalDate.now())
+                    && reservation.getCheckInTime().isAfter(LocalTime.now()))
+            {
+                updateStatus(reservation, ReservationStatus.REALIZATION_PAY_ON_SITE_DATE_EXTENSION);
+            }
+            else if (reservation.getStatus().equals(ReservationStatus.RESERVATION)
+                    && reservation.getDateFrom().equals(LocalDate.now())
+                    && reservation.getCheckInTime().isAfter(LocalTime.now()))
+            {
+                updateStatus(reservation, ReservationStatus.REALIZATION);
+            }
+            else if (reservation.getStatus().equals(ReservationStatus.REALIZATION)
+                    && reservation.getDateTo().equals(LocalDate.now())
+                    && reservation.getCheckInTime().isAfter(LocalTime.now()))
+            {
+                updateStatus(reservation, ReservationStatus.REALIZED);
+            }
+        });
+    }
+
+    private TouristicPlace getTouristicPlaceByStayId(final Long stayId)
+    {
+        return touristicPlaceFacade.getTouristicPlaceById(Objects.requireNonNull(stayFacade.getStayById(String.valueOf(stayId)).getBody()).getTouristicPlaceId());
     }
 
     @Override
     public void updateAllReservationsAttractionsStatuses()
     {
-        // ToDo
+        reservationAttractionService.updateAllReservationsAttractionsStatuses();
     }
 
     @Override
     public void cancel(final Long id)
     {
-        // ToDo
+        final var reservation = getById(id);
+
+        if (reservation.getStatus().equals(ReservationStatus.REALIZED) || reservation.getStatus().equals(ReservationStatus.CANCELED))
+        {
+            throw new BadRequestParameterException("Reservation must not be completed.");
+        }
+
+        reservation.setStatus(ReservationStatus.CANCELED);
+
+        repository.update(reservation.getReservationId(), reservation);
     }
 
     @Override
     public void cancelAttraction(final Long reservationAttractionId)
     {
-        // ToDo
+        reservationAttractionService.cancel(reservationAttractionId);
     }
 
     @Override
     public void deleteAllExpiredLockedReservations()
     {
-        // ToDo
+        getAll().stream()
+                .filter(reservation -> reservation.getStatus().equals(ReservationStatus.LOCKED) && reservation.getModifyDate().plusMinutes(15).isBefore(LocalDateTime.now()))
+                .forEach(reservation -> repository.delete(reservation.getReservationId()));
     }
 
     @Override
     public void deleteAllExpiredLockedReservationsAttractions()
     {
-        // ToDo
+        reservationAttractionService.deleteAllExpiredLockedReservationsAttractions();
     }
 }
