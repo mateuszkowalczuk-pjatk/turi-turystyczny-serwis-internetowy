@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -36,6 +35,12 @@ public class ReservationRestController
     public ResponseEntity<ReservationDto> getReservationWithAttractionsById(@PathVariable final String id)
     {
         return facade.getReservationWithAttractionsById(id);
+    }
+
+    @GetMapping("/getPrice/{id}")
+    public ResponseEntity<Double> getReservationPrice(@PathVariable final String id)
+    {
+        return facade.getReservationPrice(id);
     }
 
     @GetMapping("/getAllTouristicPlaceStaysAvailableInDate")
@@ -74,10 +79,13 @@ public class ReservationRestController
                                                                              @RequestParam final String attractionId,
                                                                              @RequestParam final LocalDate dateFrom,
                                                                              @RequestParam final LocalDate dateTo,
-                                                                             @RequestParam final LocalTime hourFrom,
-                                                                             @RequestParam final LocalTime hourTo)
+                                                                             @RequestParam final String hourFrom,
+                                                                             @RequestParam final String hourTo,
+                                                                             @RequestParam(required = false) final Integer people,
+                                                                             @RequestParam(required = false) final Integer items,
+                                                                             @RequestParam(required = false) final String message)
     {
-        return facade.createReservationAttraction(id, attractionId, dateFrom, dateTo, hourFrom, hourTo);
+        return facade.createReservationAttraction(id, attractionId, dateFrom, dateTo, hourFrom, hourTo, people, items, message);
     }
 
     @PostMapping("/pay/{id}")
@@ -109,10 +117,9 @@ public class ReservationRestController
 
     @PutMapping("/updateDetails/{id}")
     public ResponseEntity<ReservationDto> updateReservationDetails(@PathVariable final String id,
-                                                                   @RequestParam final LocalTime checkInTime,
-                                                                   @RequestParam(required = false) final String request)
+                                                                   @RequestParam final String request)
     {
-        return facade.updateReservationDetails(id, checkInTime, request);
+        return facade.updateReservationDetails(id, request);
     }
 
     @PutMapping("/updateOpinion/{id}")
@@ -140,5 +147,11 @@ public class ReservationRestController
     public ResponseEntity<?> cancelReservationAttraction(@RequestParam final String reservationAttractionId)
     {
         return facade.cancelReservationAttraction(reservationAttractionId);
+    }
+
+    @DeleteMapping("/deleteAttraction")
+    public ResponseEntity<?> deleteReservationAttraction(@RequestParam final String reservationAttractionId)
+    {
+        return facade.deleteReservationAttraction(reservationAttractionId);
     }
 }

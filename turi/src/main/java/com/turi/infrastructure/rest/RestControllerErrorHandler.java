@@ -333,6 +333,12 @@ public final class RestControllerErrorHandler extends ErrorHandler
         return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
+    @ExceptionHandler(ReservationAttractionException.class)
+    public ResponseEntity<ErrorCode> handleReservationAttractionException(final ReservationAttractionException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
     @ExceptionHandler(ReservationAttractionUnavailableException.class)
     public ResponseEntity<ErrorCode> handleReservationAttractionUnavailableException(final ReservationAttractionUnavailableException ex)
     {
@@ -343,6 +349,12 @@ public final class RestControllerErrorHandler extends ErrorHandler
     public ResponseEntity<ErrorCode> handleReservationCompletedException(final ReservationCompletedException ex)
     {
         return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(ReservationNotFoundByStayException.class)
+    public ResponseEntity<ErrorCode> handleReservationNotFoundByStayException(final ReservationNotFoundByStayException ex)
+    {
+        return createResponse(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
     @ExceptionHandler(ReservationNotFoundException.class)

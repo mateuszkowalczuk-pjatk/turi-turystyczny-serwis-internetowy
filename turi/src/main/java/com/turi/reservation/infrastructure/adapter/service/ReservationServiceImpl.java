@@ -31,8 +31,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import static com.turi.reservation.domain.model.ReservationStatus.REALIZATION;
-import static com.turi.reservation.domain.model.ReservationStatus.RESERVATION;
+import static com.turi.reservation.domain.model.ReservationStatus.*;
 
 @Service
 @AllArgsConstructor
@@ -108,13 +107,23 @@ public class ReservationServiceImpl implements ReservationService
     }
 
     @Override
+    public Double getPrice(final Long id)
+    {
+        final var reservation = getById(id);
+
+        final var attractions = reservationAttractionService.getAllByReservationId(id);
+
+        return calculatePrice(reservation, attractions, null);
+    }
+
+    @Override
     public List<StayDto> getAllTouristicPlaceStaysAvailableInDate(final Long touristicPlaceId,
                                                                   final LocalDate dateFrom,
                                                                   final LocalDate dateTo)
     {
         return Objects.requireNonNull(stayFacade.getAllStaysByTouristicPlaceId(String.valueOf(touristicPlaceId)).getBody())
                 .stream()
-                .filter(stay -> isStayAvailable(stay.getStayId(), dateFrom, dateTo))
+                .filter(stay -> isStayAvailable(stay.getStayId(), dateFrom, dateTo, null))
                 .toList();
     }
 
@@ -161,7 +170,68 @@ public class ReservationServiceImpl implements ReservationService
         return getWithAttractionsById(id);
     }
 
-    private Boolean isStayAvailable(final Long stayId, final LocalDate dateFrom, final LocalDate dateTo)
+    @Override
+    public Reservation create(final Long stayId, final Long accountId, final LocalDate dateFrom, final LocalDate dateTo)
+    {
+        try
+        {
+            return check(accountId, stayId, dateFrom, dateTo);
+        }
+        catch (final ReservationNotFoundByStayException ex)
+        {
+            reservationDateValidation(stayId, dateFrom, dateTo, null);
+
+            final var reservation = Reservation.builder()
+                    .withStayId(stayId)
+                    .withAccountId(accountId)
+                    .withDateFrom(dateFrom)
+                    .withDateTo(dateTo)
+                    .withModifyDate(LocalDateTime.now())
+                    .withStatus(ReservationStatus.LOCKED)
+                    .build();
+
+            final var reservationId = repository.insert(reservation);
+
+            return getById(reservationId);
+        }
+    }
+
+    private Reservation check(final Long accountId, final Long stayId, final LocalDate dateFrom, final LocalDate dateTo)
+    {
+        final var reservation = getAllByAccountId(accountId, new ReservationStatus[] { ReservationStatus.LOCKED })
+                .stream()
+                .map(ReservationDto::getReservation)
+                .filter(res -> res.getStayId().equals(stayId))
+                .findFirst()
+                .orElseThrow(() -> new ReservationNotFoundByStayException(stayId));
+
+        if (!reservation.getDateFrom().equals(dateFrom) || !reservation.getDateTo().equals(dateTo))
+        {
+            reservationDateValidation(stayId, dateFrom, dateTo, accountId);
+
+            reservation.setDateFrom(dateFrom);
+            reservation.setDateTo(dateTo);
+
+            repository.update(reservation.getReservationId(), reservation);
+        }
+
+        return reservation;
+    }
+
+    private void reservationDateValidation(final Long stayId, final LocalDate dateFrom, final LocalDate dateTo, final Long accountId)
+    {
+        if (!isStayAvailable(stayId, dateFrom, dateTo, accountId))
+        {
+            throw new ReservationStayUnavailableException(stayId);
+        }
+
+        if (!(dateFrom.isAfter(LocalDate.now()) && dateTo.isAfter(dateFrom)))
+        {
+            throw new InvalidReservationDateException();
+        }
+    }
+
+    private Boolean isStayAvailable(final Long stayId, final LocalDate dateFrom, final LocalDate dateTo, final Long accountId)
     {
         final var stay = stayFacade.getStayById(String.valueOf(stayId)).getBody();
 
@@ -171,21 +241,75 @@ public class ReservationServiceImpl implements ReservationService
         }
 
         return repository.findAllByStayId(stayId).stream()
-                .noneMatch(reservation -> reservation.getDateFrom().isBefore(dateTo) && reservation.getDateTo().isAfter(dateFrom));
+                .noneMatch(reservation -> reservation.getDateFrom().isBefore(dateTo) && reservation.getDateTo().isAfter(dateFrom) && (accountId == null || !reservation.getAccountId().equals(accountId)));
+    }
+
+    @Override
+    public ReservationAttraction createAttraction(final Long reservationId, final Long attractionId, final LocalDate dateFrom, final LocalDate dateTo, final LocalTime hourFrom, final LocalTime hourTo, final Integer people, final Integer items, final String message)
+    {
+        if (!isAttractionBelongToTouristicPlace(reservationId, attractionId))
+        {
+            throw new ReservationAttractionException(attractionId);
+        }
+
+        if (!isAttractionAvailable(attractionId, dateFrom, dateTo, hourFrom, hourTo, false))
+        {
+            throw new ReservationAttractionUnavailableException(attractionId);
+        }
+
+        if (!(dateFrom.isAfter(LocalDate.now()) && !dateTo.isBefore(dateFrom)))
+        {
+            throw new InvalidReservationDateException();
+        }
+
+        if (!((dateFrom.equals(LocalDate.now()) && hourFrom.isAfter(LocalTime.now().plusHours(1)) && hourTo.isAfter(hourFrom.plusHours(1))) || dateFrom.isAfter(LocalDate.now())))
+        {
+            throw new InvalidReservationTimeException();
+        }
+
+        validateAttractionPriceType(attractionId, people, items);
+
+        final var reservationAttraction = ReservationAttraction.builder()
+                .withReservationId(reservationId)
+                .withAttractionId(attractionId)
+                .withDateFrom(dateFrom)
+                .withDateTo(dateTo)
+                .withHourFrom(hourFrom)
+                .withHourTo(hourTo)
+                .withPeople(people)
+                .withItems(items)
+                .withMessage(message)
+                .withModifyDate(LocalDateTime.now())
+                .withStatus(ReservationStatus.LOCKED)
+                .build();
+
+        return reservationAttractionService.create(reservationAttraction);
+    }
+
+    private Boolean isAttractionBelongToTouristicPlace(final Long reservationId, final Long attractionId)
+    {
+        final var stayId = getById(reservationId).getStayId();
+
+        final var touristicPlaceId = Objects.requireNonNull(stayFacade.getStayById(String.valueOf(stayId)).getBody()).getTouristicPlaceId();
+
+        final var attractionTouristicPlaceId = Objects.requireNonNull(attractionFacade.getAttractionById(String.valueOf(attractionId)).getBody()).getTouristicPlaceId();
+
+        return touristicPlaceId.equals(attractionTouristicPlaceId);
     }
 
     private Boolean isAttractionAvailable(final Long attractionId, final LocalDate dateFrom, final LocalDate dateTo, final LocalTime hourFrom, final LocalTime hourTo, final boolean isPartial)
     {
         final var attraction = attractionFacade.getAttractionById(String.valueOf(attractionId)).getBody();
 
-        if (attraction != null && (!attraction.getDateFrom().isBefore(dateFrom) || !attraction.getDateTo().isAfter(dateTo)
-                || !attraction.getHourFrom().isBefore(hourFrom) || !attraction.getHourTo().isAfter(hourTo)))
+        if (attraction != null && (attraction.getDateFrom().isAfter(dateFrom) || attraction.getDateTo().isBefore(dateTo)
+                || attraction.getHourFrom().isAfter(hourFrom) || attraction.getHourTo().isBefore(hourTo)))
         {
             return false;
         }
 
-        final var minutes = reservationAttractionService.getAllByReservationId(attractionId).stream()
-                .filter(reservationAttraction -> reservationAttraction.getDateFrom().isBefore(dateTo) && reservationAttraction.getDateTo().isAfter(dateFrom))
+        final var minutes = reservationAttractionService.getAllByAttractionId(attractionId).stream()
+                .filter(reservationAttraction -> reservationAttraction.getDateFrom().isBefore(dateTo) && reservationAttraction.getDateTo().isAfter(dateFrom)
+                        && reservationAttraction.getHourFrom().isBefore(hourTo) && reservationAttraction.getHourTo().isAfter(hourFrom))
                 .mapToLong(reservation -> Duration.between(
                         reservation.getHourFrom().isBefore(hourFrom) ? hourFrom : reservation.getHourFrom(),
                         reservation.getHourTo().isAfter(hourTo) ? hourTo : reservation.getHourTo()
@@ -200,63 +324,35 @@ public class ReservationServiceImpl implements ReservationService
         return minutes == 0;
     }
 
-    @Override
-    public Reservation create(final Long stayId, final Long accountId, final LocalDate dateFrom, final LocalDate dateTo)
+    private void validateAttractionPriceType(final Long attractionId, final Integer people, final Integer items)
     {
-        if (!isStayAvailable(stayId, dateFrom, dateTo))
+        final var attraction = Objects.requireNonNull(attractionFacade.getAttractionById(String.valueOf(attractionId)).getBody());
+
+        if (attraction.getPriceType().equals(PriceType.PERSON))
         {
-            throw new ReservationStayUnavailableException(stayId);
+            validateAttractionPeopleNumber(attraction, people);
         }
 
-        if (!(dateFrom.isAfter(LocalDate.now()) && dateTo.isAfter(dateFrom)))
+        if (attraction.getPriceType().equals(PriceType.ITEM))
         {
-            throw new InvalidReservationDateException();
+            validateAttractionItemsNumber(attraction, items);
         }
-
-        final var reservation = Reservation.builder()
-                .withStayId(stayId)
-                .withAccountId(accountId)
-                .withDateFrom(dateFrom)
-                .withDateTo(dateTo)
-                .withModifyDate(LocalDateTime.now())
-                .withStatus(ReservationStatus.LOCKED)
-                .build();
-
-        final var reservationId = repository.insert(reservation);
-
-        return getById(reservationId);
     }
 
-    @Override
-    public ReservationAttraction createAttraction(final Long reservationId, final Long attractionId, final LocalDate dateFrom, final LocalDate dateTo, final LocalTime hourFrom, final LocalTime hourTo)
+    private void validateAttractionPeopleNumber(final Attraction attraction, final Integer people)
     {
-        if (!isAttractionAvailable(attractionId, dateFrom, dateTo, hourFrom, hourTo, false))
+        if (people == null || people <= 0 || people > attraction.getMaxPeopleNumber())
         {
-            throw new ReservationAttractionUnavailableException(attractionId);
+            throw new BadRequestParameterException("Reservation attraction with payment per person must have people parameter not null, bigger than 0 and lower or equal max attraction people number.");
         }
+    }
 
-        if (!(dateFrom.isAfter(LocalDate.now()) && !dateTo.isBefore(dateFrom)))
+    private void validateAttractionItemsNumber(final Attraction attraction, final Integer items)
+    {
+        if (items == null || items <= 0 || items > attraction.getMaxItems())
         {
-            throw new InvalidReservationDateException();
+            throw new BadRequestParameterException("Reservation attraction with payment per item must have items parameter not null, bigger than 0 and lower or equal max attraction people number.");
         }
-
-        if (!(hourFrom.isAfter(LocalTime.now().plusHours(1)) && hourTo.isAfter(hourFrom.plusHours(1))))
-        {
-            throw new InvalidReservationTimeException();
-        }
-
-        final var reservationAttraction = ReservationAttraction.builder()
-                .withReservationId(reservationId)
-                .withAttractionId(attractionId)
-                .withDateFrom(dateFrom)
-                .withDateTo(dateTo)
-                .withHourFrom(hourFrom)
-                .withHourTo(hourTo)
-                .withModifyDate(LocalDateTime.now())
-                .withStatus(ReservationStatus.LOCKED)
-                .build();
-
-        return reservationAttractionService.create(reservationAttraction);
     }
 
     @Override
@@ -290,7 +386,7 @@ public class ReservationServiceImpl implements ReservationService
                                      final PaymentMethod method,
                                      final List<ReservationAttraction> reservationAttractions)
     {
-        final var price = calculatePrice(reservation, reservationAttractions, null);
+        final var price = calculatePrice(reservation, null, null);
 
         updateStatus(reservation, ReservationStatus.UNPAID);
 
@@ -300,7 +396,9 @@ public class ReservationServiceImpl implements ReservationService
 
         updatePriceForAttractions(reservationAttractions);
 
-        return paymentFacade.payForReservation(reservation.getReservationId(), price, method, reservationAttractions);
+        final var totalPrice = calculatePrice(reservation, reservationAttractions, null);
+
+        return paymentFacade.payForReservation(reservation.getReservationId(), totalPrice, method, reservationAttractions);
     }
 
     private String payForDateExtension(final Reservation reservation,
@@ -371,7 +469,7 @@ public class ReservationServiceImpl implements ReservationService
     private void makePayOnSiteForReservation(final Reservation reservation,
                                              final List<ReservationAttraction> reservationAttractions)
     {
-        final var price = calculatePrice(reservation, reservationAttractions, null);
+        final var price = calculatePrice(reservation, null, null);
 
         updateStatus(reservation, ReservationStatus.PAY_ON_SITE);
 
@@ -475,7 +573,7 @@ public class ReservationServiceImpl implements ReservationService
         {
             price += reservationAttractions.stream()
                     .mapToDouble(reservationAttraction -> {
-                        final var attraction = attractionFacade.getAttractionById(String.valueOf(reservationAttraction.getReservationId())).getBody();
+                        final var attraction = attractionFacade.getAttractionById(String.valueOf(reservationAttraction.getAttractionId())).getBody();
 
                         if (attraction != null && attraction.getPriceType().equals(PriceType.HOUR))
                         {
@@ -541,7 +639,7 @@ public class ReservationServiceImpl implements ReservationService
                         reservationDate);
             }
 
-            if (reservation.getDateFrom().equals(LocalDate.now()) && reservation.getCheckInTime().isBefore(LocalTime.now().plusHours(1)))
+            if (reservation.getDateFrom().equals(LocalDate.now()) && touristicPlace.getCheckInTimeFrom().isBefore(LocalTime.now().plusHours(1)))
             {
                 emailSender.sendEmailReminder(ownerEmail,
                         "Przypomnienie o rezerwacji",
@@ -600,19 +698,10 @@ public class ReservationServiceImpl implements ReservationService
 
     @Override
     public ReservationDto updateDetails(final Long id,
-                                        final LocalTime checkInTime,
                                         final String request)
     {
         final var reservation = getById(id);
 
-        final var touristicPlace = getTouristicPlaceByStayId(reservation.getStayId());
-
-        if (checkInTime.isBefore(touristicPlace.getCheckInTimeFrom()) || checkInTime.isAfter(touristicPlace.getCheckInTimeTo()))
-        {
-            throw new BadRequestParameterException("Check in time must be in touristic place check in time range.");
-        }
-
-        reservation.setCheckInTime(checkInTime);
         reservation.setRequest(request);
 
         repository.update(reservation.getReservationId(), reservation);
@@ -626,6 +715,11 @@ public class ReservationServiceImpl implements ReservationService
                                         final String opinion)
     {
         final var reservation = getById(id);
+
+        if (!reservation.getStatus().equals(ReservationStatus.REALIZED))
+        {
+            throw new BadRequestParameterException("Reservation must have realized status.");
+        }
 
         if (rating < 1.0 || rating > 5.0)
         {
@@ -645,6 +739,11 @@ public class ReservationServiceImpl implements ReservationService
                                        final LocalDate dateTo)
     {
         final var reservation = getById(id);
+
+        if (!reservation.getStatus().equals(PAY_ON_SITE) && !reservation.getStatus().equals(RESERVATION) && !reservation.getStatus().equals(REALIZATION))
+        {
+            throw new BadRequestParameterException("Reservation must have reservation, pay on site or realization status.");
+        }
 
         if (dateTo.isBefore(reservation.getDateTo()) || dateTo.isEqual(reservation.getDateTo()))
         {
@@ -672,19 +771,19 @@ public class ReservationServiceImpl implements ReservationService
             }
             else if (reservation.getStatus().equals(ReservationStatus.PAY_ON_SITE)
                     && reservation.getDateFrom().equals(LocalDate.now())
-                    && reservation.getCheckInTime().isAfter(LocalTime.now()))
+                    && touristicPlace.getCheckInTimeTo().isAfter(LocalTime.now()))
             {
                 updateStatus(reservation, ReservationStatus.REALIZATION_PAY_ON_SITE_DATE_EXTENSION);
             }
             else if (reservation.getStatus().equals(ReservationStatus.RESERVATION)
                     && reservation.getDateFrom().equals(LocalDate.now())
-                    && reservation.getCheckInTime().isAfter(LocalTime.now()))
+                    && touristicPlace.getCheckInTimeTo().isAfter(LocalTime.now()))
             {
                 updateStatus(reservation, ReservationStatus.REALIZATION);
             }
             else if (reservation.getStatus().equals(ReservationStatus.REALIZATION)
                     && reservation.getDateTo().equals(LocalDate.now())
-                    && reservation.getCheckInTime().isAfter(LocalTime.now()))
+                    && touristicPlace.getCheckInTimeTo().isAfter(LocalTime.now()))
             {
                 updateStatus(reservation, ReservationStatus.REALIZED);
             }
@@ -721,6 +820,12 @@ public class ReservationServiceImpl implements ReservationService
     public void cancelAttraction(final Long reservationAttractionId)
     {
         reservationAttractionService.cancel(reservationAttractionId);
+    }
+
+    @Override
+    public void deleteAttraction(final Long reservationAttractionId)
+    {
+        reservationAttractionService.delete(reservationAttractionId);
     }
 
     @Override

@@ -5,7 +5,6 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -21,7 +20,6 @@ public final class Reservation
     private LocalDate dateFrom;
     private LocalDate dateTo;
     private Double price;
-    private LocalTime checkInTime;
     private String request;
     private Double rating;
     private String opinion;
@@ -37,7 +35,6 @@ public final class Reservation
                 .withDateFrom(entity.getDateFrom())
                 .withDateTo(entity.getDateTo())
                 .withPrice(entity.getPrice())
-                .withCheckInTime(entity.getCheckInTime())
                 .withRequest(entity.getRequest())
                 .withRating(entity.getRating())
                 .withOpinion(entity.getOpinion())

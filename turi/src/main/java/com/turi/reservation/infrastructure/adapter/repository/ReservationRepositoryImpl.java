@@ -68,7 +68,6 @@ public class ReservationRepositoryImpl implements ReservationRepository
             e.setDateFrom(entity.getDateFrom());
             e.setDateTo(entity.getDateTo());
             e.setPrice(entity.getPrice());
-            e.setCheckInTime(entity.getCheckInTime());
             e.setRequest(entity.getRequest());
             e.setRating(entity.getRating());
             e.setOpinion(entity.getOpinion());

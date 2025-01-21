@@ -336,7 +336,6 @@ CREATE TABLE IF NOT EXISTS reservation
     datefrom      DATE           NOT NULL,
     dateto        DATE           NOT NULL,
     price         DECIMAL(10, 2),
-    checkintime   TIME,
     request       VARCHAR(255),
     rating        DECIMAL(1, 1),
     opinion       VARCHAR(255),
@@ -356,7 +355,6 @@ COMMENT ON COLUMN reservation.accountid     IS 'Required foreign key of account 
 COMMENT ON COLUMN reservation.datefrom      IS 'Required reservation date from.';
 COMMENT ON COLUMN reservation.dateto        IS 'Required reservation date to.';
 COMMENT ON COLUMN reservation.price         IS 'Optional reservation price.';
-COMMENT ON COLUMN reservation.checkintime   IS 'Optional required user check-in hour.';
 COMMENT ON COLUMN reservation.request       IS 'Optional user reservation special request.';
 COMMENT ON COLUMN reservation.rating        IS 'Optional user reservation rating after realization.';
 COMMENT ON COLUMN reservation.opinion       IS 'Optional user reservation opinion after realization.';
@@ -376,7 +374,7 @@ CREATE TABLE IF NOT EXISTS reservationattraction
     people                  INTEGER,
     items                   INTEGER,
     message                 VARCHAR(255),
-    price                   DECIMAL(10, 2) NOT NULL,
+    price                   DECIMAL(10, 2),
     modifydate              TIMESTAMP      NOT NULL,
     status                  INTEGER        NOT NULL,
     CONSTRAINT reservationattractionreservation FOREIGN KEY (reservationid) REFERENCES reservation (reservationid),
@@ -397,6 +395,7 @@ COMMENT ON COLUMN reservationattraction.hourto                  IS 'Required att
 COMMENT ON COLUMN reservationattraction.people                  IS 'Optional attraction people number, depends from attraction type.';
 COMMENT ON COLUMN reservationattraction.items                   IS 'Optional attraction items, depends from attraction type.';
 COMMENT ON COLUMN reservationattraction.message                 IS 'Optional user message about attraction reservation.';
+COMMENT ON COLUMN reservationattraction.price                   IS 'Optional attraction price.';
 COMMENT ON COLUMN reservationattraction.modifydate              IS 'Required reservation attraction last modify date.';
 COMMENT ON COLUMN reservationattraction.status                  IS 'Required attraction reservation status (0 - Locked, 1 - Unpaid, 2 - Pay on site, 3 - Reservation, 4 - Reservation with unpaid date extension, 5 - Realization, 6 - Realization with pay on site for date extension, 7 - Realization with unpaid date extension, 8 - Realized, 9 - Canceled).';
 

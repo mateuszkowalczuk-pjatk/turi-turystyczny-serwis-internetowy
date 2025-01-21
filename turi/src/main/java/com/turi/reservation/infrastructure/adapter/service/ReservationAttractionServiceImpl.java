@@ -33,6 +33,12 @@ public class ReservationAttractionServiceImpl implements ReservationAttractionSe
     }
 
     @Override
+    public List<ReservationAttraction> getAllByAttractionId(final Long attractionId)
+    {
+        return repository.findAllByAttractionId(attractionId);
+    }
+
+    @Override
     public ReservationAttraction getById(final Long id)
     {
         return repository.findById(id);
@@ -100,9 +106,9 @@ public class ReservationAttractionServiceImpl implements ReservationAttractionSe
     {
         final var reservationAttraction = getById(id);
 
-        if (reservationAttraction.getStatus().equals(ReservationStatus.REALIZED) || reservationAttraction.getStatus().equals(ReservationStatus.CANCELED))
+        if (reservationAttraction.getStatus().equals(ReservationStatus.LOCKED) || reservationAttraction.getStatus().equals(ReservationStatus.REALIZED) || reservationAttraction.getStatus().equals(ReservationStatus.CANCELED))
         {
-            throw new BadRequestParameterException("Reservation attraction must not be completed.");
+            throw new BadRequestParameterException("Reservation attraction must not be locked, completed or already canceled.");
         }
 
         updateStatus(reservationAttraction, ReservationStatus.CANCELED);
@@ -114,6 +120,19 @@ public class ReservationAttractionServiceImpl implements ReservationAttractionSe
         reservationAttraction.setModifyDate(LocalDateTime.now());
 
         repository.update(reservationAttraction.getReservationAttractionId(), reservationAttraction);
+    }
+
+    @Override
+    public void delete(final Long id)
+    {
+        final var reservationAttraction = getById(id);
+
+        if (!reservationAttraction.getStatus().equals(ReservationStatus.LOCKED))
+        {
+            throw new BadRequestParameterException("Reservation attraction must not locked to be removed.");
+        }
+
+        repository.delete(reservationAttraction.getReservationAttractionId());
     }
 
     @Override

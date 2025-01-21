@@ -45,6 +45,16 @@ public final class ReservationResponse
         return ResponseEntity.ok(reservationAttraction);
     }
 
+    public static ResponseEntity<Double> of(final Double price)
+    {
+        if (price == null)
+        {
+            throw new BadRequestResponseException("Reservation price response must not be null.");
+        }
+
+        return ResponseEntity.ok(price);
+    }
+
     public static ResponseEntity<List<ReservationDto>> ofReservations(final List<ReservationDto> reservations)
     {
         if (reservations == null)

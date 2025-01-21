@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Component
 @AllArgsConstructor
@@ -53,6 +54,16 @@ public class ReservationFacade
         }
 
         return ReservationResponse.of(service.getWithAttractionsById(ObjectId.of(id).getValue()));
+    }
+
+    public ResponseEntity<Double> getReservationPrice(final String id)
+    {
+        if (id == null)
+        {
+            throw new BadRequestParameterException("Parameter ID is required.");
+        }
+
+        return ReservationResponse.of(service.getPrice(ObjectId.of(id).getValue()));
     }
 
     public ResponseEntity<List<StayDto>> getAllTouristicPlaceStaysAvailableInDate(final String touristicPlaceId,
@@ -108,15 +119,30 @@ public class ReservationFacade
                                                                              final String attractionId,
                                                                              final LocalDate dateFrom,
                                                                              final LocalDate dateTo,
-                                                                             final LocalTime hourFrom,
-                                                                             final LocalTime hourTo)
+                                                                             final String hourFrom,
+                                                                             final String hourTo,
+                                                                             final Integer people,
+                                                                             final Integer items,
+                                                                             final String message)
     {
         if (id == null || attractionId == null || dateFrom == null || dateTo == null || hourFrom == null || hourTo == null)
         {
             throw new BadRequestParameterException("Parameters ID, attractionId, dateFrom, dateTo, hourFrom and hourTo are required.");
         }
 
-        return ReservationResponse.of(service.createAttraction(ObjectId.of(id).getValue(), ObjectId.of(attractionId).getValue(), dateFrom, dateTo, hourFrom, hourTo));
+        return ReservationResponse.of(service.createAttraction(ObjectId.of(id).getValue(), ObjectId.of(attractionId).getValue(), dateFrom, dateTo, toLocalTime(hourFrom), toLocalTime(hourTo), people, items, message));
+    }
+
+    private LocalTime toLocalTime(final String time)
+    {
+        if (!Pattern.compile("^([01]\\d|2[0-3]):[0-5]\\d$").matcher(time).matches())
+        {
+            throw new BadRequestParameterException("Parameter time format is incorrect. Time must be in hh:mm format.");
+        }
+
+        final var values = time.split(":");
+
+        return LocalTime.of(Integer.parseInt(values[0]), Integer.parseInt(values[1]));
     }
 
     public ResponseEntity<String> payForReservation(final String id,
@@ -159,15 +185,14 @@ public class ReservationFacade
     }
 
     public ResponseEntity<ReservationDto> updateReservationDetails(final String id,
-                                                                   final LocalTime checkInTime,
                                                                    final String request)
     {
-        if (id == null || checkInTime == null)
+        if (id == null || request == null)
         {
-            throw new BadRequestParameterException("Parameters ID and checkInTime are required.");
+            throw new BadRequestParameterException("Parameters ID and request are required.");
         }
 
-        return ReservationResponse.of(service.updateDetails(ObjectId.of(id).getValue(), checkInTime, request));
+        return ReservationResponse.of(service.updateDetails(ObjectId.of(id).getValue(), request));
     }
 
     public ResponseEntity<ReservationDto> updateReservationOpinion(final String id,
@@ -212,6 +237,18 @@ public class ReservationFacade
         }
 
         service.cancelAttraction(ObjectId.of(reservationAttractionId).getValue());
+
+        return ResponseEntity.ok().build();
+    }
+
+    public ResponseEntity<?> deleteReservationAttraction(final String reservationAttractionId)
+    {
+        if (reservationAttractionId == null)
+        {
+            throw new BadRequestParameterException("Parameter reservationAttractionId is required.");
+        }
+
+        service.deleteAttraction(ObjectId.of(reservationAttractionId).getValue());
 
         return ResponseEntity.ok().build();
     }

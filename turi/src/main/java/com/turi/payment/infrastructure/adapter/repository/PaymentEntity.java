@@ -60,6 +60,7 @@ public final class PaymentEntity implements Serializable
 
         return PaymentEntity.builder()
                 .withPremiumId(payment.getPremiumId())
+                .withReservationId(payment.getReservationId())
                 .withStripeId(payment.getStripeId())
                 .withStripePaymentIntent(payment.getStripePaymentIntent())
                 .withAmount(payment.getAmount())

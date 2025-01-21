@@ -15,6 +15,12 @@ public class TouristicPlaceRestController
 {
     private final TouristicPlaceFacade facade;
 
+    @GetMapping("/getById/{id}")
+    public ResponseEntity<TouristicPlace> getById(@PathVariable final String id)
+    {
+        return facade.getTouristicPlaceById(id);
+    }
+
     @GetMapping("/getByPremiumId")
     public ResponseEntity<TouristicPlace> getTouristicPlaceByPremiumId()
     {

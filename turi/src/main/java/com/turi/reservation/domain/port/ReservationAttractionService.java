@@ -9,6 +9,8 @@ public interface ReservationAttractionService
 {
     List<ReservationAttraction> getAllByReservationId(final Long reservationId);
 
+    List<ReservationAttraction> getAllByAttractionId(final Long attractionId);
+
     ReservationAttraction getById(final Long id);
 
     ReservationAttraction create(final ReservationAttraction reservationAttraction);
@@ -22,6 +24,8 @@ public interface ReservationAttractionService
     void updateAllReservationsAttractionsStatuses();
 
     void cancel(final Long id);
+
+    void delete(final Long id);
 
     void deleteAllExpiredLockedReservationsAttractions();
 }

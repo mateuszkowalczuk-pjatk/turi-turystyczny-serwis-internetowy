@@ -9,7 +9,6 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @Entity
 @Getter
@@ -43,9 +42,6 @@ public final class ReservationEntity implements Serializable
     @Column(name = "price")
     private Double price;
 
-    @Column(name = "checkintime")
-    private LocalTime checkInTime;
-
     @Column(name = "request")
     private String request;
 
@@ -74,7 +70,6 @@ public final class ReservationEntity implements Serializable
                 .withDateFrom(reservation.getDateFrom())
                 .withDateTo(reservation.getDateTo())
                 .withPrice(reservation.getPrice())
-                .withCheckInTime(reservation.getCheckInTime())
                 .withRequest(reservation.getRequest())
                 .withRating(reservation.getRating())
                 .withOpinion(reservation.getOpinion())

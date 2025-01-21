@@ -19,6 +19,8 @@ public interface ReservationService
 
     ReservationDto getWithAttractionsById(final Long id);
 
+    Double getPrice(final Long id);
+
     List<StayDto> getAllTouristicPlaceStaysAvailableInDate(final Long touristicPlaceId,
                                                            final LocalDate dateFrom,
                                                            final LocalDate dateTo);
@@ -40,7 +42,10 @@ public interface ReservationService
                                            final LocalDate dateFrom,
                                            final LocalDate dateTo,
                                            final LocalTime hourFrom,
-                                           final LocalTime hourTo);
+                                           final LocalTime hourTo,
+                                           final Integer people,
+                                           final Integer items,
+                                           final String message);
 
     String pay(final Long id,
                final PaymentMethod method,
@@ -60,7 +65,6 @@ public interface ReservationService
     void createAllReservationsReminder();
 
     ReservationDto updateDetails(final Long id,
-                                 final LocalTime checkInTime,
                                  final String request);
 
     ReservationDto updateOpinion(final Long id,
@@ -78,7 +82,8 @@ public interface ReservationService
 
     void cancelAttraction(final Long reservationAttractionId);
 
+    void deleteAttraction(final Long reservationAttractionId);
+
     void deleteAllExpiredLockedReservations();
 
-    void deleteAllExpiredLockedReservationsAttractions();
-}
+    void deleteAllExpiredLockedReservationsAttractions();}

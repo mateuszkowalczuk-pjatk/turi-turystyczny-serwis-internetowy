@@ -14,8 +14,8 @@ public class ReservationLockedCleaningSchedule
     @Scheduled(cron = "0 * * * * ?")
     public void deleteAllExpiredLockedReservationsAndAttractions()
     {
-        service.deleteAllExpiredLockedReservations();
-
         service.deleteAllExpiredLockedReservationsAttractions();
+
+        service.deleteAllExpiredLockedReservations();
     }
 }

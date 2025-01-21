@@ -10,6 +10,8 @@ public interface ReservationAttractionRepository
 
     List<ReservationAttraction> findAllByReservationId(final Long reservationId);
 
+    List<ReservationAttraction> findAllByAttractionId(final Long attractionId);
+
     ReservationAttraction findById(final Long reservationAttractionId);
 
     Long insert(final ReservationAttraction reservationAttraction);

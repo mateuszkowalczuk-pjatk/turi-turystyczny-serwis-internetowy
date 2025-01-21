@@ -20,6 +20,16 @@ public class TouristicPlaceFacade
 {
     private final TouristicPlaceService service;
 
+    public ResponseEntity<TouristicPlace> getTouristicPlaceById(final String id)
+    {
+        if (id == null)
+        {
+            throw new BadRequestParameterException("Parameter ID must not be null!");
+        }
+
+        return TouristicPlaceResponse.of(service.getById(ObjectId.of(id).getValue()));
+    }
+
     public TouristicPlace getTouristicPlaceById(final Long id)
     {
         return service.getById(id);

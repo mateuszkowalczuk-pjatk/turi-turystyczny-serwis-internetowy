@@ -55,7 +55,7 @@ public final class ReservationAttractionEntity implements Serializable
     @Column(name = "message")
     private String message;
 
-    @Column(name = "price", nullable = false)
+    @Column(name = "price")
     private Double price;
 
     @Column(name = "modifydate", nullable = false)
@@ -95,7 +95,6 @@ public final class ReservationAttractionEntity implements Serializable
                 && reservationAttraction.getDateTo() != null
                 && reservationAttraction.getHourFrom() != null
                 && reservationAttraction.getHourTo() != null
-                && reservationAttraction.getPrice() != null
                 && reservationAttraction.getModifyDate() != null
                 && reservationAttraction.getStatus() != null;
     }
