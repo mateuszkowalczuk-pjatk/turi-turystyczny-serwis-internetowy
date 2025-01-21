@@ -5,6 +5,7 @@ import { usePremiumBuy } from '../store/slices/premiumBuy.ts'
 import { useActivation } from '../store/slices/activate.ts'
 import { usePersonal } from '../store/slices/personal.ts'
 import { usePremium } from '../store/slices/premium.ts'
+import { useLoading } from '../store/slices/loading.ts'
 import { useReset } from '../store/slices/reset.ts'
 
 export const useStates = () => {
@@ -15,6 +16,7 @@ export const useStates = () => {
     const isActivation = useActivation()
     const isPersonal = usePersonal()
     const isPremium = usePremium()
+    const isLoading = useLoading()
     const isReset = useReset()
 
     return {
@@ -25,6 +27,7 @@ export const useStates = () => {
         isActivation,
         isPersonal,
         isPremium,
+        isLoading,
         isReset
     }
 }

@@ -4,12 +4,15 @@
     align-items: center;
     width: 70%;
     height: 5rem;
-    cursor: pointer;
+}
+
+.text {
     color: var(--light-green);
+    cursor: pointer;
     font-size: 1rem;
     text-decoration: none;
 }
 
-.return:hover {
+.text:hover {
     color: var(--green);
 }

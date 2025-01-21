@@ -1,0 +1,12 @@
+.button {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    height: 4rem;
+    width: 99.1%;
+}
+
+.button button {
+    height: 2.5rem;
+    width: 7.5rem;
+}

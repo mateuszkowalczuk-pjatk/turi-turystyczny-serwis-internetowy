@@ -13,9 +13,11 @@ interface Props {
     stay: Stay
     index: number
     reservation?: boolean
+    dateFrom?: string | null
+    dateTo?: string | null
 }
 
-const TourismStayOfferItem = ({ stay, index, reservation }: Props) => {
+const TourismStayOfferItem = ({ stay, index, reservation, dateFrom, dateTo }: Props) => {
     const { t } = useTranslation()
     const navigate = useNavigate()
     const [image, setImage] = useState<Image>()
@@ -33,6 +35,19 @@ const TourismStayOfferItem = ({ stay, index, reservation }: Props) => {
 
         fetchImage().catch((error) => error)
     }, [])
+
+    const handleNavigate = () => {
+        if (stay && dateFrom && dateTo) {
+            navigate('/reservation', {
+                state: {
+                    stay: stay,
+                    dateFrom: dateFrom,
+                    dateTo: dateTo,
+                    url: `${window.location.pathname}${window.location.search}`
+                }
+            })
+        }
+    }
 
     return (
         <div
@@ -66,7 +81,7 @@ const TourismStayOfferItem = ({ stay, index, reservation }: Props) => {
                     <GreyButton
                         className={styles.modifyButton}
                         type="button"
-                        onClick={() => navigate('/reservation')}
+                        onClick={handleNavigate}
                         text={t('offer.reservation')}
                     />
                 )}

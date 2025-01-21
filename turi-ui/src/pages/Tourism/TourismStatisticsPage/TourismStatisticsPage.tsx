@@ -17,12 +17,7 @@ const TourismStatisticsPage = () => {
 
     return (
         <PageContent
-            title={
-                <PageReturn
-                    text={t('tourism.home-return')}
-                    url={'/'}
-                />
-            }
+            title={<PageReturn text={t('tourism.home-return')} />}
             firstPanel={
                 <TourismPanel
                     header={<TourismHeader text={t('tourism.statistics-title')} />}

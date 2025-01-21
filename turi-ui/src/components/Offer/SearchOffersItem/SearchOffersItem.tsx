@@ -14,7 +14,13 @@ import { addressService } from '../../../services/addressService.ts'
 import { imageService } from '../../../services/imageService.ts'
 import styles from './SearchOffersItem.module.css'
 
-const SearchOffersItem = ({ offer }: { offer: Offer }) => {
+interface Props {
+    offer: Offer
+    dateFrom?: string | null
+    dateTo?: string | null
+}
+
+const SearchOffersItem = ({ offer, dateFrom, dateTo }: Props) => {
     const { t } = useTranslation()
     const navigate = useNavigate()
     const [image, setImage] = useState<Image>()
@@ -47,6 +53,8 @@ const SearchOffersItem = ({ offer }: { offer: Offer }) => {
         navigate('/offer', {
             state: {
                 offer: offer,
+                dateFrom: dateFrom,
+                dateTo: dateTo,
                 url: `${window.location.pathname}${window.location.search}`
             }
         })

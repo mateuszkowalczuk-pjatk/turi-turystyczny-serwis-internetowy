@@ -4,6 +4,16 @@ import { GuaranteedService, TouristicPlace } from '../types/touristicPlace.ts'
 import { defaultParamIfNull } from '../utils/handleRequest.ts'
 
 export const touristicPlaceService = {
+    getById: async (id: number) => {
+        return await fetch(`${API_BASE_URL}${API.TOURISTIC_PLACE.GET_BY_ID}/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        })
+    },
+
     getByPremiumId: async () => {
         return await fetch(`${API_BASE_URL}${API.TOURISTIC_PLACE.GET_BY_PREMIUM_ID}`, {
             method: 'GET',

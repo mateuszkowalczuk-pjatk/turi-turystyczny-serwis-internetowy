@@ -41,6 +41,16 @@ export const reservationService = {
         })
     },
 
+    getPrice: async (id: number) => {
+        return await fetch(`${API_BASE_URL}${API.RESERVATION.GET_PRICE}/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        })
+    },
+
     getAllTouristicPlaceStaysAvailableInDate: async (touristicPlaceId: number, dateFrom: Date, dateTo: Date) => {
         return await fetch(
             `${API_BASE_URL}${API.RESERVATION.GET_ALL_TOURISTIC_PLACE_STAYS_AVAILABLE_IN_DATE}?touristicPlaceId=${touristicPlaceId}&dateFrom=${dateFrom}&dateTo=${dateTo}`,
@@ -163,9 +173,9 @@ export const reservationService = {
         )
     },
 
-    updateDetails: async (id: number, checkInTime: string, request: string | null) => {
+    updateDetails: async (id: number, request: string | null) => {
         return await fetch(
-            `${API_BASE_URL}${API.RESERVATION.UPDATE_DETAILS}/${id}?checkInTime=${checkInTime}${defaultParamIfNull('request', request)}`,
+            `${API_BASE_URL}${API.RESERVATION.UPDATE_DETAILS}/${id}?${defaultParamIfNull('request', request)}`,
             {
                 method: 'PUT',
                 headers: {

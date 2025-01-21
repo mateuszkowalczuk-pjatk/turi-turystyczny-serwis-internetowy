@@ -1,5 +1,6 @@
 import { useStates } from '../../hooks/useStates.ts'
 import { Outlet } from 'react-router-dom'
+import Loader from '../../components/Shared/Loading/Loader'
 import Layout from '../../components/Shared/Layout'
 import PremiumHeader from '../../components/Shared/Header/PremiumHeader'
 import UserHeader from '../../components/Shared/Header/UserHeader'
@@ -13,11 +14,13 @@ const MainLayout = () => {
     const { isAuthenticated, isPremium } = useStates()
 
     return (
-        <Layout
-            header={isAuthenticated ? isPremium ? <PremiumHeader /> : <UserHeader /> : <GuestHeader />}
-            content={<MainContent content={<Outlet />} />}
-            footer={isAuthenticated ? isPremium ? <PremiumFooter /> : <UserFooter /> : <GuestFooter />}
-        />
+        <Loader>
+            <Layout
+                header={isAuthenticated ? isPremium ? <PremiumHeader /> : <UserHeader /> : <GuestHeader />}
+                content={<MainContent content={<Outlet />} />}
+                footer={isAuthenticated ? isPremium ? <PremiumFooter /> : <UserFooter /> : <GuestFooter />}
+            />
+        </Loader>
     )
 }
 

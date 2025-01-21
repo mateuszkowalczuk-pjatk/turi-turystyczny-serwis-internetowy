@@ -1,22 +1,18 @@
-import { useNavigate } from 'react-router-dom'
+import { useHooks } from '../../../hooks/useHooks.ts'
 import styles from './PageReturn.module.css'
 
-interface TourismReturnProps {
-    url: string
-    text: string
-}
-
-const PageReturn = ({ url, text }: TourismReturnProps) => {
-    const navigate = useNavigate()
+const PageReturn = ({ text }: { text: string }) => {
+    const { navigate } = useHooks()
 
     return (
-        <div
-            className={styles.return}
-            onClick={() => navigate(url)}
-            role="button"
-            tabIndex={0}
-        >
-            {text}
+        <div className={styles.return}>
+            <span
+                className={styles.text}
+                onClick={() => navigate(-1)}
+                role="link"
+            >
+                {text}
+            </span>
         </div>
     )
 }

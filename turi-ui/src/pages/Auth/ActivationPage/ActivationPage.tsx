@@ -12,9 +12,10 @@ import AuthError from '../../../components/Auth/AuthError'
 import AuthButton from '../../../components/Auth/AuthButton'
 import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
-import { notActivation, useActivation } from '../../../store/slices/activate.ts'
+import { notActivation } from '../../../store/slices/activate.ts'
 import { accountService } from '../../../services/accountService.ts'
 import { personalization } from '../../../store/slices/personal.ts'
+import { useStates } from '../../../hooks/useStates.ts'
 
 interface FormData {
     code: string
@@ -22,7 +23,7 @@ interface FormData {
 
 const ActivationPage = () => {
     const { t, dispatch, navigate } = useHooks()
-    const isActivation = useActivation()
+    const { isActivation } = useStates()
     const { formData, error, setError, handleChange, resetForm, loading, setLoading } = useForm<FormData>({
         initialValues: {
             code: ''

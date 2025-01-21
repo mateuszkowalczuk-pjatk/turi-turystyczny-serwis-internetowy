@@ -1,0 +1,9 @@
+.price {
+    width: 99.1%;
+    height: 5rem;
+    background: pink;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

@@ -17,12 +17,7 @@ const TourismReservationsPlanPage = () => {
 
     return (
         <PageContent
-            title={
-                <PageReturn
-                    text={t('tourism.touristic-place-return')}
-                    url={'/tourism'}
-                />
-            }
+            title={<PageReturn text={t('tourism.touristic-place-return')} />}
             firstPanel={
                 <TourismPanel
                     header={<TourismHeader text={t('tourism.reservations-plan')} />}

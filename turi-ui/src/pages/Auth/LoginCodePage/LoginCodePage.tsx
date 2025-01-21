@@ -1,6 +1,7 @@
 import React from 'react'
 import { useRedirectEvery } from '../../../hooks/useRedirect.ts'
 import { codeValidation } from '../../../utils/codeValidation.ts'
+import { useStates } from '../../../hooks/useStates.ts'
 import { useHooks } from '../../../hooks/useHooks.ts'
 import { useForm } from '../../../hooks/useForm.ts'
 import { handle } from '../../../utils/handle.ts'
@@ -12,7 +13,7 @@ import AuthError from '../../../components/Auth/AuthError'
 import AuthButton from '../../../components/Auth/AuthButton'
 import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
-import { notLoginPremium, usePremiumLogin } from '../../../store/slices/premiumLogin.ts'
+import { notLoginPremium } from '../../../store/slices/premiumLogin.ts'
 import { premiumAccount } from '../../../store/slices/premium.ts'
 import { authService } from '../../../services/authService.ts'
 import { login } from '../../../store/slices/auth.ts'
@@ -23,7 +24,7 @@ interface FormData {
 
 const LoginCodePage = () => {
     const { t, dispatch, navigate } = useHooks()
-    const isPremiumLogin = usePremiumLogin()
+    const { isPremiumLogin } = useStates()
     const { formData, error, setError, handleChange, resetForm, loading, setLoading } = useForm<FormData>({
         initialValues: {
             code: ''

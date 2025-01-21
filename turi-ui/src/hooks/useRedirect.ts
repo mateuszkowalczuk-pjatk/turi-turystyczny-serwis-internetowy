@@ -1,18 +1,21 @@
-import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
+import { useStates } from './useStates.ts'
+import { useHooks } from './useHooks.ts'
 
 export const useRedirectEvery = (conditions: boolean[], path: string) => {
-    const navigate = useNavigate()
+    const isLoading = useStates()
+    const { navigate } = useHooks()
 
     useEffect(() => {
-        if (conditions.every(Boolean)) navigate(path)
-    }, [conditions, path, navigate])
+        if (!isLoading && conditions.every(Boolean)) navigate(path)
+    }, [isLoading, conditions, path, navigate])
 }
 
 export const useRedirectSome = (conditions: boolean[], path: string) => {
-    const navigate = useNavigate()
+    const isLoading = useStates()
+    const { navigate } = useHooks()
 
     useEffect(() => {
-        if (conditions.some(Boolean)) navigate(path)
-    }, [conditions, path, navigate])
+        if (!isLoading && conditions.some(Boolean)) navigate(path)
+    }, [isLoading, conditions, path, navigate])
 }

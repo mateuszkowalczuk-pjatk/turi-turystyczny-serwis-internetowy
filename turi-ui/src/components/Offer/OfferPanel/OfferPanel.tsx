@@ -7,7 +7,13 @@ import OfferOpinion from '../OfferOpinion'
 import { Offer } from '../../../types/offer.ts'
 import styles from './OfferPanel.module.css'
 
-const OfferPanel = ({ offer }: { offer: Offer }) => {
+interface Props {
+    offer: Offer
+    dateFrom: string | null
+    dateTo: string | null
+}
+
+const OfferPanel = ({ offer, dateFrom, dateTo }: Props) => {
     return (
         <div className={styles.panel}>
             <OfferMain touristicPlace={offer.touristicPlace} />
@@ -15,12 +21,15 @@ const OfferPanel = ({ offer }: { offer: Offer }) => {
                 description={offer.touristicPlace.description}
                 guaranteedServices={offer.guaranteedServices}
             />
-            <OfferServices
-                dateFrom={''}
-                dateTo={''}
-                stays={offer.stays}
-                attractions={offer.attractions}
-            />
+            {offer.touristicPlace.touristicPlaceId && (
+                <OfferServices
+                    initDateFrom={dateFrom}
+                    initDateTo={dateTo}
+                    initStays={offer.stays}
+                    initAttractions={offer.attractions}
+                    touristicPlaceId={offer.touristicPlace.touristicPlaceId}
+                />
+            )}
             <OfferInformation touristicPlace={offer.touristicPlace} />
             <OfferOwner
                 premiumId={offer.touristicPlace.premiumId}

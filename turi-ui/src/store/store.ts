@@ -7,6 +7,7 @@ import premiumReducer from './slices/premium.ts'
 import premiumBuyReducer from './slices/premiumBuy.ts'
 import premiumLoginReducer from './slices/premiumLogin.ts'
 import premiumPaymentFailedReducer from './slices/premiumPaymentFailed.ts'
+import loadingReducer from './slices/loading.ts'
 
 const store = configureStore({
     reducer: {
@@ -17,7 +18,8 @@ const store = configureStore({
         premium: premiumReducer,
         premiumBuy: premiumBuyReducer,
         premiumLogin: premiumLoginReducer,
-        premiumPaymentFailed: premiumPaymentFailedReducer
+        premiumPaymentFailed: premiumPaymentFailedReducer,
+        loading: loadingReducer
     }
 })
 

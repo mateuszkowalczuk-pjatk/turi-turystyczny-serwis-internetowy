@@ -7,6 +7,7 @@ import ProfileModule from '../../../components/Profile/ProfileModule'
 import ProfileButton from '../../../components/Profile/ProfileButton'
 import { userService } from '../../../services/userService.ts'
 import styles from './ProfilePage.module.css'
+import { useRedirectEvery } from '../../../hooks/useRedirect.ts'
 
 interface FormData {
     login: string
@@ -30,9 +31,9 @@ const ProfilePage = () => {
     const [error, setError] = useState<string | null>(null)
     const [loading, setLoading] = useState(false)
 
-    useEffect(() => {
-        if (!isAuthenticated) navigate('/')
+    useRedirectEvery([!isAuthenticated], './')
 
+    useEffect(() => {
         const fetchUsernameAndEmail = async () => {
             const usernameResponse = await userService.getUsername()
             if (usernameResponse.status === 200) {

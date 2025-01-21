@@ -2,9 +2,7 @@ import React from 'react'
 import { checkPasswordsMatch } from '../../../utils/checkPasswordsMatch.ts'
 import { passwordValidation } from '../../../utils/passwordValidation.ts'
 import { useRedirectEvery } from '../../../hooks/useRedirect.ts'
-import { useAuthenticated } from '../../../store/slices/auth.ts'
 import { useHooks } from '../../../hooks/useHooks.ts'
-import { useReset } from '../../../store/slices/reset.ts'
 import { useForm } from '../../../hooks/useForm.ts'
 import { handle } from '../../../utils/handle.ts'
 import AuthPanel from '../../../components/Auth/AuthPanel'
@@ -15,6 +13,7 @@ import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
 import AuthError from '../../../components/Auth/AuthError'
 import { userService } from '../../../services/userService.ts'
+import { useStates } from '../../../hooks/useStates.ts'
 
 interface FormData {
     password: string
@@ -23,8 +22,7 @@ interface FormData {
 
 const ResetPasswordPage = () => {
     const { t, navigate } = useHooks()
-    const isAuthenticated = useAuthenticated()
-    const isResetPassword = useReset()
+    const { isAuthenticated, isReset } = useStates()
     const { formData, error, setError, handleChange, resetForm, loading, setLoading } = useForm<FormData>({
         initialValues: {
             password: '',
@@ -32,7 +30,7 @@ const ResetPasswordPage = () => {
         }
     })
 
-    useRedirectEvery([!isAuthenticated && !isResetPassword], '/reset-password/email-check')
+    useRedirectEvery([!isAuthenticated && !isReset], '/reset-password/email-check')
 
     const handleResetPassword = async (e: React.FormEvent) => {
         handle(e, setLoading, setError)

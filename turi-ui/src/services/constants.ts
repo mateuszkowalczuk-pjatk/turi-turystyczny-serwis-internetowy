@@ -45,6 +45,7 @@ export const API = {
         UPDATE_COMPANY_DETAILS: '/api/premium/updateCompanyDetails'
     },
     TOURISTIC_PLACE: {
+        GET_BY_ID: '/api/touristicplace/getById',
         GET_BY_PREMIUM_ID: '/api/touristicplace/getByPremiumId',
         IS_ADDRESS_EXISTS: '/api/touristicplace/isAddressExists',
         GET_ALL_GUARANTEED_SERVICES: '/api/touristicplace/getAllGuaranteedServices',
@@ -90,6 +91,7 @@ export const API = {
         GET_ALL_BY_ACCOUNT_ID: '/api/reservation/getAllByAccountId',
         GET_ALL_BY_TOURISTIC_PLACE_ID: '/api/reservation/getAllByTouristicPlaceId',
         GET_WITH_ATTRACTION_BY_ID: '/api/reservation/getWithAttractionsById',
+        GET_PRICE: '/api/reservation/getPrice',
         GET_ALL_TOURISTIC_PLACE_STAYS_AVAILABLE_IN_DATE: '/api/reservation/getAllTouristicPlaceStaysAvailableInDate',
         GET_ALL_TOURISTIC_PLACE_ATTRACTIONS_AVAILABLE_IN_DATE:
             '/api/reservation/getAllTouristicPlaceAttractionsAvailableInDate',

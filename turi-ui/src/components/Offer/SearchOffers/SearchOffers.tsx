@@ -96,6 +96,8 @@ const SearchOffers = ({
                     <SearchOffersItem
                         key={key}
                         offer={offer}
+                        dateFrom={dateFrom}
+                        dateTo={dateTo}
                     />
                 ))}
                 <div

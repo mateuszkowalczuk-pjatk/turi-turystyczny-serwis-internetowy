@@ -1,6 +1,5 @@
 import React from 'react'
-import { useRedirectEvery } from '../../../hooks/useRedirect.ts'
-import { usePersonal } from '../../../store/slices/personal.ts'
+import { useStates } from '../../../hooks/useStates.ts'
 import { useHooks } from '../../../hooks/useHooks.ts'
 import { useForm } from '../../../hooks/useForm.ts'
 import { handle } from '../../../utils/handle.ts'
@@ -11,10 +10,11 @@ import AuthError from '../../../components/Auth/AuthError'
 import AuthButton from '../../../components/Auth/AuthButton'
 import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
-import { login, useAuthenticated } from '../../../store/slices/auth.ts'
+import { login } from '../../../store/slices/auth.ts'
 import { loginPremium } from '../../../store/slices/premiumLogin.ts'
 import { authService } from '../../../services/authService.ts'
 import { activation } from '../../../store/slices/activate.ts'
+import { useRedirectEvery } from '../../../hooks/useRedirect.ts'
 
 interface FormData {
     login: string
@@ -23,8 +23,7 @@ interface FormData {
 
 const LoginPage = () => {
     const { t, dispatch, navigate } = useHooks()
-    const isAuthenticated = useAuthenticated()
-    const isPersonalization = usePersonal()
+    const { isAuthenticated, isPersonal } = useStates()
     const { formData, error, setError, handleChange, resetForm, loading, setLoading } = useForm<FormData>({
         initialValues: {
             login: '',
@@ -32,7 +31,7 @@ const LoginPage = () => {
         }
     })
 
-    useRedirectEvery([isAuthenticated, !isPersonalization], '/')
+    useRedirectEvery([isAuthenticated, !isPersonal], '/')
 
     const handleLogin = async (e: React.FormEvent) => {
         handle(e, setLoading, setError)
@@ -43,7 +42,7 @@ const LoginPage = () => {
         })
         if (response.status === 200) {
             dispatch(login())
-            if (isPersonalization) navigate('/personal')
+            if (isPersonal) navigate('/personal')
             else navigate('/')
         } else if (response.status === 202) {
             dispatch(activation())
@@ -99,12 +98,7 @@ const LoginPage = () => {
                     disabled={loading}
                 />
             }
-            top={
-                <AuthTopLink
-                    text={t('login.google')}
-                    onClick={() => console.log('Google')}
-                />
-            }
+            top={<AuthTopLink />}
             down={
                 <AuthDownLink
                     firstLink={t('login.reset')}

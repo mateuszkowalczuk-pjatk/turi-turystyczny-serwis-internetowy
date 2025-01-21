@@ -19,12 +19,7 @@ const TourismStayOfferPage = ({ modify }: { modify?: boolean }) => {
 
     return (
         <PageContent
-            title={
-                <PageReturn
-                    text={t('tourism.touristic-place-return')}
-                    url={'/tourism'}
-                />
-            }
+            title={<PageReturn text={t('tourism.touristic-place-return')} />}
             firstPanel={
                 <TourismPanel
                     header={<TourismHeader text={t('tourism.touristic-place-stay-offer-title')} />}

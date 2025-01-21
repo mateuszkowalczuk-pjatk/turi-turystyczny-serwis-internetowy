@@ -12,10 +12,11 @@ import AuthButton from '../../../components/Auth/AuthButton'
 import AuthError from '../../../components/Auth/AuthError'
 import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
-import { notResetPassword, useReset } from '../../../store/slices/reset.ts'
+import { notResetPassword } from '../../../store/slices/reset.ts'
 import { userService } from '../../../services/userService.ts'
 import { authService } from '../../../services/authService.ts'
 import { login } from '../../../store/slices/auth.ts'
+import { useStates } from '../../../hooks/useStates.ts'
 
 interface FormData {
     code: string
@@ -23,7 +24,7 @@ interface FormData {
 
 const ResetPasswordCodePage = () => {
     const { t, dispatch, navigate } = useHooks()
-    const isResetPassword = useReset()
+    const isResetPassword = useStates()
     const { formData, error, setError, handleChange, resetForm, loading, setLoading } = useForm<FormData>({
         initialValues: {
             code: ''
