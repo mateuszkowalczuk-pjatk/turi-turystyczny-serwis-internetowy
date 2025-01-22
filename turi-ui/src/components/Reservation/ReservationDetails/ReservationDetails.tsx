@@ -1,19 +1,17 @@
 import { useHooks } from '../../../hooks/useHooks.ts'
+import Input from '../../Shared/Controls/Input'
 import TextMedium from '../../Shared/Controls/Text/TextMedium'
+import PersonalLabel from '../../Shared/Personal/PersonalLabel'
 import ReservationTime from '../ReservationTime'
 import { TouristicPlace } from '../../../types/touristicPlace.ts'
 import styles from './ReservationDetails.module.css'
-import Input from '../../Shared/Controls/Input'
-import PersonalLabel from '../../Shared/Personal/PersonalLabel'
 
 interface Props {
     touristicPlace: TouristicPlace
     dateFrom: string
     dateTo: string
-    request?: string | null | undefined
-    setRequest?: (
-        value: ((prevState: string | null | undefined) => string | null | undefined) | string | null | undefined
-    ) => void
+    request: string | null
+    setRequest: (value: ((prevState: string | null) => string | null) | string | null) => void
 }
 
 const ReservationDetails = ({ touristicPlace, dateFrom, dateTo, request, setRequest }: Props) => {

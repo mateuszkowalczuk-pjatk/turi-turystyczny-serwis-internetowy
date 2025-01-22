@@ -1,9 +1,13 @@
 .price {
-    width: 99.1%;
     height: 5rem;
-    background: pink;
+    width: 99.1%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.price p {
+    color: var(--dark);
 }

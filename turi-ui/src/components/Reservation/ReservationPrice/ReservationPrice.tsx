@@ -1,12 +1,17 @@
+import { useHooks } from '../../../hooks/useHooks.ts'
+import TextMedium from '../../Shared/Controls/Text/TextMedium'
 import TextRegular from '../../Shared/Controls/Text/TextRegular'
-import TextExtraLight from '../../Shared/Controls/Text/TextExtraLight'
 import styles from './ReservationPrice.module.css'
 
 const ReservationPrice = ({ price }: { price: number }) => {
+    const { t } = useHooks()
+
     return (
         <div className={styles.price}>
-            <TextRegular text={'Łączna kwota: ' + price + ' zł'} />
-            <TextExtraLight text={'W tym podatki i inne opłaty'} />
+            <TextMedium
+                text={t('reservation.reservation-total-price') + price + t('reservation.reservation-currency')}
+            />
+            <TextRegular text={t('reservation.reservation-taxes')} />
         </div>
     )
 }

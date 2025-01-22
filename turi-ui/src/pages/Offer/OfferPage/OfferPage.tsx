@@ -7,9 +7,7 @@ import OfferPanel from '../../../components/Offer/OfferPanel'
 
 const OfferPage = () => {
     const { t } = useHooks()
-    const offer = useLocation().state?.offer || null
-    const dateFrom = useLocation().state?.dateFrom || null
-    const dateTo = useLocation().state?.dateTo || null
+    const { offer = null, dateFrom = null, dateTo = null } = useLocation().state || {}
 
     useRedirectEvery([offer === null], '/')
 

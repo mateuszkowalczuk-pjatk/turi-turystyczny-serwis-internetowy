@@ -47,7 +47,7 @@ interface FormData {
 const TourismAttractionOfferPanel = ({ touristicPlaceId, modify = false }: Props) => {
     const { t } = useTranslation()
     const navigate = useNavigate()
-    const attractionId = useLocation().state?.attractionId || null
+    const { attractionId = null } = useLocation().state || {}
     const [images, setImages] = useState<Image[]>([])
     const [files, setFiles] = useState<File[]>([])
     const [loading, setLoading] = useState(false)
