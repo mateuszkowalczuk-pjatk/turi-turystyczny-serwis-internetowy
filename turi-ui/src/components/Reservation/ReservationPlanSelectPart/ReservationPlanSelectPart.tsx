@@ -3,6 +3,7 @@ import ReservationPlanSelectItems from '../ReservationPlanSelectItems'
 import { Attraction } from '../../../types/attraction.ts'
 import { ReservationAttraction } from '../../../types/reservation.ts'
 import styles from './ReservationPlanSelectPart.module.css'
+import { TouristicPlace } from '../../../types/touristicPlace.ts'
 
 interface Props {
     text: string
@@ -12,8 +13,9 @@ interface Props {
     setReservationAttractions?: (
         value: ((prevState: ReservationAttraction[]) => ReservationAttraction[]) | ReservationAttraction[]
     ) => void
-    dateFrom?: Date
-    dateTo?: Date
+    touristicPlace?: TouristicPlace
+    dateFrom: Date
+    dateTo: Date
 }
 
 const ReservationPlanSelectPart = ({
@@ -22,6 +24,7 @@ const ReservationPlanSelectPart = ({
     attractions,
     reservationId,
     setReservationAttractions,
+    touristicPlace,
     dateFrom,
     dateTo
 }: Props) => {
@@ -33,6 +36,7 @@ const ReservationPlanSelectPart = ({
                 attractions={attractions}
                 reservationId={reservationId}
                 setReservationAttractions={setReservationAttractions}
+                touristicPlace={touristicPlace}
                 dateFrom={dateFrom}
                 dateTo={dateTo}
             />

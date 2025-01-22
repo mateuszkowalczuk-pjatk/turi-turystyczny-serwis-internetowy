@@ -1,4 +1,3 @@
-import React from 'react'
 import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import { useLocation } from 'react-router-dom'
 import { useReservationPlan } from '../../../hooks/pages/useReservationPlan.ts'
@@ -10,17 +9,13 @@ import ReservationPlanSelect from '../../../components/Reservation/ReservationPl
 
 const ReservationPlanPage = () => {
     const { t } = useHooks()
-    const { reservationId = null, touristicPlaceId = null, dateFrom = null, dateTo = null } = useLocation().state || {}
+    const { reservationId = null, touristicPlace = null, dateFrom = null, dateTo = null } = useLocation().state || {}
     const { reservationAttractions, setReservationAttractions, attractions } = useReservationPlan(
         reservationId,
-        touristicPlaceId,
+        touristicPlace.touristicPlaceId,
         dateFrom,
         dateTo
     )
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault()
-    }
 
     return (
         <Loader>
@@ -28,7 +23,6 @@ const ReservationPlanPage = () => {
                 title={<PageReturn text={t('reservation.reservation-plan-return')} />}
                 firstPanel={
                     <ReservationPanel
-                        onSubmit={handleSubmit}
                         step={1}
                         reservationPlanSelect={
                             <ReservationPlanSelect
@@ -36,6 +30,7 @@ const ReservationPlanPage = () => {
                                 reservationAttractions={reservationAttractions}
                                 attractions={attractions}
                                 setReservationAttractions={setReservationAttractions}
+                                touristicPlace={touristicPlace}
                                 dateFrom={dateFrom}
                                 dateTo={dateTo}
                             />

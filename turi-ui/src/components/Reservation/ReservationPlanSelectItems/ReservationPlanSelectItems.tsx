@@ -3,6 +3,9 @@ import ReservationPlanReservationAttraction from '../ReservationPlanReservationA
 import { Attraction } from '../../../types/attraction.ts'
 import { ReservationAttraction } from '../../../types/reservation.ts'
 import styles from './ReservationPlanSelectItems.module.css'
+import ReservationPlanDate from '../ReservationPlanDate'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import { TouristicPlace } from '../../../types/touristicPlace.ts'
 
 interface Props {
     reservationAttractions?: ReservationAttraction[]
@@ -11,8 +14,9 @@ interface Props {
     setReservationAttractions?: (
         value: ((prevState: ReservationAttraction[]) => ReservationAttraction[]) | ReservationAttraction[]
     ) => void
-    dateFrom?: Date
-    dateTo?: Date
+    touristicPlace?: TouristicPlace
+    dateFrom: Date
+    dateTo: Date
 }
 
 const ReservationPlanSelectItems = ({
@@ -20,11 +24,22 @@ const ReservationPlanSelectItems = ({
     attractions,
     reservationId,
     setReservationAttractions,
+    touristicPlace,
     dateFrom,
     dateTo
 }: Props) => {
+    const { t } = useHooks()
+
     return (
         <div className={styles.items}>
+            {touristicPlace && touristicPlace.checkInTimeFrom && touristicPlace.checkInTimeTo && (
+                <ReservationPlanDate
+                    text={t('reservation.reservation-check-in')}
+                    date={dateFrom}
+                    hourFrom={touristicPlace.checkInTimeFrom}
+                    hourTo={touristicPlace.checkInTimeTo}
+                />
+            )}
             {reservationAttractions &&
                 setReservationAttractions &&
                 reservationAttractions.map((reservationAttraction) => (
@@ -32,8 +47,17 @@ const ReservationPlanSelectItems = ({
                         key={reservationAttraction.reservationAttractionId}
                         reservationAttraction={reservationAttraction}
                         setReservationAttractions={setReservationAttractions}
+                        plan
                     />
                 ))}
+            {touristicPlace && touristicPlace.checkOutTimeFrom && touristicPlace.checkOutTimeTo && (
+                <ReservationPlanDate
+                    text={t('reservation.reservation-check-out')}
+                    date={dateTo}
+                    hourFrom={touristicPlace.checkOutTimeFrom}
+                    hourTo={touristicPlace.checkOutTimeTo}
+                />
+            )}
             {attractions &&
                 reservationId &&
                 setReservationAttractions &&

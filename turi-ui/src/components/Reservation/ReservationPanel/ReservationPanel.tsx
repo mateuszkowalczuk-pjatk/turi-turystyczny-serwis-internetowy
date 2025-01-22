@@ -8,7 +8,7 @@ import ReservationPrice from '../ReservationPrice'
 import ReservationButton from '../ReservationButton'
 
 interface Props {
-    onSubmit: (e: React.FormEvent) => Promise<void>
+    onSubmit?: (e: React.FormEvent) => Promise<void>
     step: number
     touristicPlace?: TouristicPlace
     address?: Address

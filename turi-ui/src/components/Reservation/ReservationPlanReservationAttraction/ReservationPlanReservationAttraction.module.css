@@ -9,3 +9,45 @@
     border-radius: 0.6rem;
     padding-left: 0.1rem;
 }
+
+.time {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 6rem;
+    width: 40%;
+    gap: 0.8rem;
+    padding-left: 1rem;
+    border-right: 2px solid var(--green);
+}
+
+.time p {
+    color: var(--dark);
+}
+
+.name {
+    display: flex;
+    align-items: center;
+    min-height: 6rem;
+    width: 35%;
+    padding-left: 1rem;
+}
+
+
+
+.name p {
+    color: var(--dark);
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 6rem;
+    width: 25%;
+}
+
+.button button {
+    height: 2.5rem;
+    width: 6rem;
+}

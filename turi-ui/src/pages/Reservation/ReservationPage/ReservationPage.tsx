@@ -24,7 +24,8 @@ const ReservationPage = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
 
-        if (reservation) await reservationService.updateDetails(reservation.reservationId, validateText(request))
+        if (reservation && request)
+            await reservationService.updateDetails(reservation.reservationId, validateText(request))
 
         navigate('/reservation/personal')
     }
@@ -57,10 +58,10 @@ const ReservationPage = () => {
                                     }
                                     rightPanel={
                                         reservation &&
-                                        touristicPlace.touristicPlaceId && (
+                                        touristicPlace && (
                                             <ReservationPlan
                                                 reservationId={reservation.reservationId}
-                                                touristicPlaceId={touristicPlace.touristicPlaceId}
+                                                touristicPlace={touristicPlace}
                                                 dateFrom={dateFrom}
                                                 dateTo={dateTo}
                                                 reservationAttractions={reservationAttractions}

@@ -243,5 +243,18 @@ export const reservationService = {
                 credentials: 'include'
             }
         )
+    },
+
+    deleteAttraction: async (reservationAttractionId: number) => {
+        return await fetch(
+            `${API_BASE_URL}${API.RESERVATION.DELETE_ATTRACTION}?reservationAttractionId=${reservationAttractionId}`,
+            {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include'
+            }
+        )
     }
 }
