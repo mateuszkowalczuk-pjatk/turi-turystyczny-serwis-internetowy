@@ -8,11 +8,11 @@ import ProfilePremium from '../../../components/Profile/ProfilePremium'
 import ProfileButton from '../../../components/Profile/ProfileButton'
 import PersonalPart from '../../../components/Shared/Personal/PersonalPart'
 import PersonalPanel from '../../../components/Shared/Personal/PersonalPanel'
-import PersonalLabel from '../../../components/Shared/Personal/PersonalLabel'
 import PersonalInput from '../../../components/Shared/Personal/PersonalInput'
 import { Premium, PremiumCompanyParam } from '../../../types'
 import { premiumService } from '../../../services/premiumService.ts'
 import styles from './ProfilePremiumPage.module.css'
+import Label from '../../../components/Shared/Controls/Label'
 
 interface FormData {
     companyName: string
@@ -93,7 +93,7 @@ const ProfilePremiumPage = () => {
             <PersonalPart
                 firstPanel={
                     <PersonalPanel
-                        label={<PersonalLabel text={t('profile.premium-company-name')} />}
+                        label={<Label text={t('profile.premium-company-name')} />}
                         firstInput={
                             <PersonalInput
                                 type={'text'}
@@ -111,7 +111,7 @@ const ProfilePremiumPage = () => {
                 }
                 secondPanel={
                     <PersonalPanel
-                        label={<PersonalLabel text={t('profile.premium-nip')} />}
+                        label={<Label text={t('profile.premium-nip')} />}
                         firstInput={
                             <PersonalInput
                                 type={'text'}
@@ -129,7 +129,7 @@ const ProfilePremiumPage = () => {
                 }
                 option={
                     <PersonalPanel
-                        label={<PersonalLabel text={t('profile.premium-bank-account-number')} />}
+                        label={<Label text={t('profile.premium-bank-account-number')} />}
                         firstInput={
                             <PersonalInput
                                 type={'text'}

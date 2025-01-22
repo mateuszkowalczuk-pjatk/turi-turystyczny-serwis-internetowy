@@ -40,6 +40,7 @@ const ReservationPanel = ({
                 <TouristicPlaceBanner
                     touristicPlace={touristicPlace}
                     address={address}
+                    isReservation
                 />
             )}
             {!plan && reservationFormSection}

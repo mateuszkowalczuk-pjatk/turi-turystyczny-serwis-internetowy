@@ -1,9 +1,10 @@
 .label {
+    height: 2.5rem;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 2rem;
-    width: 100%;
+    align-items: flex-start;
 }
 
 .label p {

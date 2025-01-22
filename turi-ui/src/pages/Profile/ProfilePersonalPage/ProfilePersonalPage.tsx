@@ -5,7 +5,6 @@ import { useAppDispatch } from '../../../hooks/useAppDispatch.ts'
 import { useNavigate } from 'react-router-dom'
 import PersonalPart from '../../../components/Shared/Personal/PersonalPart'
 import PersonalPanel from '../../../components/Shared/Personal/PersonalPanel'
-import PersonalLabel from '../../../components/Shared/Personal/PersonalLabel'
 import PersonalInput from '../../../components/Shared/Personal/PersonalInput'
 import PersonalGender from '../../../components/Shared/Personal/PersonalGender'
 import ProfileButton from '../../../components/Profile/ProfileButton'
@@ -14,6 +13,7 @@ import { notPersonalization } from '../../../store/slices/personal.ts'
 import { accountService } from '../../../services/accountService.ts'
 import { addressService } from '../../../services/addressService.ts'
 import styles from './ProfilePersonalPage.module.css'
+import Label from '../../../components/Shared/Controls/Label'
 
 interface FormData {
     firstName: string
@@ -283,7 +283,7 @@ const ProfilePersonalPage = () => {
             <PersonalPart
                 firstPanel={
                     <PersonalPanel
-                        label={<PersonalLabel text={t('signup-personal.name-surname')} />}
+                        label={<Label text={t('signup-personal.name-surname')} />}
                         firstInput={
                             <PersonalInput
                                 type={'text'}
@@ -314,7 +314,7 @@ const ProfilePersonalPage = () => {
                 }
                 secondPanel={
                     <PersonalPanel
-                        label={<PersonalLabel text={t('signup-personal.birthdate')} />}
+                        label={<Label text={t('signup-personal.birthdate')} />}
                         firstInput={
                             <PersonalInput
                                 type={'number'}
@@ -352,7 +352,7 @@ const ProfilePersonalPage = () => {
                 }
                 option={
                     <PersonalPanel
-                        label={<PersonalLabel text={t('signup-personal.gender')} />}
+                        label={<Label text={t('signup-personal.gender')} />}
                         firstInput={
                             <PersonalGender
                                 gender={formData.gender}
@@ -365,7 +365,7 @@ const ProfilePersonalPage = () => {
             <PersonalPart
                 firstPanel={
                     <PersonalPanel
-                        label={<PersonalLabel text={t('signup-personal.phone-number')} />}
+                        label={<Label text={t('signup-personal.phone-number')} />}
                         firstInput={
                             <PersonalInput
                                 type={'text'}
@@ -381,7 +381,7 @@ const ProfilePersonalPage = () => {
                 }
                 secondPanel={
                     <PersonalPanel
-                        label={<PersonalLabel text={t('signup-personal.address')} />}
+                        label={<Label text={t('signup-personal.address')} />}
                         firstInput={
                             <PersonalInput
                                 type={'text'}

@@ -6,6 +6,7 @@ import ProfileButtons from '../ProfileButtons'
 import { PremiumOffer, Premium } from '../../../types'
 import { premiumService } from '../../../services/premiumService.ts'
 import styles from './ProfilePremium.module.css'
+import { handleDateDisplay } from '../../../utils/handleDateTimeDisplay.ts'
 
 const ProfilePremium = () => {
     const [date, setDate] = useState<string>('')
@@ -30,7 +31,7 @@ const ProfilePremium = () => {
                     const premium: Premium = await response.json()
                     const start = premium.buyDate
                     const end = premium.expiresDate
-                    const finalDate = `${start || ''} - ${end || ''}`
+                    const finalDate = `${handleDateDisplay(start.toString() || '')} - ${handleDateDisplay(end.toString() || '')}`
                     setDate(finalDate)
                 }
             }

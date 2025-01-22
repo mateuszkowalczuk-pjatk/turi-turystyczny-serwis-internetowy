@@ -9,7 +9,6 @@ import TourismOfferDetails from '../TourismOfferDetails'
 import TourismStayInformations from '../TourismStayInformations'
 import TourismOfferButtons from '../TourismOfferButtons'
 import PersonalPanel from '../../Shared/Personal/PersonalPanel'
-import PersonalLabel from '../../Shared/Personal/PersonalLabel'
 import Input from '../../Shared/Controls/Input'
 import { StayDto, StayInformation } from '../../../types/stay.ts'
 import { Image, ImageMode } from '../../../types/image.ts'
@@ -17,6 +16,7 @@ import { imageService } from '../../../services/imageService.ts'
 import { stayService } from '../../../services/stayService.ts'
 import styles from './TourismStayOfferPanel.module.css'
 import { useHooks } from '../../../hooks/useHooks.ts'
+import Label from '../../Shared/Controls/Label'
 
 interface Props {
     touristicPlaceId: number
@@ -163,7 +163,7 @@ const TourismStayOfferPanel = ({ touristicPlaceId, modify = false }: Props) => {
                         firstPanel={
                             <PersonalPanel
                                 label={
-                                    <PersonalLabel
+                                    <Label
                                         text={t('tourism.touristic-place-stay-offer-name-and-description')}
                                     />
                                 }
@@ -198,7 +198,7 @@ const TourismStayOfferPanel = ({ touristicPlaceId, modify = false }: Props) => {
                         }
                         secondPanel={
                             <PersonalPanel
-                                label={<PersonalLabel text={t('tourism.touristic-place-stay-offer-information')} />}
+                                label={<Label text={t('tourism.touristic-place-stay-offer-information')} />}
                                 firstInput={
                                     <Input
                                         type={'number'}
@@ -227,7 +227,7 @@ const TourismStayOfferPanel = ({ touristicPlaceId, modify = false }: Props) => {
                         thirdPanel={
                             <PersonalPanel
                                 label={
-                                    <PersonalLabel text={t('tourism.touristic-place-stay-offer-availability-range')} />
+                                    <Label text={t('tourism.touristic-place-stay-offer-availability-range')} />
                                 }
                                 firstInput={
                                     <Input

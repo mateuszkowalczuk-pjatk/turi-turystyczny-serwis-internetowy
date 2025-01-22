@@ -5,13 +5,14 @@ import styles from './TouristicPlaceName.module.css'
 interface Props {
     name: string | undefined
     touristicPlaceId: number | undefined
+    isReservation?: boolean
 }
 
-const TouristicPlaceName = ({ name, touristicPlaceId }: Props) => {
+const TouristicPlaceName = ({ name, touristicPlaceId, isReservation }: Props) => {
     return (
         <div className={styles.name}>
             <TextRegular text={name || ''} />
-            <Favourite touristicPlaceId={touristicPlaceId} />
+            {isReservation && <Favourite touristicPlaceId={touristicPlaceId} />}
         </div>
     )
 }

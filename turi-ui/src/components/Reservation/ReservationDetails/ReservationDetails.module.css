@@ -12,7 +12,11 @@
     color: var(--dark);
 }
 
-.checkTime {
+.details input {
+    height: 3rem;
+}
+
+.time {
     width: 100%;
     height: 8rem;
     display: flex;

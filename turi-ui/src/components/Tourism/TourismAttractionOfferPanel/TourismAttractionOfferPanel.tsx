@@ -11,7 +11,6 @@ import TourismPriceTypeSelect from '../TourismPriceTypeSelect'
 import TourismOfferButtons from '../TourismOfferButtons'
 import TourismOfferDetails from '../TourismOfferDetails'
 import PersonalPanel from '../../Shared/Personal/PersonalPanel'
-import PersonalLabel from '../../Shared/Personal/PersonalLabel'
 import ImageBanner from '../../Shared/Image/ImageBanner'
 import Checkbox from '../../Shared/Controls/Checkbox'
 import Input from '../../Shared/Controls/Input'
@@ -20,6 +19,7 @@ import { Image, ImageMode } from '../../../types/image.ts'
 import { attractionService } from '../../../services/attractionService.ts'
 import { imageService } from '../../../services/imageService.ts'
 import styles from './TourismAttractionOfferPanel.module.css'
+import Label from '../../Shared/Controls/Label'
 
 interface Props {
     touristicPlaceId: number
@@ -223,7 +223,7 @@ const TourismAttractionOfferPanel = ({ touristicPlaceId, modify = false }: Props
                     <TourismOfferDetails
                         firstPanel={
                             <PersonalPanel
-                                label={<PersonalLabel text={t('tourism.touristic-place-attraction-name-and-type')} />}
+                                label={<Label text={t('tourism.touristic-place-attraction-name-and-type')} />}
                                 firstInput={
                                     <Input
                                         type={'text'}
@@ -253,7 +253,7 @@ const TourismAttractionOfferPanel = ({ touristicPlaceId, modify = false }: Props
                         }
                         secondPanel={
                             <PersonalPanel
-                                label={<PersonalLabel text={t('tourism.touristic-place-attraction-description')} />}
+                                label={<Label text={t('tourism.touristic-place-attraction-description')} />}
                                 firstInput={
                                     <Input
                                         type={'text'}
@@ -283,9 +283,7 @@ const TourismAttractionOfferPanel = ({ touristicPlaceId, modify = false }: Props
                         }
                         thirdPanel={
                             <PersonalPanel
-                                label={
-                                    <PersonalLabel text={t('tourism.touristic-place-attraction-availability-range')} />
-                                }
+                                label={<Label text={t('tourism.touristic-place-attraction-availability-range')} />}
                                 firstInput={
                                     <Input
                                         type={'date'}
@@ -315,11 +313,7 @@ const TourismAttractionOfferPanel = ({ touristicPlaceId, modify = false }: Props
                     <TourismOfferDetails
                         firstPanel={
                             <PersonalPanel
-                                label={
-                                    <PersonalLabel
-                                        text={t('tourism.touristic-place-attraction-price-type-and-price')}
-                                    />
-                                }
+                                label={<Label text={t('tourism.touristic-place-attraction-price-type-and-price')} />}
                                 firstInput={
                                     <TourismPriceTypeSelect
                                         value={formData.priceType}
@@ -351,7 +345,7 @@ const TourismAttractionOfferPanel = ({ touristicPlaceId, modify = false }: Props
                         secondPanel={
                             <PersonalPanel
                                 label={
-                                    <PersonalLabel
+                                    <Label
                                         text={t(
                                             'tourism.touristic-place-attraction-max-items-people-number-from-to-hour'
                                         )}
@@ -407,7 +401,7 @@ const TourismAttractionOfferPanel = ({ touristicPlaceId, modify = false }: Props
                         }
                         thirdPanel={
                             <PersonalPanel
-                                label={<PersonalLabel text={t('tourism.touristic-place-attraction-reservation')} />}
+                                label={<Label text={t('tourism.touristic-place-attraction-reservation')} />}
                                 firstInput={
                                     <TourismTouristicPlaceCheckbox
                                         checkbox={

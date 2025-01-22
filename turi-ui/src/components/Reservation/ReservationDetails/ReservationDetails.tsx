@@ -1,10 +1,10 @@
 import { useHooks } from '../../../hooks/useHooks.ts'
 import Input from '../../Shared/Controls/Input'
 import TextMedium from '../../Shared/Controls/Text/TextMedium'
-import PersonalLabel from '../../Shared/Personal/PersonalLabel'
 import ReservationTime from '../ReservationTime'
 import { TouristicPlace } from '../../../types/touristicPlace.ts'
 import styles from './ReservationDetails.module.css'
+import Label from '../../Shared/Controls/Label'
 
 interface Props {
     touristicPlace: TouristicPlace
@@ -20,8 +20,8 @@ const ReservationDetails = ({ touristicPlace, dateFrom, dateTo, request, setRequ
     return (
         <div className={styles.details}>
             <TextMedium text={t('reservation.reservation-details')} />
-            <div className={styles.checkTime}>
-                {dateFrom && touristicPlace.checkInTimeFrom && touristicPlace.checkInTimeTo && (
+            <div className={styles.time}>
+                {touristicPlace.checkInTimeFrom && touristicPlace.checkInTimeTo && (
                     <ReservationTime
                         title={t('reservation.reservation-check-in')}
                         date={dateFrom}
@@ -38,12 +38,12 @@ const ReservationDetails = ({ touristicPlace, dateFrom, dateTo, request, setRequ
                     />
                 )}
             </div>
-            <PersonalLabel text={t('reservation.reservation-request')} />
+            <Label text={t('reservation.reservation-request')} />
             <Input
                 type={'text'}
                 name={'request'}
                 placeholder={t('reservation.reservation-request')}
-                value={request || ''}
+                value={request}
                 onChange={(e) => setRequest && setRequest(e.target.value)}
                 required={false}
             />

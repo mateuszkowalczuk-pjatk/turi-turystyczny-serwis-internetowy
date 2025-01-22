@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import PersonalLabel from '../../Shared/Personal/PersonalLabel'
 import TouristicPlaceGuaranteedServicesList from '../TouristicPlaceGuaranteedServicesList'
 import TouristicPlaceGuaranteedServicesListAdd from '../TouristicPlaceGuaranteedServicesListAdd'
 import { touristicPlaceService } from '../../../services/touristicPlaceService.ts'
 import { GuaranteedService } from '../../../types/touristicPlace.ts'
 import styles from './TouristicPlaceGuaranteedServices.module.css'
+import Label from '../../Shared/Controls/Label'
 
 const TouristicPlaceGuaranteedServices = ({ touristicPlaceId }: { touristicPlaceId?: number }) => {
     const { t } = useTranslation()
@@ -24,7 +24,7 @@ const TouristicPlaceGuaranteedServices = ({ touristicPlaceId }: { touristicPlace
 
     return (
         <div className={styles.services}>
-            <PersonalLabel text={t('tourism.touristic-place-guaranteed-services')} />
+            <Label text={t('tourism.touristic-place-guaranteed-services')} />
             <TouristicPlaceGuaranteedServicesList
                 guaranteedServices={guaranteedServices}
                 removeGuaranteedServices={(guaranteedServiceId: number) =>

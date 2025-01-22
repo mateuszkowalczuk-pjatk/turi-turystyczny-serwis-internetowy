@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import TextRegular from '../../Shared/Controls/Text/TextRegular'
 import { TouristicPlace } from '../../../types/touristicPlace.ts'
 import styles from './OfferInformation.module.css'
+import { handleTimeDisplay } from '../../../utils/handleDateTimeDisplay.ts'
 
 const OfferInformation = ({ touristicPlace }: { touristicPlace: TouristicPlace }) => {
     const { t } = useTranslation()
@@ -22,9 +23,9 @@ const OfferInformation = ({ touristicPlace }: { touristicPlace: TouristicPlace }
                             <TextRegular
                                 text={
                                     t('offer.check-in-hours') +
-                                        touristicPlace.checkInTimeFrom +
+                                        handleTimeDisplay(touristicPlace.checkInTimeFrom || '') +
                                         ' - ' +
-                                        touristicPlace.checkInTimeTo || ''
+                                        handleTimeDisplay(touristicPlace.checkInTimeTo || '') || ''
                                 }
                             />
                         </li>
@@ -33,9 +34,9 @@ const OfferInformation = ({ touristicPlace }: { touristicPlace: TouristicPlace }
                             <TextRegular
                                 text={
                                     t('offer.check-out-hours') +
-                                        touristicPlace.checkOutTimeFrom +
+                                        handleTimeDisplay(touristicPlace.checkOutTimeFrom || '') +
                                         ' - ' +
-                                        touristicPlace.checkOutTimeTo || ''
+                                        handleTimeDisplay(touristicPlace.checkOutTimeTo || '') || ''
                                 }
                             />{' '}
                         </li>
