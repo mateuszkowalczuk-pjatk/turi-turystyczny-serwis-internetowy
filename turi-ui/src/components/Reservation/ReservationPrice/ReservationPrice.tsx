@@ -1,4 +1,4 @@
-import { useHooks } from '../../../hooks/useHooks.ts'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import TextMedium from '../../Shared/Controls/Text/TextMedium'
 import TextRegular from '../../Shared/Controls/Text/TextRegular'
 import styles from './ReservationPrice.module.css'

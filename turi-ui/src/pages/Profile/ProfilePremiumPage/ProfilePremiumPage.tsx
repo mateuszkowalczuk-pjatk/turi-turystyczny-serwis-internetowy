@@ -3,7 +3,7 @@ import { bankAccountNumberValidation, nipValidation } from '../../../utils/compa
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { usePremium } from '../../../store/slices/premium.ts'
-import { useAuth } from '../../../hooks/useAuth.ts'
+import { useAuth } from '../../../hooks/app/useAuth.ts'
 import ProfilePremium from '../../../components/Profile/ProfilePremium'
 import ProfileButton from '../../../components/Profile/ProfileButton'
 import PersonalPart from '../../../components/Shared/Personal/PersonalPart'

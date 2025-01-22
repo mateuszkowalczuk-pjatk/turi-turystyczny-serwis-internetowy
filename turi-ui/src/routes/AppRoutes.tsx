@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
-import { useAuth } from '../hooks/useAuth.ts'
+import { useAuth } from '../hooks/app/useAuth.ts'
 import MainLayout from '../layouts/Main'
 import MainPage from '../pages/Main'
 import AuthRoutes from './AuthRoutes'

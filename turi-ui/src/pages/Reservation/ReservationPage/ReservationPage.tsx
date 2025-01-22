@@ -1,8 +1,8 @@
 import React from 'react'
-import { useHooks } from '../../../hooks/useHooks.ts'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import { useLocation } from 'react-router-dom'
 import { validateText } from '../../../utils/validateText.ts'
-import { useReservation } from '../../../hooks/useReservation.ts'
+import { useReservation } from '../../../hooks/pages/useReservation.ts'
 import Loader from '../../../components/Shared/Loading/Loader'
 import PageReturn from '../../../components/Shared/PageReturn'
 import PageContent from '../../../components/Shared/Contents/PageContent'
@@ -15,7 +15,11 @@ import { reservationService } from '../../../services/reservationService.ts'
 const ReservationPage = () => {
     const { t, navigate } = useHooks()
     const { stay = null, dateFrom = null, dateTo = null } = useLocation().state || {}
-    const { reservation, touristicPlace, address, price, request, setRequest } = useReservation(stay, dateFrom, dateTo)
+    const { reservation, reservationAttractions, touristicPlace, address, price, request, setRequest } = useReservation(
+        stay,
+        dateFrom,
+        dateTo
+    )
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -52,7 +56,16 @@ const ReservationPage = () => {
                                         )
                                     }
                                     rightPanel={
-                                        reservation && <ReservationPlan reservationId={reservation.reservationId} />
+                                        reservation &&
+                                        touristicPlace.touristicPlaceId && (
+                                            <ReservationPlan
+                                                reservationId={reservation.reservationId}
+                                                touristicPlaceId={touristicPlace.touristicPlaceId}
+                                                dateFrom={dateFrom}
+                                                dateTo={dateTo}
+                                                reservationAttractions={reservationAttractions}
+                                            />
+                                        )
                                     }
                                 />
                             }

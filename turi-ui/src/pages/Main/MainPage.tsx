@@ -1,4 +1,4 @@
-import { useStates } from '../../hooks/useStates.ts'
+import { useStates } from '../../hooks/shared/useStates.ts'
 import MainDashboard from '../../components/Main/MainDashboard/MainDashboard'
 import PremiumMainInformation from '../../components/Main/MainInformation/PremiumMainInformation'
 import UserMainInformation from '../../components/Main/MainInformation/UserMainInformation'

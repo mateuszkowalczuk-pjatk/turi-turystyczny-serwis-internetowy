@@ -1,6 +1,6 @@
 import React from 'react'
-import { useHooks } from '../../../hooks/useHooks.ts'
-import { useForm } from '../../../hooks/useForm.ts'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import { useForm } from '../../../hooks/shared/useForm.ts'
 import { handle } from '../../../utils/handle.ts'
 import AuthPanel from '../../../components/Auth/AuthPanel'
 import AuthTitle from '../../../components/Auth/AuthTitle'

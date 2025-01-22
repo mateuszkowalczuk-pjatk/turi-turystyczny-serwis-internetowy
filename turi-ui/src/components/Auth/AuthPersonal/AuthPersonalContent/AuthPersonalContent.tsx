@@ -13,7 +13,7 @@ import { notPersonalization } from '../../../../store/slices/personal.ts'
 import { accountService } from '../../../../services/accountService.ts'
 import { addressService } from '../../../../services/addressService.ts'
 import styles from './AuthPersonalContent.module.css'
-import { useAppDispatch } from '../../../../hooks/useAppDispatch.ts'
+import { useAppDispatch } from '../../../../hooks/app/useAppDispatch.ts'
 
 interface FormData {
     firstName: string

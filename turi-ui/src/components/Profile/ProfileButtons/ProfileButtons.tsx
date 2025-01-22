@@ -8,7 +8,7 @@ import { authService } from '../../../services/authService.ts'
 import { notPremiumAccount } from '../../../store/slices/premium.ts'
 import { logout } from '../../../store/slices/auth.ts'
 import styles from './ProfileButtons.module.css'
-import { useAppDispatch } from '../../../hooks/useAppDispatch.ts'
+import { useAppDispatch } from '../../../hooks/app/useAppDispatch.ts'
 
 const ProfileButtons = () => {
     const { t } = useTranslation()

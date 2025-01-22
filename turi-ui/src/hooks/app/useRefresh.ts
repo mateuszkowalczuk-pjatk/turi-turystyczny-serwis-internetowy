@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import { authService } from '../services/authService.ts'
-import { logout } from '../store/slices/auth.ts'
+import { authService } from '../../services/authService.ts'
+import { logout } from '../../store/slices/auth.ts'
 
 export const useRefresh = () => {
     useEffect(() => {

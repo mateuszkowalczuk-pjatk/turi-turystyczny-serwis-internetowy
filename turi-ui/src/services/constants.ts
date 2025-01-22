@@ -90,6 +90,7 @@ export const API = {
     RESERVATION: {
         GET_ALL_BY_ACCOUNT_ID: '/api/reservation/getAllByAccountId',
         GET_ALL_BY_TOURISTIC_PLACE_ID: '/api/reservation/getAllByTouristicPlaceId',
+        GET_ALL_ATTRACTIONS_BY_RESERVATION_ID: '/api/reservation/getAllAttractionsByReservationId',
         GET_WITH_ATTRACTION_BY_ID: '/api/reservation/getWithAttractionsById',
         GET_PRICE: '/api/reservation/getPrice',
         GET_ALL_TOURISTIC_PLACE_STAYS_AVAILABLE_IN_DATE: '/api/reservation/getAllTouristicPlaceStaysAvailableInDate',

@@ -1,4 +1,4 @@
-import { useHooks } from '../../../hooks/useHooks.ts'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import PageContent from '../../../components/Shared/Contents/PageContent'
 import PageTitle from '../../../components/Shared/PageTitle'
 import InfoPanel from '../../../components/Info/InfoPanel'

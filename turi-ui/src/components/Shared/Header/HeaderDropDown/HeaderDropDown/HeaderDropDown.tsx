@@ -6,7 +6,7 @@ import { GreyButton } from '../../../Controls/Button'
 import { authService } from '../../../../../services/authService.ts'
 import { logout } from '../../../../../store/slices/auth.ts'
 import styles from './HeaderDropDown.module.css'
-import { useAppDispatch } from '../../../../../hooks/useAppDispatch.ts'
+import { useAppDispatch } from '../../../../../hooks/app/useAppDispatch.ts'
 
 const HeaderDropDown = () => {
     const { t } = useTranslation()

@@ -1,13 +1,13 @@
-import { useHooks } from './useHooks.ts'
+import { useHooks } from '../shared/useHooks.ts'
 import { useEffect, useState } from 'react'
-import { Stay } from '../types/stay.ts'
-import { Address } from '../types'
-import { Reservation } from '../types/reservation.ts'
-import { TouristicPlace } from '../types/touristicPlace.ts'
-import { addressService } from '../services/addressService.ts'
-import { reservationService } from '../services/reservationService.ts'
-import { touristicPlaceService } from '../services/touristicPlaceService.ts'
-import { startLoading, stopLoading } from '../store/slices/loading.ts'
+import { Stay } from '../../types/stay.ts'
+import { Address } from '../../types'
+import { Reservation, ReservationAttraction } from '../../types/reservation.ts'
+import { TouristicPlace } from '../../types/touristicPlace.ts'
+import { addressService } from '../../services/addressService.ts'
+import { reservationService } from '../../services/reservationService.ts'
+import { touristicPlaceService } from '../../services/touristicPlaceService.ts'
+import { startLoading, stopLoading } from '../../store/slices/loading.ts'
 
 export const useReservation = (
     stay: Stay,
@@ -15,6 +15,7 @@ export const useReservation = (
     dateTo: Date
 ): {
     reservation: Reservation | undefined
+    reservationAttractions: ReservationAttraction[]
     touristicPlace: TouristicPlace | undefined
     address: Address | undefined
     price: number | undefined
@@ -23,6 +24,7 @@ export const useReservation = (
 } => {
     const { dispatch, navigate } = useHooks()
     const [reservation, setReservation] = useState<Reservation>()
+    const [reservationAttractions, setReservationAttractions] = useState<ReservationAttraction[]>([])
     const [touristicPlace, setTouristicPlace] = useState<TouristicPlace>()
     const [address, setAddress] = useState<Address>()
     const [price, setPrice] = useState<number>()
@@ -40,6 +42,12 @@ export const useReservation = (
                     const priceResponse = await reservationService.getPrice(reservationData.reservationId)
                     const priceData: number = await priceResponse.json()
                     setPrice(priceData)
+                    const reservationAttractionsResponse = await reservationService.getAllAttractionsByReservationId(
+                        reservationData.reservationId
+                    )
+                    const reservationAttractionsData: ReservationAttraction[] =
+                        await reservationAttractionsResponse.json()
+                    setReservationAttractions(reservationAttractionsData)
                 } else navigate(-1)
             } else navigate(-1)
         }
@@ -59,5 +67,5 @@ export const useReservation = (
         dispatch(stopLoading())
     }, [stay, dateFrom, dateTo, navigate, dispatch])
 
-    return { reservation, touristicPlace, address, price, request, setRequest }
+    return { reservation, reservationAttractions, touristicPlace, address, price, request, setRequest }
 }

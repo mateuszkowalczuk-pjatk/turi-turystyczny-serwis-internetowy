@@ -7,7 +7,7 @@ import ProfileModule from '../../../components/Profile/ProfileModule'
 import ProfileButton from '../../../components/Profile/ProfileButton'
 import { userService } from '../../../services/userService.ts'
 import styles from './ProfilePage.module.css'
-import { useRedirectEvery } from '../../../hooks/useRedirect.ts'
+import { useRedirectEvery } from '../../../hooks/shared/useRedirect.ts'
 
 interface FormData {
     login: string

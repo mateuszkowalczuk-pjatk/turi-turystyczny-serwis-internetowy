@@ -1,0 +1,17 @@
+.attraction {
+    width: 99.1%;
+    min-height: 8.5rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border: 3px solid var(--green);
+    background: var();
+    border-radius: 0.6rem;
+    padding-left: 0.1rem;
+}
+
+.form {
+    width: 70%;
+    height: 8.5rem;
+    background: orange;
+}

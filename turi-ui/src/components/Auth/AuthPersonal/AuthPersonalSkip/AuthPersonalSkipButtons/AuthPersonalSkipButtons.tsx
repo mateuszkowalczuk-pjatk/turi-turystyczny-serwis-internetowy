@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { GreenButton } from '../../../../Shared/Controls/Button'
 import { notPersonalization } from '../../../../../store/slices/personal.ts'
-import { useAppDispatch } from '../../../../../hooks/useAppDispatch.ts'
+import { useAppDispatch } from '../../../../../hooks/app/useAppDispatch.ts'
 import styles from './AuthPersonalSkipButtons.module.css'
 
 const AuthPersonalSkipButtons = ({ onClick }: { onClick: () => void }) => {

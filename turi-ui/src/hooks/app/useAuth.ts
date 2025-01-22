@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
-import { useStates } from './useStates.ts'
-import { useHooks } from './useHooks.ts'
-import { notPremiumAccount, premiumAccount } from '../store/slices/premium.ts'
-import { startLoading, stopLoading } from '../store/slices/loading.ts'
-import { accountService } from '../services/accountService.ts'
-import { login, logout } from '../store/slices/auth.ts'
-import { authService } from '../services/authService.ts'
+import { useStates } from '../shared/useStates.ts'
+import { useHooks } from '../shared/useHooks.ts'
+import { notPremiumAccount, premiumAccount } from '../../store/slices/premium.ts'
+import { startLoading, stopLoading } from '../../store/slices/loading.ts'
+import { accountService } from '../../services/accountService.ts'
+import { login, logout } from '../../store/slices/auth.ts'
+import { authService } from '../../services/authService.ts'
 
 export const useAuth = (path: string | null) => {
     const { dispatch, navigate } = useHooks()

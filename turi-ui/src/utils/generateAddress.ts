@@ -1,4 +1,4 @@
-import { useHooks } from '../hooks/useHooks.ts'
+import { useHooks } from '../hooks/shared/useHooks.ts'
 import { Address } from '../types'
 
 export const generateAddress = (address: Address): string => {

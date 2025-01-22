@@ -1,9 +1,9 @@
-import { useEffect } from 'react'
-import { touristicPlaceService } from '../services/touristicPlaceService.ts'
+import { useEffect, useState } from 'react'
+import { touristicPlaceService } from '../../services/touristicPlaceService.ts'
 
-export const useTouristicPlace = (
-    setTouristicPlaceId: (value: ((prevState: number | undefined) => number | undefined) | number | undefined) => void
-) => {
+export const useTouristicPlace = () => {
+    const [touristicPlaceId, setTouristicPlaceId] = useState<number>()
+
     useEffect(() => {
         const fetchTouristicPlace = async () => {
             const touristicPlaceResponse = await touristicPlaceService.getByPremiumId()
@@ -15,4 +15,6 @@ export const useTouristicPlace = (
 
         fetchTouristicPlace().catch((error) => error)
     }, [setTouristicPlaceId])
+
+    return { touristicPlaceId }
 }

@@ -1,4 +1,4 @@
-import { useHooks } from '../../../hooks/useHooks.ts'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import styles from './PageReturn.module.css'
 
 const PageReturn = ({ text }: { text: string }) => {

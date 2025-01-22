@@ -10,11 +10,11 @@ import ReservationButton from '../ReservationButton'
 interface Props {
     onSubmit: (e: React.FormEvent) => Promise<void>
     step: number
-    touristicPlace: TouristicPlace
-    address: Address
-    reservationFormSection: ReactNode
-    price: number
-    buttonText: string
+    touristicPlace?: TouristicPlace
+    address?: Address
+    reservationFormSection?: ReactNode
+    price?: number
+    buttonText?: string
     reservationPlanSelect?: ReactNode
     plan?: boolean
 }
@@ -36,7 +36,7 @@ const ReservationPanel = ({
             onSubmit={onSubmit}
         >
             <ReservationProgressBar step={step} />
-            {!plan && (
+            {!plan && touristicPlace && (
                 <TouristicPlaceBanner
                     touristicPlace={touristicPlace}
                     address={address}
@@ -44,8 +44,8 @@ const ReservationPanel = ({
                 />
             )}
             {!plan && reservationFormSection}
-            {!plan && <ReservationPrice price={price} />}
-            {!plan && <ReservationButton text={buttonText} />}
+            {!plan && price && <ReservationPrice price={price} />}
+            {!plan && buttonText && <ReservationButton text={buttonText} />}
             {plan && reservationPlanSelect}
         </form>
     )

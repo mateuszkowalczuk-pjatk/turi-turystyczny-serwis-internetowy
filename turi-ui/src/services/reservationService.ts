@@ -2,7 +2,7 @@ import { API_BASE_URL } from '../config/api'
 import { API } from './constants.ts'
 import { PaymentMethod } from '../types'
 import { ReservationAttraction, ReservationMode, ReservationStatus } from '../types/reservation.ts'
-import { defaultParamIfNull, defaultBodyIfNull } from '../utils/handleRequest.ts'
+import { defaultBodyIfNull, defaultParamIfNull } from '../utils/handleRequest.ts'
 
 export const reservationService = {
     getAllByAccountId: async (statuses: ReservationStatus[] | null) => {
@@ -29,6 +29,16 @@ export const reservationService = {
                 credentials: 'include'
             }
         )
+    },
+
+    getAllAttractionsByReservationId: async (reservationId: number) => {
+        return await fetch(`${API_BASE_URL}${API.RESERVATION.GET_ALL_ATTRACTIONS_BY_RESERVATION_ID}/${reservationId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        })
     },
 
     getWithAttractionsById: async (id: number) => {
@@ -106,10 +116,13 @@ export const reservationService = {
         dateFrom: Date,
         dateTo: Date,
         hourFrom: string,
-        hourTo: string
+        hourTo: string,
+        people: number | null,
+        items: number | null,
+        message: string | null
     ) => {
         return await fetch(
-            `${API_BASE_URL}${API.RESERVATION.CREATE_ATTRACTION}?id=${id}&attractionId=${attractionId}&dateFrom=${dateFrom}&dateTo=${dateTo}&hourFrom=${hourFrom}&hourTo=${hourTo}`,
+            `${API_BASE_URL}${API.RESERVATION.CREATE_ATTRACTION}?id=${id}&attractionId=${attractionId}&dateFrom=${dateFrom}&dateTo=${dateTo}&hourFrom=${hourFrom}&hourTo=${hourTo}${defaultParamIfNull('people', people)}${defaultParamIfNull('items', items)}${defaultParamIfNull('message', message)}`,
             {
                 method: 'POST',
                 headers: {

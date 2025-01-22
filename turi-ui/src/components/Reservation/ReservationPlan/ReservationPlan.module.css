@@ -1,6 +1,11 @@
 .plan {
     width: 50%;
     height: 16.5rem;
-    background: orange;
     padding-top: 1rem;
+}
+
+.plan button {
+    height: 3rem;
+    width: 100%;
+    font-size: 1.25rem;
 }

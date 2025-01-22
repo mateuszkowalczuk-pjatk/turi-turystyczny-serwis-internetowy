@@ -1,5 +1,5 @@
 import { useAuthenticated } from '../../../store/slices/auth.ts'
-import { useRedirectSome } from '../../../hooks/useRedirect.ts'
+import { useRedirectSome } from '../../../hooks/shared/useRedirect.ts'
 import { useTranslation } from 'react-i18next'
 import { usePremium } from '../../../store/slices/premium.ts'
 import PageContent from '../../../components/Shared/Contents/PageContent'

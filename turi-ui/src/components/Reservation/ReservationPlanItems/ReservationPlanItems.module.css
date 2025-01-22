@@ -1,0 +1,14 @@
+.items {
+    height: 12.5rem;
+    width: 100%;
+    border: 2px solid var(--light-green);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    overflow-y: auto;
+    flex-direction: column;
+    gap: 0.1rem;
+    border-radius: 0.7rem;
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+}

@@ -1,8 +1,8 @@
 import React from 'react'
-import { useRedirectEvery } from '../../../hooks/useRedirect.ts'
+import { useRedirectEvery } from '../../../hooks/shared/useRedirect.ts'
 import { codeValidation } from '../../../utils/codeValidation.ts'
-import { useHooks } from '../../../hooks/useHooks.ts'
-import { useForm } from '../../../hooks/useForm.ts'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import { useForm } from '../../../hooks/shared/useForm.ts'
 import { handle } from '../../../utils/handle.ts'
 import AuthPanel from '../../../components/Auth/AuthPanel'
 import AuthTitle from '../../../components/Auth/AuthTitle'
@@ -15,7 +15,7 @@ import AuthDownLink from '../../../components/Auth/AuthDownLink'
 import { notActivation } from '../../../store/slices/activate.ts'
 import { accountService } from '../../../services/accountService.ts'
 import { personalization } from '../../../store/slices/personal.ts'
-import { useStates } from '../../../hooks/useStates.ts'
+import { useStates } from '../../../hooks/shared/useStates.ts'
 
 interface FormData {
     code: string

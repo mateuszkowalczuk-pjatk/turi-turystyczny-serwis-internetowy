@@ -1,12 +1,12 @@
-import { usePremiumPaymentFailed } from '../store/slices/premiumPaymentFailed.ts'
-import { useAuthenticated } from '../store/slices/auth.ts'
-import { usePremiumLogin } from '../store/slices/premiumLogin.ts'
-import { usePremiumBuy } from '../store/slices/premiumBuy.ts'
-import { useActivation } from '../store/slices/activate.ts'
-import { usePersonal } from '../store/slices/personal.ts'
-import { usePremium } from '../store/slices/premium.ts'
-import { useLoading } from '../store/slices/loading.ts'
-import { useReset } from '../store/slices/reset.ts'
+import { usePremiumPaymentFailed } from '../../store/slices/premiumPaymentFailed.ts'
+import { useAuthenticated } from '../../store/slices/auth.ts'
+import { usePremiumLogin } from '../../store/slices/premiumLogin.ts'
+import { usePremiumBuy } from '../../store/slices/premiumBuy.ts'
+import { useActivation } from '../../store/slices/activate.ts'
+import { usePersonal } from '../../store/slices/personal.ts'
+import { usePremium } from '../../store/slices/premium.ts'
+import { useLoading } from '../../store/slices/loading.ts'
+import { useReset } from '../../store/slices/reset.ts'
 
 export const useStates = () => {
     const isPremiumPaymentFailed = usePremiumPaymentFailed()

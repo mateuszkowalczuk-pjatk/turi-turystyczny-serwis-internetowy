@@ -1,4 +1,4 @@
-import { useHooks } from '../../../hooks/useHooks.ts'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import Input from '../../Shared/Controls/Input'
 import TextMedium from '../../Shared/Controls/Text/TextMedium'
 import ReservationTime from '../ReservationTime'

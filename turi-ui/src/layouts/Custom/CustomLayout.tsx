@@ -1,4 +1,4 @@
-import { useStates } from '../../hooks/useStates.ts'
+import { useStates } from '../../hooks/shared/useStates.ts'
 import { Outlet } from 'react-router-dom'
 import Loader from '../../components/Shared/Loading/Loader'
 import PremiumHeader from '../../components/Shared/Header/PremiumHeader'

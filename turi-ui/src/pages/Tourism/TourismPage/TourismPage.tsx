@@ -1,10 +1,5 @@
-import { useTouristicPlace } from '../../../hooks/useTouristicPlace.ts'
-import { useAuthenticated } from '../../../store/slices/auth.ts'
-import { useRedirectSome } from '../../../hooks/useRedirect.ts'
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import { usePremium } from '../../../store/slices/premium.ts'
-import { useState } from 'react'
+import { useTouristicPlace } from '../../../hooks/pages/useTouristicPlace.ts'
+import { useRedirectSome } from '../../../hooks/shared/useRedirect.ts'
 import PageContent from '../../../components/Shared/Contents/PageContent'
 import PageTitle from '../../../components/Shared/PageTitle'
 import TourismPanel from '../../../components/Tourism/TourismPanel'
@@ -13,17 +8,15 @@ import TourismCurrentReservations from '../../../components/Tourism/TourismCurre
 import TourismReservations from '../../../components/Tourism/TourismReservations'
 import TourismTouristicPlace from '../../../components/Tourism/TourismTouristicPlace'
 import TourismOffers from '../../../components/Tourism/TourismOffers'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import { useStates } from '../../../hooks/shared/useStates.ts'
 
 const TourismPage = () => {
-    const { t } = useTranslation()
-    const navigate = useNavigate()
-    const isAuthenticated = useAuthenticated()
-    const isPremium = usePremium()
-    const [touristicPlaceId, setTouristicPlaceId] = useState<number>()
+    const { t, navigate } = useHooks()
+    const { isAuthenticated, isPremium } = useStates()
+    const { touristicPlaceId } = useTouristicPlace()
 
     useRedirectSome([!isAuthenticated, !isPremium], '/')
-
-    useTouristicPlace(setTouristicPlaceId)
 
     return (
         <PageContent

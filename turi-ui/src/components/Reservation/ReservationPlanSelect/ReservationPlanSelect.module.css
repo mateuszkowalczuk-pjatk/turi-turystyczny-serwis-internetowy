@@ -1,3 +1,8 @@
 .select {
-
+    height: 31rem;
+    width: 99.1%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
 }

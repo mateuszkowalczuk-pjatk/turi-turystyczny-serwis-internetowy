@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useAuthenticated } from '../../../store/slices/auth.ts'
 import { useTranslation } from 'react-i18next'
-import { useAppDispatch } from '../../../hooks/useAppDispatch.ts'
+import { useAppDispatch } from '../../../hooks/app/useAppDispatch.ts'
 import { useNavigate } from 'react-router-dom'
 import PersonalPart from '../../../components/Shared/Personal/PersonalPart'
 import PersonalPanel from '../../../components/Shared/Personal/PersonalPanel'

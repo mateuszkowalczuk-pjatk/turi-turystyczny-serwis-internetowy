@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { useStates } from '../../../../hooks/useStates.ts'
+import { useStates } from '../../../../hooks/shared/useStates.ts'
 import Spinner from '../Spinner'
 import styles from './Loader.module.css'
 

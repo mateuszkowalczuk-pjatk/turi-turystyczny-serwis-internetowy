@@ -1,5 +1,5 @@
-import { useRedirectSome } from '../../../hooks/useRedirect.ts'
-import { useStates } from '../../../hooks/useStates.ts'
+import { useRedirectSome } from '../../../hooks/shared/useRedirect.ts'
+import { useStates } from '../../../hooks/shared/useStates.ts'
 import AuthPersonalTitle from '../../../components/Auth/AuthPersonal/AuthPersonalTitle'
 import AuthPersonalDescription from '../../../components/Auth/AuthPersonal/AuthPersonalDescription'
 import AuthPersonalContent from '../../../components/Auth/AuthPersonal/AuthPersonalContent'

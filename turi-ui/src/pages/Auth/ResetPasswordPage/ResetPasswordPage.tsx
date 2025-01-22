@@ -1,9 +1,9 @@
 import React from 'react'
 import { checkPasswordsMatch } from '../../../utils/checkPasswordsMatch.ts'
 import { passwordValidation } from '../../../utils/passwordValidation.ts'
-import { useRedirectEvery } from '../../../hooks/useRedirect.ts'
-import { useHooks } from '../../../hooks/useHooks.ts'
-import { useForm } from '../../../hooks/useForm.ts'
+import { useRedirectEvery } from '../../../hooks/shared/useRedirect.ts'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import { useForm } from '../../../hooks/shared/useForm.ts'
 import { handle } from '../../../utils/handle.ts'
 import AuthPanel from '../../../components/Auth/AuthPanel'
 import AuthTitle from '../../../components/Auth/AuthTitle'
@@ -13,7 +13,7 @@ import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
 import AuthError from '../../../components/Auth/AuthError'
 import { userService } from '../../../services/userService.ts'
-import { useStates } from '../../../hooks/useStates.ts'
+import { useStates } from '../../../hooks/shared/useStates.ts'
 
 interface FormData {
     password: string

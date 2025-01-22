@@ -1,4 +1,4 @@
-import { useHooks } from '../../../hooks/useHooks.ts'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import Label from '../../Shared/Controls/Label'
 import TextRegular from '../../Shared/Controls/Text/TextRegular'
 import TouristicPlaceGuaranteedServicesList from '../../Tourism/TouristicPlaceGuaranteedServicesList'

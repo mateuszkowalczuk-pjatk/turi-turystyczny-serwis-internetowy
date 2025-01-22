@@ -1,0 +1,14 @@
+.buttons {
+    width: 30%;
+    height: 8.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.buttons button {
+    height: 2.5rem;
+    width: 6rem;
+}

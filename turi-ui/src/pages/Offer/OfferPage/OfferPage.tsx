@@ -1,6 +1,6 @@
-import { useRedirectEvery } from '../../../hooks/useRedirect.ts'
+import { useRedirectEvery } from '../../../hooks/shared/useRedirect.ts'
 import { useLocation } from 'react-router-dom'
-import { useHooks } from '../../../hooks/useHooks.ts'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import PageContent from '../../../components/Shared/Contents/PageContent'
 import PageReturn from '../../../components/Shared/PageReturn'
 import OfferPanel from '../../../components/Offer/OfferPanel'
