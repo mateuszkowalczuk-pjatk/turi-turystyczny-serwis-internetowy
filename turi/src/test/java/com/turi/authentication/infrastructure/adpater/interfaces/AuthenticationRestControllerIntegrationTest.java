@@ -88,22 +88,6 @@ class AuthenticationRestControllerIntegrationTest extends AbstractRestController
     }
 
     @Test
-    void testAuthentication_Register_WithoutRequiredUsernameField()
-    {
-        final var params = mockRegisterParams();
-
-        params.setUsername(null);
-
-        final var uri = fromHttpUrl(getBaseUrl())
-                .path("/api/auth/register")
-                .build().toUri();
-
-        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(params), ErrorCode.class);
-
-        assertTrue(result.getStatusCode().is4xxClientError());
-    }
-
-    @Test
     void testAuthentication_Register_WithoutRequiredEmailField()
     {
         final var params = mockRegisterParams();

@@ -18,17 +18,10 @@ public class ReservationRestController
 {
     private final ReservationFacade facade;
 
-    @GetMapping("/getAllByAccountId")
-    public ResponseEntity<List<ReservationDto>> getAllReservationsByAccountId(@RequestParam(required = false) final ReservationStatus[] statuses)
+    @GetMapping("/getAllAttractionsByReservationId/{reservationId}")
+    public ResponseEntity<List<ReservationAttraction>> getAllReservationAttractionsByReservationId(@PathVariable final String reservationId)
     {
-        return facade.getAllReservationsByAccountId(statuses);
-    }
-
-    @GetMapping("/getAllByTouristicPlaceId")
-    public ResponseEntity<List<ReservationDto>> getAllReservationsByTouristicPlaceId(@RequestParam final String touristicPlaceId,
-                                                                                     @RequestParam(required = false) final ReservationStatus[] statuses)
-    {
-        return facade.getAllReservationsByTouristicPlaceId(touristicPlaceId, statuses);
+        return facade.getAllReservationAttractionsByReservationId(reservationId);
     }
 
     @GetMapping("/getWithAttractionsById/{id}")
@@ -59,11 +52,24 @@ public class ReservationRestController
         return facade.getAllTouristicPlaceAttractionsAvailableInDate(touristicPlaceId, dateFrom, dateTo);
     }
 
-    @GetMapping("/checkPayment/{id}")
-    public ResponseEntity<ReservationDto> checkPayment(@PathVariable final String id,
+    @GetMapping("/checkPayment")
+    public ResponseEntity<ReservationDto> checkPayment(@RequestParam(required = false) final String reservationId,
                                                        @RequestParam final ReservationMode[] modes)
     {
-        return facade.checkPayment(id, modes);
+        return facade.checkPayment(reservationId, modes);
+    }
+
+    @PostMapping("/getAllByAccountId")
+    public ResponseEntity<List<ReservationDto>> getAllReservationsByAccountId(@RequestBody final ReservationStatus[] statuses)
+    {
+        return facade.getAllReservationsByAccountId(statuses);
+    }
+
+    @PostMapping("/getAllByTouristicPlaceId")
+    public ResponseEntity<List<ReservationDto>> getAllReservationsByTouristicPlaceId(@RequestParam final String touristicPlaceId,
+                                                                                     @RequestBody final ReservationStatus[] statuses)
+    {
+        return facade.getAllReservationsByTouristicPlaceId(touristicPlaceId, statuses);
     }
 
     @PostMapping("/create")

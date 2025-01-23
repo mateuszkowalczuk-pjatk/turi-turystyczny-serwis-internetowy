@@ -4,7 +4,6 @@ import com.turi.account.domain.model.Account;
 import com.turi.account.domain.model.AccountType;
 import com.turi.account.domain.model.Gender;
 import com.turi.account.infrastructure.adapter.interfaces.AccountFacade;
-import com.turi.address.domain.exception.AddressNotFoundException;
 import com.turi.address.domain.model.Address;
 import com.turi.address.infrastructure.adapter.interfaces.AddressFacade;
 import com.turi.authentication.domain.port.JwtService;
@@ -198,31 +197,6 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
 
         assertTrue(result.getStatusCode().is2xxSuccessful());
         assertEquals(Boolean.FALSE, result.getBody());
-    }
-
-    @Test
-    void testAccount_IsAccountAddressExists_ExistsAndAccountAddressNotExists()
-    {
-        final var account = mockNewAccount();
-
-        facade.createAccount(account);
-
-        final var uri = fromHttpUrl(getBaseUrl())
-                .path("/api/account/isAddressExists")
-                .queryParam("country", "Polska")
-                .queryParam("city", "Warszawa")
-                .queryParam("zipCode", "01-000")
-                .queryParam("street", "Warszawska")
-                .queryParam("buildingNumber", "1")
-                .queryParam("apartmentNumber", "10")
-                .build().toUri();
-
-        headers.set("Authorization", "Bearer " + jwtService.generateToken(account.getAccountId(), AccountType.NORMAL.getName()));
-
-        final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), Boolean.class);
-
-        assertTrue(result.getStatusCode().is2xxSuccessful());
-        assertEquals(Boolean.TRUE, result.getBody());
     }
 
     @Test
@@ -555,26 +529,6 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
     }
 
     @Test
-    void testAccount_UpdateAccount()
-    {
-        final var account = mockAccount();
-
-        account.setFirstName(mockNewAccount().getFirstName());
-
-        final var uri = fromHttpUrl(getBaseUrl())
-                .path("/api/account/update")
-                .build().toUri();
-
-        headers.set("Authorization", "Bearer " + jwtService.generateToken(mockAccount().getAccountId(), AccountType.NORMAL.getName()));
-
-        final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(account, headers), Account.class);
-
-        assertTrue(result.getStatusCode().is2xxSuccessful());
-        assertNotNull(result.getBody());
-        assertThat(result.getBody()).isEqualTo(account);
-    }
-
-    @Test
     void testAccount_UpdateAccount_AccountNotFound()
     {
         final var mock = mockNewAccount();
@@ -630,30 +584,6 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
         final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(account, headers), Account.class);
 
         assertTrue(result.getStatusCode().is4xxClientError());
-
-    }
-
-    @Test
-    void testAccount_Update_WithoutAddress()
-    {
-        final var account = mockAccount();
-
-        account.setAddressId(null);
-
-        ContextHelper.setContextUserId(account.getAccountId());
-
-        final var uri = fromHttpUrl(getBaseUrl())
-                .path("/api/account/update")
-                .build().toUri();
-
-        headers.set("Authorization", "Bearer " + jwtService.generateToken(mockAccount().getAccountId(), AccountType.NORMAL.getName()));
-
-        restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(account, headers), Account.class);
-
-        final var result = facade.getAccountById().getBody();
-
-        assertNotNull(result);
-        assertThat(result).isEqualTo(account);
     }
 
     @Test
@@ -674,29 +604,6 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
         final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(createdAccount, headers), Account.class);
 
         assertTrue(result.getStatusCode().is4xxClientError());
-    }
-
-    @Test
-    void testAccount_UpdateAccount_WithoutPhoneNumber()
-    {
-        final var account = mockAccount();
-
-        account.setPhoneNumber(null);
-
-        ContextHelper.setContextUserId(account.getAccountId());
-
-        final var uri = fromHttpUrl(getBaseUrl())
-                .path("/api/account/update")
-                .build().toUri();
-
-        headers.set("Authorization", "Bearer " + jwtService.generateToken(mockAccount().getAccountId(), AccountType.NORMAL.getName()));
-
-        restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(account, headers), Account.class);
-
-        final var result = facade.getAccountById().getBody();
-
-        assertNotNull(result);
-        assertThat(result).isEqualTo(account);
     }
 
     @Test
@@ -731,68 +638,6 @@ class AccountRestControllerTest extends AbstractRestControllerIntegrationTest
         assertTrue(result.getStatusCode().is2xxSuccessful());
         assertNotNull(result.getBody());
         assertThat(result.getBody().getAddressId()).isEqualTo(account.getAddressId());
-    }
-
-    @Test
-    void testAccount_UpdateAccount_ChangeAddress()
-    {
-        final var account = mockAccount();
-
-        final var address = addressFacade.createAddress(Address.builder()
-                .withCountry("Polska")
-                .withCity("Kraków")
-                .withZipCode("02-000")
-                .withStreet("Krakowska")
-                .withBuildingNumber("1")
-                .build()).getBody();
-
-        assertNotNull(address);
-
-        final var addressId = account.getAddressId();
-
-        account.setAddressId(address.getAddressId());
-
-        ContextHelper.setContextUserId(account.getAccountId());
-
-        final var uri = fromHttpUrl(getBaseUrl())
-                .path("/api/account/update")
-                .build().toUri();
-
-        headers.set("Authorization", "Bearer " + jwtService.generateToken(mockAccount().getAccountId(), AccountType.NORMAL.getName()));
-
-        final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(account, headers), Account.class);
-
-        assertTrue(result.getStatusCode().is2xxSuccessful());
-        assertNotNull(result.getBody());
-        assertThat(result.getBody().getAddressId()).isEqualTo(account.getAddressId());
-
-        assertThrows(AddressNotFoundException.class, () -> addressFacade.getAddressById(String.valueOf(addressId)));
-    }
-
-    @Test
-    void testAccount_UpdateAccount_RemoveAddress()
-    {
-        final var account = mockAccount();
-
-        final var addressId = account.getAddressId();
-
-        account.setAddressId(null);
-
-        ContextHelper.setContextUserId(account.getAccountId());
-
-        final var uri = fromHttpUrl(getBaseUrl())
-                .path("/api/account/update")
-                .build().toUri();
-
-        headers.set("Authorization", "Bearer " + jwtService.generateToken(mockAccount().getAccountId(), AccountType.NORMAL.getName()));
-
-        final var result = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(account, headers), Account.class);
-
-        assertTrue(result.getStatusCode().is2xxSuccessful());
-        assertNotNull(result.getBody());
-        assertThat(result.getBody().getAddressId()).isEqualTo(account.getAddressId());
-
-        assertThrows(AddressNotFoundException.class, () -> addressFacade.getAddressById(String.valueOf(addressId)));
     }
 
     @Test

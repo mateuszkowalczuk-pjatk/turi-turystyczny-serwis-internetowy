@@ -46,6 +46,16 @@ public class ReservationFacade
         return ReservationResponse.ofReservations(service.getAllByTouristicPlaceId(ObjectId.of(touristicPlaceId).getValue(), statuses));
     }
 
+    public ResponseEntity<List<ReservationAttraction>> getAllReservationAttractionsByReservationId(final String reservationId)
+    {
+        if (reservationId == null)
+        {
+            throw new BadRequestParameterException("Parameter reservationId is required.");
+        }
+
+        return ReservationResponse.ofReservationAttractions(service.getAllAttractionsByReservationId(ObjectId.of(reservationId).getValue()));
+    }
+
     public ResponseEntity<ReservationDto> getReservationWithAttractionsById(final String id)
     {
         if (id == null)
@@ -90,15 +100,22 @@ public class ReservationFacade
         return ReservationResponse.ofAttractions(service.getAllTouristicPlaceAttractionsAvailableInDate(ObjectId.of(touristicPlaceId).getValue(), dateFrom, dateTo));
     }
 
-    public ResponseEntity<ReservationDto> checkPayment(final String id,
+    public ResponseEntity<ReservationDto> checkPayment(final String reservationId,
                                                        final ReservationMode[] modes)
     {
-        if (id == null || modes == null)
+        if (modes == null)
         {
-            throw new BadRequestParameterException("Parameters ID and modes are required.");
+            throw new BadRequestParameterException("Parameter modes are required.");
         }
 
-        return ReservationResponse.of(service.checkPayment(ObjectId.of(id).getValue(), modes));
+        if (reservationId == null)
+        {
+            final var accountId = ContextHandler.getIdFromContext();
+
+            return ReservationResponse.of(service.checkPayment(accountId, null, modes));
+        }
+
+        return ReservationResponse.of(service.checkPayment(null, ObjectId.of(reservationId).getValue(), modes));
     }
 
     public ResponseEntity<Reservation> createReservation(final String stayId,

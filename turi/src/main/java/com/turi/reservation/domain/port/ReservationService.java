@@ -17,6 +17,8 @@ public interface ReservationService
     List<ReservationDto> getAllByTouristicPlaceId(final Long touristicPlaceId,
                                                   final ReservationStatus[] statuses);
 
+    List<ReservationAttraction> getAllAttractionsByReservationId(final Long reservationId);
+
     ReservationDto getWithAttractionsById(final Long id);
 
     Double getPrice(final Long id);
@@ -29,7 +31,8 @@ public interface ReservationService
                                                                     final LocalDate dateFrom,
                                                                     final LocalDate dateTo);
 
-    ReservationDto checkPayment(final Long id,
+    ReservationDto checkPayment(final Long accountId,
+                                final Long reservationId,
                                 final ReservationMode[] modes);
 
     Reservation create(final Long stayId,
@@ -86,4 +89,5 @@ public interface ReservationService
 
     void deleteAllExpiredLockedReservations();
 
-    void deleteAllExpiredLockedReservationsAttractions();}
+    void deleteAllExpiredLockedReservationsAttractions();
+}

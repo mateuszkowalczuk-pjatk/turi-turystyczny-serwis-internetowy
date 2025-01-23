@@ -88,6 +88,12 @@ public class ReservationServiceImpl implements ReservationService
                 .toList();
     }
 
+    @Override
+    public List<ReservationAttraction> getAllAttractionsByReservationId(final Long reservationId)
+    {
+        return reservationAttractionService.getAllByReservationId(reservationId);
+    }
+
     private Reservation getById(final Long id)
     {
         return repository.findById(id);
@@ -139,9 +145,18 @@ public class ReservationServiceImpl implements ReservationService
     }
 
     @Override
-    public ReservationDto checkPayment(final Long id,
+    public ReservationDto checkPayment(final Long accountId,
+                                       final Long reservationId,
                                        final ReservationMode[] modes)
     {
+        final var id = accountId == null ?
+                reservationId :
+                Objects.requireNonNull(getAllByAccountId(accountId, new ReservationStatus[]{UNPAID}).stream()
+                        .findFirst()
+                        .orElse(null))
+                        .getReservation()
+                        .getReservationId();
+
         if (!paymentFacade.isPaymentForReservationSucceeded(id))
         {
             throw new ReservationUnpaidException(id);
@@ -806,14 +821,7 @@ public class ReservationServiceImpl implements ReservationService
     {
         final var reservation = getById(id);
 
-        if (reservation.getStatus().equals(ReservationStatus.REALIZED) || reservation.getStatus().equals(ReservationStatus.CANCELED))
-        {
-            throw new BadRequestParameterException("Reservation must not be completed.");
-        }
-
-        reservation.setStatus(ReservationStatus.CANCELED);
-
-        repository.update(reservation.getReservationId(), reservation);
+        updateStatus(reservation, ReservationStatus.CANCELED);
     }
 
     @Override
@@ -832,8 +840,8 @@ public class ReservationServiceImpl implements ReservationService
     public void deleteAllExpiredLockedReservations()
     {
         getAll().stream()
-                .filter(reservation -> reservation.getStatus().equals(ReservationStatus.LOCKED) && reservation.getModifyDate().plusMinutes(15).isBefore(LocalDateTime.now()))
-                .forEach(reservation -> repository.delete(reservation.getReservationId()));
+                .filter(reservation -> (reservation.getStatus().equals(ReservationStatus.LOCKED) || reservation.getStatus().equals(UNPAID)) && reservation.getModifyDate().plusMinutes(15).isBefore(LocalDateTime.now()))
+                .forEach(reservation -> cancel(reservation.getReservationId()));
     }
 
     @Override

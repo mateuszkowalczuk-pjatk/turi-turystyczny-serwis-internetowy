@@ -106,11 +106,6 @@ public class ReservationAttractionServiceImpl implements ReservationAttractionSe
     {
         final var reservationAttraction = getById(id);
 
-        if (reservationAttraction.getStatus().equals(ReservationStatus.LOCKED) || reservationAttraction.getStatus().equals(ReservationStatus.REALIZED) || reservationAttraction.getStatus().equals(ReservationStatus.CANCELED))
-        {
-            throw new BadRequestParameterException("Reservation attraction must not be locked, completed or already canceled.");
-        }
-
         updateStatus(reservationAttraction, ReservationStatus.CANCELED);
     }
 
@@ -139,7 +134,7 @@ public class ReservationAttractionServiceImpl implements ReservationAttractionSe
     public void deleteAllExpiredLockedReservationsAttractions()
     {
         getAll().stream()
-                .filter(reservationAttraction -> reservationAttraction.getStatus().equals(ReservationStatus.LOCKED) && reservationAttraction.getModifyDate().plusMinutes(15).isBefore(LocalDateTime.now()))
-                .forEach(reservationAttraction -> repository.delete(reservationAttraction.getReservationAttractionId()));
+                .filter(reservationAttraction -> (reservationAttraction.getStatus().equals(ReservationStatus.LOCKED) || reservationAttraction.getStatus().equals(ReservationStatus.UNPAID)) && reservationAttraction.getModifyDate().plusMinutes(15).isBefore(LocalDateTime.now()))
+                .forEach(reservationAttraction -> cancel(reservationAttraction.getReservationAttractionId()));
     }
 }

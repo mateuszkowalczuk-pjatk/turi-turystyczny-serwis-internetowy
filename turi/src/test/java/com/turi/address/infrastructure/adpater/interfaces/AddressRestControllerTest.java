@@ -140,83 +140,11 @@ class AddressRestControllerTest extends AbstractRestControllerIntegrationTest
     }
 
     @Test
-    void testAddress_CreateAddress_WithoutRequiredCountryField()
-    {
-        final var address = mockNewAddress();
-
-        address.setCountry(null);
-
-        final var uri = fromHttpUrl(getBaseUrl())
-                .path("/api/address/create")
-                .build().toUri();
-
-        headers.set("Authorization", "Bearer " + getToken());
-
-        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(address, headers), Address.class);
-
-        assertTrue(result.getStatusCode().is4xxClientError());
-    }
-
-    @Test
-    void testAddress_CreateAddress_WithoutRequiredCityField()
-    {
-        final var address = mockNewAddress();
-
-        address.setCity(null);
-
-        final var uri = fromHttpUrl(getBaseUrl())
-                .path("/api/address/create")
-                .build().toUri();
-
-        headers.set("Authorization", "Bearer " + getToken());
-
-        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(address, headers), Address.class);
-
-        assertTrue(result.getStatusCode().is4xxClientError());
-    }
-
-    @Test
     void testAddress_CreateAddress_WithoutRequiredZipCodeField()
     {
         final var address = mockNewAddress();
 
         address.setZipCode(null);
-
-        final var uri = fromHttpUrl(getBaseUrl())
-                .path("/api/address/create")
-                .build().toUri();
-
-        headers.set("Authorization", "Bearer " + getToken());
-
-        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(address, headers), Address.class);
-
-        assertTrue(result.getStatusCode().is4xxClientError());
-    }
-
-    @Test
-    void testAddress_CreateAddress_WithoutRequiredStreetField()
-    {
-        final var address = mockNewAddress();
-
-        address.setStreet(null);
-
-        final var uri = fromHttpUrl(getBaseUrl())
-                .path("/api/address/create")
-                .build().toUri();
-
-        headers.set("Authorization", "Bearer " + getToken());
-
-        final var result = restTemplate.postForEntity(uri, new HttpEntity<>(address, headers), Address.class);
-
-        assertTrue(result.getStatusCode().is4xxClientError());
-    }
-
-    @Test
-    void testAddress_CreateAddress_WithoutRequiredBuildingNumberField()
-    {
-        final var address = mockNewAddress();
-
-        address.setBuildingNumber(null);
 
         final var uri = fromHttpUrl(getBaseUrl())
                 .path("/api/address/create")

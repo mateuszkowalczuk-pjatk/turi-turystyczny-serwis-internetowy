@@ -136,24 +136,6 @@ class PremiumRestControllerTest extends AbstractRestControllerIntegrationTest
     }
 
     @Test
-    void testPremium_CheckPaymentForPayment()
-    {
-
-    }
-
-    @Test
-    void testPremium_CheckPaymentForPayment_PremiumNotFound()
-    {
-
-    }
-
-    @Test
-    void testPremium_CheckPaymentForPayment_PremiumUnpaid()
-    {
-
-    }
-
-    @Test
     void testPremium_CheckPaymentForPayment_ContextAccountIdIsNull()
     {
         final var uri = fromHttpUrl(getBaseUrl())
@@ -163,18 +145,6 @@ class PremiumRestControllerTest extends AbstractRestControllerIntegrationTest
         final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), ErrorCode.class);
 
         assertTrue(result.getStatusCode().is4xxClientError());
-    }
-
-    @Test
-    void testPremium_VerifyPremium()
-    {
-
-    }
-
-    @Test
-    void testPremium_VerifyPremium_InvalidCompany()
-    {
-
     }
 
     @Test
@@ -347,18 +317,6 @@ class PremiumRestControllerTest extends AbstractRestControllerIntegrationTest
     }
 
     @Test
-    void testPremium_PayForPremium()
-    {
-
-    }
-
-    @Test
-    void testPremium_PayForPremium_PremiumAlreadyActivated()
-    {
-
-    }
-
-    @Test
     void testPremium_PayForPremium_WithoutRequiredMethodField()
     {
         final var uri = fromHttpUrl(getBaseUrl())
@@ -383,18 +341,6 @@ class PremiumRestControllerTest extends AbstractRestControllerIntegrationTest
         final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), ErrorCode.class);
 
         assertTrue(result.getStatusCode().is4xxClientError());
-    }
-
-    @Test
-    void testPremium_RenewPremium()
-    {
-
-    }
-
-    @Test
-    void testPremium_RenewPremium_PremiumAlreadyActivated()
-    {
-
     }
 
     @Test
@@ -425,18 +371,6 @@ class PremiumRestControllerTest extends AbstractRestControllerIntegrationTest
     }
 
     @Test
-    void testPremium_CancelPremium()
-    {
-
-    }
-
-    @Test
-    void testPremium_CancelPremium_Inactive()
-    {
-
-    }
-
-    @Test
     void testPremium_CancelPremium_ContextAccountIdIsNull()
     {
         final var uri = fromHttpUrl(getBaseUrl())
@@ -446,18 +380,6 @@ class PremiumRestControllerTest extends AbstractRestControllerIntegrationTest
         final var result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), ErrorCode.class);
 
         assertTrue(result.getStatusCode().is4xxClientError());
-    }
-
-    @Test
-    void testPremium_UpdatePremiumCompanyDetails()
-    {
-
-    }
-
-    @Test
-    void testPremium_UpdatePremiumCompanyDetails_InvalidCompany()
-    {
-
     }
 
     @Test

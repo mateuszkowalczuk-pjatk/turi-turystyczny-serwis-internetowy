@@ -94,45 +94,9 @@ class PremiumFacadeTest
     }
 
     @Test
-    void testPremium_CheckPaymentForPayment()
-    {
-
-    }
-
-    @Test
-    void testPremium_CheckPaymentForPayment_PremiumNotFound()
-    {
-
-    }
-
-    @Test
-    void testPremium_CheckPaymentForPayment_PremiumUnpaid()
-    {
-
-    }
-
-    @Test
     void testPremium_CheckPaymentForPayment_ContextAccountIdIsNull()
     {
         assertThrows(BadRequestParameterException.class, () -> facade.checkPaymentForPremium());
-    }
-
-    @Test
-    void testPremium_SendPremiumLoginCode()
-    {
-
-    }
-
-    @Test
-    void testPremium_SendPremiumLoginCode_PremiumNotFound()
-    {
-
-    }
-
-    @Test
-    void testPremium_SendPremiumLoginCode_UserResetCodeRecentlySent()
-    {
-
     }
 
     @Test
@@ -145,18 +109,6 @@ class PremiumFacadeTest
     void testPremium_SendPremiumLoginCode_WithoutRequiredEmailField()
     {
         assertThrows(BadRequestParameterException.class, () -> facade.sendPremiumLoginCode(1L, null));
-    }
-
-    @Test
-    void testPremium_VerifyPremium()
-    {
-
-    }
-
-    @Test
-    void testPremium_VerifyPremium_InvalidCompany()
-    {
-
     }
 
     @Test
@@ -267,30 +219,6 @@ class PremiumFacadeTest
     }
 
     @Test
-    void testPremium_loginIntoPremiumAccount()
-    {
-
-    }
-
-    @Test
-    void testPremium_loginIntoPremiumAccount_PremiumNotFound()
-    {
-
-    }
-
-    @Test
-    void testPremium_loginIntoPremiumAccount_InvalidCode()
-    {
-
-    }
-
-    @Test
-    void testPremium_loginIntoPremiumAccount_CodeExpired()
-    {
-
-    }
-
-    @Test
     void testPremium_loginIntoPremiumAccount_WithoutRequiredLoginTokenField()
     {
         assertThrows(BadRequestParameterException.class, () -> facade.loginIntoPremiumAccount(null, 111111));
@@ -300,18 +228,6 @@ class PremiumFacadeTest
     void testPremium_loginIntoPremiumAccount_WithoutRequiredCodeField()
     {
         assertThrows(BadRequestParameterException.class, () -> facade.loginIntoPremiumAccount("sample-login-token", null));
-    }
-
-    @Test
-    void testPremium_PayForPremium()
-    {
-
-    }
-
-    @Test
-    void testPremium_PayForPremium_PremiumAlreadyActivated()
-    {
-
     }
 
     @Test
@@ -327,18 +243,6 @@ class PremiumFacadeTest
     }
 
     @Test
-    void testPremium_RenewPremium()
-    {
-
-    }
-
-    @Test
-    void testPremium_RenewPremium_PremiumAlreadyActivated()
-    {
-
-    }
-
-    @Test
     void testPremium_RenewPremium_WithoutRequiredMethodField()
     {
         assertThrows(BadRequestParameterException.class, () -> facade.renewPremium(null));
@@ -351,33 +255,9 @@ class PremiumFacadeTest
     }
 
     @Test
-    void testPremium_CancelPremium()
-    {
-
-    }
-
-    @Test
-    void testPremium_CancelPremium_Inactive()
-    {
-
-    }
-
-    @Test
     void testPremium_CancelPremium_ContextAccountIdIsNull()
     {
         assertThrows(BadRequestParameterException.class, () -> facade.cancelPremium());
-    }
-
-    @Test
-    void testPremium_UpdatePremiumCompanyDetails()
-    {
-
-    }
-
-    @Test
-    void testPremium_UpdatePremiumCompanyDetails_InvalidCompany()
-    {
-
     }
 
     @Test
