@@ -8,9 +8,10 @@ interface Props {
     touristicPlace: TouristicPlace
     address: Address | undefined
     isReservation?: boolean
+    stayName?: string
 }
 
-const TouristicPlaceBanner = ({ touristicPlace, address, isReservation }: Props) => {
+const TouristicPlaceBanner = ({ touristicPlace, address, isReservation, stayName }: Props) => {
     return (
         <div className={styles.banner}>
             <TouristicPlaceInformation
@@ -19,7 +20,10 @@ const TouristicPlaceBanner = ({ touristicPlace, address, isReservation }: Props)
                 address={address}
                 isReservation={isReservation}
             />
-            <TouristicPlaceRating touristicPlaceId={touristicPlace.touristicPlaceId} />
+            <TouristicPlaceRating
+                touristicPlaceId={touristicPlace.touristicPlaceId}
+                stayName={stayName}
+            />
         </div>
     )
 }

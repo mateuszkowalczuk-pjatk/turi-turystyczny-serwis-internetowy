@@ -1,24 +1,26 @@
+import styles from './TourismReservationsItem.module.css'
 import { ReservationDto } from '../../../types/reservation.ts'
-import styles from './ReservationsItem.module.css'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import ImagePanel from '../../Shared/Image/ImagePanel'
 import TextRegular from '../../Shared/Controls/Text/TextRegular'
-import { TouristicPlace } from '../../../types/touristicPlace.ts'
-import { useImage } from '../../../hooks/shared/useImage.ts'
-import { ImageMode } from '../../../types/image.ts'
+import TextExtraLight from '../../Shared/Controls/Text/TextExtraLight'
+import { handleDateDisplay } from '../../../utils/handleDateTimeDisplay.ts'
+import TextMedium from '../../Shared/Controls/Text/TextMedium'
+import { handleReservationStatusDisplay } from '../../../utils/handleReservationStatusDisplay.ts'
 import { useEffect, useState } from 'react'
-import { Stay } from '../../../types/stay.ts'
-import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import { stayService } from '../../../services/stayService.ts'
+import { Stay } from '../../../types/stay.ts'
+import { touristicPlaceService } from '../../../services/touristicPlaceService.ts'
+import { TouristicPlace } from '../../../types/touristicPlace.ts'
 import { attractionService } from '../../../services/attractionService.ts'
 import { Attraction } from '../../../types/attraction.ts'
-import { touristicPlaceService } from '../../../services/touristicPlaceService.ts'
-import TextMedium from '../../Shared/Controls/Text/TextMedium'
-import { handleDateDisplay } from '../../../utils/handleDateTimeDisplay.ts'
-import TextExtraLight from '../../Shared/Controls/Text/TextExtraLight'
-import { handleReservationStatusDisplay } from '../../../utils/handleReservationStatusDisplay.ts'
 import { reservationService } from '../../../services/reservationService.ts'
+import { useImage } from '../../../hooks/shared/useImage.ts'
+import { ImageMode } from '../../../types/image.ts'
+import { accountService } from '../../../services/accountService.ts'
+import { Account } from '../../../types'
 
-const ReservationsItem = ({ reservation }: { reservation: ReservationDto }) => {
+const TourismReservationsItem = ({ reservation }: { reservation: ReservationDto }) => {
     const { t, navigate } = useHooks()
     const { images } = useImage(reservation.reservation.stayId, ImageMode.STAY)
     const image = images.length > 0 ? images[0] : null
@@ -26,6 +28,8 @@ const ReservationsItem = ({ reservation }: { reservation: ReservationDto }) => {
     const [touristicPlace, setTouristicPlace] = useState<TouristicPlace>()
     const [attractions, setAttractions] = useState<Attraction[]>()
     const [price, setPrice] = useState<number>()
+    const [firstName, setFirstName] = useState<string>()
+    const [lastName, setLastName] = useState<string>()
 
     useEffect(() => {
         const fetchData = async () => {
@@ -51,12 +55,17 @@ const ReservationsItem = ({ reservation }: { reservation: ReservationDto }) => {
             const priceResponse = await reservationService.getPrice(reservation.reservation.reservationId)
             const priceData: number = await priceResponse.json()
             setPrice(priceData)
+
+            const accountResponse = await accountService.get(reservation.reservation.accountId)
+            const accountData: Account = await accountResponse.json()
+            setFirstName(accountData.firstName)
+            setLastName(accountData.lastName)
         }
         fetchData().catch((error) => error)
     }, [reservation.reservation.stayId, stay])
 
     const handleNavigate = () => {
-        navigate('/reservation/offer', { state: { reservation: reservation, touristicPlace: touristicPlace, stay: stay, isOwner: false } })
+        navigate('/reservation/offer', { state: { reservation: reservation, touristicPlace: touristicPlace, stay: stay, isOwner: true } })
     }
 
     return (
@@ -73,14 +82,12 @@ const ReservationsItem = ({ reservation }: { reservation: ReservationDto }) => {
                 )}
             </div>
             <div className={styles.name}>
-                {touristicPlace && (
-                    <div className={styles.favourite}>
-                        <TextRegular
-                            text={touristicPlace.name || ''}
-                            onClick={handleNavigate}
-                        />
-                    </div>
-                )}
+                <div className={styles.favourite}>
+                    <TextRegular
+                        text={firstName + ' ' + lastName}
+                        onClick={handleNavigate}
+                    />
+                </div>
                 {stay && <TextExtraLight text={stay.name} />}
                 <TextRegular
                     text={
@@ -88,13 +95,13 @@ const ReservationsItem = ({ reservation }: { reservation: ReservationDto }) => {
                         ' - ' +
                         handleDateDisplay(reservation.reservation.dateTo.toString())
                     }
+                    onClick={handleNavigate}
                 />
-                {/*<TextRegular text={address?.country + ', ' + address?.city} />*/}
             </div>
             <div className={styles.attractions}>
                 {attractions && attractions.length !== 0 && <p className={styles.attraction}>{t('offer.attraction')}</p>}
                 <ul>
-                    {attractions && 
+                    {attractions &&
                         attractions.map((attraction, index) => (
                             <li
                                 key={index}
@@ -118,4 +125,4 @@ const ReservationsItem = ({ reservation }: { reservation: ReservationDto }) => {
     )
 }
 
-export default ReservationsItem
+export default TourismReservationsItem

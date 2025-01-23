@@ -4,12 +4,12 @@ import PageContent from '../../../components/Shared/Contents/PageContent'
 import PageTitle from '../../../components/Shared/PageTitle'
 import TourismPanel from '../../../components/Tourism/TourismPanel'
 import TourismHeader from '../../../components/Tourism/TourismHeader'
-import TourismCurrentReservations from '../../../components/Tourism/TourismCurrentReservations'
 import TourismReservations from '../../../components/Tourism/TourismReservations'
 import TourismTouristicPlace from '../../../components/Tourism/TourismTouristicPlace'
 import TourismOffers from '../../../components/Tourism/TourismOffers'
 import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import { useStates } from '../../../hooks/shared/useStates.ts'
+import { ReservationStatus } from '../../../types/reservation.ts'
 
 const TourismPage = () => {
     const { t, navigate } = useHooks()
@@ -26,12 +26,10 @@ const TourismPage = () => {
                     header={
                         <TourismHeader
                             text={t('tourism.current-reservations-title')}
-                            secondButtonText={t('tourism.current-reservations-stays-plan')}
-                            secondButtonOnClick={() => navigate('/tourism/stays-plan')}
                         />
                     }
-                    content={<TourismCurrentReservations />}
-                    size={'current'}
+                    content={touristicPlaceId && <TourismReservations touristicPlaceId={touristicPlaceId} statuses={[ReservationStatus.REALIZATION]} />}
+                    size={'reservations'}
                 />
             }
             secondPanel={
@@ -39,11 +37,9 @@ const TourismPage = () => {
                     header={
                         <TourismHeader
                             text={t('tourism.upcoming-reservations-title')}
-                            secondButtonText={t('tourism.upcoming-reservations-plan')}
-                            secondButtonOnClick={() => navigate('/tourism/reservations-plan')}
                         />
                     }
-                    content={<TourismReservations />}
+                    content={touristicPlaceId && <TourismReservations touristicPlaceId={touristicPlaceId} statuses={[ReservationStatus.RESERVATION]} />}
                     size={'reservations'}
                 />
             }
@@ -80,7 +76,7 @@ const TourismPage = () => {
             fifthPanel={
                 <TourismPanel
                     header={<TourismHeader text={t('tourism.all-reservations-title')} />}
-                    content={<TourismReservations />}
+                    content={touristicPlaceId && <TourismReservations touristicPlaceId={touristicPlaceId} statuses={[ReservationStatus.RESERVATION, ReservationStatus.REALIZATION, ReservationStatus.REALIZED]}/>}
                     size={'reservations'}
                 />
             }

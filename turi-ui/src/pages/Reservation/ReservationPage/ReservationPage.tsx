@@ -53,6 +53,7 @@ const ReservationPage = () => {
                             onSubmit={handleSubmit}
                             step={1}
                             touristicPlace={touristicPlace}
+                            stayName={stay.name}
                             address={address}
                             reservationFormSection={
                                 <ReservationFormSection

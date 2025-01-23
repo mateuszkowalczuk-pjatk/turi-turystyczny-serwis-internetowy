@@ -12,6 +12,7 @@ interface Props {
     onSubmit?: (e: React.FormEvent) => Promise<void>
     step: number
     touristicPlace?: TouristicPlace
+    stayName?: string
     address?: Address
     reservationFormSection?: ReactNode
     price?: number
@@ -25,6 +26,7 @@ const ReservationPanel = ({
     onSubmit,
     step,
     touristicPlace,
+    stayName,
     address,
     reservationFormSection,
     price,
@@ -47,6 +49,7 @@ const ReservationPanel = ({
                         <TouristicPlaceBanner
                             touristicPlace={touristicPlace}
                             address={address}
+                            stayName={stayName}
                             isReservation
                         />
                     )}
@@ -70,12 +73,13 @@ const ReservationPanel = ({
                         <TouristicPlaceBanner
                             touristicPlace={touristicPlace}
                             address={address}
+                            stayName={stayName}
                             isReservation
                         />
                     )}
                     {!plan && reservationFormSection}
                     {!plan && price && <ReservationPrice price={price} />}
-                    {!plan && buttonText && <ReservationButton text={buttonText} />}
+                    {!plan && buttonText && <ReservationButton text={buttonText} onlyDisplay={onSubmit !== null}/>}
                     {plan && reservationPlanSelect}
                 </>
             )}
