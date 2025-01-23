@@ -27,7 +27,18 @@ const ReservationPage = () => {
         if (reservation && request)
             await reservationService.updateDetails(reservation.reservationId, validateText(request))
 
-        navigate('/reservation/personal')
+        navigate('/reservation/personal', {
+            state: {
+                reservation: reservation,
+                reservationAttractions: reservationAttractions,
+                touristicPlace: touristicPlace,
+                address: address,
+                price: price,
+                request: request,
+                dateFrom: dateFrom,
+                dateTo: dateTo
+            }
+        })
     }
 
     return (

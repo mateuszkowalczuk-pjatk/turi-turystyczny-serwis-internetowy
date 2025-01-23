@@ -1,18 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useAppDispatch } from '../../../hooks/app/useAppDispatch.ts'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../../hooks/app/useAuth.ts'
-import PremiumLoader from '../../../components/Premium/PremiumLoader'
 import { notPaymentPremiumFailed, paymentPremiumFailed } from '../../../store/slices/premiumPaymentFailed.ts'
 import { premiumAccount } from '../../../store/slices/premium.ts'
 import { premiumService } from '../../../services/premiumService.ts'
 import { touristicPlaceService } from '../../../services/touristicPlaceService.ts'
 import styles from './PremiumPaymentCheckPage.module.css'
+import Spinner from '../../../components/Shared/Loading/Spinner'
 
 const PremiumPaymentCheckPage = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
-    const [dots, setDots] = useState('')
 
     useAuth('/')
 
@@ -48,10 +47,7 @@ const PremiumPaymentCheckPage = () => {
 
     return (
         <div className={styles.check}>
-            <PremiumLoader
-                dots={dots}
-                setDots={setDots}
-            />
+            <Spinner />
         </div>
     )
 }

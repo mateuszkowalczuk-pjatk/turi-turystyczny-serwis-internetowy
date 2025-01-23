@@ -11,10 +11,11 @@ interface Props {
     dateFrom: string
     dateTo: string
     request: string | null
-    setRequest: (value: ((prevState: string | null) => string | null) | string | null) => void
+    setRequest?: (value: ((prevState: string | null) => string | null) | string | null) => void
+    personal?: boolean
 }
 
-const ReservationDetails = ({ touristicPlace, dateFrom, dateTo, request, setRequest }: Props) => {
+const ReservationDetails = ({ touristicPlace, dateFrom, dateTo, request, setRequest, personal }: Props) => {
     const { t } = useHooks()
 
     return (
@@ -38,15 +39,18 @@ const ReservationDetails = ({ touristicPlace, dateFrom, dateTo, request, setRequ
                     />
                 )}
             </div>
-            <Label text={t('reservation.reservation-request')} />
-            <Input
-                type={'text'}
-                name={'request'}
-                placeholder={t('reservation.reservation-request')}
-                value={request}
-                onChange={(e) => setRequest && setRequest(e.target.value)}
-                required={false}
-            />
+            {!personal && <Label text={t('reservation.reservation-request')} />}
+            {!personal && (
+                <Input
+                    type={'text'}
+                    name={'request'}
+                    placeholder={t('reservation.reservation-request')}
+                    value={request}
+                    onChange={(e) => setRequest && setRequest(e.target.value)}
+                    required={false}
+                />
+            )}
+            {personal && request && <Label text={t('reservation.reservation-request') + ': ' + request} />}
         </div>
     )
 }

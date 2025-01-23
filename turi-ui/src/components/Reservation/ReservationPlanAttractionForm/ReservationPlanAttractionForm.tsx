@@ -89,7 +89,7 @@ const ReservationPlanAttractionForm = ({ attraction, dateFrom, dateTo, formData,
                         placeholder={t('reservation.reservation-plan-message')}
                         value={formData.message}
                         onChange={handleChange}
-                        required={true}
+                        required={false}
                     />
                 ].filter(Boolean)}
             />

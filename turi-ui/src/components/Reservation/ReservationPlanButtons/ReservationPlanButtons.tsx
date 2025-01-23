@@ -2,23 +2,32 @@ import { GreenButton, GreyButton } from '../../Shared/Controls/Button'
 import styles from './ReservationPlanButtons.module.css'
 
 interface Props {
-    firstText: string
-    firstOnClick: () => void
-    secondText?: string
-    secondOnClick?: () => void
+    createText?: string
+    createOnClick?: () => void
+    saveText?: string
+    cancelText?: string
+    cancelOnClick?: () => void
 }
 
-const ReservationPlanButtons = ({ firstText, firstOnClick, secondText, secondOnClick }: Props) => {
+const ReservationPlanButtons = ({ createText, createOnClick, saveText, cancelText, cancelOnClick }: Props) => {
     return (
         <div className={styles.buttons}>
-            <GreenButton
-                text={firstText}
-                onClick={firstOnClick}
-            />
-            {secondText && (
+            {createText && (
+                <GreenButton
+                    text={createText}
+                    onClick={createOnClick}
+                />
+            )}
+            {saveText && (
+                <GreenButton
+                    text={saveText}
+                    type={'submit'}
+                />
+            )}
+            {cancelText && (
                 <GreyButton
-                    text={secondText}
-                    onClick={secondOnClick}
+                    text={cancelText}
+                    onClick={cancelOnClick}
                 />
             )}
         </div>

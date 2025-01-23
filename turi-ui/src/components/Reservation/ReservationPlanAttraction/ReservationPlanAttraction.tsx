@@ -9,6 +9,7 @@ import { PriceType } from '../../../types/attraction.ts'
 import { ReservationAttraction } from '../../../types/reservation.ts'
 import { reservationService } from '../../../services/reservationService.ts'
 import styles from './ReservationPlanAttraction.module.css'
+import React from 'react'
 
 const ReservationPlanAttraction = ({
     reservationId,
@@ -22,13 +23,14 @@ const ReservationPlanAttraction = ({
     const { reservationMode, setReservationMode, image, formData, handleChange } =
         useReservationPlanAttraction(attractionId)
 
-    const handleSave = async () => {
+    const handleSave = async (e: React.FormEvent) => {
+        e.preventDefault()
+
         if (
             formData.dateFrom === null ||
             formData.dateTo === null ||
             formData.hourFrom === null ||
-            formData.hourTo === null ||
-            formData.message === null
+            formData.hourTo === null
         )
             return
         if (attraction.priceType === PriceType.PERSON && formData.people === null) return
@@ -52,7 +54,10 @@ const ReservationPlanAttraction = ({
     }
 
     return (
-        <div className={styles.attraction}>
+        <form
+            className={styles.attraction}
+            onSubmit={handleSave}
+        >
             {!reservationMode ? (
                 <>
                     <ImagePanel
@@ -61,8 +66,8 @@ const ReservationPlanAttraction = ({
                     />
                     <ReservationPlanAttractionInformation attraction={attraction} />
                     <ReservationPlanButtons
-                        firstText={t('reservation.reservation-plan-add')}
-                        firstOnClick={() => setReservationMode(true)}
+                        createText={t('reservation.reservation-plan-add')}
+                        createOnClick={() => setReservationMode(true)}
                     />
                 </>
             ) : (
@@ -75,14 +80,13 @@ const ReservationPlanAttraction = ({
                         handleChange={handleChange}
                     />
                     <ReservationPlanButtons
-                        firstText={t('reservation.reservation-plan-save')}
-                        firstOnClick={handleSave}
-                        secondText={t('reservation.reservation-plan-cancel')}
-                        secondOnClick={() => setReservationMode(false)}
+                        saveText={t('reservation.reservation-plan-save')}
+                        cancelText={t('reservation.reservation-plan-cancel')}
+                        cancelOnClick={() => setReservationMode(false)}
                     />
                 </>
             )}
-        </div>
+        </form>
     )
 }
 

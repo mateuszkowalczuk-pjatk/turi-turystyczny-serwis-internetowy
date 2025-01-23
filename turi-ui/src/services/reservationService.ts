@@ -5,32 +5,6 @@ import { ReservationAttraction, ReservationMode, ReservationStatus } from '../ty
 import { defaultBodyIfNull, defaultParamIfNull } from '../utils/handleRequest.ts'
 
 export const reservationService = {
-    getAllByAccountId: async (statuses: ReservationStatus[] | null) => {
-        return await fetch(
-            `${API_BASE_URL}${API.RESERVATION.GET_ALL_BY_ACCOUNT_ID}${defaultParamIfNull('statuses', statuses)}`,
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                credentials: 'include'
-            }
-        )
-    },
-
-    getAllByTouristicPlaceId: async (touristicPlaceId: number, statuses: ReservationStatus[] | null) => {
-        return await fetch(
-            `${API_BASE_URL}${API.RESERVATION.GET_ALL_BY_TOURISTIC_PLACE_ID}?touristicPlaceId=${touristicPlaceId}${defaultParamIfNull('statuses', statuses)}`,
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                credentials: 'include'
-            }
-        )
-    },
-
     getAllAttractionsByReservationId: async (reservationId: number) => {
         return await fetch(`${API_BASE_URL}${API.RESERVATION.GET_ALL_ATTRACTIONS_BY_RESERVATION_ID}/${reservationId}`, {
             method: 'GET',
@@ -87,14 +61,41 @@ export const reservationService = {
         )
     },
 
-    checkPayment: async (id: number, modes: ReservationMode[]) => {
-        return await fetch(`${API_BASE_URL}${API.RESERVATION.CHECK_PAYMENT}/${id}?modes=${modes}`, {
-            method: 'GET',
+    checkPayment: async (reservationId: string | null, modes: ReservationMode[]) => {
+        return await fetch(
+            `${API_BASE_URL}${API.RESERVATION.CHECK_PAYMENT}?modes=${modes}${defaultParamIfNull('reservationId', reservationId)}`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include'
+            }
+        )
+    },
+    getAllByAccountId: async (statuses: ReservationStatus[]) => {
+        return await fetch(`${API_BASE_URL}${API.RESERVATION.GET_ALL_BY_ACCOUNT_ID}`, {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
+            body: JSON.stringify(statuses),
             credentials: 'include'
         })
+    },
+
+    getAllByTouristicPlaceId: async (touristicPlaceId: number, statuses: ReservationStatus[] | null) => {
+        return await fetch(
+            `${API_BASE_URL}${API.RESERVATION.GET_ALL_BY_TOURISTIC_PLACE_ID}?touristicPlaceId=${touristicPlaceId}`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(statuses),
+                credentials: 'include'
+            }
+        )
     },
 
     create: async (stayId: number, dateFrom: Date, dateTo: Date) => {
@@ -141,7 +142,7 @@ export const reservationService = {
         reservationAttractions: ReservationAttraction[] | null
     ) => {
         return await fetch(
-            `${API_BASE_URL}${API.RESERVATION.PAY}?id=${id}&method=${method}&mode=${mode}${defaultParamIfNull('dateTo', dateTo)}`,
+            `${API_BASE_URL}${API.RESERVATION.PAY}/${id}?method=${method}&mode=${mode}${defaultParamIfNull('dateTo', dateTo)}`,
             {
                 method: 'POST',
                 headers: {

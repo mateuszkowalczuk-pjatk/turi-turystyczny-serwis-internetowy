@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import SearchOffersItem from '../SearchOffersItem'
 import { Offer } from '../../../types/offer.ts'
 import { offerService } from '../../../services/offerService.ts'
 import styles from './FavouriteOffers.module.css'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 
 const FavouriteOffers = () => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
     const [offers, setOffers] = useState<Offer[]>([])
 
     useEffect(() => {

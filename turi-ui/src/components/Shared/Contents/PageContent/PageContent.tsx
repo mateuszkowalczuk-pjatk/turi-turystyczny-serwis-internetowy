@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import styles from './PageContent.module.css'
 
 interface Props {
-    title: ReactNode
+    title?: ReactNode
     firstPanel: ReactNode
     secondPanel?: ReactNode
     thirdPanel?: ReactNode

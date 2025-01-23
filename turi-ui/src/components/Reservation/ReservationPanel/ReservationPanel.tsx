@@ -6,6 +6,7 @@ import { Address } from '../../../types'
 import styles from './ReservationPanel.module.css'
 import ReservationPrice from '../ReservationPrice'
 import ReservationButton from '../ReservationButton'
+import Spinner from '../../Shared/Loading/Spinner'
 
 interface Props {
     onSubmit?: (e: React.FormEvent) => Promise<void>
@@ -17,6 +18,7 @@ interface Props {
     buttonText?: string
     reservationPlanSelect?: ReactNode
     plan?: boolean
+    spinner?: boolean
 }
 
 const ReservationPanel = ({
@@ -28,26 +30,56 @@ const ReservationPanel = ({
     price,
     buttonText,
     reservationPlanSelect,
-    plan
+    plan,
+    spinner
 }: Props) => {
-    return (
+    return onSubmit ? (
         <form
             className={styles.panel}
             onSubmit={onSubmit}
         >
-            <ReservationProgressBar step={step} />
-            {!plan && touristicPlace && (
-                <TouristicPlaceBanner
-                    touristicPlace={touristicPlace}
-                    address={address}
-                    isReservation
-                />
+            {spinner ? (
+                <Spinner />
+            ) : (
+                <>
+                    <ReservationProgressBar step={step} />
+                    {!plan && touristicPlace && (
+                        <TouristicPlaceBanner
+                            touristicPlace={touristicPlace}
+                            address={address}
+                            isReservation
+                        />
+                    )}
+                    {!plan && reservationFormSection}
+                    {!plan && price && <ReservationPrice price={price} />}
+                    {!plan && buttonText && <ReservationButton text={buttonText} />}
+                    {plan && reservationPlanSelect}
+                </>
             )}
-            {!plan && reservationFormSection}
-            {!plan && price && <ReservationPrice price={price} />}
-            {!plan && buttonText && <ReservationButton text={buttonText} />}
-            {plan && reservationPlanSelect}
         </form>
+    ) : (
+        <div
+            className={styles.panel}
+        >
+            {spinner ? (
+                <Spinner />
+            ) : (
+                <>
+                    <ReservationProgressBar step={step} />
+                    {!plan && touristicPlace && (
+                        <TouristicPlaceBanner
+                            touristicPlace={touristicPlace}
+                            address={address}
+                            isReservation
+                        />
+                    )}
+                    {!plan && reservationFormSection}
+                    {!plan && price && <ReservationPrice price={price} />}
+                    {!plan && buttonText && <ReservationButton text={buttonText} />}
+                    {plan && reservationPlanSelect}
+                </>
+            )}
+        </div>
     )
 }
 

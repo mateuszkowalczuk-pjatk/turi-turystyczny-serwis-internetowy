@@ -107,6 +107,6 @@ export const API = {
         UPDATE_DATE_TO: '/api/reservation/updateDateTo',
         CANCEL: '/api/reservation/cancel',
         CANCEL_ATTRACTION: '/api/reservation/cancelAttraction',
-        DELETE_ATTRACTION: '/api/reservation/deleteReservationAttraction'
+        DELETE_ATTRACTION: '/api/reservation/deleteAttraction'
     }
 }

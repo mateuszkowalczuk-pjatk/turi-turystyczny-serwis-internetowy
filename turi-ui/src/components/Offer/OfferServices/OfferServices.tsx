@@ -8,16 +8,17 @@ import { Attraction } from '../../../types/attraction.ts'
 import { Stay } from '../../../types/stay.ts'
 import { reservationService } from '../../../services/reservationService.ts'
 import styles from './OfferServices.module.css'
+import { TouristicPlace } from '../../../types/touristicPlace.ts'
 
 interface Props {
     initDateFrom: string | null
     initDateTo: string | null
     initStays: Stay[]
     initAttractions: Attraction[]
-    touristicPlaceId: number
+    touristicPlace: TouristicPlace
 }
 
-const OfferServices = ({ initDateFrom, initDateTo, initStays, initAttractions, touristicPlaceId }: Props) => {
+const OfferServices = ({ initDateFrom, initDateTo, initStays, initAttractions, touristicPlace }: Props) => {
     const { t } = useTranslation()
     const [dateFrom, setDateFrom] = useState<string | null>(initDateFrom)
     const [dateTo, setDateTo] = useState<string | null>(initDateTo)
@@ -35,16 +36,16 @@ const OfferServices = ({ initDateFrom, initDateTo, initStays, initAttractions, t
     }
 
     const handleFetch = async () => {
-        if (dateFrom && dateTo) {
+        if (dateFrom && dateTo && touristicPlace.touristicPlaceId) {
             const staysResponse = await reservationService.getAllTouristicPlaceStaysAvailableInDate(
-                touristicPlaceId,
+                touristicPlace.touristicPlaceId,
                 new Date(dateFrom),
                 new Date(dateTo)
             )
             const staysData: Stay[] = await staysResponse.json()
             setStays(staysData)
             const attractionsResponse = await reservationService.getAllTouristicPlaceAttractionsAvailableInDate(
-                touristicPlaceId,
+                touristicPlace.touristicPlaceId,
                 new Date(dateFrom),
                 new Date(dateTo)
             )

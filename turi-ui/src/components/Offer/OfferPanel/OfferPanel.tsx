@@ -21,15 +21,13 @@ const OfferPanel = ({ offer, dateFrom, dateTo }: Props) => {
                 description={offer.touristicPlace.description}
                 guaranteedServices={offer.guaranteedServices}
             />
-            {offer.touristicPlace.touristicPlaceId && (
-                <OfferServices
-                    initDateFrom={dateFrom}
-                    initDateTo={dateTo}
-                    initStays={offer.stays}
-                    initAttractions={offer.attractions}
-                    touristicPlaceId={offer.touristicPlace.touristicPlaceId}
-                />
-            )}
+            <OfferServices
+                initDateFrom={dateFrom}
+                initDateTo={dateTo}
+                initStays={offer.stays}
+                initAttractions={offer.attractions}
+                touristicPlace={offer.touristicPlace}
+            />
             <OfferInformation touristicPlace={offer.touristicPlace} />
             <OfferOwner
                 premiumId={offer.touristicPlace.premiumId}

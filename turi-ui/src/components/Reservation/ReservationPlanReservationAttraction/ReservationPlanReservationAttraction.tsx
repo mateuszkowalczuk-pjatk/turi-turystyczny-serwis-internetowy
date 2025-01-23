@@ -6,7 +6,7 @@ import TextRegular from '../../Shared/Controls/Text/TextRegular'
 import TextMedium from '../../Shared/Controls/Text/TextMedium'
 import { GreenButton } from '../../Shared/Controls/Button'
 import { useHooks } from '../../../hooks/shared/useHooks.ts'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { attractionService } from '../../../services/attractionService.ts'
 import { Attraction } from '../../../types/attraction.ts'
 import { reservationService } from '../../../services/reservationService.ts'
@@ -19,7 +19,11 @@ interface Props {
     plan?: boolean
 }
 
-const ReservationPlanReservationAttraction = ({ reservationAttraction, setReservationAttractions, plan }: Props) => {
+const ReservationPlanReservationAttraction: React.FC<Props> = ({
+    reservationAttraction,
+    setReservationAttractions,
+    plan
+}: Props) => {
     const { t } = useHooks()
     const [name, setName] = useState<string>('')
 
@@ -29,10 +33,12 @@ const ReservationPlanReservationAttraction = ({ reservationAttraction, setReserv
             const attractionData: Attraction = await attractionResponse.json()
             setName(attractionData.name)
         }
-        fetchName().catch((error) => error)
+        fetchName().catch((error) => console.error(error))
     }, [reservationAttraction.attractionId])
 
-    const handleDelete = async () => {
+    const handleDelete = async (e: React.FormEvent) => {
+        e.preventDefault()
+
         const response = await reservationService.deleteAttraction(reservationAttraction.reservationAttractionId)
         if (response.status === 200 && setReservationAttractions) {
             setReservationAttractions((prevState) =>
@@ -44,7 +50,10 @@ const ReservationPlanReservationAttraction = ({ reservationAttraction, setReserv
     }
 
     return (
-        <div className={styles.reservation}>
+        <form
+            className={styles.reservation}
+            onSubmit={handleDelete}
+        >
             <div className={styles.time}>
                 <TextExtraLight text={handleDateDisplay(reservationAttraction.dateFrom.toString())} />
                 <TextRegular
@@ -62,11 +71,11 @@ const ReservationPlanReservationAttraction = ({ reservationAttraction, setReserv
                 <div className={styles.button}>
                     <GreenButton
                         text={t('reservation.reservation-plan-delete')}
-                        onClick={handleDelete}
+                        type={'submit'}
                     />
                 </div>
             )}
-        </div>
+        </form>
     )
 }
 

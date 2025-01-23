@@ -12,7 +12,7 @@ const TouristicPlaceName = ({ name, touristicPlaceId, isReservation }: Props) =>
     return (
         <div className={styles.name}>
             <TextRegular text={name || ''} />
-            {isReservation && <Favourite touristicPlaceId={touristicPlaceId} />}
+            {!isReservation && <Favourite touristicPlaceId={touristicPlaceId} />}
         </div>
     )
 }
