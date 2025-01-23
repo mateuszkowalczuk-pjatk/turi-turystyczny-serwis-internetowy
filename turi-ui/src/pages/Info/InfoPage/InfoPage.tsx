@@ -13,14 +13,14 @@ const InfoPage = () => {
             title={<PageTitle text={t('info.about-turi')} />}
             firstPanel={
                 <InfoPanel
-                    firstTitle={<InfoTitle text={t('First title')} />}
-                    firstText={<InfoText text={t('First text')} />}
-                    secondTitle={<InfoTitle text={t('Second title')} />}
-                    secondText={<InfoText text={t('Second text')} />}
-                    thirdTitle={<InfoTitle text={t('third title')} />}
-                    thirdText={<InfoText text={t('third text')} />}
-                    fourthTitle={<InfoTitle text={t('Fourth title')} />}
-                    fourthText={<InfoText text={t('Fourth text')} />}
+                    firstTitle={<InfoTitle text={t('info.about-turi-about-title')} />}
+                    firstText={<InfoText text={t('info.about-turi-about')} />}
+                    secondTitle={<InfoTitle text={t('info.about-turi-goal-title')} />}
+                    secondText={<InfoText text={t('info.about-turi-goal')} />}
+                    thirdTitle={<InfoTitle text={t('info.about-turi-users-title')} />}
+                    thirdText={<InfoText text={t('info.about-turi-users')} />}
+                    fourthTitle={<InfoTitle text={t('info.about-turi-functionality-title')} />}
+                    fourthText={<InfoText text={t('info.about-turi-functionality')} />}
                 />
             }
         />
