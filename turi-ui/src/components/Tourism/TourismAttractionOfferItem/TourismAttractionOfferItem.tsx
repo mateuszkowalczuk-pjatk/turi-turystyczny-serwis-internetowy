@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import { GreyButton } from '../../Shared/Controls/Button'
-import TextRegular from '../../Shared/Controls/Text/TextRegular'
+import { useEffect, useState } from 'react'
 import ImagePanel from '../../Shared/Image/ImagePanel'
-import { Attraction } from '../../../types/attraction.ts'
+import TextRegular from '../../Shared/Controls/Text/TextRegular'
 import { Image } from '../../../types/image.ts'
+import { Attraction } from '../../../types/attraction.ts'
 import { imageService } from '../../../services/imageService.ts'
 import styles from './TourismAttractionOfferItem.module.css'
 
@@ -16,8 +15,7 @@ interface Props {
 }
 
 const TourismAttractionOfferItem = ({ attraction, index, offer }: Props) => {
-    const { t } = useTranslation()
-    const navigate = useNavigate()
+    const { t, navigate } = useHooks()
     const [image, setImage] = useState<Image>()
 
     useEffect(() => {

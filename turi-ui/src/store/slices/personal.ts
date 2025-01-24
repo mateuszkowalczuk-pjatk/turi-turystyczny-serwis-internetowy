@@ -4,11 +4,11 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../store.ts'
 
 interface PersonalState {
-    isPersonalization: boolean
+    isPersonal: boolean
 }
 
 const initialState: PersonalState = {
-    isPersonalization: false
+    isPersonal: false
 }
 
 const personal = createSlice({
@@ -16,16 +16,16 @@ const personal = createSlice({
     initialState,
     reducers: {
         personalization(state) {
-            state.isPersonalization = true
+            state.isPersonal = true
         },
         notPersonalization(state) {
-            state.isPersonalization = false
+            state.isPersonal = false
         }
     }
 })
 
 export const { personalization, notPersonalization } = personal.actions
 
-export const usePersonal = () => useSelector((state: RootState) => state.personal.isPersonalization)
+export const usePersonal = () => useSelector((state: RootState) => state.personal.isPersonal)
 
 export default personal.reducer

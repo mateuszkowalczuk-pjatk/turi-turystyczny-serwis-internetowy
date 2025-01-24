@@ -289,7 +289,7 @@
         "payment-error-default": "Nie udało się przejść do płatności!",
         "payment-check-loader": "Trwa sprawdzanie płatności",
         "summary-description": "Witaj użytkowniku premium!",
-        "summary-first-text": "W ramach strony głównej Turi pojawiła się zakładka <1>Twoje oferty</1>, w której możesz dodać miejsce turystyczne oraz oferty pobytu i atrakcji w ramach niego. ",
+        "summary-first-text": "W ramach strony głównej Turi pojawiła się zakładka <1>Turystyka</1>, w której możesz dodać miejsce turystyczne oraz oferty pobytu i atrakcji w ramach niego. ",
         "summary-second-text": "W profilu możesz znaleźć dodatkową zakładkę <1>Premium</1> zawierającą informację o twoim koncie premium.",
         "summary-third-text": "Po kliknięciu na nazwę swojego profilu wyświeli Ci się nowa opcja <1>Statystyki</1>, pod którą znajdziesz stronę ze statystykami i innymi szczegółami odnoście pobytów w twoim miejscu turystycznym.",
         "error-invalid-bank-account": "Podany numer konta jest niepoprawny.",
@@ -439,7 +439,7 @@
         "date-to": "Data do"
     },
     "reservation": {
-        "reservation-return": "< Wróć do miejsca turystycznego",
+        "reservation-return": "< Wróć do poprzedniej strony",
         "reservation-details": "Szczegóły",
         "reservation-check-in": "Zameldowanie",
         "reservation-check-out": "Wymeldowanie",

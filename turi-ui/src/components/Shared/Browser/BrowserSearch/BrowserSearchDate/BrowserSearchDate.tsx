@@ -1,6 +1,6 @@
-import { useTranslation } from 'react-i18next'
-import BrowserSearchDateInput from '../BrowserSearchDateInput'
+import { useHooks } from '../../../../../hooks/shared/useHooks.ts'
 import BrowserSearchText from '../BrowserSearchText'
+import BrowserSearchDateInput from '../BrowserSearchDateInput'
 import styles from './BrowserSearchDate.module.css'
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const BrowserSearchDate = ({ dateFrom, setDateFrom, dateTo, setDateTo }: Props) => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
 
     return (
         <div className={styles.date}>

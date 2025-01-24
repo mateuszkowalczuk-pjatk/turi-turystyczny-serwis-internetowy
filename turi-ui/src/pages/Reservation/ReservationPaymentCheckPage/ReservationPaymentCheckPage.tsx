@@ -1,23 +1,21 @@
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useAppDispatch } from '../../../hooks/app/useAppDispatch.ts'
-import PageContent from '../../../components/Shared/Contents/PageContent'
 import PageReturn from '../../../components/Shared/PageReturn'
+import PageContent from '../../../components/Shared/Contents/PageContent'
 import ReservationPanel from '../../../components/Reservation/ReservationPanel'
 import { ReservationMode } from '../../../types/reservation.ts'
 import { authService } from '../../../services/authService.ts'
 import { reservationService } from '../../../services/reservationService.ts'
 
 const ReservationPaymentCheckPage = () => {
-    const dispatch = useAppDispatch()
-    const navigate = useNavigate()
+    const { navigate, dispatch } = useHooks()
 
     useEffect(() => {
         let attempts = 0
         const interval = setInterval(() => {
             const checkPayment = async () => {
                 await authService.refresh()
-                const response = await reservationService.checkPayment(null, [ReservationMode.INITIAL])
+                const response = await reservationService.checkPayment([ReservationMode.INITIAL])
                 if (response.status === 200) {
                     navigate('/reservations')
                 } else {

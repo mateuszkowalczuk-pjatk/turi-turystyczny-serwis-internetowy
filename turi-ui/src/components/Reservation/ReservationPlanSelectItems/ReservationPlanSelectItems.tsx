@@ -1,11 +1,11 @@
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import ReservationPlanDate from '../ReservationPlanDate'
 import ReservationPlanAttraction from '../ReservationPlanAttraction'
 import ReservationPlanReservationAttraction from '../ReservationPlanReservationAttraction'
 import { Attraction } from '../../../types/attraction.ts'
+import { TouristicPlace } from '../../../types/touristicPlace.ts'
 import { ReservationAttraction } from '../../../types/reservation.ts'
 import styles from './ReservationPlanSelectItems.module.css'
-import ReservationPlanDate from '../ReservationPlanDate'
-import { useHooks } from '../../../hooks/shared/useHooks.ts'
-import { TouristicPlace } from '../../../types/touristicPlace.ts'
 
 interface Props {
     reservationAttractions?: ReservationAttraction[]

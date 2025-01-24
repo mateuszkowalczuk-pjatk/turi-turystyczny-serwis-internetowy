@@ -1,15 +1,15 @@
-import { useTranslation } from 'react-i18next'
+import { useHooks } from '../../../../hooks/shared/useHooks.ts'
 import FooterTitle from '../FooterTitle'
-import FooterContent from '../FooterContent'
-import FooterModule from '../FooterModule'
-import TextExtraLight from '../../Controls/Text/TextExtraLight'
 import TextRegular from '../../Controls/Text/TextRegular'
+import FooterModule from '../FooterModule'
+import FooterContent from '../FooterContent'
+import TextExtraLight from '../../Controls/Text/TextExtraLight'
 import FooterCopyright from '../FooterCopyright'
 import { Link } from 'react-router-dom'
 import styles from '../Footer.module.css'
 
 const UserFooter = () => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
 
     return (
         <div className={styles.wrapper}>

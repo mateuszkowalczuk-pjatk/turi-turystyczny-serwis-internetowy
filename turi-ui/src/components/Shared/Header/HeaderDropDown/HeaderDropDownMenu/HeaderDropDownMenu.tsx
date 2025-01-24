@@ -1,17 +1,14 @@
-import { useTranslation } from 'react-i18next'
+import { useHooks } from '../../../../../hooks/shared/useHooks.ts'
 import HeaderDropDownItem from '../HeaderDropDownItem'
 import styles from './HeaderDropDownMenu.module.css'
-import { usePremium } from '../../../../../store/slices/premium.ts'
 
 interface Props {
     profileOnClick: () => void
-    statisticsOnClick: () => void
     logoutOnClick: () => void
 }
 
-const HeaderDropDownMenu = ({ profileOnClick, statisticsOnClick, logoutOnClick }: Props) => {
-    const { t } = useTranslation()
-    const isPremium = usePremium()
+const HeaderDropDownMenu = ({ profileOnClick, logoutOnClick }: Props) => {
+    const { t } = useHooks()
 
     return (
         <div className={styles.menu}>
@@ -19,12 +16,6 @@ const HeaderDropDownMenu = ({ profileOnClick, statisticsOnClick, logoutOnClick }
                 onClick={profileOnClick}
                 text={t('header.profile')}
             />
-            {isPremium && (
-                <HeaderDropDownItem
-                    onClick={statisticsOnClick}
-                    text={t('header.statistics')}
-                />
-            )}
             <HeaderDropDownItem
                 onClick={logoutOnClick}
                 text={t('header.logout')}

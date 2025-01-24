@@ -1,31 +1,28 @@
 import React from 'react'
-import { useRedirectEvery } from '../../../hooks/shared/useRedirect.ts'
-import { codeValidation } from '../../../utils/codeValidation.ts'
-import { useStates } from '../../../hooks/shared/useStates.ts'
-import { useHooks } from '../../../hooks/shared/useHooks.ts'
-import { useForm } from '../../../hooks/shared/useForm.ts'
 import { handle } from '../../../utils/handle.ts'
+import { useForm } from '../../../hooks/shared/useForm.ts'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import { useStates } from '../../../hooks/shared/useStates.ts'
+import { codeValidation } from '../../../utils/codeValidation.ts'
+import { useRedirectEvery } from '../../../hooks/shared/useRedirect.ts'
+import Error from '../../../components/Shared/Error'
 import AuthPanel from '../../../components/Auth/AuthPanel'
 import AuthTitle from '../../../components/Auth/AuthTitle'
-import AuthDescription from '../../../components/Auth/AuthDescription'
 import AuthInput from '../../../components/Auth/AuthInput'
-import AuthError from '../../../components/Auth/AuthError'
 import AuthButton from '../../../components/Auth/AuthButton'
 import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
-import { notLoginPremium } from '../../../store/slices/premiumLogin.ts'
-import { premiumAccount } from '../../../store/slices/premium.ts'
-import { authService } from '../../../services/authService.ts'
+import AuthDescription from '../../../components/Auth/AuthDescription'
+import { CodeFormData } from '../../../types/forms/codeFormData.ts'
 import { login } from '../../../store/slices/auth.ts'
-
-interface FormData {
-    code: string
-}
+import { authService } from '../../../services/authService.ts'
+import { premiumAccount } from '../../../store/slices/premium.ts'
+import { notLoginPremium } from '../../../store/slices/premiumLogin.ts'
 
 const LoginCodePage = () => {
     const { t, dispatch, navigate } = useHooks()
     const { isPremiumLogin } = useStates()
-    const { formData, error, setError, handleChange, resetForm, loading, setLoading } = useForm<FormData>({
+    const { formData, error, setError, handleChange, resetForm, loading, setLoading } = useForm<CodeFormData>({
         initialValues: {
             code: ''
         }
@@ -76,7 +73,7 @@ const LoginCodePage = () => {
                     disabled={loading}
                 />
             }
-            error={error && <AuthError error={error} />}
+            error={error && <Error error={error} />}
             button={
                 <AuthButton
                     text={t('login-premium.button')}

@@ -11,26 +11,42 @@ interface Props {
     dateFrom: Date
     dateTo: Date
     reservationAttractions: ReservationAttraction[]
+    onlyDisplay?: boolean
 }
 
-const ReservationPlan = ({ reservationId, touristicPlace, dateFrom, dateTo, reservationAttractions }: Props) => {
+const ReservationPlan = ({
+    reservationId,
+    touristicPlace,
+    dateFrom,
+    dateTo,
+    reservationAttractions,
+    onlyDisplay
+}: Props) => {
     const { t, navigate } = useHooks()
 
     return (
         <div className={styles.plan}>
-            <GreenButton
-                text={t('reservation.reservation-plan')}
-                onClick={() =>
-                    navigate('/reservation/plan', {
-                        state: {
-                            reservationId: reservationId,
-                            touristicPlace: touristicPlace,
-                            dateFrom: dateFrom,
-                            dateTo: dateTo
-                        }
-                    })
-                }
-            />
+            {!onlyDisplay && (
+                <GreenButton
+                    text={t('reservation.reservation-plan')}
+                    onClick={() =>
+                        navigate('/reservation/plan', {
+                            state: {
+                                reservationId: reservationId,
+                                touristicPlace: touristicPlace,
+                                dateFrom: dateFrom,
+                                dateTo: dateTo
+                            }
+                        })
+                    }
+                />
+            )}
+            {onlyDisplay && (
+                <GreenButton
+                    text={t('reservation.reservation-plan')}
+                    type={'button'}
+                />
+            )}
             <ReservationPlanItems
                 reservationAttractions={reservationAttractions}
                 touristicPlace={touristicPlace}

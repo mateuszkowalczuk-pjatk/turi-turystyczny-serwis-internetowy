@@ -1,10 +1,10 @@
-import styles from './ReservationPersonal.module.css'
-import PersonalPanel from '../../Shared/Personal/PersonalPanel'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import Label from '../../Shared/Controls/Label'
 import Input from '../../Shared/Controls/Input'
-import TourismTouristicPlaceLabel from '../../Tourism/TourismTouristicPlaceLabel'
-import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import TextMedium from '../../Shared/Controls/Text/TextMedium'
+import PersonalPanel from '../../Shared/Personal/PersonalPanel'
+import TourismTouristicPlaceLabel from '../../Tourism/TourismTouristicPlaceLabel'
+import styles from './ReservationPersonal.module.css'
 
 interface ReservationPersonalProps {
     firstName: string | null

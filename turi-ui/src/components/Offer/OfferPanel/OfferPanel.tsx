@@ -1,9 +1,9 @@
 import OfferMain from '../OfferMain'
-import OfferDescription from '../OfferDescription'
-import OfferServices from '../OfferServices'
-import OfferInformation from '../OfferInformation'
 import OfferOwner from '../OfferOwner'
 import OfferOpinion from '../OfferOpinion'
+import OfferServices from '../OfferServices'
+import OfferDescription from '../OfferDescription'
+import OfferInformation from '../OfferInformation'
 import { Offer } from '../../../types/offer.ts'
 import styles from './OfferPanel.module.css'
 

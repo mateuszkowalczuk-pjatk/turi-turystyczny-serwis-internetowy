@@ -41,6 +41,7 @@ const ReservationPlanAttractionForm = ({ attraction, dateFrom, dateTo, formData,
                     <Input
                         key={2}
                         type={'time'}
+                        step={3600}
                         name={'hourFrom'}
                         placeholder={t('reservation.reservation-plan-hour-from')}
                         value={formData.hourFrom}
@@ -50,6 +51,7 @@ const ReservationPlanAttractionForm = ({ attraction, dateFrom, dateTo, formData,
                     <Input
                         key={3}
                         type={'time'}
+                        step={3600}
                         name={'hourTo'}
                         placeholder={t('reservation.reservation-plan-hour-to')}
                         value={formData.hourTo}

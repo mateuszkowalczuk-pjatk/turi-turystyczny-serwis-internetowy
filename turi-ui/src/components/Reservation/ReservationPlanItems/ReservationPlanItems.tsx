@@ -1,9 +1,9 @@
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import ReservationPlanDate from '../ReservationPlanDate'
 import ReservationPlanReservationAttraction from '../ReservationPlanReservationAttraction'
+import { TouristicPlace } from '../../../types/touristicPlace.ts'
 import { ReservationAttraction } from '../../../types/reservation.ts'
 import styles from './ReservationPlanItems.module.css'
-import ReservationPlanDate from '../ReservationPlanDate'
-import { useHooks } from '../../../hooks/shared/useHooks.ts'
-import { TouristicPlace } from '../../../types/touristicPlace.ts'
 
 const ReservationPlanItems = ({
     reservationAttractions,

@@ -1,9 +1,9 @@
-import styles from './ReservationReservations.module.css'
-import { ReservationDto, ReservationStatus } from '../../../types/reservation.ts'
 import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import { useEffect, useState } from 'react'
-import { reservationService } from '../../../services/reservationService.ts'
 import ReservationsItem from '../ReservationsItem'
+import { ReservationDto, ReservationStatus } from '../../../types/reservation.ts'
+import { reservationService } from '../../../services/reservationService.ts'
+import styles from './ReservationReservations.module.css'
 
 const ReservationReservations = ({ statuses }: { statuses: ReservationStatus[] }) => {
     const { t } = useHooks()

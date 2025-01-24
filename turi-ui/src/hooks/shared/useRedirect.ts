@@ -1,6 +1,6 @@
+import { useHooks } from './useHooks.ts'
 import { useEffect } from 'react'
 import { useStates } from './useStates.ts'
-import { useHooks } from './useHooks.ts'
 
 export const useRedirectEvery = (conditions: boolean[], path: string) => {
     const { isLoading } = useStates()

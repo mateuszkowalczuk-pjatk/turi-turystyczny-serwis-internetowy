@@ -1,7 +1,7 @@
-import TouristicPlaceInformation from '../TouristicPlaceInformation'
 import TouristicPlaceRating from '../TouristicPlaceRating'
-import { TouristicPlace } from '../../../../types/touristicPlace.ts'
+import TouristicPlaceInformation from '../TouristicPlaceInformation'
 import { Address } from '../../../../types'
+import { TouristicPlace } from '../../../../types/touristicPlace.ts'
 import styles from './TouristicPlaceBanner.module.css'
 
 interface Props {

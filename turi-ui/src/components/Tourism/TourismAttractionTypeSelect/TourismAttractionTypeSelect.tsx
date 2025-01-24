@@ -1,5 +1,5 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import { AttractionType } from '../../../types/attraction.ts'
 import styles from './TourismAttractionTypeSelect.module.css'
 
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const TourismAttractionTypeSelect = ({ value, onChange, disabled }: Props) => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
 
     return (
         <div className={styles.panel}>

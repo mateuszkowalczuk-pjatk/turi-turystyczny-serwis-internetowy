@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import { useStates } from '../../../hooks/shared/useStates.ts'
+import { useRedirectSome } from '../../../hooks/shared/useRedirect.ts'
 import { bankAccountNumberValidation, nipValidation } from '../../../utils/companyValidation.ts'
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import { usePremium } from '../../../store/slices/premium.ts'
-import { useAuth } from '../../../hooks/app/useAuth.ts'
-import ProfilePremium from '../../../components/Profile/ProfilePremium'
-import ProfileButton from '../../../components/Profile/ProfileButton'
+import Label from '../../../components/Shared/Controls/Label'
 import PersonalPart from '../../../components/Shared/Personal/PersonalPart'
 import PersonalPanel from '../../../components/Shared/Personal/PersonalPanel'
 import PersonalInput from '../../../components/Shared/Personal/PersonalInput'
+import ProfileButton from '../../../components/Profile/ProfileButton'
+import ProfilePremium from '../../../components/Profile/ProfilePremium'
 import { Premium, PremiumCompanyParam } from '../../../types'
 import { premiumService } from '../../../services/premiumService.ts'
 import styles from './ProfilePremiumPage.module.css'
-import Label from '../../../components/Shared/Controls/Label'
 
 interface FormData {
     companyName: string
@@ -21,9 +20,8 @@ interface FormData {
 }
 
 const ProfilePremiumPage = () => {
-    const { t } = useTranslation()
-    const navigate = useNavigate()
-    const isPremium = usePremium()
+    const { t, navigate } = useHooks()
+    const { isAuthenticated, isPremium } = useStates()
     const [error, setError] = useState<string | null>(null)
     const [loading, setLoading] = useState(false)
     const [formData, setFormData] = useState<FormData>({
@@ -32,11 +30,9 @@ const ProfilePremiumPage = () => {
         bankAccountNumber: ''
     })
 
-    useAuth('/')
+    useRedirectSome([!isAuthenticated, !isPremium], '/')
 
     useEffect(() => {
-        if (!isPremium) navigate('/')
-
         const fetchData = async () => {
             const premiumResponse = await premiumService.getByAccount()
             if (premiumResponse.status === 200) {

@@ -1,12 +1,12 @@
 import React, { ReactNode } from 'react'
-import ReservationProgressBar from '../ReservationProgressBar'
-import TouristicPlaceBanner from '../../Shared/TouristicPlaceBanner/TouristicPlaceBanner'
-import { TouristicPlace } from '../../../types/touristicPlace.ts'
-import { Address } from '../../../types'
-import styles from './ReservationPanel.module.css'
+import Spinner from '../../Shared/Loading/Spinner'
 import ReservationPrice from '../ReservationPrice'
 import ReservationButton from '../ReservationButton'
-import Spinner from '../../Shared/Loading/Spinner'
+import TouristicPlaceBanner from '../../Shared/TouristicPlaceBanner/TouristicPlaceBanner'
+import ReservationProgressBar from '../ReservationProgressBar'
+import { Address } from '../../../types'
+import { TouristicPlace } from '../../../types/touristicPlace.ts'
+import styles from './ReservationPanel.module.css'
 
 interface Props {
     onSubmit?: (e: React.FormEvent) => Promise<void>
@@ -61,9 +61,7 @@ const ReservationPanel = ({
             )}
         </form>
     ) : (
-        <div
-            className={styles.panel}
-        >
+        <div className={styles.panel}>
             {spinner ? (
                 <Spinner />
             ) : (
@@ -79,7 +77,12 @@ const ReservationPanel = ({
                     )}
                     {!plan && reservationFormSection}
                     {!plan && price && <ReservationPrice price={price} />}
-                    {!plan && buttonText && <ReservationButton text={buttonText} onlyDisplay={onSubmit !== null}/>}
+                    {!plan && buttonText && (
+                        <ReservationButton
+                            text={buttonText}
+                            onlyDisplay={onSubmit !== null}
+                        />
+                    )}
                     {plan && reservationPlanSelect}
                 </>
             )}

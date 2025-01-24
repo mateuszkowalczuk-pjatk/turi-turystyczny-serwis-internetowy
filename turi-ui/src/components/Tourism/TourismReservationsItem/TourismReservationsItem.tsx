@@ -47,9 +47,11 @@ const TourismReservationsItem = ({ reservation }: { reservation: ReservationDto 
                 )
                 const attractionsData: Attraction[] = await attractionsResponse.json()
                 const filteredAttractions = attractionsData.filter((attraction) =>
-                    reservation.attractions.map((resAttr) => resAttr.attractionId).includes(attraction.attractionId || 0)
-                );
-                setAttractions(filteredAttractions);
+                    reservation.attractions
+                        .map((resAttr) => resAttr.attractionId)
+                        .includes(attraction.attractionId || 0)
+                )
+                setAttractions(filteredAttractions)
             }
 
             const priceResponse = await reservationService.getPrice(reservation.reservation.reservationId)
@@ -65,7 +67,9 @@ const TourismReservationsItem = ({ reservation }: { reservation: ReservationDto 
     }, [reservation.reservation.stayId, stay])
 
     const handleNavigate = () => {
-        navigate('/reservation/offer', { state: { reservation: reservation, touristicPlace: touristicPlace, stay: stay, isOwner: true } })
+        navigate('/reservation/offer', {
+            state: { reservation: reservation, touristicPlace: touristicPlace, stay: stay, isOwner: true, plan: true }
+        })
     }
 
     return (
@@ -99,7 +103,9 @@ const TourismReservationsItem = ({ reservation }: { reservation: ReservationDto 
                 />
             </div>
             <div className={styles.attractions}>
-                {attractions && attractions.length !== 0 && <p className={styles.attraction}>{t('offer.attraction')}</p>}
+                {attractions && attractions.length !== 0 && (
+                    <p className={styles.attraction}>{t('offer.attraction')}</p>
+                )}
                 <ul>
                     {attractions &&
                         attractions.map((attraction, index) => (

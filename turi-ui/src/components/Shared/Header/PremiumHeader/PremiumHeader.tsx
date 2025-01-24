@@ -1,13 +1,11 @@
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import HeaderContent from '../HeaderContent'
+import { useHooks } from '../../../../hooks/shared/useHooks.ts'
 import HeaderLinks from '../HeaderLinks'
 import TextRegular from '../../Controls/Text/TextRegular'
+import HeaderContent from '../HeaderContent'
 import HeaderButtons from '../HeaderButtons'
 
 const PremiumHeader = () => {
-    const { t } = useTranslation()
-    const navigate = useNavigate()
+    const { t, navigate } = useHooks()
 
     return (
         <HeaderContent

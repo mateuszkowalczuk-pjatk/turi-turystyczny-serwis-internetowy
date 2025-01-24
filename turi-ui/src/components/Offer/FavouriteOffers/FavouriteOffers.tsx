@@ -1,9 +1,9 @@
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import { useEffect, useState } from 'react'
 import SearchOffersItem from '../SearchOffersItem'
 import { Offer } from '../../../types/offer.ts'
 import { offerService } from '../../../services/offerService.ts'
 import styles from './FavouriteOffers.module.css'
-import { useHooks } from '../../../hooks/shared/useHooks.ts'
 
 const FavouriteOffers = () => {
     const { t } = useHooks()

@@ -25,7 +25,10 @@ const TourismReservations = ({ touristicPlaceId, statuses }: Props) => {
         <div className={styles.offers}>
             {reservations &&
                 reservations.map((reservation, index) => (
-                    <TourismReservationsItem key={index} reservation={reservation}/>
+                    <TourismReservationsItem
+                        key={index}
+                        reservation={reservation}
+                    />
                 ))}
         </div>
     )

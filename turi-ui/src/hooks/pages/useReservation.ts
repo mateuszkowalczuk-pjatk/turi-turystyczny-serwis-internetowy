@@ -2,8 +2,8 @@ import { useHooks } from '../shared/useHooks.ts'
 import { useEffect, useState } from 'react'
 import { Stay } from '../../types/stay.ts'
 import { Address } from '../../types'
-import { Reservation, ReservationAttraction } from '../../types/reservation.ts'
 import { TouristicPlace } from '../../types/touristicPlace.ts'
+import { Reservation, ReservationAttraction } from '../../types/reservation.ts'
 import { addressService } from '../../services/addressService.ts'
 import { reservationService } from '../../services/reservationService.ts'
 import { touristicPlaceService } from '../../services/touristicPlaceService.ts'
@@ -11,8 +11,8 @@ import { startLoading, stopLoading } from '../../store/slices/loading.ts'
 
 export const useReservation = (
     stay: Stay,
-    dateFrom: Date,
-    dateTo: Date
+    dateFrom: string,
+    dateTo: string
 ): {
     reservation: Reservation | undefined
     reservationAttractions: ReservationAttraction[]
@@ -48,8 +48,8 @@ export const useReservation = (
                     const reservationAttractionsData: ReservationAttraction[] =
                         await reservationAttractionsResponse.json()
                     setReservationAttractions(reservationAttractionsData)
-                } else navigate(-1)
-            } else navigate(-1)
+                }
+            }
         }
         createReservationWithPrice().catch((error) => error)
 
@@ -61,7 +61,7 @@ export const useReservation = (
                 const addressResponse = await addressService.getById(touristicPlaceData.addressId)
                 const addressData: Address = await addressResponse.json()
                 setAddress(addressData)
-            } else navigate(-1)
+            }
         }
         fetchTouristicPlaceWithAddress().catch((error) => error)
         dispatch(stopLoading())

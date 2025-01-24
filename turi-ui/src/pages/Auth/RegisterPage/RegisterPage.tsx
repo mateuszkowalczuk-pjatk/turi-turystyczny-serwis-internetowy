@@ -7,7 +7,7 @@ import { handle } from '../../../utils/handle.ts'
 import AuthPanel from '../../../components/Auth/AuthPanel'
 import AuthTitle from '../../../components/Auth/AuthTitle'
 import AuthInput from '../../../components/Auth/AuthInput'
-import AuthError from '../../../components/Auth/AuthError'
+import Error from '../../../components/Shared/Error'
 import AuthButton from '../../../components/Auth/AuthButton'
 import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
@@ -136,7 +136,7 @@ const RegisterPage = () => {
                     disabled={loading}
                 />
             }
-            error={error && <AuthError error={error} />}
+            error={error && <Error error={error} />}
             button={
                 <AuthButton
                     text={t('signup.button')}

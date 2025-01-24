@@ -1,15 +1,15 @@
-import { ReservationAttraction } from '../../../types/reservation.ts'
-import styles from './ReservationPlanReservationAttraction.module.css'
-import TextExtraLight from '../../Shared/Controls/Text/TextExtraLight'
-import { handleDateDisplay, handleTimeDisplay } from '../../../utils/handleDateTimeDisplay.ts'
-import TextRegular from '../../Shared/Controls/Text/TextRegular'
-import TextMedium from '../../Shared/Controls/Text/TextMedium'
-import { GreenButton } from '../../Shared/Controls/Button'
-import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import React, { useEffect, useState } from 'react'
-import { attractionService } from '../../../services/attractionService.ts'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import { GreenButton } from '../../Shared/Controls/Button'
+import { handleDateDisplay, handleTimeDisplay } from '../../../utils/handleDateTimeDisplay.ts'
+import TextMedium from '../../Shared/Controls/Text/TextMedium'
+import TextRegular from '../../Shared/Controls/Text/TextRegular'
+import TextExtraLight from '../../Shared/Controls/Text/TextExtraLight'
 import { Attraction } from '../../../types/attraction.ts'
+import { ReservationAttraction } from '../../../types/reservation.ts'
+import { attractionService } from '../../../services/attractionService.ts'
 import { reservationService } from '../../../services/reservationService.ts'
+import styles from './ReservationPlanReservationAttraction.module.css'
 
 interface Props {
     reservationAttraction: ReservationAttraction
@@ -33,7 +33,7 @@ const ReservationPlanReservationAttraction: React.FC<Props> = ({
             const attractionData: Attraction = await attractionResponse.json()
             setName(attractionData.name)
         }
-        fetchName().catch((error) => console.error(error))
+        fetchName().catch((error) => error)
     }, [reservationAttraction.attractionId])
 
     const handleDelete = async (e: React.FormEvent) => {

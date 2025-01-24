@@ -1,10 +1,10 @@
 import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import Input from '../../Shared/Controls/Input'
+import Label from '../../Shared/Controls/Label'
 import TextMedium from '../../Shared/Controls/Text/TextMedium'
 import ReservationTime from '../ReservationTime'
 import { TouristicPlace } from '../../../types/touristicPlace.ts'
 import styles from './ReservationDetails.module.css'
-import Label from '../../Shared/Controls/Label'
 
 interface Props {
     touristicPlace: TouristicPlace

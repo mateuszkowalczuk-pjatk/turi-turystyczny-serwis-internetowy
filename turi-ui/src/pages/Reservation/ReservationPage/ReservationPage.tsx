@@ -1,8 +1,9 @@
 import React from 'react'
 import { useHooks } from '../../../hooks/shared/useHooks.ts'
-import { useLocation } from 'react-router-dom'
+import { useStates } from '../../../hooks/shared/useStates.ts'
 import { validateText } from '../../../utils/validateText.ts'
 import { useReservation } from '../../../hooks/pages/useReservation.ts'
+import { useRedirectEvery } from '../../../hooks/shared/useRedirect.ts'
 import Loader from '../../../components/Shared/Loading/Loader'
 import PageReturn from '../../../components/Shared/PageReturn'
 import PageContent from '../../../components/Shared/Contents/PageContent'
@@ -13,13 +14,16 @@ import ReservationFormSection from '../../../components/Reservation/ReservationF
 import { reservationService } from '../../../services/reservationService.ts'
 
 const ReservationPage = () => {
-    const { t, navigate } = useHooks()
-    const { stay = null, dateFrom = null, dateTo = null } = useLocation().state || {}
+    const { t, navigate, location } = useHooks()
+    const { isAuthenticated } = useStates()
+    const { stay = null, dateFrom = null, dateTo = null } = location.state || {}
     const { reservation, reservationAttractions, touristicPlace, address, price, request, setRequest } = useReservation(
         stay,
         dateFrom,
         dateTo
     )
+
+    useRedirectEvery([!isAuthenticated], '/')
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()

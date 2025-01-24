@@ -15,16 +15,6 @@ export const reservationService = {
         })
     },
 
-    getWithAttractionsById: async (id: number) => {
-        return await fetch(`${API_BASE_URL}${API.RESERVATION.GET_WITH_ATTRACTION_BY_ID}/${id}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include'
-        })
-    },
-
     getPrice: async (id: number) => {
         return await fetch(`${API_BASE_URL}${API.RESERVATION.GET_PRICE}/${id}`, {
             method: 'GET',
@@ -35,7 +25,7 @@ export const reservationService = {
         })
     },
 
-    getAllTouristicPlaceStaysAvailableInDate: async (touristicPlaceId: number, dateFrom: Date, dateTo: Date) => {
+    getAllTouristicPlaceStaysAvailableInDate: async (touristicPlaceId: number, dateFrom: string, dateTo: string) => {
         return await fetch(
             `${API_BASE_URL}${API.RESERVATION.GET_ALL_TOURISTIC_PLACE_STAYS_AVAILABLE_IN_DATE}?touristicPlaceId=${touristicPlaceId}&dateFrom=${dateFrom}&dateTo=${dateTo}`,
             {
@@ -48,7 +38,11 @@ export const reservationService = {
         )
     },
 
-    getAllTouristicPlaceAttractionsAvailableInDate: async (touristicPlaceId: number, dateFrom: Date, dateTo: Date) => {
+    getAllTouristicPlaceAttractionsAvailableInDate: async (
+        touristicPlaceId: number,
+        dateFrom: string,
+        dateTo: string
+    ) => {
         return await fetch(
             `${API_BASE_URL}${API.RESERVATION.GET_ALL_TOURISTIC_PLACE_ATTRACTIONS_AVAILABLE_IN_DATE}?touristicPlaceId=${touristicPlaceId}&dateFrom=${dateFrom}&dateTo=${dateTo}`,
             {
@@ -61,18 +55,16 @@ export const reservationService = {
         )
     },
 
-    checkPayment: async (reservationId: string | null, modes: ReservationMode[]) => {
-        return await fetch(
-            `${API_BASE_URL}${API.RESERVATION.CHECK_PAYMENT}?modes=${modes}${defaultParamIfNull('reservationId', reservationId)}`,
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                credentials: 'include'
-            }
-        )
+    checkPayment: async (modes: ReservationMode[]) => {
+        return await fetch(`${API_BASE_URL}${API.RESERVATION.CHECK_PAYMENT}?modes=${modes}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        })
     },
+
     getAllByAccountId: async (statuses: ReservationStatus[]) => {
         return await fetch(`${API_BASE_URL}${API.RESERVATION.GET_ALL_BY_ACCOUNT_ID}`, {
             method: 'POST',
@@ -98,7 +90,7 @@ export const reservationService = {
         )
     },
 
-    create: async (stayId: number, dateFrom: Date, dateTo: Date) => {
+    create: async (stayId: number, dateFrom: string, dateTo: string) => {
         return await fetch(
             `${API_BASE_URL}${API.RESERVATION.CREATE}?stayId=${stayId}&dateFrom=${dateFrom}&dateTo=${dateTo}`,
             {
@@ -154,39 +146,6 @@ export const reservationService = {
         )
     },
 
-    makePayOnSite: async (
-        id: number,
-        mode: ReservationMode,
-        dateTo: Date | null,
-        reservationAttractions: ReservationAttraction[] | null
-    ) => {
-        return await fetch(
-            `${API_BASE_URL}${API.RESERVATION.MAKE_PAY_ON_SITE}?id=${id}&mode=${mode}${defaultParamIfNull('dateTo', dateTo)}`,
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: defaultBodyIfNull(reservationAttractions),
-                credentials: 'include'
-            }
-        )
-    },
-
-    payOnSite: async (id: number, mode: ReservationMode, reservationAttractions: ReservationAttraction[] | null) => {
-        return await fetch(
-            `${API_BASE_URL}${API.RESERVATION.MAKE_PAY_ON_SITE}?id=${id}&mode=${mode}${defaultParamIfNull('reservationAttractions', reservationAttractions)}`,
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: defaultBodyIfNull(reservationAttractions),
-                credentials: 'include'
-            }
-        )
-    },
-
     updateDetails: async (id: number, request: string | null) => {
         return await fetch(
             `${API_BASE_URL}${API.RESERVATION.UPDATE_DETAILS}/${id}?${defaultParamIfNull('request', request)}`,
@@ -200,29 +159,6 @@ export const reservationService = {
         )
     },
 
-    updateOpinion: async (id: number, rating: number, opinion: string) => {
-        return await fetch(
-            `${API_BASE_URL}${API.RESERVATION.UPDATE_DETAILS}/${id}?rating=${rating}&opinion=${opinion}`,
-            {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                credentials: 'include'
-            }
-        )
-    },
-
-    updateDateTo: async (id: number, dateTo: Date) => {
-        return await fetch(`${API_BASE_URL}${API.RESERVATION.UPDATE_DATE_TO}/${id}?dateTo=${dateTo}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include'
-        })
-    },
-
     cancel: async (id: number) => {
         return await fetch(`${API_BASE_URL}${API.RESERVATION.CANCEL}/${id}`, {
             method: 'PUT',
@@ -231,19 +167,6 @@ export const reservationService = {
             },
             credentials: 'include'
         })
-    },
-
-    cancelAttraction: async (reservationAttractionId: number) => {
-        return await fetch(
-            `${API_BASE_URL}${API.RESERVATION.CANCEL_ATTRACTION}?reservationAttractionId=${reservationAttractionId}`,
-            {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                credentials: 'include'
-            }
-        )
     },
 
     deleteAttraction: async (reservationAttractionId: number) => {

@@ -23,23 +23,29 @@ const TourismPage = () => {
             title={<PageTitle text={t('tourism.title')} />}
             firstPanel={
                 <TourismPanel
-                    header={
-                        <TourismHeader
-                            text={t('tourism.current-reservations-title')}
-                        />
+                    header={<TourismHeader text={t('tourism.current-reservations-title')} />}
+                    content={
+                        touristicPlaceId && (
+                            <TourismReservations
+                                touristicPlaceId={touristicPlaceId}
+                                statuses={[ReservationStatus.REALIZATION]}
+                            />
+                        )
                     }
-                    content={touristicPlaceId && <TourismReservations touristicPlaceId={touristicPlaceId} statuses={[ReservationStatus.REALIZATION]} />}
                     size={'reservations'}
                 />
             }
             secondPanel={
                 <TourismPanel
-                    header={
-                        <TourismHeader
-                            text={t('tourism.upcoming-reservations-title')}
-                        />
+                    header={<TourismHeader text={t('tourism.upcoming-reservations-title')} />}
+                    content={
+                        touristicPlaceId && (
+                            <TourismReservations
+                                touristicPlaceId={touristicPlaceId}
+                                statuses={[ReservationStatus.RESERVATION]}
+                            />
+                        )
                     }
-                    content={touristicPlaceId && <TourismReservations touristicPlaceId={touristicPlaceId} statuses={[ReservationStatus.RESERVATION]} />}
                     size={'reservations'}
                 />
             }
@@ -76,7 +82,18 @@ const TourismPage = () => {
             fifthPanel={
                 <TourismPanel
                     header={<TourismHeader text={t('tourism.all-reservations-title')} />}
-                    content={touristicPlaceId && <TourismReservations touristicPlaceId={touristicPlaceId} statuses={[ReservationStatus.RESERVATION, ReservationStatus.REALIZATION, ReservationStatus.REALIZED]}/>}
+                    content={
+                        touristicPlaceId && (
+                            <TourismReservations
+                                touristicPlaceId={touristicPlaceId}
+                                statuses={[
+                                    ReservationStatus.RESERVATION,
+                                    ReservationStatus.REALIZATION,
+                                    ReservationStatus.REALIZED
+                                ]}
+                            />
+                        )
+                    }
                     size={'reservations'}
                 />
             }

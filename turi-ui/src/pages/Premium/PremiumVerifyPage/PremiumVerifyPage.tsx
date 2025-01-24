@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { bankAccountNumberValidation, nipValidation } from '../../../utils/companyValidation.ts'
-import { useAppDispatch } from '../../../hooks/app/useAppDispatch.ts'
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import { GreenButton } from '../../../components/Shared/Controls/Button'
 import { useAuth } from '../../../hooks/app/useAuth.ts'
-import PremiumDescription from '../../../components/Premium/PremiumDescription'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import { GreenButton } from '../../../components/Shared/Controls/Button'
+import { bankAccountNumberValidation, nipValidation } from '../../../utils/companyValidation.ts'
+import PremiumInput from '../../../components/Premium/PremiumInput'
+import PremiumVerify from '../../../components/Premium/PremiumVerify'
 import PremiumSection from '../../../components/Premium/PremiumSection'
 import PremiumButtons from '../../../components/Premium/PremiumButtons'
-import PremiumVerify from '../../../components/Premium/PremiumVerify'
+import PremiumDescription from '../../../components/Premium/PremiumDescription'
 import PremiumPersonalInput from '../../../components/Premium/PremiumPersonalInput'
-import PremiumInput from '../../../components/Premium/PremiumInput'
 import { Account, Premium, PremiumCompanyParam, PremiumVerifyParam } from '../../../types'
 import { buyPremium, notBuyPremium } from '../../../store/slices/premiumBuy.ts'
 import { accountService } from '../../../services/accountService.ts'
@@ -26,9 +24,7 @@ interface FormData {
 }
 
 const PremiumVerifyPage = () => {
-    const { t } = useTranslation()
-    const dispatch = useAppDispatch()
-    const navigate = useNavigate()
+    const { t, navigate, dispatch } = useHooks()
     const [formData, setFormData] = useState<FormData>({
         firstName: '',
         lastName: '',

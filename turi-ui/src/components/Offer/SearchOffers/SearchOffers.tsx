@@ -1,7 +1,7 @@
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import SearchOffersItem from '../SearchOffersItem'
-import { Search, Offer } from '../../../types/offer.ts'
+import { Offer, Search } from '../../../types/offer.ts'
 import { offerService } from '../../../services/offerService.ts'
 import styles from './SearchOffers.module.css'
 
@@ -34,7 +34,7 @@ const SearchOffers = ({
     touristicPlaceType,
     attractionType
 }: Props) => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
     const [loading, setLoading] = useState(false)
     const [cursor, setCursor] = useState(true)
     const loader = useRef<HTMLDivElement | null>(null)
@@ -69,7 +69,7 @@ const SearchOffers = ({
     const handleObserver = useCallback(
         (entries: IntersectionObserverEntry[]) => {
             const target = entries[0]
-            if (target.isIntersecting && cursor) fetchOffers()
+            if (target.isIntersecting && cursor) fetchOffers().catch((error) => error)
         },
         [cursor, fetchOffers]
     )

@@ -1,25 +1,24 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { handleFormError } from '../../../utils/handleFormError.ts'
-import { useTranslation } from 'react-i18next'
-import { useForm } from '../../../hooks/shared/useForm.ts'
-import { handle } from '../../../utils/handle.ts'
 import { useId } from '../../../hooks/shared/useId.ts'
-import TourismTouristicPlaceCheckbox from '../TourismTouristicPlaceCheckbox'
-import TourismAttractionTypeSelect from '../TourismAttractionTypeSelect'
-import TourismPriceTypeSelect from '../TourismPriceTypeSelect'
+import { handle } from '../../../utils/handle.ts'
+import { useForm } from '../../../hooks/shared/useForm.ts'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import { handleFormError } from '../../../utils/handleFormError.ts'
+import Label from '../../Shared/Controls/Label'
+import Input from '../../Shared/Controls/Input'
+import Checkbox from '../../Shared/Controls/Checkbox'
+import ImageBanner from '../../Shared/Image/ImageBanner'
+import PersonalPanel from '../../Shared/Personal/PersonalPanel'
 import TourismOfferButtons from '../TourismOfferButtons'
 import TourismOfferDetails from '../TourismOfferDetails'
-import PersonalPanel from '../../Shared/Personal/PersonalPanel'
-import ImageBanner from '../../Shared/Image/ImageBanner'
-import Checkbox from '../../Shared/Controls/Checkbox'
-import Input from '../../Shared/Controls/Input'
-import { Attraction, AttractionType, PriceType } from '../../../types/attraction.ts'
+import TourismPriceTypeSelect from '../TourismPriceTypeSelect'
+import TourismAttractionTypeSelect from '../TourismAttractionTypeSelect'
+import TourismTouristicPlaceCheckbox from '../TourismTouristicPlaceCheckbox'
 import { Image, ImageMode } from '../../../types/image.ts'
-import { attractionService } from '../../../services/attractionService.ts'
+import { Attraction, AttractionType, PriceType } from '../../../types/attraction.ts'
 import { imageService } from '../../../services/imageService.ts'
+import { attractionService } from '../../../services/attractionService.ts'
 import styles from './TourismAttractionOfferPanel.module.css'
-import Label from '../../Shared/Controls/Label'
 
 interface Props {
     touristicPlaceId: number
@@ -45,9 +44,8 @@ interface FormData {
 }
 
 const TourismAttractionOfferPanel = ({ touristicPlaceId, modify = false }: Props) => {
-    const { t } = useTranslation()
-    const navigate = useNavigate()
-    const { attractionId = null } = useLocation().state || {}
+    const { t, navigate, location } = useHooks()
+    const { attractionId = null } = location.state || {}
     const [images, setImages] = useState<Image[]>([])
     const [files, setFiles] = useState<File[]>([])
     const [loading, setLoading] = useState(false)

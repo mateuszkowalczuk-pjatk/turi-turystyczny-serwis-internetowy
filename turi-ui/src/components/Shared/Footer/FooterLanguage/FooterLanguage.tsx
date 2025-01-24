@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next'
+import { useHooks } from '../../../../hooks/shared/useHooks.ts'
 import { setCookie } from '../../../../utils/cookie.ts'
 import TextRegular from '../../Controls/Text/TextRegular'
 import styles from './FooterLanguage.module.css'
@@ -16,7 +16,7 @@ const LABEL = {
 }
 
 const FooterLanguage = () => {
-    const { i18n } = useTranslation()
+    const { i18n } = useHooks()
 
     const changeLanguage = (language: string) => {
         i18n.changeLanguage(language)

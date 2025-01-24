@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useHooks } from '../../../../hooks/shared/useHooks.ts'
 import PageTitle from '../../PageTitle'
 import ProfilePanel from '../../../Profile/ProfilePanel'
 import PremiumPanel from '../../../Premium/PremiumPanel'
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const CustomContent = ({ profile, content }: Props) => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
 
     return (
         <div className={styles.content}>

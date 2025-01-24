@@ -1,5 +1,5 @@
+import { useHooks } from '../../../../hooks/shared/useHooks.ts'
 import { ReactNode } from 'react'
-import { useLocation } from 'react-router-dom'
 import styles from './HeaderLinks.module.css'
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const HeaderLinks = ({ firstLink, secondLink, thirdLink, fourthLink, isPremium }: Props) => {
-    const location = useLocation()
+    const { location } = useHooks()
     const isActive = (path: string) => location.pathname === path
 
     return (

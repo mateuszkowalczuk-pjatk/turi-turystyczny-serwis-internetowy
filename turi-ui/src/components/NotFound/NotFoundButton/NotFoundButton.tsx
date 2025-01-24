@@ -1,11 +1,9 @@
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import { GreenButton } from '../../Shared/Controls/Button'
 import styles from './NotFoundButton.module.css'
 
 const NotFoundButton = () => {
-    const { t } = useTranslation()
-    const navigate = useNavigate()
+    const { t, navigate } = useHooks()
 
     return (
         <div className={styles.button}>

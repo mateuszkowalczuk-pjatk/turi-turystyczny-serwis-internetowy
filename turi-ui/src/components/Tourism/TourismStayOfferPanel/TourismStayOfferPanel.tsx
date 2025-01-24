@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
-import { handleFormError } from '../../../utils/handleFormError.ts'
-import { useForm } from '../../../hooks/shared/useForm.ts'
-import { handle } from '../../../utils/handle.ts'
 import { useId } from '../../../hooks/shared/useId.ts'
-import ImageBanner from '../../Shared/Image/ImageBanner'
-import TourismOfferDetails from '../TourismOfferDetails'
-import TourismStayInformations from '../TourismStayInformations'
-import TourismOfferButtons from '../TourismOfferButtons'
-import PersonalPanel from '../../Shared/Personal/PersonalPanel'
-import Input from '../../Shared/Controls/Input'
-import { StayDto, StayInformation } from '../../../types/stay.ts'
-import { Image, ImageMode } from '../../../types/image.ts'
-import { imageService } from '../../../services/imageService.ts'
-import { stayService } from '../../../services/stayService.ts'
-import styles from './TourismStayOfferPanel.module.css'
+import { handle } from '../../../utils/handle.ts'
+import { useForm } from '../../../hooks/shared/useForm.ts'
 import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import { handleFormError } from '../../../utils/handleFormError.ts'
 import Label from '../../Shared/Controls/Label'
+import Input from '../../Shared/Controls/Input'
+import ImageBanner from '../../Shared/Image/ImageBanner'
+import PersonalPanel from '../../Shared/Personal/PersonalPanel'
+import TourismOfferDetails from '../TourismOfferDetails'
+import TourismOfferButtons from '../TourismOfferButtons'
+import TourismStayInformations from '../TourismStayInformations'
+import { Image, ImageMode } from '../../../types/image.ts'
+import { StayDto, StayInformation } from '../../../types/stay.ts'
+import { stayService } from '../../../services/stayService.ts'
+import { imageService } from '../../../services/imageService.ts'
+import styles from './TourismStayOfferPanel.module.css'
 
 interface Props {
     touristicPlaceId: number
@@ -33,8 +32,8 @@ interface FormData {
 }
 
 const TourismStayOfferPanel = ({ touristicPlaceId, modify = false }: Props) => {
-    const { t, navigate } = useHooks()
-    const { stayId = null } = useLocation().state || {}
+    const { t, navigate, location } = useHooks()
+    const { stayId = null } = location.state || {}
     const [images, setImages] = useState<Image[]>([])
     const [files, setFiles] = useState<File[]>([])
     const [loading, setLoading] = useState(false)
@@ -162,11 +161,7 @@ const TourismStayOfferPanel = ({ touristicPlaceId, modify = false }: Props) => {
                     <TourismOfferDetails
                         firstPanel={
                             <PersonalPanel
-                                label={
-                                    <Label
-                                        text={t('tourism.touristic-place-stay-offer-name-and-description')}
-                                    />
-                                }
+                                label={<Label text={t('tourism.touristic-place-stay-offer-name-and-description')} />}
                                 firstInput={
                                     <Input
                                         type={'text'}
@@ -226,9 +221,7 @@ const TourismStayOfferPanel = ({ touristicPlaceId, modify = false }: Props) => {
                         }
                         thirdPanel={
                             <PersonalPanel
-                                label={
-                                    <Label text={t('tourism.touristic-place-stay-offer-availability-range')} />
-                                }
+                                label={<Label text={t('tourism.touristic-place-stay-offer-availability-range')} />}
                                 firstInput={
                                     <Input
                                         type={'date'}

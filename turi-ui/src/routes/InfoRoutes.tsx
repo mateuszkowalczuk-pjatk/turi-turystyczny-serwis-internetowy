@@ -5,7 +5,7 @@ import InfoTermsOfUsePage from '../pages/Info/InfoTermsOfUsePage'
 import InfoPrivacyPolicyPage from '../pages/Info/InfoPrivacyPolicyPage'
 import NotFoundPage from '../pages/NotFound'
 
-const ReservationRoutes = () => {
+const InfoRoutes = () => {
     return (
         <Routes>
             <Route
@@ -33,4 +33,4 @@ const ReservationRoutes = () => {
     )
 }
 
-export default ReservationRoutes
+export default InfoRoutes

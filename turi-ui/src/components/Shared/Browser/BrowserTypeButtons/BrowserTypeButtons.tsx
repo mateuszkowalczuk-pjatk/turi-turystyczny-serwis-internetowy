@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next'
+import { useHooks } from '../../../../hooks/shared/useHooks.ts'
 import { GreyButton } from '../../Controls/Button'
 import { SearchMode } from '../../../../types/offer.ts'
 import styles from './BrowserTypeButtons.module.css'
@@ -9,7 +9,7 @@ interface Props {
 }
 
 const BrowserTypeButtons = ({ mode, setMode }: Props) => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
 
     return (
         <div className={styles.buttons}>

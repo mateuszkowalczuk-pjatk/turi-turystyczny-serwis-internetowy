@@ -1,7 +1,6 @@
 import { API_BASE_URL } from '../config/api'
 import { API } from './constants.ts'
 import { GuaranteedService, TouristicPlace } from '../types/touristicPlace.ts'
-import { defaultParamIfNull } from '../utils/handleRequest.ts'
 
 export const touristicPlaceService = {
     getById: async (id: number) => {
@@ -22,26 +21,6 @@ export const touristicPlaceService = {
             },
             credentials: 'include'
         })
-    },
-
-    isAddressExists: async (
-        country: string,
-        city: string,
-        zipCode: string,
-        street: string,
-        buildingNumber: string,
-        apartmentNumber: string | null
-    ) => {
-        return await fetch(
-            `${API_BASE_URL}${API.ACCOUNT.IS_ADDRESS_EXISTS}?country=${country}&city=${city}&zipCode=${zipCode}&street=${street}&buildingNumber=${buildingNumber}${defaultParamIfNull('apartmentNumber', apartmentNumber)}`,
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                credentials: 'include'
-            }
-        )
     },
 
     getAllGuaranteedServices: async () => {

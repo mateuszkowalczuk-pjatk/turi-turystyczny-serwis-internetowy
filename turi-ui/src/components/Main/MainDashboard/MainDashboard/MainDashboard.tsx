@@ -1,5 +1,5 @@
-import MainDashboardBanner from '../MainDashboardBanner'
 import Browser from '../../../Shared/Browser/Browser'
+import MainDashboardBanner from '../MainDashboardBanner'
 import { SearchMode } from '../../../../types/offer.ts'
 import styles from './MainDashboard.module.css'
 

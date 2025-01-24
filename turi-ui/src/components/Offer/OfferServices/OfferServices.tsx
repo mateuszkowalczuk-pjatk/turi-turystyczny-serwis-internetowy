@@ -1,14 +1,14 @@
-import { useTranslation } from 'react-i18next'
-import { useState } from 'react'
-import TourismAttractionOfferItem from '../../Tourism/TourismAttractionOfferItem'
-import TourismStayOfferItem from '../../Tourism/TourismStayOfferItem'
-import TextRegular from '../../Shared/Controls/Text/TextRegular'
+import React, { useEffect, useState } from 'react'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import Input from '../../Shared/Controls/Input'
-import { Attraction } from '../../../types/attraction.ts'
+import TextRegular from '../../Shared/Controls/Text/TextRegular'
+import TourismStayOfferItem from '../../Tourism/TourismStayOfferItem'
+import TourismAttractionOfferItem from '../../Tourism/TourismAttractionOfferItem'
 import { Stay } from '../../../types/stay.ts'
+import { Attraction } from '../../../types/attraction.ts'
+import { TouristicPlace } from '../../../types/touristicPlace.ts'
 import { reservationService } from '../../../services/reservationService.ts'
 import styles from './OfferServices.module.css'
-import { TouristicPlace } from '../../../types/touristicPlace.ts'
 
 interface Props {
     initDateFrom: string | null
@@ -19,19 +19,21 @@ interface Props {
 }
 
 const OfferServices = ({ initDateFrom, initDateTo, initStays, initAttractions, touristicPlace }: Props) => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
     const [dateFrom, setDateFrom] = useState<string | null>(initDateFrom)
     const [dateTo, setDateTo] = useState<string | null>(initDateTo)
     const [stays, setStays] = useState<Stay[]>(initStays)
     const [attractions, setAttractions] = useState<Attraction[]>(initAttractions)
 
+    useEffect(() => {
+        if (dateFrom && dateTo) handleFetch().catch((error) => error)
+    }, [dateFrom, dateTo])
+
     const handleDateFromChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setDateFrom(event.target.value)
-        handleFetch().catch((error) => error)
     }
 
     const handleDateToChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        handleFetch().catch((error) => error)
         setDateTo(event.target.value)
     }
 
@@ -39,18 +41,22 @@ const OfferServices = ({ initDateFrom, initDateTo, initStays, initAttractions, t
         if (dateFrom && dateTo && touristicPlace.touristicPlaceId) {
             const staysResponse = await reservationService.getAllTouristicPlaceStaysAvailableInDate(
                 touristicPlace.touristicPlaceId,
-                new Date(dateFrom),
-                new Date(dateTo)
+                dateFrom,
+                dateTo
             )
-            const staysData: Stay[] = await staysResponse.json()
-            setStays(staysData)
+            if (staysResponse.status === 200) {
+                const staysData: Stay[] = await staysResponse.json()
+                setStays(staysData)
+            }
             const attractionsResponse = await reservationService.getAllTouristicPlaceAttractionsAvailableInDate(
                 touristicPlace.touristicPlaceId,
-                new Date(dateFrom),
-                new Date(dateTo)
+                dateFrom,
+                dateTo
             )
-            const attractionsData: Attraction[] = await attractionsResponse.json()
-            setAttractions(attractionsData)
+            if (attractionsResponse.status === 200) {
+                const attractionsData: Attraction[] = await attractionsResponse.json()
+                setAttractions(attractionsData)
+            }
         }
     }
 

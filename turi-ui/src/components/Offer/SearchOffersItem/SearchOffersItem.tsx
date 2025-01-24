@@ -1,17 +1,16 @@
-import { touristicPlaceTypeHandler } from '../../../utils/touristicPlaceTypeHandler.ts'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import TextRegular from '../../Shared/Controls/Text/TextRegular'
-import ImagePanel from '../../Shared/Image/ImagePanel'
-import Favourite from '../../Shared/Controls/Favourite'
+import { touristicPlaceTypeHandler } from '../../../utils/touristicPlaceTypeHandler.ts'
 import Rating from '../../Shared/Controls/Rating'
-import { TouristicPlaceType } from '../../../types/touristicPlace.ts'
-import { Address } from '../../../types'
+import Favourite from '../../Shared/Controls/Favourite'
+import ImagePanel from '../../Shared/Image/ImagePanel'
+import TextRegular from '../../Shared/Controls/Text/TextRegular'
 import { Offer } from '../../../types/offer.ts'
 import { Image } from '../../../types/image.ts'
-import { addressService } from '../../../services/addressService.ts'
+import { Address } from '../../../types'
+import { TouristicPlaceType } from '../../../types/touristicPlace.ts'
 import { imageService } from '../../../services/imageService.ts'
+import { addressService } from '../../../services/addressService.ts'
 import styles from './SearchOffersItem.module.css'
 
 interface Props {
@@ -21,8 +20,7 @@ interface Props {
 }
 
 const SearchOffersItem = ({ offer, dateFrom, dateTo }: Props) => {
-    const { t } = useTranslation()
-    const navigate = useNavigate()
+    const { t, navigate } = useHooks()
     const [image, setImage] = useState<Image>()
     const [address, setAddress] = useState<Address>()
 

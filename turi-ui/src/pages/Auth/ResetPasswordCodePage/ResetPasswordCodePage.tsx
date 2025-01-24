@@ -9,7 +9,7 @@ import AuthTitle from '../../../components/Auth/AuthTitle'
 import AuthDescription from '../../../components/Auth/AuthDescription'
 import AuthInput from '../../../components/Auth/AuthInput'
 import AuthButton from '../../../components/Auth/AuthButton'
-import AuthError from '../../../components/Auth/AuthError'
+import Error from '../../../components/Shared/Error'
 import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
 import { notResetPassword } from '../../../store/slices/reset.ts'
@@ -75,7 +75,7 @@ const ResetPasswordCodePage = () => {
                     disabled={loading}
                 />
             }
-            error={error && <AuthError error={error} />}
+            error={error && <Error error={error} />}
             button={
                 <AuthButton
                     text={t('login-code.button')}

@@ -47,9 +47,23 @@ public class SecurityConfig
                                 "/api/user/isEmailExists",
                                 "/api/payment/webhook",
                                 "/api/offer/search",
-                                "/api/offer/autocomplete"
+                                "/api/offer/autocomplete",
+                                "/api/address/getById/**",
+                                "/api/image/getByAccount",
+                                "/api/image/getAllByTouristicPlaceId",
+                                "/api/image/getAllByStayId",
+                                "/api/image/getAllByAttractionId",
+                                "/api/premium/getAccountId/**",
+                                "/api/account/get/**",
+                                "/api/user/getEmailById/**"
                         ).permitAll()
                         .requestMatchers("/api/account/activate").hasRole(AccountType.INACTIVE.getName())
+                        .requestMatchers(
+                                "/api/touristicplace/getById/**",
+                                "/api/stay/getById/**",
+                                "/api/attraction/getAllByTouristicPlaceId",
+                                "/api/attraction/getById/**"
+                        ).hasAnyRole(AccountType.NORMAL.getName(), AccountType.PREMIUM.getName())
                         .requestMatchers(
                                 "/api/premium/premium/**",
                                 "/api/touristicplace/**",

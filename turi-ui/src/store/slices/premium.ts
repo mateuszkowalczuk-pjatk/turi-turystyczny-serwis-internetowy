@@ -4,11 +4,11 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../store.ts'
 
 interface PremiumState {
-    isPremiumAccount: boolean
+    isPremium: boolean
 }
 
 const initialState: PremiumState = {
-    isPremiumAccount: false
+    isPremium: false
 }
 
 const premium = createSlice({
@@ -16,16 +16,16 @@ const premium = createSlice({
     initialState,
     reducers: {
         premiumAccount(state) {
-            state.isPremiumAccount = true
+            state.isPremium = true
         },
         notPremiumAccount(state) {
-            state.isPremiumAccount = false
+            state.isPremium = false
         }
     }
 })
 
 export const { premiumAccount, notPremiumAccount } = premium.actions
 
-export const usePremium = () => useSelector((state: RootState) => state.premium.isPremiumAccount)
+export const usePremium = () => useSelector((state: RootState) => state.premium.isPremium)
 
 export default premium.reducer

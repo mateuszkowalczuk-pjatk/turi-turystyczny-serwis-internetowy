@@ -1,7 +1,6 @@
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import { GreenButton, GreyButton } from '../../Shared/Controls/Button'
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import AuthError from '../../Auth/AuthError'
+import Error from '../../Shared/Error'
 import { stayService } from '../../../services/stayService.ts'
 import { attractionService } from '../../../services/attractionService.ts'
 import styles from './TourismOfferButtons.module.css'
@@ -14,8 +13,7 @@ interface Props {
 }
 
 const TourismOfferButtons = ({ modify, id, mode, error }: Props) => {
-    const navigate = useNavigate()
-    const { t } = useTranslation()
+    const { t, navigate } = useHooks()
 
     const handleDelete = async () => {
         if (id && mode === 'stay') {
@@ -29,7 +27,7 @@ const TourismOfferButtons = ({ modify, id, mode, error }: Props) => {
 
     return (
         <div className={styles.buttons}>
-            {error && <AuthError error={error} />}
+            {error && <Error error={error} />}
             {modify && (
                 <GreyButton
                     text={t('tourism.touristic-place-stay-offer-delete')}

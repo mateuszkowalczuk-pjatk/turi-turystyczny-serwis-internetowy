@@ -1,17 +1,13 @@
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useHooks } from '../../../../../hooks/shared/useHooks.ts'
 import { useState } from 'react'
-import HeaderDropDownMenu from '../HeaderDropDownMenu'
 import { GreyButton } from '../../../Controls/Button'
-import { authService } from '../../../../../services/authService.ts'
+import HeaderDropDownMenu from '../HeaderDropDownMenu'
 import { logout } from '../../../../../store/slices/auth.ts'
+import { authService } from '../../../../../services/authService.ts'
 import styles from './HeaderDropDown.module.css'
-import { useAppDispatch } from '../../../../../hooks/app/useAppDispatch.ts'
 
 const HeaderDropDown = () => {
-    const { t } = useTranslation()
-    const navigate = useNavigate()
-    const dispatch = useAppDispatch()
+    const { t, navigate, dispatch } = useHooks()
     const [isVisible, setIsVisible] = useState(false)
 
     const handleLogoutClick = async () => {
@@ -36,7 +32,6 @@ const HeaderDropDown = () => {
             {isVisible && (
                 <HeaderDropDownMenu
                     profileOnClick={() => navigate('/profile')}
-                    statisticsOnClick={() => navigate('/tourism/statistics')}
                     logoutOnClick={handleLogoutClick}
                 />
             )}

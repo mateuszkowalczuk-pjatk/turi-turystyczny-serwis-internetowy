@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import Input from '../../Shared/Controls/Input'
 import { GuaranteedService } from '../../../types/touristicPlace.ts'
 import { touristicPlaceService } from '../../../services/touristicPlaceService.ts'
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const TouristicPlaceGuaranteedServicesListAdd = ({ touristicPlaceId, addGuaranteedServices }: Props) => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
     const [service, setService] = useState<string>('')
 
     const handleAdd = async (event: React.MouseEvent) => {

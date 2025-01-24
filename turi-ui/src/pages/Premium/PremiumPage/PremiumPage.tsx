@@ -1,18 +1,16 @@
-import { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import { GreenButton } from '../../../components/Shared/Controls/Button'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import { useAuth } from '../../../hooks/app/useAuth.ts'
-import PremiumDescription from '../../../components/Premium/PremiumDescription'
-import PremiumOfferComp from '../../../components/Premium/PremiumOfferComp'
+import { GreenButton } from '../../../components/Shared/Controls/Button'
+import { useEffect, useState } from 'react'
 import PremiumSection from '../../../components/Premium/PremiumSection'
 import PremiumButtons from '../../../components/Premium/PremiumButtons'
+import PremiumOfferComp from '../../../components/Premium/PremiumOfferComp'
+import PremiumDescription from '../../../components/Premium/PremiumDescription'
 import { PremiumOffer } from '../../../types'
 import { premiumService } from '../../../services/premiumService.ts'
 
 const PremiumPage = () => {
-    const { t } = useTranslation()
-    const navigate = useNavigate()
+    const { t, navigate } = useHooks()
     const [offer, setOffer] = useState<PremiumOffer | null>(null)
 
     useAuth('/')

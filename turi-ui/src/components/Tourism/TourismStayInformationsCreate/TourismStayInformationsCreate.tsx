@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import { useState } from 'react'
 import Input from '../../Shared/Controls/Input'
 import { StayInformation } from '../../../types/stay.ts'
@@ -12,7 +12,7 @@ interface Props {
 }
 
 const TourismStayInformationsCreate = ({ createStayInformation, stayId, modify }: Props) => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
     const [information, setInformation] = useState<string>('')
 
     const handleCreate = async (information: string) => {

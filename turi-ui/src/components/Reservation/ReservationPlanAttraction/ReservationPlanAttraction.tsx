@@ -1,3 +1,4 @@
+import React from 'react'
 import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import { useReservationPlanAttraction } from '../../../hooks/components/useReservationPlanAttraction.ts'
 import ImagePanel from '../../Shared/Image/ImagePanel'
@@ -9,7 +10,6 @@ import { PriceType } from '../../../types/attraction.ts'
 import { ReservationAttraction } from '../../../types/reservation.ts'
 import { reservationService } from '../../../services/reservationService.ts'
 import styles from './ReservationPlanAttraction.module.css'
-import React from 'react'
 
 const ReservationPlanAttraction = ({
     reservationId,
@@ -48,9 +48,11 @@ const ReservationPlanAttraction = ({
             formData.items,
             formData.message
         )
-        const reservationAttractionData: ReservationAttraction = await reservationAttractionResponse.json()
-        setReservationAttractions((prevState: ReservationAttraction[]) => [...prevState, reservationAttractionData])
-        setReservationMode(false)
+        if (reservationAttractionResponse.status === 200) {
+            const reservationAttractionData: ReservationAttraction = await reservationAttractionResponse.json()
+            setReservationAttractions((prevState: ReservationAttraction[]) => [...prevState, reservationAttractionData])
+            setReservationMode(false)
+        } else setReservationMode(false)
     }
 
     return (

@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import { GreyButton } from '../../Shared/Controls/Button'
+import { useEffect, useState } from 'react'
 import ImagePanel from '../../Shared/Image/ImagePanel'
 import TextRegular from '../../Shared/Controls/Text/TextRegular'
 import { Stay } from '../../../types/stay.ts'
@@ -18,8 +17,7 @@ interface Props {
 }
 
 const TourismStayOfferItem = ({ stay, index, reservation, dateFrom, dateTo }: Props) => {
-    const { t } = useTranslation()
-    const navigate = useNavigate()
+    const { t, navigate } = useHooks()
     const [image, setImage] = useState<Image>()
 
     useEffect(() => {

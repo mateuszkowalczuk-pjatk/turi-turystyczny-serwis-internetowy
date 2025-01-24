@@ -1,26 +1,25 @@
 import React, { useEffect, useState } from 'react'
-import { checkInOutTimeValidation } from '../../../utils/checkInOutTimeValidation.ts'
-import { useTranslation } from 'react-i18next'
-import { handleFormError } from '../../../utils/handleFormError.ts'
 import { handle } from '../../../utils/handle.ts'
-import TouristicPlaceGuaranteedServices from '../TouristicPlaceGuaranteedServices'
-import TourismTouristicPlaceTypeSelect from '../TourismTouristicPlaceTypeSelect'
-import TourismTouristicPlaceCheckbox from '../TourismTouristicPlaceCheckbox'
-import TourismTouristicPlaceDetails from '../TourismTouristicPlaceDetails'
-import TourismTouristicPlaceOwner from '../TourismTouristicPlaceOwner'
-import TourismTouristicPlaceLabel from '../TourismTouristicPlaceLabel'
-import TourismTouristicPlaceSave from '../TourismTouristicPlaceSave'
-import PersonalPanel from '../../Shared/Personal/PersonalPanel'
-import Checkbox from '../../Shared/Controls/Checkbox'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import { handleFormError } from '../../../utils/handleFormError.ts'
 import Input from '../../Shared/Controls/Input'
-import { TouristicPlace, TouristicPlaceType } from '../../../types/touristicPlace.ts'
-import { Account, Address } from '../../../types'
-import { touristicPlaceService } from '../../../services/touristicPlaceService.ts'
-import { accountService } from '../../../services/accountService.ts'
-import { addressService } from '../../../services/addressService.ts'
-import { userService } from '../../../services/userService.ts'
-import styles from './TourismTouristicPlaceForm.module.css'
 import Label from '../../Shared/Controls/Label'
+import Checkbox from '../../Shared/Controls/Checkbox'
+import PersonalPanel from '../../Shared/Personal/PersonalPanel'
+import TourismTouristicPlaceSave from '../TourismTouristicPlaceSave'
+import TourismTouristicPlaceLabel from '../TourismTouristicPlaceLabel'
+import TourismTouristicPlaceOwner from '../TourismTouristicPlaceOwner'
+import TourismTouristicPlaceDetails from '../TourismTouristicPlaceDetails'
+import TourismTouristicPlaceCheckbox from '../TourismTouristicPlaceCheckbox'
+import TourismTouristicPlaceTypeSelect from '../TourismTouristicPlaceTypeSelect'
+import TouristicPlaceGuaranteedServices from '../TouristicPlaceGuaranteedServices'
+import { Account, Address } from '../../../types'
+import { TouristicPlace, TouristicPlaceType } from '../../../types/touristicPlace.ts'
+import { userService } from '../../../services/userService.ts'
+import { addressService } from '../../../services/addressService.ts'
+import { accountService } from '../../../services/accountService.ts'
+import { touristicPlaceService } from '../../../services/touristicPlaceService.ts'
+import styles from './TourismTouristicPlaceForm.module.css'
 
 interface FormData {
     name: string
@@ -42,7 +41,7 @@ interface FormData {
 }
 
 const TourismTouristicPlaceForm = ({ touristicPlaceId }: { touristicPlaceId: number }) => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const [email, setEmail] = useState<string>('test')
@@ -399,7 +398,8 @@ const TourismTouristicPlaceForm = ({ touristicPlaceId }: { touristicPlaceId: num
                                     disabled={loading}
                                 />
                             }
-                            thirdInput={
+                            thirdInput={<div />}
+                            fourthInput={
                                 <Input
                                     type={'time'}
                                     name={'checkOutTimeFrom'}
@@ -410,7 +410,7 @@ const TourismTouristicPlaceForm = ({ touristicPlaceId }: { touristicPlaceId: num
                                     disabled={loading}
                                 />
                             }
-                            fourthInput={
+                            fifthInput={
                                 <Input
                                     type={'time'}
                                     name={'checkOutTimeTo'}
@@ -421,6 +421,7 @@ const TourismTouristicPlaceForm = ({ touristicPlaceId }: { touristicPlaceId: num
                                     disabled={loading}
                                 />
                             }
+                            sixthInput={<div />}
                             touristicPlace
                         />
                     }

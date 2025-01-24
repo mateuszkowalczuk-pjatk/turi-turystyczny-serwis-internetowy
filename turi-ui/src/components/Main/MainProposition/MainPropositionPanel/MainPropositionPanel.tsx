@@ -1,8 +1,8 @@
-import { useNavigate } from 'react-router-dom'
+import { useHooks } from '../../../../hooks/shared/useHooks.ts'
 import TextBold from '../../../Shared/Controls/Text/TextBold'
 import { SearchMode } from '../../../../types/offer.ts'
-import { TouristicPlaceType } from '../../../../types/touristicPlace.ts'
 import { AttractionType } from '../../../../types/attraction.ts'
+import { TouristicPlaceType } from '../../../../types/touristicPlace.ts'
 import styles from './MainPropositionPanel.module.css'
 
 interface Props {
@@ -14,7 +14,7 @@ interface Props {
 }
 
 const MainPropositionPanel = ({ text, imagePath, mode, touristicPlaceType, attractionType }: Props) => {
-    const navigate = useNavigate()
+    const { navigate } = useHooks()
 
     const handleSearch = () => {
         navigate(

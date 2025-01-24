@@ -1,9 +1,9 @@
-import { useTranslation } from 'react-i18next'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import TextMedium from '../../Shared/Controls/Text/TextMedium'
 import styles from './NotFoundTitle.module.css'
 
 const NotFoundTitle = () => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
 
     return (
         <div className={styles.title}>

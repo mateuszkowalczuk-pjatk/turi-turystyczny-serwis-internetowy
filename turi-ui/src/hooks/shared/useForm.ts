@@ -21,7 +21,6 @@ export const useForm = <T extends Record<string, any>>({ initialValues }: { init
 
     const resetForm = () => {
         setFormData(initialValues)
-        setError(null)
     }
 
     return {

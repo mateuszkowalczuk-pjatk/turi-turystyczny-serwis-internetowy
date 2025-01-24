@@ -439,7 +439,7 @@
         "date-to": "Date to"
     },
     "reservation": {
-        "reservation-return": "< Back to the tourist place",
+        "reservation-return": "< Back to previous page",
         "reservation-details": "Details",
         "reservation-check-in": "Check-in",
         "reservation-check-out": "Check-out",

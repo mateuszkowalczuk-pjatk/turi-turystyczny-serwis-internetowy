@@ -9,7 +9,7 @@ import AuthInput from '../../../components/Auth/AuthInput'
 import AuthButton from '../../../components/Auth/AuthButton'
 import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
-import AuthError from '../../../components/Auth/AuthError'
+import Error from '../../../components/Shared/Error'
 import { resetPassword } from '../../../store/slices/reset.ts'
 import { userService } from '../../../services/userService.ts'
 
@@ -63,7 +63,7 @@ const ResetPasswordEmailCheckPage = () => {
                     disabled={loading}
                 />
             }
-            error={error && <AuthError error={error} />}
+            error={error && <Error error={error} />}
             button={
                 <AuthButton
                     text={t('login-check.button')}

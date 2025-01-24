@@ -1,9 +1,10 @@
-import { useTranslation } from 'react-i18next'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import TextRegular from '../../Shared/Controls/Text/TextRegular'
 import styles from './OfferOpinion.module.css'
 
 const OfferOpinion = () => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
+
     return (
         <div className={styles.opinion}>
             <div className={styles.title}>

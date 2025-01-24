@@ -1,4 +1,8 @@
-import { useLocation } from 'react-router-dom'
+import React from 'react'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import { useStates } from '../../../hooks/shared/useStates.ts'
+import { useRedirectEvery } from '../../../hooks/shared/useRedirect.ts'
+import { useReservationPersonal } from '../../../hooks/pages/useReservationPersonal.ts'
 import Loader from '../../../components/Shared/Loading/Loader'
 import PageContent from '../../../components/Shared/Contents/PageContent'
 import PageReturn from '../../../components/Shared/PageReturn'
@@ -6,14 +10,12 @@ import ReservationPanel from '../../../components/Reservation/ReservationPanel'
 import ReservationFormSection from '../../../components/Reservation/ReservationFormSection'
 import ReservationDetails from '../../../components/Reservation/ReservationDetails'
 import ReservationPersonal from '../../../components/Reservation/ReservationPersonal'
-import { useHooks } from '../../../hooks/shared/useHooks.ts'
-import React from 'react'
-import { useReservationPersonal } from '../../../hooks/pages/useReservationPersonal.ts'
 import { Account } from '../../../types'
 import { accountService } from '../../../services/accountService.ts'
 
 const ReservationPersonalPage = () => {
-    const { t, navigate } = useHooks()
+    const { t, navigate, location } = useHooks()
+    const { isAuthenticated } = useStates()
     const {
         reservation = null,
         reservationAttractions = null,
@@ -23,9 +25,11 @@ const ReservationPersonalPage = () => {
         request = null,
         dateFrom = null,
         dateTo = null
-    } = useLocation().state || {}
+    } = location.state || {}
     const { account, firstName, setFirstName, lastName, setLastName, phoneNumber, setPhoneNumber, email } =
         useReservationPersonal()
+
+    useRedirectEvery([!isAuthenticated], '/')
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()

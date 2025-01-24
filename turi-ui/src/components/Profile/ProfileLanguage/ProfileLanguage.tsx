@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import { setCookie } from '../../../utils/cookie'
-import ProfileLabel from '../ProfileLabel'
+import { useEffect, useState } from 'react'
 import Checkbox from '../../Shared/Controls/Checkbox'
+import ProfileLabel from '../ProfileLabel'
 import ProfileButton from '../ProfileButton'
 import styles from './ProfileLanguage.module.css'
 
@@ -17,7 +17,7 @@ const LABEL = {
 }
 
 const ProfileLanguage = () => {
-    const { t, i18n } = useTranslation()
+    const { t, i18n } = useHooks()
     const [selectedLanguage, setSelectedLanguage] = useState<string>(i18n.language)
     const [tempLanguage, setTempLanguage] = useState<string>(i18n.language)
 

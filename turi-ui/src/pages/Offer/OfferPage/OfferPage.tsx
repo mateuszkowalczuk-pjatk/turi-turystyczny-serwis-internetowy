@@ -1,13 +1,12 @@
-import { useRedirectEvery } from '../../../hooks/shared/useRedirect.ts'
-import { useLocation } from 'react-router-dom'
 import { useHooks } from '../../../hooks/shared/useHooks.ts'
-import PageContent from '../../../components/Shared/Contents/PageContent'
+import { useRedirectEvery } from '../../../hooks/shared/useRedirect.ts'
 import PageReturn from '../../../components/Shared/PageReturn'
 import OfferPanel from '../../../components/Offer/OfferPanel'
+import PageContent from '../../../components/Shared/Contents/PageContent'
 
 const OfferPage = () => {
-    const { t } = useHooks()
-    const { offer = null, dateFrom = null, dateTo = null } = useLocation().state || {}
+    const { t, location } = useHooks()
+    const { offer = null, dateFrom = null, dateTo = null } = location.state || {}
 
     useRedirectEvery([offer === null], '/')
 

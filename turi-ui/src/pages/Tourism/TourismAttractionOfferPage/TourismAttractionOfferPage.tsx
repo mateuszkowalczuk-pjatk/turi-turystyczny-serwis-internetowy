@@ -1,17 +1,16 @@
-import { useRedirectSome } from '../../../hooks/shared/useRedirect.ts'
-import { useLocation } from 'react-router-dom'
-import { useStates } from '../../../hooks/shared/useStates.ts'
 import { useHooks } from '../../../hooks/shared/useHooks.ts'
-import PageContent from '../../../components/Shared/Contents/PageContent'
+import { useStates } from '../../../hooks/shared/useStates.ts'
+import { useRedirectSome } from '../../../hooks/shared/useRedirect.ts'
 import PageReturn from '../../../components/Shared/PageReturn'
+import PageContent from '../../../components/Shared/Contents/PageContent'
 import TourismPanel from '../../../components/Tourism/TourismPanel'
 import TourismHeader from '../../../components/Tourism/TourismHeader'
 import TourismAttractionOfferPanel from '../../../components/Tourism/TourismAttractionOfferPanel'
 
 const TourismAttractionOfferPage = ({ modify }: { modify?: boolean }) => {
-    const { t } = useHooks()
+    const { t, location } = useHooks()
     const { isAuthenticated, isPremium } = useStates()
-    const { touristicPlaceId = null } = useLocation().state || {}
+    const { touristicPlaceId = null } = location.state || {}
 
     useRedirectSome([!isAuthenticated, !isPremium], '/')
 

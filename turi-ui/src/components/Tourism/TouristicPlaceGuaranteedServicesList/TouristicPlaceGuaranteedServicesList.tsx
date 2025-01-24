@@ -1,5 +1,5 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import { GuaranteedService } from '../../../types/touristicPlace.ts'
 import { touristicPlaceService } from '../../../services/touristicPlaceService.ts'
 import styles from './TouristicPlaceGuaranteedServicesList.module.css'
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const TouristicPlaceGuaranteedServicesList = ({ guaranteedServices, removeGuaranteedServices }: Props) => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
 
     const handleDelete = async (guaranteedService: GuaranteedService, event: React.MouseEvent) => {
         event.preventDefault()

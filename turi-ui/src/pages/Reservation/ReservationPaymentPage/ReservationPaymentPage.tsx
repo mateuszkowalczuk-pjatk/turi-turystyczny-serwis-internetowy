@@ -1,5 +1,4 @@
 import { useHooks } from '../../../hooks/shared/useHooks.ts'
-import { useLocation } from 'react-router-dom'
 import React, { useState } from 'react'
 import { PaymentMethod } from '../../../types'
 import Loader from '../../../components/Shared/Loading/Loader'
@@ -11,9 +10,12 @@ import ReservationDetails from '../../../components/Reservation/ReservationDetai
 import PremiumPayment from '../../../components/Premium/PremiumPayment'
 import { reservationService } from '../../../services/reservationService.ts'
 import { ReservationMode } from '../../../types/reservation.ts'
+import { useRedirectEvery } from '../../../hooks/shared/useRedirect.ts'
+import { useStates } from '../../../hooks/shared/useStates.ts'
 
 const ReservationPaymentPage = () => {
-    const { t } = useHooks()
+    const { t, location } = useHooks()
+    const { isAuthenticated } = useStates()
     const {
         reservation = null,
         reservationAttractions = null,
@@ -23,7 +25,7 @@ const ReservationPaymentPage = () => {
         request = null,
         dateFrom = null,
         dateTo = null
-    } = useLocation().state || {}
+    } = location.state || {}
     const [paymentMethod, setPaymentMethod] = useState<PaymentMethod | null>(null)
     const [privacyPolicy, setPrivacyPolicy] = useState<boolean>(false)
 
@@ -43,6 +45,8 @@ const ReservationPaymentPage = () => {
         )
         if (response.status === 200) window.location.href = await response.text()
     }
+
+    useRedirectEvery([!isAuthenticated], '/')
 
     return (
         <Loader>

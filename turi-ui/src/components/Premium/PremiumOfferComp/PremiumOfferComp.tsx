@@ -1,7 +1,7 @@
-import { useTranslation } from 'react-i18next'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import TextMedium from '../../Shared/Controls/Text/TextMedium'
-import PremiumOfferList from '../PremiumOfferList'
 import TextRegular from '../../Shared/Controls/Text/TextRegular'
+import PremiumOfferList from '../PremiumOfferList'
 import styles from './PremiumOfferComp.module.css'
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 }
 
 const PremiumOfferComp = ({ text, list, length, price }: Props) => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
 
     return (
         <div className={styles.offer}>

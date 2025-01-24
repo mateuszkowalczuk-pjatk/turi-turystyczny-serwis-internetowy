@@ -1,14 +1,14 @@
-import { useTranslation } from 'react-i18next'
-import MainPropositionContent from '../MainPropositionContent'
+import { useHooks } from '../../../../hooks/shared/useHooks.ts'
 import MainPropositionTitle from '../MainPropositionTitle'
 import MainPropositionPanels from '../MainPropositionPanels'
+import MainPropositionContent from '../MainPropositionContent'
 import { SearchMode } from '../../../../types/offer.ts'
-import { TouristicPlaceType } from '../../../../types/touristicPlace.ts'
 import { AttractionType } from '../../../../types/attraction.ts'
+import { TouristicPlaceType } from '../../../../types/touristicPlace.ts'
 import styles from './MainProposition.module.css'
 
 const MainProposition = () => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
 
     return (
         <div className={styles.proposition}>

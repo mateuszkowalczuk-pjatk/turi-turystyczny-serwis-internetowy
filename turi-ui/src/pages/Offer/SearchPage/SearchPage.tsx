@@ -1,12 +1,12 @@
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
-import SearchBrowser from '../../../components/Offer/SearchBrowser'
 import SearchOffers from '../../../components/Offer/SearchOffers'
+import SearchBrowser from '../../../components/Offer/SearchBrowser'
 import { Offer, Search, SearchMode } from '../../../types/offer.ts'
 import { offerService } from '../../../services/offerService.ts'
 
 const SearchPage = () => {
-    const location = useLocation()
+    const { location } = useHooks()
     const urlSearchParams = (query: string | string[][] | Record<string, string> | URLSearchParams | undefined) => {
         return new URLSearchParams(query)
     }

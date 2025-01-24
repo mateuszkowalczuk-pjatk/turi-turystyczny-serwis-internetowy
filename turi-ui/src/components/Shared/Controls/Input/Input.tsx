@@ -13,9 +13,23 @@ interface Props {
     max?: string
     required: boolean
     disabled?: boolean
+    step?: number
 }
 
-const Input = ({ type, name, placeholder, value, onChange, minLength, maxLength, min, max, required, disabled }: Props) => {
+const Input = ({
+    type,
+    name,
+    placeholder,
+    value,
+    onChange,
+    minLength,
+    maxLength,
+    min,
+    max,
+    required,
+    disabled,
+    step
+}: Props) => {
     const formatValue = (value: string | number | Date | undefined | null): string | number | undefined => {
         if (value instanceof Date) return value.toISOString().split('T')[0]
         return value !== null ? value : ''
@@ -35,6 +49,7 @@ const Input = ({ type, name, placeholder, value, onChange, minLength, maxLength,
             required={required}
             disabled={disabled}
             autoComplete="off"
+            step={step}
         />
     )
 }

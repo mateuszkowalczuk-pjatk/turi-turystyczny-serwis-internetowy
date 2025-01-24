@@ -1,14 +1,14 @@
-import { useTranslation } from 'react-i18next'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import { GreenButton } from '../../Shared/Controls/Button'
-import AuthError from '../../Auth/AuthError'
+import Error from '../../Shared/Error'
 import styles from './TourismTouristicPlaceSave.module.css'
 
 const TourismTouristicPlaceSave = ({ error }: { error: string | null }) => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
 
     return (
         <div className={styles.save}>
-            {error && <AuthError error={error} />}
+            {error && <Error error={error} />}
             <GreenButton
                 type={'submit'}
                 text={t('tourism.touristic-place-save')}

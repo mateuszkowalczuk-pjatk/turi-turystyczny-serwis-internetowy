@@ -1,11 +1,11 @@
-import { useTranslation } from 'react-i18next'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import { handleTimeDisplay } from '../../../utils/handleDateTimeDisplay.ts'
 import TextRegular from '../../Shared/Controls/Text/TextRegular'
 import { TouristicPlace } from '../../../types/touristicPlace.ts'
 import styles from './OfferInformation.module.css'
-import { handleTimeDisplay } from '../../../utils/handleDateTimeDisplay.ts'
 
 const OfferInformation = ({ touristicPlace }: { touristicPlace: TouristicPlace }) => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
 
     return (
         <div className={styles.information}>

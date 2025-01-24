@@ -1,14 +1,14 @@
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import Label from '../../Shared/Controls/Label'
 import TouristicPlaceGuaranteedServicesList from '../TouristicPlaceGuaranteedServicesList'
 import TouristicPlaceGuaranteedServicesListAdd from '../TouristicPlaceGuaranteedServicesListAdd'
-import { touristicPlaceService } from '../../../services/touristicPlaceService.ts'
 import { GuaranteedService } from '../../../types/touristicPlace.ts'
+import { touristicPlaceService } from '../../../services/touristicPlaceService.ts'
 import styles from './TouristicPlaceGuaranteedServices.module.css'
-import Label from '../../Shared/Controls/Label'
 
 const TouristicPlaceGuaranteedServices = ({ touristicPlaceId }: { touristicPlaceId?: number }) => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
     const [guaranteedServices, setGuaranteedServices] = useState<GuaranteedService[]>([])
 
     useEffect(() => {

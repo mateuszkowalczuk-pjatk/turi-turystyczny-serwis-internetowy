@@ -1,9 +1,9 @@
-import { useTranslation } from 'react-i18next'
+import { useHooks } from '../../../../hooks/shared/useHooks.ts'
 import TextExtraLight from '../../Controls/Text/TextExtraLight'
 import styles from './FooterTitle.module.css'
 
 const FooterTitle = () => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
 
     return (
         <div className={styles.title}>

@@ -9,12 +9,12 @@ interface Props {
 const ReservationButton = ({ text, onlyDisplay }: Props) => {
     return (
         <div className={styles.button}>
-            {!onlyDisplay && text &&
-            <GreenButton
-                text={text}
-                type={'submit'}
-            />
-            }
+            {!onlyDisplay && text && (
+                <GreenButton
+                    text={text}
+                    type={'submit'}
+                />
+            )}
         </div>
     )
 }

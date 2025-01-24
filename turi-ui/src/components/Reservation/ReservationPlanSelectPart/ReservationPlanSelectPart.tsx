@@ -1,9 +1,9 @@
 import TextMedium from '../../Shared/Controls/Text/TextMedium'
 import ReservationPlanSelectItems from '../ReservationPlanSelectItems'
 import { Attraction } from '../../../types/attraction.ts'
+import { TouristicPlace } from '../../../types/touristicPlace.ts'
 import { ReservationAttraction } from '../../../types/reservation.ts'
 import styles from './ReservationPlanSelectPart.module.css'
-import { TouristicPlace } from '../../../types/touristicPlace.ts'
 
 interface Props {
     text: string

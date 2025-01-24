@@ -1,15 +1,15 @@
 import { ReactNode } from 'react'
-import { useAuthenticated } from '../../../../store/slices/auth.ts'
-import { useTranslation } from 'react-i18next'
+import { useHooks } from '../../../../hooks/shared/useHooks.ts'
+import { useStates } from '../../../../hooks/shared/useStates.ts'
+import TextRegular from '../../Controls/Text/TextRegular'
 import FooterModule from '../FooterModule'
 import TextExtraLight from '../../Controls/Text/TextExtraLight'
-import TextRegular from '../../Controls/Text/TextRegular'
 import { Link } from 'react-router-dom'
 import styles from './FooterContent.module.css'
 
 const FooterContent = ({ content }: { content: ReactNode }) => {
-    const { t } = useTranslation()
-    const isAuthenticated = useAuthenticated()
+    const { t } = useHooks()
+    const { isAuthenticated } = useStates()
 
     return (
         <div className={styles.content}>

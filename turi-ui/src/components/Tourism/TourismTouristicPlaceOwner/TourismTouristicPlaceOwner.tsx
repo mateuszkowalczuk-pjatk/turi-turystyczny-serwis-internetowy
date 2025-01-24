@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import Label from '../../Shared/Controls/Label'
 import ImagePanel from '../../Shared/Image/ImagePanel'
 import ImageUploader from '../../Shared/Image/ImageUploader'
@@ -14,7 +14,7 @@ interface Props {
 }
 
 const TourismTouristicPlaceOwner = ({ firstPanel, secondPanel, thirdPanel }: Props) => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
     const [image, setImage] = useState<Image | null>(null)
 
     useEffect(() => {

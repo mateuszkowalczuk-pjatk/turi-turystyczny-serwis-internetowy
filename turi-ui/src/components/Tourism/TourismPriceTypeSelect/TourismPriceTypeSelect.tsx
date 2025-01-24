@@ -1,5 +1,5 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import { PriceType } from '../../../types/attraction.ts'
 import styles from './TourismPriceTypeSelect.module.css'
 
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const TourismPriceTypeSelect = ({ value, onChange, disabled }: Props) => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
 
     return (
         <div className={styles.panel}>
