@@ -62,6 +62,6 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-tasks.named("bootJar") {
-    archiveFileName = "app.jar"
+tasks.withType<Jar> {
+    archiveFileName.set("app.jar")
 }
