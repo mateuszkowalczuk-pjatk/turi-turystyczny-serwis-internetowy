@@ -43,6 +43,11 @@ public class JwtFilter extends OncePerRequestFilter
                 || path.startsWith("/api/payment/webhook")
                 || path.startsWith("/api/offer/search")
                 || path.startsWith("/api/offer/autocomplete")
+                || path.startsWith("/api/address/getById/")
+                || path.startsWith("/api/image/get")
+                || path.startsWith("/api/premium/getAccountId/")
+                || path.startsWith("/api/account/get/")
+                || path.startsWith("/api/user/getEmailById/")
                 || path.startsWith("/swagger-ui")
                 || path.startsWith("/v3/api-docs"))
         {
