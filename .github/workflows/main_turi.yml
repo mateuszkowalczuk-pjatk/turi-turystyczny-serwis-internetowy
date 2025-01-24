@@ -19,20 +19,17 @@ jobs:
           java-version: '17'
           distribution: 'microsoft'
 
-      - name: Change directory to 'turi'
-        run: cd turi
-
       - name: Make gradlew executable
-        run: chmod +x gradlew
+        run: cd turi && chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew bootJar
+        run: cd turi && ./gradlew bootJar
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: java-app
-          path: build/libs/app.jar
+          path: turi/build/libs/app.jar
 
   deploy:
     runs-on: ubuntu-latest
