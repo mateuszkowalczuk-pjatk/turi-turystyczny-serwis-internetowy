@@ -62,10 +62,10 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-tasks.getByName<BootJar>("bootJar") {
-    mainClass.set("com.turi.Turi")
+tasks.named("bootJar") {
+    archiveFileName = "app.jar"
 }
 
-tasks.named('bootJar') {
-    archiveFileName = 'app.jar'
+tasks.getByName<BootJar>("bootJar") {
+    mainClass.set("com.turi.Turi")
 }
