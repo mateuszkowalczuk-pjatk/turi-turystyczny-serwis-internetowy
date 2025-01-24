@@ -19,11 +19,11 @@ jobs:
           java-version: '17'
           distribution: 'microsoft'
 
-      - name: Make gradlew executable
-        run: chmod +x turi/gradlew
-
       - name: Change directory to 'turi'
         run: cd turi
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
 
       - name: Build with Gradle
         run: ./gradlew bootJar
