@@ -65,3 +65,7 @@ tasks.withType<Test> {
 tasks.getByName<BootJar>("bootJar") {
     mainClass.set("com.turi.Turi")
 }
+
+tasks.named('bootJar') {
+    archiveFileName = 'app.jar'
+}
