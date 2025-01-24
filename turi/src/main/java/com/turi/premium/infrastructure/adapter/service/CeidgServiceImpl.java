@@ -1,8 +1,8 @@
 package com.turi.premium.infrastructure.adapter.service;
 
-import com.turi.infrastructure.properties.CeidgProperties;
 import com.turi.premium.domain.model.PremiumCompanyParam;
 import com.turi.premium.domain.port.CeidgService;
+import com.turi.premium.infrastructure.config.CeidgProperties;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

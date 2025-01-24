@@ -1,14 +1,11 @@
-import { useLocation, useNavigate } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import { useStates } from '../../../hooks/shared/useStates.ts'
 import TextRegular from '../../Shared/Controls/Text/TextRegular'
 import styles from './ProfileHeader.module.css'
-import { usePremium } from '../../../store/slices/premium.ts'
 
 const ProfileHeader = () => {
-    const { t } = useTranslation()
-    const navigate = useNavigate()
-    const location = useLocation()
-    const isPremium = usePremium()
+    const { t, navigate, location } = useHooks()
+    const { isPremium } = useStates()
 
     return (
         <div className={styles.header}>

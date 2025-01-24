@@ -1,10 +1,10 @@
-import { useTranslation } from 'react-i18next'
-import TextMediumExtra from '../../../Shared/Controls/Text/TextMediumExtra'
+import { useHooks } from '../../../../hooks/shared/useHooks.ts'
 import TextExtraLight from '../../../Shared/Controls/Text/TextExtraLight'
+import TextMediumExtra from '../../../Shared/Controls/Text/TextMediumExtra'
 import styles from './MainDashboardBanner.module.css'
 
 const MainDashboardBanner = () => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
 
     return (
         <div className={styles.banner}>

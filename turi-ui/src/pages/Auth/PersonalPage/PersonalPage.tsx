@@ -1,24 +1,13 @@
-import { useRedirectSome } from '../../../hooks/useRedirect.ts'
-import { useAuthenticated } from '../../../store/slices/auth.ts'
-import { usePersonal } from '../../../store/slices/personal.ts'
-import AuthPersonalTitle from '../../../components/Auth/AuthPersonal/AuthPersonalTitle'
-import AuthPersonalDescription from '../../../components/Auth/AuthPersonal/AuthPersonalDescription'
-import AuthPersonalContent from '../../../components/Auth/AuthPersonal/AuthPersonalContent'
-import styles from './PersonalPage.module.css'
+import { useStates } from '../../../hooks/shared/useStates.ts'
+import { useRedirectSome } from '../../../hooks/shared/useRedirect.ts'
+import AuthPersonal from '../../../components/Auth/AuthPersonal'
 
 const PersonalPage = () => {
-    const isAuthenticated = useAuthenticated()
-    const isPersonalization = usePersonal()
+    const { isAuthenticated, isPersonal } = useStates()
 
-    useRedirectSome([!isAuthenticated, !isPersonalization], '/login')
+    useRedirectSome([!isAuthenticated, !isPersonal], '/login')
 
-    return (
-        <div className={styles.personal}>
-            <AuthPersonalTitle />
-            <AuthPersonalDescription />
-            <AuthPersonalContent />
-        </div>
-    )
+    return <AuthPersonal />
 }
 
 export default PersonalPage

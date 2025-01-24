@@ -1,9 +1,9 @@
-import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
-import TextMedium from '../../Shared/Controls/Text/TextMedium'
-import Checkbox from '../../Shared/Controls/Checkbox'
-import { PaymentMethod } from '../../../types'
 import { Trans } from 'react-i18next'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import Checkbox from '../../Shared/Controls/Checkbox'
+import TextMedium from '../../Shared/Controls/Text/TextMedium'
+import { PaymentMethod } from '../../../types'
+import { Link } from 'react-router-dom'
 import styles from './PremiumPayment.module.css'
 
 interface Props {
@@ -14,7 +14,7 @@ interface Props {
 }
 
 const PremiumPayment = ({ paymentMethod, setPaymentMethod, privacyPolicy, setPrivacyPolicy }: Props) => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
 
     return (
         <div className={styles.payment}>
@@ -42,7 +42,7 @@ const PremiumPayment = ({ paymentMethod, setPaymentMethod, privacyPolicy, setPri
                         components={{
                             1: (
                                 <Link
-                                    to="/privacy-policy"
+                                    to="/info/privacy-policy"
                                     className={styles.link}
                                 />
                             )

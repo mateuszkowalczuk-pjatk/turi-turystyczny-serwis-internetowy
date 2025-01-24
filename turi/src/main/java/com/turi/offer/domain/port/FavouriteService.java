@@ -10,7 +10,7 @@ public interface FavouriteService
 
     Boolean isOfferForAccount(final Long accountId, final Long touristicPlaceId);
 
-    void addForAccount(final Long accountId, final Long touristicPlaceId);
+    void create(final Long accountId, final Long touristicPlaceId);
 
-    void deleteForAccount(final Long accountId, final Long touristicPlaceId);
+    void delete(final Long accountId, final Long touristicPlaceId);
 }

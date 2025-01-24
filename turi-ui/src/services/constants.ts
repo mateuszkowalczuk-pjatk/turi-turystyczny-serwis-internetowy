@@ -45,6 +45,7 @@ export const API = {
         UPDATE_COMPANY_DETAILS: '/api/premium/updateCompanyDetails'
     },
     TOURISTIC_PLACE: {
+        GET_BY_ID: '/api/touristicplace/getById',
         GET_BY_PREMIUM_ID: '/api/touristicplace/getByPremiumId',
         IS_ADDRESS_EXISTS: '/api/touristicplace/isAddressExists',
         GET_ALL_GUARANTEED_SERVICES: '/api/touristicplace/getAllGuaranteedServices',
@@ -85,5 +86,27 @@ export const API = {
         IS_FAVOURITE_FOR_ACCOUNT: '/api/offer/isFavouriteForAccount',
         ADD_FAVOURITE_FOR_ACCOUNT: '/api/offer/addFavouriteForAccount',
         DELETE_FAVOURITE_FOR_ACCOUNT: '/api/offer/deleteFavouriteForAccount'
+    },
+    RESERVATION: {
+        GET_ALL_BY_ACCOUNT_ID: '/api/reservation/getAllByAccountId',
+        GET_ALL_BY_TOURISTIC_PLACE_ID: '/api/reservation/getAllByTouristicPlaceId',
+        GET_ALL_ATTRACTIONS_BY_RESERVATION_ID: '/api/reservation/getAllAttractionsByReservationId',
+        GET_WITH_ATTRACTION_BY_ID: '/api/reservation/getWithAttractionsById',
+        GET_PRICE: '/api/reservation/getPrice',
+        GET_ALL_TOURISTIC_PLACE_STAYS_AVAILABLE_IN_DATE: '/api/reservation/getAllTouristicPlaceStaysAvailableInDate',
+        GET_ALL_TOURISTIC_PLACE_ATTRACTIONS_AVAILABLE_IN_DATE:
+            '/api/reservation/getAllTouristicPlaceAttractionsAvailableInDate',
+        CHECK_PAYMENT: '/api/reservation/checkPayment',
+        CREATE: '/api/reservation/create',
+        CREATE_ATTRACTION: '/api/reservation/createAttraction',
+        PAY: '/api/reservation/pay',
+        MAKE_PAY_ON_SITE: '/api/reservation/makePayOnSite',
+        PAY_ON_SITE: '/api/reservation/payOnSite',
+        UPDATE_DETAILS: '/api/reservation/updateDetails',
+        UPDATE_OPINION: '/api/reservation/updateOpinion',
+        UPDATE_DATE_TO: '/api/reservation/updateDateTo',
+        CANCEL: '/api/reservation/cancel',
+        CANCEL_ATTRACTION: '/api/reservation/cancelAttraction',
+        DELETE_ATTRACTION: '/api/reservation/deleteAttraction'
     }
 }

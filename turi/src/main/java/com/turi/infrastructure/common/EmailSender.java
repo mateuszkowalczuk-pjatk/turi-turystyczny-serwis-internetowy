@@ -17,7 +17,7 @@ public class EmailSender
 {
     private final JavaMailSender sender;
 
-    public void sendEmail(final String email, final String subject, final Integer code)
+    public void sendEmailCode(final String email, final String subject, final Integer code)
     {
         try
         {
@@ -28,7 +28,7 @@ public class EmailSender
             helper.setFrom("noreply.turi@gmail.com");
             helper.setTo(email);
             helper.setSubject(subject);
-            helper.setText(getEmailContent(code, subject), true);
+            helper.setText(getEmailCodeContent(subject, code), true);
 
             sender.send(message);
         }
@@ -38,18 +38,52 @@ public class EmailSender
         }
     }
 
-    private String getEmailContent(final Integer code, final String title)
+    private String getEmailCodeContent(final String title, final Integer code)
     {
         try
         {
-            final var resource = new ClassPathResource("email-content.html");
+            final var resource = new ClassPathResource("email-code-content.html");
             final var content = Files.readString(resource.getFile().toPath(), StandardCharsets.UTF_8);
-            return content.replace("{{code}}", code.toString()).replace("{{title}}", title);
+            return content.replace("{{title}}", title).replace("{{code}}", code.toString());
         }
-        catch (IOException ex)
+        catch (final IOException ex)
         {
             throw new BadRequestParameterException("Invalid email content.");
+        }
+    }
 
+    public void sendEmailReminder(final String email, final String subject, final String text, final String date)
+    {
+        try
+        {
+            final var message = sender.createMimeMessage();
+
+            final var helper = new MimeMessageHelper(message, true);
+
+            helper.setFrom("noreply.turi@gmail.com");
+            helper.setTo(email);
+            helper.setSubject(subject);
+            helper.setText(getEmailRemindContent(subject, text, date), true);
+
+            sender.send(message);
+        }
+        catch (final Exception ex)
+        {
+            throw new BadRequestParameterException("Email cannot be send.");
+        }
+    }
+
+    private String getEmailRemindContent(final String subject, final String text, final String date)
+    {
+        try
+        {
+            final var resource = new ClassPathResource("email-reminder-content.html");
+            final var content = Files.readString(resource.getFile().toPath(), StandardCharsets.UTF_8);
+            return content.replace("{{subject}}", subject).replace("{{text}}", text).replace("{{date}}", date);
+        }
+        catch (final IOException ex)
+        {
+            throw new BadRequestParameterException("Invalid email content.");
         }
     }
 }

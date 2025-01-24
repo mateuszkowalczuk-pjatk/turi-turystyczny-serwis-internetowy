@@ -7,8 +7,8 @@ public final class PaymentForPremiumFailedException extends RuntimeException
     @Serial
     private static final long serialVersionUID = -5026654498399338516L;
 
-    public PaymentForPremiumFailedException(final Long accountId)
+    public PaymentForPremiumFailedException(final Long premiumId)
     {
-        super(String.format("Payment for premium account with Id '%s' failed!", accountId));
+        super(String.format("Payment for premium with Id '%s' failed!", premiumId));
     }
 }

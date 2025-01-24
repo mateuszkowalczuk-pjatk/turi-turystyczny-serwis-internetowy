@@ -1,17 +1,15 @@
-import { useTranslation } from 'react-i18next'
-import { useAppDispatch } from '../../../hooks/useAppDispatch.ts'
 import { useEffect } from 'react'
-import { useAuth } from '../../../hooks/useAuth.ts'
+import { useAuth } from '../../../hooks/app/useAuth.ts'
 import PremiumDescription from '../../../components/Premium/PremiumDescription'
 import PremiumSummary from '../../../components/Premium/PremiumSummary'
 import { premiumAccount } from '../../../store/slices/premium.ts'
 import { login } from '../../../store/slices/auth.ts'
 import { accountService } from '../../../services/accountService.ts'
 import { authService } from '../../../services/authService.ts'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 
 const PremiumSummaryPage = () => {
-    const { t } = useTranslation()
-    const dispatch = useAppDispatch()
+    const { t, dispatch } = useHooks()
 
     useAuth('/')
 

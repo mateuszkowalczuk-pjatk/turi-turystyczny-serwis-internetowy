@@ -1,106 +1,106 @@
 import React, { useEffect, useState } from 'react'
-import { useAuthenticated } from '../../../store/slices/auth.ts'
-import { useTranslation } from 'react-i18next'
-import { useAppDispatch } from '../../../hooks/useAppDispatch.ts'
-import { useNavigate } from 'react-router-dom'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import { useStates } from '../../../hooks/shared/useStates.ts'
+import { useRedirectEvery } from '../../../hooks/shared/useRedirect.ts'
+import Input from '../../../components/Shared/Controls/Input'
+import Label from '../../../components/Shared/Controls/Label'
 import PersonalPart from '../../../components/Shared/Personal/PersonalPart'
 import PersonalPanel from '../../../components/Shared/Personal/PersonalPanel'
-import PersonalLabel from '../../../components/Shared/Personal/PersonalLabel'
 import PersonalInput from '../../../components/Shared/Personal/PersonalInput'
 import PersonalGender from '../../../components/Shared/Personal/PersonalGender'
 import ProfileButton from '../../../components/Profile/ProfileButton'
-import { Gender } from '../../../types'
-import { notPersonalization } from '../../../store/slices/personal.ts'
-import { accountService } from '../../../services/accountService.ts'
+import { Account, Address, Gender } from '../../../types'
 import { addressService } from '../../../services/addressService.ts'
+import { accountService } from '../../../services/accountService.ts'
 import styles from './ProfilePersonalPage.module.css'
 
 interface FormData {
-    firstName: string
-    lastName: string
+    firstName: string | null
+    lastName: string | null
     birthDay: number | null
     birthMonth: number | null
     birthYear: number | null
     gender: Gender | null
-    phoneNumber: string
+    phoneNumber: string | null
     address: {
-        addressId: number
-        country: string
-        city: string
-        zipCode: string
-        street: string
-        buildingNumber: string
-        apartmentNumber: number
+        addressId: number | null
+        country: string | null
+        city: string | null
+        zipCode: string | null
+        street: string | null
+        buildingNumber: string | null
+        apartmentNumber: number | null
     }
 }
 
 const ProfilePersonalPage = () => {
-    const { t } = useTranslation()
-    const navigate = useNavigate()
-    const dispatch = useAppDispatch()
-    const isAuthenticated = useAuthenticated()
+    const { t, navigate } = useHooks()
+    const { isAuthenticated } = useStates()
     const [formData, setFormData] = useState<FormData>({
-        firstName: '',
-        lastName: '',
+        firstName: null,
+        lastName: null,
         birthDay: null,
         birthMonth: null,
         birthYear: null,
         gender: null,
-        phoneNumber: '',
+        phoneNumber: null,
         address: {
-            addressId: 0,
-            country: '',
-            city: '',
-            zipCode: '',
-            street: '',
-            buildingNumber: '',
-            apartmentNumber: 0
+            addressId: null,
+            country: null,
+            city: null,
+            zipCode: null,
+            street: null,
+            buildingNumber: null,
+            apartmentNumber: null
         }
     })
     const [error, setError] = useState<string | null>(null)
     const [loading, setLoading] = useState(false)
 
-    useEffect(() => {
-        if (!isAuthenticated) navigate('/')
+    useRedirectEvery([!isAuthenticated], '/')
 
+    useEffect(() => {
         const fetchData = async () => {
             setLoading(true)
             try {
                 const accountResponse = await accountService.getById()
                 if (accountResponse.status === 200) {
-                    const accountData = await accountResponse.json()
+                    const accountData: Account = await accountResponse.json()
 
-                    const { firstName, lastName, birthDate, gender, phoneNumber, addressId } = accountData
-
-                    const [year, month, day] = birthDate
-
-                    const addressResponse = await addressService.getById(addressId)
-                    if (addressResponse.status === 200) {
-                        const addressData = await addressResponse.json()
-
-                        setFormData({
-                            firstName,
-                            lastName,
-                            birthDay: day,
-                            birthMonth: month,
-                            birthYear: year,
-                            gender: gender === 'MALE' ? Gender.MALE : Gender.FEMALE,
-                            phoneNumber,
-                            address: {
-                                addressId: addressData.addressId,
-                                country: addressData.country,
-                                city: addressData.city,
-                                zipCode: addressData.zipCode,
-                                street: addressData.street,
-                                buildingNumber: addressData.buildingNumber,
-                                apartmentNumber: addressData.apartmentNumber
-                            }
-                        })
-                    } else {
-                        setError(t('signup-personal.error-default-personal'))
+                    let addressData: Address | null = null
+                    if (accountData.addressId) {
+                        const addressResponse = await addressService.getById(accountData.addressId)
+                        if (addressResponse.status === 200) addressData = await addressResponse.json()
                     }
-                } else {
-                    setError(t('signup-personal.error-default-personal'))
+                    let birthDay = null
+                    let birthMonth = null
+                    let birthYear = null
+
+                    if (accountData.birthDate) {
+                        const birthDate = new Date(accountData.birthDate)
+                        birthDay = birthDate.getDate()
+                        birthMonth = birthDate.getMonth() + 1
+                        birthYear = birthDate.getFullYear()
+                    }
+
+                    setFormData({
+                        firstName: accountData.firstName,
+                        lastName: accountData.lastName,
+                        birthDay: birthDay,
+                        birthMonth: birthMonth,
+                        birthYear: birthYear,
+                        gender: accountData.gender.toString() === 'MALE' ? Gender.MALE : Gender.FEMALE,
+                        phoneNumber: accountData.phoneNumber,
+                        address: {
+                            addressId: addressData?.addressId || null,
+                            country: addressData?.country || null,
+                            city: addressData?.city || null,
+                            zipCode: addressData?.zipCode || null,
+                            street: addressData?.street || null,
+                            buildingNumber: addressData?.buildingNumber || null,
+                            apartmentNumber: addressData?.apartmentNumber || null
+                        }
+                    })
                 }
             } finally {
                 setLoading(false)
@@ -257,19 +257,15 @@ const ProfilePersonalPage = () => {
 
             const birthDate = `${formData.birthYear.toString().padStart(4, '0')}-${formData.birthMonth.toString().padStart(2, '0')}-${formData.birthDay.toString().padStart(2, '0')}`
 
-            const response = await accountService.update({
-                addressId: formData.address.addressId,
-                firstName: formData.firstName,
-                lastName: formData.lastName,
-                birthDate: new Date(birthDate),
-                phoneNumber: formData.phoneNumber,
-                gender: formData.gender
-            })
-            if (response.status === 200) {
-                dispatch(notPersonalization())
-                navigate('/')
-            } else {
-                setError(t('signup-personal.error-general'))
+            if (formData.address.addressId) {
+                await accountService.update({
+                    addressId: formData.address.addressId,
+                    firstName: formData.firstName,
+                    lastName: formData.lastName,
+                    birthDate: new Date(birthDate),
+                    phoneNumber: formData.phoneNumber,
+                    gender: formData.gender
+                })
             }
         } catch (error) {
             setError(t('signup-personal.error-general'))
@@ -283,9 +279,9 @@ const ProfilePersonalPage = () => {
             <PersonalPart
                 firstPanel={
                     <PersonalPanel
-                        label={<PersonalLabel text={t('signup-personal.name-surname')} />}
+                        label={<Label text={t('signup-personal.name-surname')} />}
                         firstInput={
-                            <PersonalInput
+                            <Input
                                 type={'text'}
                                 name={'firstName'}
                                 placeholder={t('signup-personal.name')}
@@ -298,7 +294,7 @@ const ProfilePersonalPage = () => {
                             />
                         }
                         secondInput={
-                            <PersonalInput
+                            <Input
                                 type={'text'}
                                 name={'lastName'}
                                 placeholder={t('signup-personal.surname')}
@@ -314,9 +310,9 @@ const ProfilePersonalPage = () => {
                 }
                 secondPanel={
                     <PersonalPanel
-                        label={<PersonalLabel text={t('signup-personal.birthdate')} />}
+                        label={<Label text={t('signup-personal.birthdate')} />}
                         firstInput={
-                            <PersonalInput
+                            <Input
                                 type={'number'}
                                 name={'birthDay'}
                                 placeholder={t('signup-personal.day')}
@@ -327,7 +323,7 @@ const ProfilePersonalPage = () => {
                             />
                         }
                         secondInput={
-                            <PersonalInput
+                            <Input
                                 type={'number'}
                                 name={'birthMonth'}
                                 placeholder={t('signup-personal.month')}
@@ -338,7 +334,7 @@ const ProfilePersonalPage = () => {
                             />
                         }
                         thirdInput={
-                            <PersonalInput
+                            <Input
                                 type={'number'}
                                 name={'birthYear'}
                                 placeholder={t('signup-personal.year')}
@@ -352,7 +348,7 @@ const ProfilePersonalPage = () => {
                 }
                 option={
                     <PersonalPanel
-                        label={<PersonalLabel text={t('signup-personal.gender')} />}
+                        label={<Label text={t('signup-personal.gender')} />}
                         firstInput={
                             <PersonalGender
                                 gender={formData.gender}
@@ -365,9 +361,9 @@ const ProfilePersonalPage = () => {
             <PersonalPart
                 firstPanel={
                     <PersonalPanel
-                        label={<PersonalLabel text={t('signup-personal.phone-number')} />}
+                        label={<Label text={t('signup-personal.phone-number')} />}
                         firstInput={
-                            <PersonalInput
+                            <Input
                                 type={'text'}
                                 name={'phoneNumber'}
                                 placeholder={t('signup-personal.phone-number')}
@@ -381,9 +377,9 @@ const ProfilePersonalPage = () => {
                 }
                 secondPanel={
                     <PersonalPanel
-                        label={<PersonalLabel text={t('signup-personal.address')} />}
+                        label={<Label text={t('signup-personal.address')} />}
                         firstInput={
-                            <PersonalInput
+                            <Input
                                 type={'text'}
                                 name={'address.country'}
                                 placeholder={t('signup-personal.country')}
@@ -394,7 +390,7 @@ const ProfilePersonalPage = () => {
                             />
                         }
                         secondInput={
-                            <PersonalInput
+                            <Input
                                 type={'text'}
                                 name={'address.city'}
                                 placeholder={t('signup-personal.city')}
@@ -405,7 +401,7 @@ const ProfilePersonalPage = () => {
                             />
                         }
                         thirdInput={
-                            <PersonalInput
+                            <Input
                                 type={'text'}
                                 name={'address.zipCode'}
                                 placeholder={t('signup-personal.zipcode')}
@@ -416,7 +412,7 @@ const ProfilePersonalPage = () => {
                             />
                         }
                         fourthInput={
-                            <PersonalInput
+                            <Input
                                 type={'text'}
                                 name={'address.street'}
                                 placeholder={t('signup-personal.street')}
@@ -427,7 +423,7 @@ const ProfilePersonalPage = () => {
                             />
                         }
                         fifthInput={
-                            <PersonalInput
+                            <Input
                                 type={'text'}
                                 name={'address.buildingNumber'}
                                 placeholder={t('signup-personal.building')}

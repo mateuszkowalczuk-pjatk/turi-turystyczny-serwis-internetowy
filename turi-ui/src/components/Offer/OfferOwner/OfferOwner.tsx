@@ -1,13 +1,13 @@
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import TextRegular from '../../Shared/Controls/Text/TextRegular'
 import ImagePanel from '../../Shared/Image/ImagePanel'
-import { Account } from '../../../types'
+import TextRegular from '../../Shared/Controls/Text/TextRegular'
 import { Image } from '../../../types/image.ts'
-import { premiumService } from '../../../services/premiumService.ts'
-import { accountService } from '../../../services/accountService.ts'
-import { imageService } from '../../../services/imageService.ts'
+import { Account } from '../../../types'
 import { userService } from '../../../services/userService.ts'
+import { imageService } from '../../../services/imageService.ts'
+import { accountService } from '../../../services/accountService.ts'
+import { premiumService } from '../../../services/premiumService.ts'
 import styles from './OfferOwner.module.css'
 
 interface Props {
@@ -16,7 +16,7 @@ interface Props {
 }
 
 const OfferOwner = ({ premiumId, description }: Props) => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
     const [account, setAccount] = useState<Account>()
     const [image, setImage] = useState<Image>()
     const [email, setEmail] = useState<string>()

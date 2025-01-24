@@ -1,18 +1,15 @@
-import { useEffect, useState } from 'react'
-import { useAppDispatch } from '../../../hooks/useAppDispatch.ts'
-import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../../hooks/useAuth.ts'
-import PremiumLoader from '../../../components/Premium/PremiumLoader'
-import { notPaymentPremiumFailed, paymentPremiumFailed } from '../../../store/slices/premiumPaymentFailed.ts'
+import { useAuth } from '../../../hooks/app/useAuth.ts'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import { useEffect } from 'react'
 import { premiumAccount } from '../../../store/slices/premium.ts'
 import { premiumService } from '../../../services/premiumService.ts'
 import { touristicPlaceService } from '../../../services/touristicPlaceService.ts'
+import { notPaymentPremiumFailed, paymentPremiumFailed } from '../../../store/slices/premiumPaymentFailed.ts'
+import Spinner from '../../../components/Shared/Loading/Spinner'
 import styles from './PremiumPaymentCheckPage.module.css'
 
 const PremiumPaymentCheckPage = () => {
-    const dispatch = useAppDispatch()
-    const navigate = useNavigate()
-    const [dots, setDots] = useState('')
+    const { navigate, dispatch } = useHooks()
 
     useAuth('/')
 
@@ -48,10 +45,7 @@ const PremiumPaymentCheckPage = () => {
 
     return (
         <div className={styles.check}>
-            <PremiumLoader
-                dots={dots}
-                setDots={setDots}
-            />
+            <Spinner />
         </div>
     )
 }

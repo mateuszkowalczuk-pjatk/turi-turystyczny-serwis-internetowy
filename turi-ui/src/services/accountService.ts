@@ -1,6 +1,7 @@
 import { API_BASE_URL } from '../config/api'
 import { API } from './constants.ts'
 import { Account } from '../types'
+import { defaultParamIfNull } from '../utils/handleRequest.ts'
 
 export const accountService = {
     get: async (accountId: number) => {
@@ -31,20 +32,8 @@ export const accountService = {
         buildingNumber: string,
         apartmentNumber: string | null
     ) => {
-        if (apartmentNumber === null) {
-            return await fetch(
-                `${API_BASE_URL}${API.ACCOUNT.IS_ADDRESS_EXISTS}?country=${country}&city=${city}&zipCode=${zipCode}&street=${street}&buildingNumber=${buildingNumber}`,
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    credentials: 'include'
-                }
-            )
-        }
         return await fetch(
-            `${API_BASE_URL}${API.ACCOUNT.IS_ADDRESS_EXISTS}?country=${country}&city=${city}&zipCode=${zipCode}&street=${street}&buildingNumber=${buildingNumber}&apartmentNumber=${apartmentNumber}`,
+            `${API_BASE_URL}${API.ACCOUNT.IS_ADDRESS_EXISTS}?country=${country}&city=${city}&zipCode=${zipCode}&street=${street}&buildingNumber=${buildingNumber}${defaultParamIfNull('apartmentNumber', apartmentNumber)}`,
             {
                 method: 'GET',
                 headers: {

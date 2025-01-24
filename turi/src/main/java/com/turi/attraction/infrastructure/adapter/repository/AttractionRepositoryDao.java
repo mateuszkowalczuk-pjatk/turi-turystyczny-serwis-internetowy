@@ -16,7 +16,7 @@ public interface AttractionRepositoryDao extends JpaRepository<AttractionEntity,
         FROM attraction a
         WHERE to_tsvector('simple', a.name) @@ plainto_tsquery('simple', :query) OR a.name ILIKE '%' || :query || '%'
         ORDER BY rank DESC NULLS LAST
-        LIMIT 6
+        LIMIT 5
     ) AS subquery;
     """, nativeQuery = true)
     List<String> findForAutocomplete(@Param("query") final String query);

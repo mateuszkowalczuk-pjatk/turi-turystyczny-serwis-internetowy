@@ -4,7 +4,7 @@ import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
 import com.turi.image.domain.exception.AzureBlobStorageUploadException;
 import com.turi.image.domain.port.AzureBlobStorageService;
-import com.turi.infrastructure.properties.AzureStorageProperties;
+import com.turi.image.infrastructure.config.AzureStorageProperties;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

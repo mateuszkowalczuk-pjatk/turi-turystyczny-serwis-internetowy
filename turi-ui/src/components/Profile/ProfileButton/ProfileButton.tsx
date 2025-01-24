@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import { GreenButton } from '../../Shared/Controls/Button'
 import styles from './ProfileButton.module.css'
 
@@ -8,7 +8,7 @@ interface Props {
 }
 
 const ProfileButton = ({ handleSave, error }: Props) => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
 
     return (
         <div className={styles.button}>

@@ -121,7 +121,7 @@ public class OfferFacade
 
         final var accountId = ContextHandler.getIdFromContext();
 
-        favouriteService.addForAccount(accountId, ObjectId.of(touristicPlaceId).getValue());
+        favouriteService.create(accountId, ObjectId.of(touristicPlaceId).getValue());
 
         return ResponseEntity.ok().build();
     }
@@ -135,7 +135,7 @@ public class OfferFacade
 
         final var accountId = ContextHandler.getIdFromContext();
 
-        favouriteService.deleteForAccount(accountId, ObjectId.of(touristicPlaceId).getValue());
+        favouriteService.delete(accountId, ObjectId.of(touristicPlaceId).getValue());
 
         return ResponseEntity.ok().build();
     }

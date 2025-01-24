@@ -9,6 +9,6 @@ public final class PremiumActivatedException extends RuntimeException
 
     public PremiumActivatedException(final Long premiumId)
     {
-        super(String.format("Premium with Id '%s' is currently paid and activated.", premiumId));
+        super(String.format("Premium with Id '%s' is already paid and activated.", premiumId));
     }
 }

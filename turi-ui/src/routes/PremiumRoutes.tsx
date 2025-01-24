@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
-import PremiumLayout from '../layouts/Premium'
+import CustomLayout from '../layouts/Custom'
 import PremiumPage from '../pages/Premium/PremiumPage'
 import PremiumVerifyPage from '../pages/Premium/PremiumVerifyPage'
 import PremiumPaymentPage from '../pages/Premium/PremiumPaymentPage'
@@ -12,7 +12,7 @@ const PremiumRoutes = () => {
         <Routes>
             <Route
                 path="/"
-                element={<PremiumLayout />}
+                element={<CustomLayout />}
             >
                 <Route
                     index

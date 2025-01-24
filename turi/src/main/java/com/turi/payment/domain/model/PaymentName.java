@@ -7,7 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum PaymentName
 {
-    PREMIUM("Subskrypcja konta Premium");
+    PREMIUM("Subskrypcja konta Premium"),
+    RESERVATION("Rezerwacja oferty");
 
     private final String name;
 }

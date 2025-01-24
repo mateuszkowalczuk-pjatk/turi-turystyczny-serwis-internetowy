@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import { StayInformation } from '../../../types/stay.ts'
 import { stayService } from '../../../services/stayService.ts'
 import styles from './TourismStayInformationsList.module.css'
@@ -14,7 +14,7 @@ const TourismStayInformationsList = ({
     removeStayInformation,
     modify
 }: TourismStayInformationsListProps) => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
 
     const handleRemove = async (stayInformation: StayInformation) => {
         if (modify && stayInformation.stayInformationId)

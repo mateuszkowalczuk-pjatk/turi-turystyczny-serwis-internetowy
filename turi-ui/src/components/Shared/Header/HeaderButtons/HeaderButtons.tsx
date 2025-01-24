@@ -1,8 +1,7 @@
-import { useTranslation } from 'react-i18next'
+import { useHooks } from '../../../../hooks/shared/useHooks.ts'
+import { useStates } from '../../../../hooks/shared/useStates.ts'
 import { GreenButton, GreyButton } from '../../Controls/Button'
 import HeaderDropDown from '../HeaderDropDown/HeaderDropDown'
-import { usePremium } from '../../../../store/slices/premium.ts'
-import { useAuthenticated } from '../../../../store/slices/auth.ts'
 import styles from './HeaderButtons.module.css'
 
 interface Props {
@@ -12,9 +11,8 @@ interface Props {
 }
 
 const HeaderButtons = ({ text, firstOnClick, secondOnClick }: Props) => {
-    const { t } = useTranslation()
-    const isPremium = usePremium()
-    const isAuthenticated = useAuthenticated()
+    const { t } = useHooks()
+    const { isPremium, isAuthenticated } = useStates()
 
     return (
         <div className={styles.buttons}>

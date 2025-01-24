@@ -1,0 +1,9 @@
+.time {
+    height: 8rem;
+    width: 50%;
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 1rem;
+}

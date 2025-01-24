@@ -1,0 +1,13 @@
+.panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 35rem;
+    width: 70%;
+    border-radius: 0.6rem;
+    border: 2px solid var(--grey);
+    box-shadow:
+        0 8px 15px rgba(0, 0, 0, 0.1),
+        0 3px 6px rgba(0, 0, 0, 0.05);
+}

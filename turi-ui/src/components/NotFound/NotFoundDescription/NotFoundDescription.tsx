@@ -1,9 +1,9 @@
-import { useTranslation } from 'react-i18next'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import TextRegular from '../../Shared/Controls/Text/TextRegular'
 import styles from './NotFoundDescription.module.css'
 
 const NotFoundDescription = () => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
 
     return (
         <div className={styles.description}>

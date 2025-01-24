@@ -1,12 +1,13 @@
 import { Route, Routes } from 'react-router-dom'
-import { useAuth } from '../hooks/useAuth.ts'
+import { useAuth } from '../hooks/app/useAuth.ts'
 import MainLayout from '../layouts/Main'
 import MainPage from '../pages/Main'
-import OfferRoutes from './OfferRoutes.tsx'
 import AuthRoutes from './AuthRoutes'
 import ProfileRoutes from './ProfileRoutes'
 import PremiumRoutes from './PremiumRoutes'
 import TourismRoutes from './TourismRoutes'
+import ReservationRoutes from './ReservationRoutes.tsx'
+import InfoRoutes from './InfoRoutes.tsx'
 
 const AppRoutes = () => {
     useAuth(null)
@@ -24,10 +25,6 @@ const AppRoutes = () => {
             </Route>
             <Route
                 path="*"
-                element={<OfferRoutes />}
-            />
-            <Route
-                path="*"
                 element={<AuthRoutes />}
             />
             <Route
@@ -41,6 +38,14 @@ const AppRoutes = () => {
             <Route
                 path="tourism/*"
                 element={<TourismRoutes />}
+            />
+            <Route
+                path="reservation/*"
+                element={<ReservationRoutes />}
+            />
+            <Route
+                path="info/*"
+                element={<InfoRoutes />}
             />
         </Routes>
     )

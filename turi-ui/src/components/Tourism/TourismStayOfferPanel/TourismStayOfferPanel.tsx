@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { handleFormError } from '../../../utils/handleFormError.ts'
-import { useTranslation } from 'react-i18next'
-import { useForm } from '../../../hooks/useForm.ts'
+import { useId } from '../../../hooks/shared/useId.ts'
 import { handle } from '../../../utils/handle.ts'
-import { useId } from '../../../hooks/useId.ts'
-import ImageBanner from '../../Shared/Image/ImageBanner'
-import TourismOfferDetails from '../TourismOfferDetails'
-import TourismStayInformations from '../TourismStayInformations'
-import TourismOfferButtons from '../TourismOfferButtons'
-import PersonalPanel from '../../Shared/Personal/PersonalPanel'
-import PersonalLabel from '../../Shared/Personal/PersonalLabel'
+import { useForm } from '../../../hooks/shared/useForm.ts'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import { handleFormError } from '../../../utils/handleFormError.ts'
+import Label from '../../Shared/Controls/Label'
 import Input from '../../Shared/Controls/Input'
-import { StayDto, StayInformation } from '../../../types/stay.ts'
+import ImageBanner from '../../Shared/Image/ImageBanner'
+import PersonalPanel from '../../Shared/Personal/PersonalPanel'
+import TourismOfferDetails from '../TourismOfferDetails'
+import TourismOfferButtons from '../TourismOfferButtons'
+import TourismStayInformations from '../TourismStayInformations'
 import { Image, ImageMode } from '../../../types/image.ts'
-import { imageService } from '../../../services/imageService.ts'
+import { StayDto, StayInformation } from '../../../types/stay.ts'
 import { stayService } from '../../../services/stayService.ts'
+import { imageService } from '../../../services/imageService.ts'
 import styles from './TourismStayOfferPanel.module.css'
 
 interface Props {
@@ -33,9 +32,8 @@ interface FormData {
 }
 
 const TourismStayOfferPanel = ({ touristicPlaceId, modify = false }: Props) => {
-    const { t } = useTranslation()
-    const navigate = useNavigate()
-    const stayId = useLocation().state?.stayId || null
+    const { t, navigate, location } = useHooks()
+    const { stayId = null } = location.state || {}
     const [images, setImages] = useState<Image[]>([])
     const [files, setFiles] = useState<File[]>([])
     const [loading, setLoading] = useState(false)
@@ -163,11 +161,7 @@ const TourismStayOfferPanel = ({ touristicPlaceId, modify = false }: Props) => {
                     <TourismOfferDetails
                         firstPanel={
                             <PersonalPanel
-                                label={
-                                    <PersonalLabel
-                                        text={t('tourism.touristic-place-stay-offer-name-and-description')}
-                                    />
-                                }
+                                label={<Label text={t('tourism.touristic-place-stay-offer-name-and-description')} />}
                                 firstInput={
                                     <Input
                                         type={'text'}
@@ -199,7 +193,7 @@ const TourismStayOfferPanel = ({ touristicPlaceId, modify = false }: Props) => {
                         }
                         secondPanel={
                             <PersonalPanel
-                                label={<PersonalLabel text={t('tourism.touristic-place-stay-offer-information')} />}
+                                label={<Label text={t('tourism.touristic-place-stay-offer-information')} />}
                                 firstInput={
                                     <Input
                                         type={'number'}
@@ -227,9 +221,7 @@ const TourismStayOfferPanel = ({ touristicPlaceId, modify = false }: Props) => {
                         }
                         thirdPanel={
                             <PersonalPanel
-                                label={
-                                    <PersonalLabel text={t('tourism.touristic-place-stay-offer-availability-range')} />
-                                }
+                                label={<Label text={t('tourism.touristic-place-stay-offer-availability-range')} />}
                                 firstInput={
                                     <Input
                                         type={'date'}

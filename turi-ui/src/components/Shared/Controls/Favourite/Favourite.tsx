@@ -12,8 +12,10 @@ const Favourite = ({ touristicPlaceId }: { touristicPlaceId: number | undefined 
         const fetchData = async () => {
             if (touristicPlaceId) {
                 const response = await offerService.isFavouriteForAccount(touristicPlaceId)
-                const data: boolean = await response.json()
-                setIsFavourite(data)
+                if (response.status === 200) {
+                    const data: boolean = await response.json()
+                    setIsFavourite(data)
+                }
             }
         }
         fetchData().catch((error) => error)

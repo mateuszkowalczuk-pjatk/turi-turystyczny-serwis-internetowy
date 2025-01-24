@@ -1,5 +1,5 @@
-import { useTranslation } from 'react-i18next'
-import PersonalLabel from '../../Shared/Personal/PersonalLabel'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import Label from '../../Shared/Controls/Label'
 import TourismStayInformationsList from '../TourismStayInformationsList'
 import TourismStayInformationsCreate from '../TourismStayInformationsCreate'
 import { StayInformation } from '../../../types/stay.ts'
@@ -20,11 +20,11 @@ const TourismStayInformations = ({
     stayId,
     modify
 }: Props) => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
 
     return (
         <div className={styles.informations}>
-            <PersonalLabel text={t('tourism.touristic-place-stay-offer-informations')} />
+            <Label text={t('tourism.touristic-place-stay-offer-informations')} />
             <TourismStayInformationsList
                 stayInformations={stayInformations}
                 removeStayInformation={removeStayInformation}

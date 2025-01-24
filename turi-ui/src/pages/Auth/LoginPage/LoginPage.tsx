@@ -1,42 +1,33 @@
 import React from 'react'
-import { useRedirectEvery } from '../../../hooks/useRedirect.ts'
-import { useTranslation } from 'react-i18next'
-import { useAppDispatch } from '../../../hooks/useAppDispatch.ts'
-import { usePersonal } from '../../../store/slices/personal.ts'
-import { useNavigate } from 'react-router-dom'
-import { useForm } from '../../../hooks/useForm.ts'
 import { handle } from '../../../utils/handle.ts'
+import { useForm } from '../../../hooks/shared/useForm.ts'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import { useStates } from '../../../hooks/shared/useStates.ts'
+import { useRedirectEvery } from '../../../hooks/shared/useRedirect.ts'
+import Error from '../../../components/Shared/Error'
 import AuthPanel from '../../../components/Auth/AuthPanel'
 import AuthTitle from '../../../components/Auth/AuthTitle'
 import AuthInput from '../../../components/Auth/AuthInput'
-import AuthError from '../../../components/Auth/AuthError'
 import AuthButton from '../../../components/Auth/AuthButton'
 import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
-import { login, useAuthenticated } from '../../../store/slices/auth.ts'
-import { loginPremium } from '../../../store/slices/premiumLogin.ts'
+import { login } from '../../../store/slices/auth.ts'
 import { activation } from '../../../store/slices/activate.ts'
 import { authService } from '../../../services/authService.ts'
-
-interface FormData {
-    login: string
-    password: string
-}
+import { loginPremium } from '../../../store/slices/premiumLogin.ts'
+import { LoginFormData } from '../../../types/forms/loginFormData.ts'
 
 const LoginPage = () => {
-    const { t } = useTranslation()
-    const dispatch = useAppDispatch()
-    const navigate = useNavigate()
-    const isAuthenticated = useAuthenticated()
-    const isPersonalization = usePersonal()
-    const { formData, error, setError, handleChange, resetForm, loading, setLoading } = useForm<FormData>({
+    const { t, dispatch, navigate } = useHooks()
+    const { isAuthenticated, isPersonal } = useStates()
+    const { formData, error, setError, handleChange, resetForm, loading, setLoading } = useForm<LoginFormData>({
         initialValues: {
             login: '',
             password: ''
         }
     })
 
-    useRedirectEvery([isAuthenticated, !isPersonalization], '/')
+    useRedirectEvery([isAuthenticated, !isPersonal], '/')
 
     const handleLogin = async (e: React.FormEvent) => {
         handle(e, setLoading, setError)
@@ -47,7 +38,7 @@ const LoginPage = () => {
         })
         if (response.status === 200) {
             dispatch(login())
-            if (isPersonalization) navigate('/personal')
+            if (isPersonal) navigate('/personal')
             else navigate('/')
         } else if (response.status === 202) {
             dispatch(activation())
@@ -95,7 +86,7 @@ const LoginPage = () => {
                     disabled={loading}
                 />
             }
-            error={error && <AuthError error={error} />}
+            error={error && <Error error={error} />}
             button={
                 <AuthButton
                     text={t('login.button')}
@@ -103,12 +94,7 @@ const LoginPage = () => {
                     disabled={loading}
                 />
             }
-            top={
-                <AuthTopLink
-                    text={t('login.google')}
-                    onClick={() => console.log('Google')}
-                />
-            }
+            top={<AuthTopLink />}
             down={
                 <AuthDownLink
                     firstLink={t('login.reset')}

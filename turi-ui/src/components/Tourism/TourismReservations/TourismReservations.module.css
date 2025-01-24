@@ -1,2 +1,10 @@
 .reservations {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 20rem;
+    width: 92%;
+    overflow-y: auto;
+    flex-direction: column;
+    gap: 0.5rem;
 }

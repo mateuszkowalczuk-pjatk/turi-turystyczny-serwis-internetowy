@@ -1,8 +1,8 @@
 import { ReactNode, useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import ImageUploader from '../../Shared/Image/ImageUploader'
-import PersonalLabel from '../../Shared/Personal/PersonalLabel'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import Label from '../../Shared/Controls/Label'
 import ImagePanel from '../../Shared/Image/ImagePanel'
+import ImageUploader from '../../Shared/Image/ImageUploader'
 import { Image, ImageMode } from '../../../types/image.ts'
 import { imageService } from '../../../services/imageService.ts'
 import styles from './TourismTouristicPlaceOwner.module.css'
@@ -14,7 +14,7 @@ interface Props {
 }
 
 const TourismTouristicPlaceOwner = ({ firstPanel, secondPanel, thirdPanel }: Props) => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
     const [image, setImage] = useState<Image | null>(null)
 
     useEffect(() => {
@@ -39,7 +39,7 @@ const TourismTouristicPlaceOwner = ({ firstPanel, secondPanel, thirdPanel }: Pro
 
     return (
         <div className={styles.owner}>
-            <PersonalLabel text={t('tourism.touristic-place-owner')} />
+            <Label text={t('tourism.touristic-place-owner')} />
             <div className={styles.details}>
                 {image ? (
                     <ImagePanel

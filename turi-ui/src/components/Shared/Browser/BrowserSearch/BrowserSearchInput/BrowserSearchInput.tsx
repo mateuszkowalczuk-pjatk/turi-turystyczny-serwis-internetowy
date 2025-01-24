@@ -1,5 +1,5 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { useHooks } from '../../../../../hooks/shared/useHooks.ts'
 import Input from '../../../Controls/Input'
 import styles from './BrowserSearchInput.module.css'
 
@@ -9,7 +9,7 @@ interface Props {
 }
 
 const BrowserSearchInput = ({ query, setQuery }: Props) => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
 
     return (
         <div className={styles.input}>

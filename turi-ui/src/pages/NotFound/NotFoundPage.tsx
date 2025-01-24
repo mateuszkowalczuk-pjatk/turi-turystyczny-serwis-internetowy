@@ -1,16 +1,8 @@
-import AuthHeader from '../../components/Shared/Header/AuthHeader'
-import NotFound from '../../components/NotFound/NotFound'
-import DefaultFooter from '../../components/Shared/Footer/DefaultFooter'
-import styles from '../Page.module.css'
+import DefaultLayout from '../../layouts/Default'
+import NotFoundPanel from '../../components/NotFound/NotFoundPanel'
 
 const NotFoundPage = () => {
-    return (
-        <div className={styles.page}>
-            <AuthHeader />
-            <NotFound />
-            <DefaultFooter />
-        </div>
-    )
+    return <DefaultLayout content={<NotFoundPanel />} />
 }
 
 export default NotFoundPage

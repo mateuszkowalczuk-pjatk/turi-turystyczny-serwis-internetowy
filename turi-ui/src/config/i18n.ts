@@ -6,11 +6,13 @@ import enTranslation from '../locales/en/translation.json'
 
 const language = getCookie('language') || 'pl'
 
-i18n.use(initReactI18next).init({
-    resources: {
-        pl: { translation: plTranslation },
-        en: { translation: enTranslation }
-    },
-    lng: language,
-    fallbackLng: 'en'
-})
+i18n.use(initReactI18next)
+    .init({
+        resources: {
+            pl: { translation: plTranslation },
+            en: { translation: enTranslation }
+        },
+        lng: language,
+        fallbackLng: 'en'
+    })
+    .catch((error) => error)

@@ -1,7 +1,7 @@
-import { useTranslation } from 'react-i18next'
-import TouristicPlaceGuaranteedServicesList from '../../Tourism/TouristicPlaceGuaranteedServicesList'
-import PersonalLabel from '../../Shared/Personal/PersonalLabel'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import Label from '../../Shared/Controls/Label'
 import TextRegular from '../../Shared/Controls/Text/TextRegular'
+import TouristicPlaceGuaranteedServicesList from '../../Tourism/TouristicPlaceGuaranteedServicesList'
 import { GuaranteedService } from '../../../types/touristicPlace.ts'
 import styles from './OfferDescription.module.css'
 
@@ -11,7 +11,7 @@ interface OfferDescriptionProps {
 }
 
 const OfferDescription = ({ description, guaranteedServices }: OfferDescriptionProps) => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
 
     return (
         <div className={styles.description}>
@@ -19,7 +19,7 @@ const OfferDescription = ({ description, guaranteedServices }: OfferDescriptionP
                 <TextRegular text={description || ''} />
             </div>
             <div className={styles.services}>
-                <PersonalLabel text={t('tourism.touristic-place-guaranteed-services')} />
+                <Label text={t('tourism.touristic-place-guaranteed-services')} />
                 <TouristicPlaceGuaranteedServicesList guaranteedServices={guaranteedServices} />
             </div>
         </div>

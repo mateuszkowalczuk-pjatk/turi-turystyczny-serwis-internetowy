@@ -2,12 +2,11 @@ package com.turi.premium.infrastructure.adapter.service;
 
 import com.turi.account.domain.model.Account;
 import com.turi.account.infrastructure.adapter.interfaces.AccountFacade;
+import com.turi.authentication.infrastructure.config.SecurityProperties;
 import com.turi.infrastructure.common.CodeGenerator;
 import com.turi.infrastructure.common.EmailSender;
 import com.turi.infrastructure.common.HashToken;
 import com.turi.infrastructure.exception.BadRequestParameterException;
-import com.turi.infrastructure.properties.PremiumProperties;
-import com.turi.infrastructure.properties.SecurityProperties;
 import com.turi.payment.domain.model.PaymentMethod;
 import com.turi.payment.infrastructure.adapter.interfaces.PaymentFacade;
 import com.turi.premium.domain.exception.*;
@@ -15,6 +14,7 @@ import com.turi.premium.domain.model.*;
 import com.turi.premium.domain.port.CeidgService;
 import com.turi.premium.domain.port.PremiumRepository;
 import com.turi.premium.domain.port.PremiumService;
+import com.turi.premium.infrastructure.config.PremiumProperties;
 import com.turi.user.domain.exception.UserResetCodeRecentlySentException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -126,7 +126,7 @@ public class PremiumServiceImpl implements PremiumService
 
             repository.update(premium.getPremiumId(), premium);
 
-            emailSender.sendEmail(email, "Premium account login code.", premium.getLoginCode());
+            emailSender.sendEmailCode(email, "Kod logowania na konto premium.", premium.getLoginCode());
 
             return PremiumLogin.builder()
                     .withLoginToken(premium.getLoginToken())

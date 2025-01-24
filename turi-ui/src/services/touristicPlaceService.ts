@@ -3,8 +3,8 @@ import { API } from './constants.ts'
 import { GuaranteedService, TouristicPlace } from '../types/touristicPlace.ts'
 
 export const touristicPlaceService = {
-    getByPremiumId: async () => {
-        return await fetch(`${API_BASE_URL}${API.TOURISTIC_PLACE.GET_BY_PREMIUM_ID}`, {
+    getById: async (id: number) => {
+        return await fetch(`${API_BASE_URL}${API.TOURISTIC_PLACE.GET_BY_ID}/${id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -13,36 +13,14 @@ export const touristicPlaceService = {
         })
     },
 
-    isAddressExists: async (
-        country: string,
-        city: string,
-        zipCode: string,
-        street: string,
-        buildingNumber: string,
-        apartmentNumber: string | null
-    ) => {
-        if (apartmentNumber === null) {
-            return await fetch(
-                `${API_BASE_URL}${API.TOURISTIC_PLACE.IS_ADDRESS_EXISTS}?country=${country}&city=${city}&zipCode=${zipCode}&street=${street}&buildingNumber=${buildingNumber}`,
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    credentials: 'include'
-                }
-            )
-        }
-        return await fetch(
-            `${API_BASE_URL}${API.ACCOUNT.IS_ADDRESS_EXISTS}?country=${country}&city=${city}&zipCode=${zipCode}&street=${street}&buildingNumber=${buildingNumber}&apartmentNumber=${apartmentNumber}`,
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                credentials: 'include'
-            }
-        )
+    getByPremiumId: async () => {
+        return await fetch(`${API_BASE_URL}${API.TOURISTIC_PLACE.GET_BY_PREMIUM_ID}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        })
     },
 
     getAllGuaranteedServices: async () => {

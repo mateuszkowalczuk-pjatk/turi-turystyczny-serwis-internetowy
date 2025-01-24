@@ -1,56 +1,51 @@
-import { useTouristicPlace } from '../../../hooks/useTouristicPlace.ts'
-import { useAuthenticated } from '../../../store/slices/auth.ts'
-import { useRedirectSome } from '../../../hooks/useRedirect.ts'
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import { usePremium } from '../../../store/slices/premium.ts'
-import { useState } from 'react'
-import Content from '../../../components/Shared/Content'
+import { useTouristicPlace } from '../../../hooks/pages/useTouristicPlace.ts'
+import { useRedirectSome } from '../../../hooks/shared/useRedirect.ts'
+import PageContent from '../../../components/Shared/Contents/PageContent'
 import PageTitle from '../../../components/Shared/PageTitle'
 import TourismPanel from '../../../components/Tourism/TourismPanel'
 import TourismHeader from '../../../components/Tourism/TourismHeader'
-import TourismCurrentReservations from '../../../components/Tourism/TourismCurrentReservations'
 import TourismReservations from '../../../components/Tourism/TourismReservations'
 import TourismTouristicPlace from '../../../components/Tourism/TourismTouristicPlace'
 import TourismOffers from '../../../components/Tourism/TourismOffers'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import { useStates } from '../../../hooks/shared/useStates.ts'
+import { ReservationStatus } from '../../../types/reservation.ts'
 
 const TourismPage = () => {
-    const { t } = useTranslation()
-    const navigate = useNavigate()
-    const isAuthenticated = useAuthenticated()
-    const isPremium = usePremium()
-    const [touristicPlaceId, setTouristicPlaceId] = useState<number>()
+    const { t, navigate } = useHooks()
+    const { isAuthenticated, isPremium } = useStates()
+    const { touristicPlaceId } = useTouristicPlace()
 
     useRedirectSome([!isAuthenticated, !isPremium], '/')
 
-    useTouristicPlace(setTouristicPlaceId)
-
     return (
-        <Content
+        <PageContent
             title={<PageTitle text={t('tourism.title')} />}
             firstPanel={
                 <TourismPanel
-                    header={
-                        <TourismHeader
-                            text={t('tourism.current-reservations-title')}
-                            secondButtonText={t('tourism.current-reservations-stays-plan')}
-                            secondButtonOnClick={() => navigate('/tourism/stays-plan')}
-                        />
+                    header={<TourismHeader text={t('tourism.current-reservations-title')} />}
+                    content={
+                        touristicPlaceId && (
+                            <TourismReservations
+                                touristicPlaceId={touristicPlaceId}
+                                statuses={[ReservationStatus.REALIZATION]}
+                            />
+                        )
                     }
-                    content={<TourismCurrentReservations />}
-                    size={'current'}
+                    size={'reservations'}
                 />
             }
             secondPanel={
                 <TourismPanel
-                    header={
-                        <TourismHeader
-                            text={t('tourism.upcoming-reservations-title')}
-                            secondButtonText={t('tourism.upcoming-reservations-plan')}
-                            secondButtonOnClick={() => navigate('/tourism/reservations-plan')}
-                        />
+                    header={<TourismHeader text={t('tourism.upcoming-reservations-title')} />}
+                    content={
+                        touristicPlaceId && (
+                            <TourismReservations
+                                touristicPlaceId={touristicPlaceId}
+                                statuses={[ReservationStatus.RESERVATION]}
+                            />
+                        )
                     }
-                    content={<TourismReservations />}
                     size={'reservations'}
                 />
             }
@@ -87,7 +82,18 @@ const TourismPage = () => {
             fifthPanel={
                 <TourismPanel
                     header={<TourismHeader text={t('tourism.all-reservations-title')} />}
-                    content={<TourismReservations />}
+                    content={
+                        touristicPlaceId && (
+                            <TourismReservations
+                                touristicPlaceId={touristicPlaceId}
+                                statuses={[
+                                    ReservationStatus.RESERVATION,
+                                    ReservationStatus.REALIZATION,
+                                    ReservationStatus.REALIZED
+                                ]}
+                            />
+                        )
+                    }
                     size={'reservations'}
                 />
             }

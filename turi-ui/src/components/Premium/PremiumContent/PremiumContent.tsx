@@ -1,11 +1,11 @@
 import { ReactNode } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import PageTitle from '../../Shared/PageTitle'
 import PremiumPanel from '../PremiumPanel'
 import styles from './PremiumContent.module.css'
 
 const PremiumContent = ({ content }: { content: ReactNode }) => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
 
     return (
         <div className={styles.content}>

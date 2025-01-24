@@ -1,30 +1,30 @@
-import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
-import FooterHeader from '../FooterHeader'
-import FooterContent from '../FooterContent'
-import FooterModule from '../FooterModule'
-import TextExtraLight from '../../Controls/Text/TextExtraLight'
+import { useHooks } from '../../../../hooks/shared/useHooks.ts'
+import FooterTitle from '../FooterTitle'
 import TextRegular from '../../Controls/Text/TextRegular'
+import FooterModule from '../FooterModule'
+import FooterContent from '../FooterContent'
+import TextExtraLight from '../../Controls/Text/TextExtraLight'
 import FooterCopyright from '../FooterCopyright'
+import { Link } from 'react-router-dom'
 import styles from '../Footer.module.css'
 
 const GuestFooter = () => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
 
     return (
         <div className={styles.wrapper}>
             <div className={styles.footer}>
-                <FooterHeader />
+                <FooterTitle />
                 <FooterContent
                     content={
                         <FooterModule
-                            title={<TextExtraLight text={t('footer.community')} />}
+                            title={<TextExtraLight text={t('footer.become-turi-member')} />}
                             firstOption={
                                 <Link
                                     to="/login"
                                     className={styles.link}
                                 >
-                                    <TextRegular text={t('footer.sign-in')} />
+                                    <TextRegular text={t('footer.login')} />
                                 </Link>
                             }
                             secondOption={
@@ -32,7 +32,7 @@ const GuestFooter = () => {
                                     to="/register"
                                     className={styles.link}
                                 >
-                                    <TextRegular text={t('footer.sign-up')} />
+                                    <TextRegular text={t('footer.register')} />
                                 </Link>
                             }
                         />

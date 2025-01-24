@@ -1,28 +1,21 @@
-import { useAuthenticated } from '../../../store/slices/auth.ts'
-import { useRedirectSome } from '../../../hooks/useRedirect.ts'
-import { useTranslation } from 'react-i18next'
-import { usePremium } from '../../../store/slices/premium.ts'
-import Content from '../../../components/Shared/Content'
-import Return from '../../../components/Shared/Return'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import { useStates } from '../../../hooks/shared/useStates.ts'
+import { useRedirectSome } from '../../../hooks/shared/useRedirect.ts'
+import PageContent from '../../../components/Shared/Contents/PageContent'
+import PageReturn from '../../../components/Shared/PageReturn'
 import TourismPanel from '../../../components/Tourism/TourismPanel'
 import TourismHeader from '../../../components/Tourism/TourismHeader'
 import TourismCurrentReservations from '../../../components/Tourism/TourismCurrentReservations'
 
 const TourismReservationsPlanPage = () => {
-    const { t } = useTranslation()
-    const isAuthenticated = useAuthenticated()
-    const isPremium = usePremium()
+    const { t } = useHooks()
+    const { isAuthenticated, isPremium } = useStates()
 
     useRedirectSome([!isAuthenticated, !isPremium], '/')
 
     return (
-        <Content
-            title={
-                <Return
-                    text={t('tourism.touristic-place-return')}
-                    url={'/tourism'}
-                />
-            }
+        <PageContent
+            title={<PageReturn text={t('tourism.touristic-place-return')} />}
             firstPanel={
                 <TourismPanel
                     header={<TourismHeader text={t('tourism.reservations-plan')} />}

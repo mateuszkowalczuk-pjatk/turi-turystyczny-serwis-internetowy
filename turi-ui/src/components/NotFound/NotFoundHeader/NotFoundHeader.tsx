@@ -1,9 +1,9 @@
-import { useTranslation } from 'react-i18next'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import TextMediumExtra from '../../Shared/Controls/Text/TextMediumExtra'
 import styles from './NotFoundHeader.module.css'
 
 const NotFoundHeader = () => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
 
     return (
         <div className={styles.header}>

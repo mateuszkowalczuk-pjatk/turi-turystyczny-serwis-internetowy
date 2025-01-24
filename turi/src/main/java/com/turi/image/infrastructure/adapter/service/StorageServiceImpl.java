@@ -4,7 +4,7 @@ import com.turi.image.domain.exception.ImageStorageModeException;
 import com.turi.image.domain.port.AzureBlobStorageService;
 import com.turi.image.domain.port.LocalStorageService;
 import com.turi.image.domain.port.StorageService;
-import com.turi.infrastructure.properties.ImageStorageProperties;
+import com.turi.image.infrastructure.config.ImageStorageProperties;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

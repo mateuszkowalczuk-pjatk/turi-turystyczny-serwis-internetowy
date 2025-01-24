@@ -138,50 +138,6 @@ COMMENT ON COLUMN premium.logintoken        IS 'Token for login into premium acc
 COMMENT ON COLUMN premium.loginexpiresat    IS 'Code and token expiry date for login into premium account.';
 
 
-CREATE TABLE IF NOT EXISTS stripepayment
-(
-    stripepaymentid SERIAL       PRIMARY KEY,
-    intent          VARCHAR(255) NOT NULL UNIQUE,
-    status          INTEGER      NOT NULL,
-    paymentdate     TIMESTAMP    NOT NULL
-);
-
-CREATE INDEX IF NOT EXISTS stripepaymentintentindex ON stripepayment (intent);
-
-COMMENT ON TABLE  stripepayment                 IS 'Table to store stripe payment intent information for webhook process.';
-COMMENT ON COLUMN stripepayment.stripepaymentid IS 'Unique required primary key of the stripe payment table.';
-COMMENT ON COLUMN stripepayment.intent          IS 'Unique required intent information for webhook process.';
-COMMENT ON COLUMN stripepayment.status          IS 'Required stripe payment status (2 - Succeeded, 3  - Failed).';
-COMMENT ON COLUMN stripepayment.paymentdate     IS 'Required date of payment.';
-
-
-CREATE TABLE IF NOT EXISTS payment
-(
-    paymentid           SERIAL         PRIMARY KEY,
-    premiumid           INTEGER        NOT NULL,
-    stripeid            VARCHAR(255)   NOT NULL UNIQUE,
-    stripepaymentintent VARCHAR(255)            UNIQUE,
-    amount              DECIMAL(10, 2) NOT NULL,
-    paymentdate         TIMESTAMP      NOT NULL,
-    method              INTEGER        NOT NULL,
-    status              INTEGER        NOT NULL,
-    CONSTRAINT paymentpremium FOREIGN KEY (premiumid) REFERENCES premium (premiumid)
-);
-
-CREATE INDEX IF NOT EXISTS paymentpremiumindex ON payment (premiumid);
-CREATE INDEX IF NOT EXISTS paymentstripeindex  ON payment (stripeid);
-
-COMMENT ON TABLE  payment                     IS 'Table to store payment data for buying a premium account.';
-COMMENT ON COLUMN payment.paymentid           IS 'Unique required primary key of the payment table.';
-COMMENT ON COLUMN payment.premiumid           IS 'Required foreign key of premium.';
-COMMENT ON COLUMN payment.stripeid            IS 'Unique required ID of stripe payment.';
-COMMENT ON COLUMN payment.stripepaymentintent IS 'Unique stripe payment intent information for webhook process.';
-COMMENT ON COLUMN payment.amount              IS 'Required amount of payment.';
-COMMENT ON COLUMN payment.paymentdate         IS 'Required date of payment.';
-COMMENT ON COLUMN payment.method              IS 'Required payment method (1 - Card, 2 - Blik).';
-COMMENT ON COLUMN payment.status              IS 'Required payment status (1 - Pending, 2 - Succeeded, 3 - Failed).';
-
-
 CREATE TABLE IF NOT EXISTS touristicplace
 (
     touristicplaceid      SERIAL       PRIMARY KEY,
@@ -359,9 +315,9 @@ CREATE TABLE IF NOT EXISTS favourite
 (
     accountid        INTEGER NOT NULL,
     touristicplaceid INTEGER NOT NULL,
+    CONSTRAINT favouriteunique         UNIQUE (accountid, touristicplaceid),
     CONSTRAINT favouriteaccount        FOREIGN KEY (accountid)        REFERENCES account        (accountid),
-    CONSTRAINT favouritetouristicplace FOREIGN KEY (touristicplaceid) REFERENCES touristicplace (touristicplaceid),
-    CONSTRAINT favouriteunique         UNIQUE (accountid, touristicplaceid)
+    CONSTRAINT favouritetouristicplace FOREIGN KEY (touristicplaceid) REFERENCES touristicplace (touristicplaceid)
 );
 
 CREATE INDEX IF NOT EXISTS favouriteaccountindex        ON favourite (accountid);
@@ -370,3 +326,140 @@ CREATE INDEX IF NOT EXISTS favouritetouristicplaceindex ON favourite (touristicp
 COMMENT ON TABLE  favourite                  IS 'Table to store offers (touristic places) that user has pinned to his account as favorites.';
 COMMENT ON COLUMN favourite.accountid        IS 'Required foreign key of user account table.';
 COMMENT ON COLUMN favourite.touristicplaceid IS 'Required foreign key of touristicplace (offer) table.';
+
+
+CREATE TABLE IF NOT EXISTS reservation
+(
+    reservationid SERIAL         PRIMARY KEY,
+    stayid        INTEGER        NOT NULL,
+    accountid     INTEGER        NOT NULL,
+    datefrom      DATE           NOT NULL,
+    dateto        DATE           NOT NULL,
+    price         DECIMAL(10, 2),
+    request       VARCHAR(255),
+    rating        DECIMAL(1, 1),
+    opinion       VARCHAR(255),
+    modifydate    TIMESTAMP      NOT NULL,
+    status        INTEGER        NOT NULL,
+    CONSTRAINT reservationstay    FOREIGN KEY (stayid)    REFERENCES stay    (stayid),
+    CONSTRAINT reservationaccount FOREIGN KEY (accountid) REFERENCES account (accountid)
+);
+
+CREATE INDEX IF NOT EXISTS reservationstayindex    ON reservation (stayid);
+CREATE INDEX IF NOT EXISTS reservationaccountindex ON reservation (accountid);
+
+COMMENT ON TABLE  reservation               IS 'Table to store created by user reservations in touristic places.';
+COMMENT ON COLUMN reservation.reservationid IS 'Unique required primary key of the reservation table.';
+COMMENT ON COLUMN reservation.stayid        IS 'Required foreign key of stay table.';
+COMMENT ON COLUMN reservation.accountid     IS 'Required foreign key of account table.';
+COMMENT ON COLUMN reservation.datefrom      IS 'Required reservation date from.';
+COMMENT ON COLUMN reservation.dateto        IS 'Required reservation date to.';
+COMMENT ON COLUMN reservation.price         IS 'Optional reservation price.';
+COMMENT ON COLUMN reservation.request       IS 'Optional user reservation special request.';
+COMMENT ON COLUMN reservation.rating        IS 'Optional user reservation rating after realization.';
+COMMENT ON COLUMN reservation.opinion       IS 'Optional user reservation opinion after realization.';
+COMMENT ON COLUMN reservation.modifydate    IS 'Required reservation last modify date.';
+COMMENT ON COLUMN reservation.status        IS 'Required reservation status (0 - Locked, 1 - Unpaid, 2 - Pay on site, 3 - Reservation, 4 - Reservation with unpaid date extension, 5 - Realization, 6 - Realization with pay on site for date extension, 7 - Realization with unpaid date extension, 8 - Realized, 9 - Canceled).';
+
+
+CREATE TABLE IF NOT EXISTS reservationattraction
+(
+    reservationattractionid SERIAL         PRIMARY KEY,
+    reservationid           INTEGER        NOT NULL,
+    attractionid            INTEGER        NOT NULL,
+    datefrom                DATE           NOT NULL,
+    dateto                  DATE           NOT NULL,
+    hourfrom                TIME           NOT NULL,
+    hourto                  TIME           NOT NULL,
+    people                  INTEGER,
+    items                   INTEGER,
+    message                 VARCHAR(255),
+    price                   DECIMAL(10, 2),
+    modifydate              TIMESTAMP      NOT NULL,
+    status                  INTEGER        NOT NULL,
+    CONSTRAINT reservationattractionreservation FOREIGN KEY (reservationid) REFERENCES reservation (reservationid),
+    CONSTRAINT reservationattractionattraction  FOREIGN KEY (attractionid)  REFERENCES attraction  (attractionid)
+);
+
+CREATE INDEX IF NOT EXISTS reservationattractionreservationindex ON reservationattraction (reservationid);
+CREATE INDEX IF NOT EXISTS reservationattractionattractionindex  ON reservationattraction (attractionid);
+
+COMMENT ON TABLE  reservationattraction                         IS 'Table to store attraction added by user to reservation.';
+COMMENT ON COLUMN reservationattraction.reservationattractionid IS 'Unique required primary key of the reservationattraction table.';
+COMMENT ON COLUMN reservationattraction.reservationid           IS 'Required foreign key of reservation table.';
+COMMENT ON COLUMN reservationattraction.attractionid            IS 'Required foreign key of attraction table.';
+COMMENT ON COLUMN reservationattraction.datefrom                IS 'Required attraction date from.';
+COMMENT ON COLUMN reservationattraction.dateto                  IS 'Required attraction date to.';
+COMMENT ON COLUMN reservationattraction.hourfrom                IS 'Required attraction hour from.';
+COMMENT ON COLUMN reservationattraction.hourto                  IS 'Required attraction hour to.';
+COMMENT ON COLUMN reservationattraction.people                  IS 'Optional attraction people number, depends from attraction type.';
+COMMENT ON COLUMN reservationattraction.items                   IS 'Optional attraction items, depends from attraction type.';
+COMMENT ON COLUMN reservationattraction.message                 IS 'Optional user message about attraction reservation.';
+COMMENT ON COLUMN reservationattraction.price                   IS 'Optional attraction price.';
+COMMENT ON COLUMN reservationattraction.modifydate              IS 'Required reservation attraction last modify date.';
+COMMENT ON COLUMN reservationattraction.status                  IS 'Required attraction reservation status (0 - Locked, 1 - Unpaid, 2 - Pay on site, 3 - Reservation, 4 - Reservation with unpaid date extension, 5 - Realization, 6 - Realization with pay on site for date extension, 7 - Realization with unpaid date extension, 8 - Realized, 9 - Canceled).';
+
+
+CREATE TABLE IF NOT EXISTS stripepayment
+(
+    stripepaymentid SERIAL       PRIMARY KEY,
+    intent          VARCHAR(255) NOT NULL UNIQUE,
+    status          INTEGER      NOT NULL,
+    paymentdate     TIMESTAMP    NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS stripepaymentintentindex ON stripepayment (intent);
+
+COMMENT ON TABLE  stripepayment                 IS 'Table to store stripe payment intent information for webhook process.';
+COMMENT ON COLUMN stripepayment.stripepaymentid IS 'Unique required primary key of the stripe payment table.';
+COMMENT ON COLUMN stripepayment.intent          IS 'Unique required intent information for webhook process.';
+COMMENT ON COLUMN stripepayment.status          IS 'Required stripe payment status (1 - Pending, 2 - Succeeded, 3  - Failed).';
+COMMENT ON COLUMN stripepayment.paymentdate     IS 'Required date of payment.';
+
+
+CREATE TABLE IF NOT EXISTS payment
+(
+    paymentid           SERIAL         PRIMARY KEY,
+    premiumid           INTEGER,
+    reservationid       INTEGER,
+    stripeid            VARCHAR(255)   NOT NULL UNIQUE,
+    stripepaymentintent VARCHAR(255)            UNIQUE,
+    amount              DECIMAL(10, 2) NOT NULL,
+    paymentdate         TIMESTAMP      NOT NULL,
+    method              INTEGER        NOT NULL,
+    status              INTEGER        NOT NULL,
+    CONSTRAINT paymentpremium     FOREIGN KEY (premiumid)     REFERENCES premium (premiumid),
+    CONSTRAINT paymentreservation FOREIGN KEY (reservationid) REFERENCES reservation (reservationid)
+);
+
+CREATE INDEX IF NOT EXISTS paymentpremiumindex     ON payment (premiumid);
+CREATE INDEX IF NOT EXISTS paymentreservationindex ON payment (reservationid);
+CREATE INDEX IF NOT EXISTS paymentstripeindex      ON payment (stripeid);
+
+COMMENT ON TABLE  payment                     IS 'Table to store payment data for buying a premium account or paying for reservation or reservation attraction.';
+COMMENT ON COLUMN payment.paymentid           IS 'Unique required primary key of the payment table.';
+COMMENT ON COLUMN payment.premiumid           IS 'Optional foreign key of premium.';
+COMMENT ON COLUMN payment.reservationid       IS 'Optional foreign key of reservation.';
+COMMENT ON COLUMN payment.stripeid            IS 'Unique required ID of stripe payment.';
+COMMENT ON COLUMN payment.stripepaymentintent IS 'Unique stripe payment intent information for webhook process.';
+COMMENT ON COLUMN payment.amount              IS 'Required amount of payment.';
+COMMENT ON COLUMN payment.paymentdate         IS 'Required date of payment.';
+COMMENT ON COLUMN payment.method              IS 'Required payment method (1 - Card, 2 - Blik).';
+COMMENT ON COLUMN payment.status              IS 'Required payment status (1 - Pending, 2 - Succeeded, 3 - Failed).';
+
+
+CREATE TABLE IF NOT EXISTS paymentreservationattraction
+(
+    paymentid               INTEGER NOT NULL,
+    reservationattractionid INTEGER NOT NULL,
+    CONSTRAINT paymentreservationattractionunique                UNIQUE (paymentid, reservationattractionid),
+    CONSTRAINT paymentreservationattractionpayment               FOREIGN KEY (paymentid)               REFERENCES payment (paymentid),
+    CONSTRAINT paymentreservationattractionreservationattraction FOREIGN KEY (reservationattractionid) REFERENCES reservationattraction (reservationattractionid)
+);
+
+CREATE INDEX IF NOT EXISTS paymentpaymentreservationattractionindex               ON paymentreservationattraction (paymentid);
+CREATE INDEX IF NOT EXISTS reservationattractionpaymentreservationattractionindex ON paymentreservationattraction (reservationattractionid);
+
+COMMENT ON TABLE  paymentreservationattraction                         IS 'Table to store payment reservation attractions information.';
+COMMENT ON COLUMN paymentreservationattraction.paymentid               IS 'Required foreign key of the payment table.';
+COMMENT ON COLUMN paymentreservationattraction.reservationattractionid IS 'Required foreign key of the reservation attraction table.';

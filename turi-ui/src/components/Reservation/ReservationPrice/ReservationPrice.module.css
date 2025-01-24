@@ -1,0 +1,13 @@
+.price {
+    height: 5rem;
+    width: 99.1%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.price p {
+    color: var(--dark);
+}

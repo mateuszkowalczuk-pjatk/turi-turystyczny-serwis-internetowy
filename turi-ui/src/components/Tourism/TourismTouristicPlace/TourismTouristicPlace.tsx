@@ -1,14 +1,11 @@
-import { useState } from 'react'
-import { useImage } from '../../../hooks/useImage.ts'
+import { useImage } from '../../../hooks/shared/useImage.ts'
 import ImageBanner from '../../Shared/Image/ImageBanner'
 import TourismTouristicPlaceForm from '../TourismTouristicPlaceForm'
 import { Image, ImageMode } from '../../../types/image.ts'
 import styles from './TourismTouristicPlace.module.css'
 
 const TourismTouristicPlace = ({ touristicPlaceId }: { touristicPlaceId: number }) => {
-    const [images, setImages] = useState<Image[]>([])
-
-    useImage(touristicPlaceId, ImageMode.TOURISTICPLACE, setImages)
+    const { images, setImages } = useImage(touristicPlaceId, ImageMode.TOURISTICPLACE)
 
     return (
         <div className={styles.touristicplace}>

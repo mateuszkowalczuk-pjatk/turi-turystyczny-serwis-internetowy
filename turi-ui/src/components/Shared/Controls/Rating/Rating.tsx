@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useHooks } from '../../../../hooks/shared/useHooks.ts'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useTranslation } from 'react-i18next'
+import { useEffect, useState } from 'react'
 import TextRegular from '../Text/TextRegular'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 import styles from './Rating.module.css'
 
 const Rating = ({ touristicPlaceId }: { touristicPlaceId: number | undefined }) => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
     const [rating, setRating] = useState<number | null>(null)
 
     useEffect(() => {

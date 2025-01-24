@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next'
+import { useHooks } from '../../../../hooks/shared/useHooks.ts'
 import Checkbox from '../../../Shared/Controls/Checkbox'
 import { Gender } from '../../../../types'
 import styles from './PersonalGender.module.css'
@@ -9,7 +9,7 @@ interface Props {
 }
 
 const PersonalGender = ({ gender, handleGenderChange }: Props) => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
 
     return (
         <div className={styles.gender}>

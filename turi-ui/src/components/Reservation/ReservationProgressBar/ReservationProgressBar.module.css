@@ -1,0 +1,37 @@
+.banner {
+    display: grid;
+    grid-template-columns: auto 1fr auto 1fr auto;
+    align-items: center;
+    height: 4rem;
+    width: 99.1%;
+    gap: 0.5rem;
+    border-bottom: 3px solid var(--grey);
+}
+
+.circle {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: var(--white);
+    border: 3px solid var(--light-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+        background-color 0.3s,
+        border-color 0.3s;
+}
+
+.circle.filled {
+    background: var(--light-green);
+}
+
+.line {
+    height: 0.3rem;
+    background: var(--grey);
+    transition: background-color 0.3s;
+}
+
+.line.filled {
+    background: var(--light-green);
+}

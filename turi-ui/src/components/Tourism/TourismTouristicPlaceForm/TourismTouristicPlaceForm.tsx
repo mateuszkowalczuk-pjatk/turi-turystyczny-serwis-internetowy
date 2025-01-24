@@ -1,25 +1,24 @@
 import React, { useEffect, useState } from 'react'
-import { checkInOutTimeValidation } from '../../../utils/checkInOutTimeValidation.ts'
-import { useTranslation } from 'react-i18next'
-import { handleFormError } from '../../../utils/handleFormError.ts'
 import { handle } from '../../../utils/handle.ts'
-import TouristicPlaceGuaranteedServices from '../TouristicPlaceGuaranteedServices'
-import TourismTouristicPlaceTypeSelect from '../TourismTouristicPlaceTypeSelect'
-import TourismTouristicPlaceCheckbox from '../TourismTouristicPlaceCheckbox'
-import TourismTouristicPlaceDetails from '../TourismTouristicPlaceDetails'
-import TourismTouristicPlaceOwner from '../TourismTouristicPlaceOwner'
-import TourismTouristicPlaceLabel from '../TourismTouristicPlaceLabel'
-import TourismTouristicPlaceSave from '../TourismTouristicPlaceSave'
-import PersonalPanel from '../../Shared/Personal/PersonalPanel'
-import PersonalLabel from '../../Shared/Personal/PersonalLabel'
-import Checkbox from '../../Shared/Controls/Checkbox'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import { handleFormError } from '../../../utils/handleFormError.ts'
 import Input from '../../Shared/Controls/Input'
-import { TouristicPlace, TouristicPlaceType } from '../../../types/touristicPlace.ts'
+import Label from '../../Shared/Controls/Label'
+import Checkbox from '../../Shared/Controls/Checkbox'
+import PersonalPanel from '../../Shared/Personal/PersonalPanel'
+import TourismTouristicPlaceSave from '../TourismTouristicPlaceSave'
+import TourismTouristicPlaceLabel from '../TourismTouristicPlaceLabel'
+import TourismTouristicPlaceOwner from '../TourismTouristicPlaceOwner'
+import TourismTouristicPlaceDetails from '../TourismTouristicPlaceDetails'
+import TourismTouristicPlaceCheckbox from '../TourismTouristicPlaceCheckbox'
+import TourismTouristicPlaceTypeSelect from '../TourismTouristicPlaceTypeSelect'
+import TouristicPlaceGuaranteedServices from '../TouristicPlaceGuaranteedServices'
 import { Account, Address } from '../../../types'
-import { touristicPlaceService } from '../../../services/touristicPlaceService.ts'
-import { accountService } from '../../../services/accountService.ts'
-import { addressService } from '../../../services/addressService.ts'
+import { TouristicPlace, TouristicPlaceType } from '../../../types/touristicPlace.ts'
 import { userService } from '../../../services/userService.ts'
+import { addressService } from '../../../services/addressService.ts'
+import { accountService } from '../../../services/accountService.ts'
+import { touristicPlaceService } from '../../../services/touristicPlaceService.ts'
 import styles from './TourismTouristicPlaceForm.module.css'
 
 interface FormData {
@@ -30,8 +29,10 @@ interface FormData {
     prepayment: boolean
     cancelReservation: boolean
     cancelReservationDays: number
-    checkInTime: string
-    checkOutTime: string
+    checkInTimeFrom: string
+    checkInTimeTo: string
+    checkOutTimeFrom: string
+    checkOutTimeTo: string
     information: string
     firstName: string
     lastName: string
@@ -40,7 +41,7 @@ interface FormData {
 }
 
 const TourismTouristicPlaceForm = ({ touristicPlaceId }: { touristicPlaceId: number }) => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const [email, setEmail] = useState<string>('test')
@@ -58,8 +59,10 @@ const TourismTouristicPlaceForm = ({ touristicPlaceId }: { touristicPlaceId: num
         prepayment: false,
         cancelReservation: false,
         cancelReservationDays: 0,
-        checkInTime: '',
-        checkOutTime: '',
+        checkInTimeFrom: '',
+        checkInTimeTo: '',
+        checkOutTimeFrom: '',
+        checkOutTimeTo: '',
         information: '',
         firstName: '',
         lastName: '',
@@ -135,14 +138,10 @@ const TourismTouristicPlaceForm = ({ touristicPlaceId }: { touristicPlaceId: num
                         prepayment: touristicPlaceData.prepayment || false,
                         cancelReservation: touristicPlaceData.cancelReservationDays !== 0,
                         cancelReservationDays: touristicPlaceData.cancelReservationDays || 0,
-                        checkInTime: handleCheckTime(
-                            touristicPlaceData.checkInTimeFrom,
-                            touristicPlaceData.checkInTimeTo
-                        ),
-                        checkOutTime: handleCheckTime(
-                            touristicPlaceData.checkOutTimeFrom,
-                            touristicPlaceData.checkOutTimeTo
-                        ),
+                        checkInTimeFrom: convertToTime(touristicPlaceData.checkInTimeFrom),
+                        checkInTimeTo: convertToTime(touristicPlaceData.checkInTimeTo),
+                        checkOutTimeFrom: convertToTime(touristicPlaceData.checkOutTimeFrom),
+                        checkOutTimeTo: convertToTime(touristicPlaceData.checkOutTimeTo),
                         information: touristicPlaceData.information || '',
                         firstName: accountData.firstName || '',
                         lastName: accountData.lastName || '',
@@ -154,6 +153,14 @@ const TourismTouristicPlaceForm = ({ touristicPlaceId }: { touristicPlaceId: num
         }
         fetchData().catch((error) => error)
     }, [t])
+
+    const convertToTime = (dateArray: any) => {
+        if (!dateArray) return null
+        const [hour, minute] = dateArray
+        const formattedHour = ('0' + hour).slice(-2)
+        const formattedMinute = ('0' + minute).slice(-2)
+        return `${formattedHour}:${formattedMinute}`
+    }
 
     const handleCheckTime = (from?: string, to?: string): string => {
         if (!from || !to) return ''
@@ -168,8 +175,13 @@ const TourismTouristicPlaceForm = ({ touristicPlaceId }: { touristicPlaceId: num
     const handleSave = async (e: React.FormEvent) => {
         handle(e, setLoading, setError)
 
-        if (!checkInOutTimeValidation(formData.checkInTime) || !checkInOutTimeValidation(formData.checkOutTime))
-            return handleFormError(setError, setLoading, t('tourism.touristic-place-check-in-out-time'))
+        // if (
+        //     !checkInOutTimeValidation(formData.checkInTimeFrom) ||
+        //     !checkInOutTimeValidation(formData.checkOutTimeFrom) ||
+        //     !checkInOutTimeValidation(formData.checkInTimeFrom) ||
+        //     !checkInOutTimeValidation(formData.checkOutTimeTo)
+        // )
+        //     return handleFormError(setError, setLoading, t('tourism.touristic-place-check-in-out-time'))
 
         let addressId = 0
         const addressCheckResponse = await accountService.isAddressExists(
@@ -207,10 +219,10 @@ const TourismTouristicPlaceForm = ({ touristicPlaceId }: { touristicPlaceId: num
             description: formData.description,
             information: formData.information,
             ownerDescription: formData.ownerDescription,
-            checkInTimeFrom: formData.checkInTime.split(' - ')[0],
-            checkInTimeTo: formData.checkInTime.split(' - ')[1],
-            checkOutTimeFrom: formData.checkOutTime.split(' - ')[0],
-            checkOutTimeTo: formData.checkOutTime.split(' - ')[1],
+            checkInTimeFrom: formData.checkInTimeFrom,
+            checkInTimeTo: formData.checkInTimeTo,
+            checkOutTimeFrom: formData.checkOutTimeFrom,
+            checkOutTimeTo: formData.checkOutTimeTo,
             prepayment: formData.prepayment,
             cancelReservationDays: formData.cancelReservation ? formData.cancelReservationDays : 0
         })
@@ -242,7 +254,7 @@ const TourismTouristicPlaceForm = ({ touristicPlaceId }: { touristicPlaceId: num
                 <TourismTouristicPlaceDetails
                     firstPanel={
                         <PersonalPanel
-                            label={<PersonalLabel text={t('tourism.touristic-place-name-and-type')} />}
+                            label={<Label text={t('tourism.touristic-place-name-and-type')} />}
                             firstInput={
                                 <Input
                                     type={'text'}
@@ -273,7 +285,7 @@ const TourismTouristicPlaceForm = ({ touristicPlaceId }: { touristicPlaceId: num
                     }
                     secondPanel={
                         <PersonalPanel
-                            label={<PersonalLabel text={t('tourism.touristic-place-description')} />}
+                            label={<Label text={t('tourism.touristic-place-description')} />}
                             firstInput={
                                 <Input
                                     type={'text'}
@@ -292,7 +304,7 @@ const TourismTouristicPlaceForm = ({ touristicPlaceId }: { touristicPlaceId: num
                     }
                     thirdPanel={
                         <PersonalPanel
-                            label={<PersonalLabel text={t('address.title')} />}
+                            label={<Label text={t('address.title')} />}
                             firstInput={
                                 <Input
                                     type={'text'}
@@ -363,13 +375,13 @@ const TourismTouristicPlaceForm = ({ touristicPlaceId }: { touristicPlaceId: num
                     }
                     fourthPanel={
                         <PersonalPanel
-                            label={<PersonalLabel text={t('tourism.touristic-place-check-in-and-check-out')} />}
+                            label={<Label text={t('tourism.touristic-place-check-in-and-check-out')} />}
                             firstInput={
                                 <Input
-                                    type={'text'}
-                                    name={'checkInTime'}
+                                    type={'time'}
+                                    name={'checkInTimeFrom'}
                                     placeholder={t('tourism.touristic-place-check-in')}
-                                    value={formData.checkInTime}
+                                    value={formData.checkInTimeFrom}
                                     onChange={handleChange}
                                     required={true}
                                     disabled={loading}
@@ -377,21 +389,45 @@ const TourismTouristicPlaceForm = ({ touristicPlaceId }: { touristicPlaceId: num
                             }
                             secondInput={
                                 <Input
-                                    type={'text'}
-                                    name={'checkOutTime'}
+                                    type={'time'}
+                                    name={'checkInTimeTo'}
                                     placeholder={t('tourism.touristic-place-check-out')}
-                                    value={formData.checkOutTime}
+                                    value={formData.checkInTimeTo}
                                     onChange={handleChange}
                                     required={true}
                                     disabled={loading}
                                 />
                             }
+                            thirdInput={<div />}
+                            fourthInput={
+                                <Input
+                                    type={'time'}
+                                    name={'checkOutTimeFrom'}
+                                    placeholder={t('tourism.touristic-place-check-in')}
+                                    value={formData.checkOutTimeFrom}
+                                    onChange={handleChange}
+                                    required={true}
+                                    disabled={loading}
+                                />
+                            }
+                            fifthInput={
+                                <Input
+                                    type={'time'}
+                                    name={'checkOutTimeTo'}
+                                    placeholder={t('tourism.touristic-place-check-out')}
+                                    value={formData.checkOutTimeTo}
+                                    onChange={handleChange}
+                                    required={true}
+                                    disabled={loading}
+                                />
+                            }
+                            sixthInput={<div />}
                             touristicPlace
                         />
                     }
                     fifthPanel={
                         <PersonalPanel
-                            label={<PersonalLabel text={t('tourism.touristic-place-reservation')} />}
+                            label={<Label text={t('tourism.touristic-place-reservation')} />}
                             firstInput={
                                 <TourismTouristicPlaceCheckbox
                                     checkbox={
@@ -443,7 +479,7 @@ const TourismTouristicPlaceForm = ({ touristicPlaceId }: { touristicPlaceId: num
                     }
                     sixthPanel={
                         <PersonalPanel
-                            label={<PersonalLabel text={t('tourism.touristic-place-important-information')} />}
+                            label={<Label text={t('tourism.touristic-place-important-information')} />}
                             firstInput={
                                 <Input
                                     type={'text'}
@@ -466,7 +502,7 @@ const TourismTouristicPlaceForm = ({ touristicPlaceId }: { touristicPlaceId: num
                     <TourismTouristicPlaceOwner
                         firstPanel={
                             <PersonalPanel
-                                label={<PersonalLabel text={t('signup-personal.name-surname')} />}
+                                label={<Label text={t('signup-personal.name-surname')} />}
                                 firstInput={
                                     <Input
                                         type={'text'}
@@ -494,7 +530,7 @@ const TourismTouristicPlaceForm = ({ touristicPlaceId }: { touristicPlaceId: num
                         }
                         secondPanel={
                             <PersonalPanel
-                                label={<PersonalLabel text={t('tourism.touristic-place-contact')} />}
+                                label={<Label text={t('tourism.touristic-place-contact')} />}
                                 firstInput={<TourismTouristicPlaceLabel text={email} />}
                                 secondInput={
                                     <Input
@@ -512,7 +548,7 @@ const TourismTouristicPlaceForm = ({ touristicPlaceId }: { touristicPlaceId: num
                         }
                         thirdPanel={
                             <PersonalPanel
-                                label={<PersonalLabel text={t('tourism.touristic-place-description')} />}
+                                label={<Label text={t('tourism.touristic-place-description')} />}
                                 firstInput={
                                     <Input
                                         type={'text'}

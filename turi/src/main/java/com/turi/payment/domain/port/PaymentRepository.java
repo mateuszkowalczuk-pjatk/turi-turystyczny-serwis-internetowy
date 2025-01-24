@@ -8,6 +8,8 @@ public interface PaymentRepository
 {
     List<Payment> findAllByPremiumId(final Long premiumId);
 
+    List<Payment> findAllByReservationId(final Long reservationId);
+
     Payment findById(final Long id);
 
     Payment findByStripeId(final String stripeId);

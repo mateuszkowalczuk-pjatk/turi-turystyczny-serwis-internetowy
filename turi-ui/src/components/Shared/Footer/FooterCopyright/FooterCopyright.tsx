@@ -1,9 +1,9 @@
-import { useTranslation } from 'react-i18next'
+import { useHooks } from '../../../../hooks/shared/useHooks.ts'
 import TextRegular from '../../Controls/Text/TextRegular'
 import styles from './FooterCopyright.module.css'
 
 const FooterCopyright = () => {
-    const { t } = useTranslation()
+    const { t } = useHooks()
 
     return (
         <div className={styles.copyright}>

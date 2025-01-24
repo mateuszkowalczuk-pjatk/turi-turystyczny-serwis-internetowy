@@ -13,6 +13,7 @@ import com.turi.offer.domain.exception.InvalidFavouriteException;
 import com.turi.offer.domain.exception.UniqueFavouriteException;
 import com.turi.payment.domain.exception.*;
 import com.turi.premium.domain.exception.*;
+import com.turi.reservation.domain.exception.*;
 import com.turi.stay.domain.exception.InvalidStayException;
 import com.turi.stay.domain.exception.InvalidStayInformationException;
 import com.turi.stay.domain.exception.StayNotFoundException;
@@ -206,6 +207,12 @@ public final class RestControllerErrorHandler extends ErrorHandler
         return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
+    @ExceptionHandler(InvalidPaymentReservationAttractionException.class)
+    public ResponseEntity<ErrorCode> handleInvalidPaymentReservationAttractionException(final InvalidPaymentReservationAttractionException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
     @ExceptionHandler(InvalidStripePaymentException.class)
     public ResponseEntity<ErrorCode> handleInvalidStripePaymentException(final InvalidStripePaymentException ex)
     {
@@ -214,6 +221,12 @@ public final class RestControllerErrorHandler extends ErrorHandler
 
     @ExceptionHandler(PaymentForPremiumFailedException.class)
     public ResponseEntity<ErrorCode> handlePaymentForPremiumFailedException(final PaymentForPremiumFailedException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(PaymentForReservationFailedException.class)
+    public ResponseEntity<ErrorCode> handlePaymentForReservationFailedException(final PaymentForReservationFailedException ex)
     {
         return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
@@ -234,6 +247,12 @@ public final class RestControllerErrorHandler extends ErrorHandler
     public ResponseEntity<ErrorCode> handlePaymentWebhookException(final PaymentWebhookException ex)
     {
         return createResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(UniquePaymentReservationAttractionException.class)
+    public ResponseEntity<ErrorCode> handleUniquePaymentReservationAttractionException(final UniquePaymentReservationAttractionException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
     @ExceptionHandler(InvalidCompanyException.class)
@@ -286,6 +305,78 @@ public final class RestControllerErrorHandler extends ErrorHandler
 
     @ExceptionHandler(PremiumUnpaidException.class)
     public ResponseEntity<ErrorCode> handlePremiumUnpaidException(final PremiumUnpaidException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidReservationAttractionException.class)
+    public ResponseEntity<ErrorCode> handleInvalidReservationAttractionException(final InvalidReservationAttractionException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidReservationDateException.class)
+    public ResponseEntity<ErrorCode> handleInvalidReservationDateException(final InvalidReservationDateException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidReservationException.class)
+    public ResponseEntity<ErrorCode> handleInvalidReservationException(final InvalidReservationException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidReservationTimeException.class)
+    public ResponseEntity<ErrorCode> handleInvalidReservationTimeException(final InvalidReservationTimeException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(ReservationAttractionException.class)
+    public ResponseEntity<ErrorCode> handleReservationAttractionException(final ReservationAttractionException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(ReservationAttractionUnavailableException.class)
+    public ResponseEntity<ErrorCode> handleReservationAttractionUnavailableException(final ReservationAttractionUnavailableException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(ReservationCompletedException.class)
+    public ResponseEntity<ErrorCode> handleReservationCompletedException(final ReservationCompletedException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(ReservationNotFoundByStayException.class)
+    public ResponseEntity<ErrorCode> handleReservationNotFoundByStayException(final ReservationNotFoundByStayException ex)
+    {
+        return createResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(ReservationNotFoundException.class)
+    public ResponseEntity<ErrorCode> handleReservationNotFoundException(final ReservationNotFoundException ex)
+    {
+        return createResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(ReservationPaidOnSiteException.class)
+    public ResponseEntity<ErrorCode> handleReservationPaidOnSiteException(final ReservationPaidOnSiteException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(ReservationStayUnavailableException.class)
+    public ResponseEntity<ErrorCode> handleReservationStayUnavailableException(final ReservationStayUnavailableException ex)
+    {
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(ReservationUnpaidException.class)
+    public ResponseEntity<ErrorCode> handleReservationUnpaidException(final ReservationUnpaidException ex)
     {
         return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }

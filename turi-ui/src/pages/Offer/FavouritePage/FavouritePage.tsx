@@ -1,24 +1,21 @@
-import { useRedirectEvery } from '../../../hooks/useRedirect.ts'
-import { useAuthenticated } from '../../../store/slices/auth.ts'
-import { useTranslation } from 'react-i18next'
+import { useRedirectEvery } from '../../../hooks/shared/useRedirect.ts'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import PageContent from '../../../components/Shared/Contents/PageContent'
 import FavouriteOffers from '../../../components/Offer/FavouriteOffers'
 import PageTitle from '../../../components/Shared/PageTitle'
-import Content from '../../../components/Shared/Content'
-import styles from '../../Page.module.css'
+import { useStates } from '../../../hooks/shared/useStates.ts'
 
 const FavouritePage = () => {
-    const { t } = useTranslation()
-    const isAuthenticated = useAuthenticated()
+    const { t } = useHooks()
+    const { isAuthenticated } = useStates()
 
     useRedirectEvery([!isAuthenticated], '/')
 
     return (
-        <div className={styles.page}>
-            <Content
-                title={<PageTitle text={t('offer.favourite')} />}
-                firstPanel={<FavouriteOffers />}
-            />
-        </div>
+        <PageContent
+            title={<PageTitle text={t('offer.favourite')} />}
+            firstPanel={<FavouriteOffers />}
+        />
     )
 }
 

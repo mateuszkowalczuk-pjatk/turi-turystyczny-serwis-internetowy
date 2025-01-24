@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import { useStates } from '../../../hooks/shared/useStates.ts'
+import { useRedirectEvery } from '../../../hooks/shared/useRedirect.ts'
 import { passwordValidation } from '../../../utils/passwordValidation.ts'
-import { useAuthenticated } from '../../../store/slices/auth.ts'
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import ProfileModule from '../../../components/Profile/ProfileModule'
 import ProfileButton from '../../../components/Profile/ProfileButton'
 import { userService } from '../../../services/userService.ts'
@@ -16,9 +16,8 @@ interface FormData {
 }
 
 const ProfilePage = () => {
-    const { t } = useTranslation()
-    const navigate = useNavigate()
-    const isAuthenticated = useAuthenticated()
+    const { t, navigate } = useHooks()
+    const { isAuthenticated } = useStates()
     const [login, setLogin] = useState<string>('')
     const [email, setEmail] = useState<string>('')
     const [formData, setFormData] = useState<FormData>({
@@ -30,9 +29,9 @@ const ProfilePage = () => {
     const [error, setError] = useState<string | null>(null)
     const [loading, setLoading] = useState(false)
 
-    useEffect(() => {
-        if (!isAuthenticated) navigate('/')
+    useRedirectEvery([!isAuthenticated], '/')
 
+    useEffect(() => {
         const fetchUsernameAndEmail = async () => {
             const usernameResponse = await userService.getUsername()
             if (usernameResponse.status === 200) {

@@ -1,33 +1,30 @@
 import React from 'react'
-import { useRedirectEvery } from '../../../hooks/useRedirect.ts'
-import { useTranslation } from 'react-i18next'
+import { useRedirectEvery } from '../../../hooks/shared/useRedirect.ts'
 import { codeValidation } from '../../../utils/codeValidation.ts'
-import { useAppDispatch } from '../../../hooks/useAppDispatch.ts'
-import { useNavigate } from 'react-router-dom'
-import { useForm } from '../../../hooks/useForm.ts'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import { useForm } from '../../../hooks/shared/useForm.ts'
 import { handle } from '../../../utils/handle.ts'
 import AuthPanel from '../../../components/Auth/AuthPanel'
 import AuthTitle from '../../../components/Auth/AuthTitle'
 import AuthDescription from '../../../components/Auth/AuthDescription'
 import AuthInput from '../../../components/Auth/AuthInput'
 import AuthButton from '../../../components/Auth/AuthButton'
-import AuthError from '../../../components/Auth/AuthError'
+import Error from '../../../components/Shared/Error'
 import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
-import { notResetPassword, useReset } from '../../../store/slices/reset.ts'
-import { login } from '../../../store/slices/auth.ts'
+import { notResetPassword } from '../../../store/slices/reset.ts'
 import { userService } from '../../../services/userService.ts'
 import { authService } from '../../../services/authService.ts'
+import { login } from '../../../store/slices/auth.ts'
+import { useStates } from '../../../hooks/shared/useStates.ts'
 
 interface FormData {
     code: string
 }
 
 const ResetPasswordCodePage = () => {
-    const { t } = useTranslation()
-    const dispatch = useAppDispatch()
-    const navigate = useNavigate()
-    const isResetPassword = useReset()
+    const { t, dispatch, navigate } = useHooks()
+    const isResetPassword = useStates()
     const { formData, error, setError, handleChange, resetForm, loading, setLoading } = useForm<FormData>({
         initialValues: {
             code: ''
@@ -78,7 +75,7 @@ const ResetPasswordCodePage = () => {
                     disabled={loading}
                 />
             }
-            error={error && <AuthError error={error} />}
+            error={error && <Error error={error} />}
             button={
                 <AuthButton
                     text={t('login-code.button')}

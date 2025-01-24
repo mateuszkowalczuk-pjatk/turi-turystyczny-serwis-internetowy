@@ -1,0 +1,25 @@
+.details {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 50%;
+    height: 16.5rem;
+    padding-top: 1rem;
+}
+
+.details p {
+    color: var(--dark);
+}
+
+.details input {
+    height: 3rem;
+}
+
+.time {
+    width: 100%;
+    height: 8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -4,11 +4,11 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../store.ts'
 
 interface ResetState {
-    isResetPassword: boolean
+    isReset: boolean
 }
 
 const initialState: ResetState = {
-    isResetPassword: false
+    isReset: false
 }
 
 const reset = createSlice({
@@ -16,16 +16,16 @@ const reset = createSlice({
     initialState,
     reducers: {
         resetPassword(state) {
-            state.isResetPassword = true
+            state.isReset = true
         },
         notResetPassword(state) {
-            state.isResetPassword = false
+            state.isReset = false
         }
     }
 })
 
 export const { resetPassword, notResetPassword } = reset.actions
 
-export const useReset = () => useSelector((state: RootState) => state.reset.isResetPassword)
+export const useReset = () => useSelector((state: RootState) => state.reset.isReset)
 
 export default reset.reducer

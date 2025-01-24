@@ -4,7 +4,7 @@ import com.turi.authentication.domain.port.RefreshTokenService;
 import com.turi.infrastructure.common.CodeGenerator;
 import com.turi.infrastructure.common.EmailSender;
 import com.turi.infrastructure.common.HashToken;
-import com.turi.infrastructure.properties.SecurityProperties;
+import com.turi.authentication.infrastructure.config.SecurityProperties;
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import com.turi.user.domain.exception.*;
 import com.turi.user.domain.model.RefreshToken;
@@ -117,7 +117,7 @@ public class UserServiceImpl implements UserService, UserDetailsService
 
             repository.update(user.getUserId(), user);
 
-            emailSender.sendEmail(email, "User password reset code.", user.getPasswordResetCode());
+            emailSender.sendEmailCode(email, "Kod resetujący hasło.", user.getPasswordResetCode());
 
             return ResetToken.builder()
                     .withToken(user.getPasswordResetToken())

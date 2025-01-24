@@ -1,10 +1,10 @@
 package com.turi.premium.infrastructure.adapter.service;
 
-import com.turi.infrastructure.properties.PremiumProperties;
 import com.turi.premium.domain.exception.PremiumNotFoundException;
 import com.turi.premium.domain.model.Premium;
 import com.turi.premium.domain.model.PremiumStatus;
 import com.turi.premium.domain.port.PremiumService;
+import com.turi.premium.infrastructure.config.PremiumProperties;
 import com.turi.testhelper.annotation.ServiceTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ServiceTest
 class PremiumServiceTest
@@ -104,150 +103,6 @@ class PremiumServiceTest
 
         assertNotNull(result);
         assertFalse(result);
-    }
-
-    @Test
-    void testPremium_CheckPayment()
-    {
-
-    }
-
-    @Test
-    void testPremium_CheckPayment_PremiumNotFound()
-    {
-
-    }
-
-    @Test
-    void testPremium_CheckPayment_PremiumUnpaid()
-    {
-
-    }
-
-    @Test
-    void testPremium_SendLoginCode()
-    {
-
-    }
-
-    @Test
-    void testPremium_SendLoginCode_PremiumNotFound()
-    {
-
-    }
-
-    @Test
-    void testPremium_SendLoginCode_UserResetCodeRecentlySent()
-    {
-
-    }
-
-    @Test
-    void testPremium_Verify()
-    {
-
-    }
-
-    @Test
-    void testPremium_Verify_InvalidCompany()
-    {
-
-    }
-
-    @Test
-    void testPremium_Login()
-    {
-
-    }
-
-    @Test
-    void testPremium_Login_PremiumNotFound()
-    {
-
-    }
-
-    @Test
-    void testPremium_Login_InvalidCode()
-    {
-
-    }
-
-    @Test
-    void testPremium_Login_CodeExpired()
-    {
-
-    }
-
-    @Test
-    void testPremium_Pay()
-    {
-
-    }
-
-    @Test
-    void testPremium_Pay_PremiumAlreadyActivated()
-    {
-
-    }
-
-    @Test
-    void testPremium_Renew()
-    {
-
-    }
-
-    @Test
-    void testPremium_Renew_PremiumAlreadyActivated()
-    {
-
-    }
-
-    @Test
-    void testPremium_Cancel()
-    {
-
-    }
-
-    @Test
-    void testPremium_Cancel_Inactive()
-    {
-
-    }
-
-    @Test
-    void testPremium_UpdateCompanyDetails()
-    {
-
-    }
-
-    @Test
-    void testPremium_UpdateCompanyDetails_InvalidCompany()
-    {
-
-    }
-
-    @Test
-    void testPremium_UpdateAllPremiumStatusAndAccountTypeIfPremiumExpired()
-    {
-
-    }
-
-    @Test
-    void testPremium_UpdateAllPremiumStatusAndAccountTypeIfPremiumExpired_NothingToUpdate()
-    {
-
-    }
-
-    @Test
-    void testPremium_DeleteAllExpiredLoginDetails()
-    {
-
-    }
-
-    @Test
-    void testPremium_DeleteAllExpiredLoginDetails_NothingToDelete()
-    {
-
     }
 
     private Premium mockPremium()

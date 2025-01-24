@@ -1,29 +1,25 @@
-import { useLocation, useNavigate } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
-import { useEffect } from 'react'
-import Content from '../../../components/Shared/Content'
-import Return from '../../../components/Shared/Return'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import { useRedirectEvery } from '../../../hooks/shared/useRedirect.ts'
+import PageReturn from '../../../components/Shared/PageReturn'
 import OfferPanel from '../../../components/Offer/OfferPanel'
+import PageContent from '../../../components/Shared/Contents/PageContent'
 
 const OfferPage = () => {
-    const { t } = useTranslation()
-    const navigate = useNavigate()
-    const offer = useLocation().state?.offer || null
-    const url = useLocation().state?.url || ''
+    const { t, location } = useHooks()
+    const { offer = null, dateFrom = null, dateTo = null } = location.state || {}
 
-    useEffect(() => {
-        if (offer === null) navigate('/')
-    }, [navigate, offer])
+    useRedirectEvery([offer === null], '/')
 
     return (
-        <Content
-            title={
-                <Return
-                    text={t('offer.return')}
-                    url={url}
+        <PageContent
+            title={<PageReturn text={t('offer.return')} />}
+            firstPanel={
+                <OfferPanel
+                    offer={offer}
+                    dateFrom={dateFrom}
+                    dateTo={dateTo}
                 />
             }
-            firstPanel={<OfferPanel offer={offer} />}
         />
     )
 }

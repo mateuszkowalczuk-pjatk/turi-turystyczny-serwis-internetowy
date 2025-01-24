@@ -1,8 +1,8 @@
-import { useNavigate } from 'react-router-dom'
 import styles from './HeaderLogo.module.css'
+import { useHooks } from '../../../../hooks/shared/useHooks.ts'
 
 const HeaderLogo = () => {
-    const navigate = useNavigate()
+    const { navigate } = useHooks()
 
     return (
         <p

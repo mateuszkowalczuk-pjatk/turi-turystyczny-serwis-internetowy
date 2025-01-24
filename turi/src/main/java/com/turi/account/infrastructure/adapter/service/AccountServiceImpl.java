@@ -135,7 +135,7 @@ public class AccountServiceImpl implements AccountService
 
             final var email = userFacade.getUserById(id).getEmail();
 
-            emailSender.sendEmail(email, "User account activation code.", code);
+            emailSender.sendEmailCode(email, "Kod aktywacyjny konto.", code);
         }
         else
         {

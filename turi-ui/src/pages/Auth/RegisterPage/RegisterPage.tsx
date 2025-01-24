@@ -1,22 +1,20 @@
 import React from 'react'
 import { checkPasswordsMatch } from '../../../utils/checkPasswordsMatch.ts'
 import { passwordValidation } from '../../../utils/passwordValidation.ts'
-import { useTranslation } from 'react-i18next'
-import { useAppDispatch } from '../../../hooks/useAppDispatch.ts'
-import { useNavigate } from 'react-router-dom'
-import { useForm } from '../../../hooks/useForm.ts'
+import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import { useForm } from '../../../hooks/shared/useForm.ts'
 import { handle } from '../../../utils/handle.ts'
 import AuthPanel from '../../../components/Auth/AuthPanel'
 import AuthTitle from '../../../components/Auth/AuthTitle'
 import AuthInput from '../../../components/Auth/AuthInput'
-import AuthError from '../../../components/Auth/AuthError'
+import Error from '../../../components/Shared/Error'
 import AuthButton from '../../../components/Auth/AuthButton'
 import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
-import { activation } from '../../../store/slices/activate.ts'
-import { logout } from '../../../store/slices/auth.ts'
 import { userService } from '../../../services/userService.ts'
 import { authService } from '../../../services/authService.ts'
+import { activation } from '../../../store/slices/activate.ts'
+import { logout } from '../../../store/slices/auth.ts'
 
 interface FormData {
     login: string
@@ -26,9 +24,7 @@ interface FormData {
 }
 
 const RegisterPage = () => {
-    const { t } = useTranslation()
-    const dispatch = useAppDispatch()
-    const navigate = useNavigate()
+    const { t, dispatch, navigate } = useHooks()
     const { formData, error, setError, handleChange, resetForm, loading, setLoading } = useForm<FormData>({
         initialValues: {
             login: '',
@@ -140,7 +136,7 @@ const RegisterPage = () => {
                     disabled={loading}
                 />
             }
-            error={error && <AuthError error={error} />}
+            error={error && <Error error={error} />}
             button={
                 <AuthButton
                     text={t('signup.button')}

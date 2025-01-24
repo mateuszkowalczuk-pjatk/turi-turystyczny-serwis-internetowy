@@ -1,0 +1,10 @@
+.information {
+    width: 45%;
+    height: 8.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1rem;
+    padding-left: 1rem;
+}

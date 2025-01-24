@@ -1,5 +1,6 @@
 import { API_BASE_URL } from '../config/api.ts'
 import { API } from './constants.ts'
+import { defaultParamIfNull } from '../utils/handleRequest.ts'
 
 export const offerService = {
     search: async (
@@ -12,15 +13,8 @@ export const offerService = {
         touristicPlaceType: string | null,
         attractionType: string | null
     ) => {
-        const touristicPlaceIdParam = touristicPlaceId ? '&touristicPlaceId=' + touristicPlaceId : ''
-        const rankParam = rank ? '&rank=' + rank : ''
-        const queryParam = query ? '&query=' + query : ''
-        const dateFromParam = dateFrom ? '&dateFrom=' + dateFrom : ''
-        const dateToParam = dateTo ? '&dateTo=' + dateTo : ''
-        const touristicPlaceTypeParam = touristicPlaceType ? '&touristicPlaceType=' + touristicPlaceType : ''
-        const attractionTypeParam = attractionType ? '&attractionType=' + attractionType : ''
         return await fetch(
-            `${API_BASE_URL}${API.OFFER.SEARCH}?mode=${mode}&limit=2${touristicPlaceIdParam}${rankParam}${queryParam}${dateFromParam}${dateToParam}${touristicPlaceTypeParam}${attractionTypeParam}`,
+            `${API_BASE_URL}${API.OFFER.SEARCH}?mode=${mode}&limit=2${defaultParamIfNull('touristicPlaceId', touristicPlaceId)}${defaultParamIfNull('rank', rank)}${defaultParamIfNull('query', query)}${defaultParamIfNull('dateFrom', dateFrom)}${defaultParamIfNull('dateTo', dateTo)}${defaultParamIfNull('touristicPlaceType', touristicPlaceType)}${defaultParamIfNull('attractionType', attractionType)}`,
             {
                 method: 'GET',
                 headers: {

@@ -49,36 +49,6 @@ class StripeServiceTest
         assertThat(result.getStatus()).isEqualTo(PaymentStatus.PENDING);
     }
 
-    @Test
-    void testStripePayment_Checkout_Error()
-    {
-
-    }
-
-    @Test
-    void testStripePayment_Webhook_Succeeded()
-    {
-
-    }
-
-    @Test
-    void testStripePayment_Webhook_Failed()
-    {
-
-    }
-
-    @Test
-    void testStripePayment_Webhook_Completed()
-    {
-
-    }
-
-    @Test
-    void testStripePayment_Webhook_Error()
-    {
-
-    }
-
     private StripePayment mockStripePayment()
     {
         return StripePayment.builder()
