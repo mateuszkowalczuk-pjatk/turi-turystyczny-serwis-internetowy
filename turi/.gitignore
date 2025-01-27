@@ -5,3 +5,5 @@ build/
 !**/src/test/**/build/
 .idea
 uploads/
+.env.local
+.env.prod

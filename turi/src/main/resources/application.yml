@@ -6,10 +6,10 @@ spring:
         resources:
             static-locations: file:./uploads/
     datasource:
-        url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/turi}
-        username: ${SPRING_DATASOURCE_USERNAME:turi}
-        password: ${SPRING_DATASOURCE_PASSWORD:turi-db}
-        driver-class-name: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME:org.postgresql.Driver}
+        url: jdbc:postgresql://${DB_URL}
+        username: ${DB_USERNAME}
+        password: ${DB_PASSWORD}
+        driver-class-name: org.postgresql.Driver
     jpa:
         hibernate:
             ddl-auto: none
@@ -23,7 +23,7 @@ spring:
         host: smtp.gmail.com
         port: 587
         username: noreply.turi@gmail.com
-        password:
+        password: ${MAIL_PASSWORD}
         properties:
             mail:
                 smtp:
@@ -33,7 +33,7 @@ spring:
 
 security:
     jwt:
-        secret-key:
+        secret-key: ${SECRET_KEY}
         access-token-expiration-time: 900
         refresh-token-expiration-time: 604800
 
@@ -43,10 +43,12 @@ springdoc:
         path: /swagger-ui
 
 stripe:
-    secret-key:
-    success-url: http://localhost:3000/premium/payment-check
-    cancel-url: http://localhost:3000/premium/payment
-    webhook-secret-key:
+    secret-key: ${STRIPE_SECRET_KEY}
+    webhook-secret-key: ${WEBHOOK_SECRET_KEY}
+    premium-success-url: ${UI_URL}/premium/payment-check
+    premium-cancel-url: ${UI_URL}/premium/payment
+    reservation-success-url: ${UI_URL}/reservation/payment-check
+    reservation-cancel-url: ${UI_URL}/reservation/payment
 
 premium:
     price: 100
@@ -54,17 +56,17 @@ premium:
 
 ceidg:
     url: https://dane.biznes.gov.pl/api/ceidg/v3/firmy
-    api-key:
+    api-key: ${CEIDG_API_KEY}
 
 image:
     storage:
-        mode: local
+        mode: ${IMAGE_STORAGE_MODE}
         path: ./uploads/
         local-url: http://localhost:8080/uploads/
-        azure-url:
+        azure-url: ${IMAGE_STORAGE_AZURE_URL}
 
 azure:
     storage:
-        account-name:
-        account-key:
-        container-name:
+        account-name: ${AZURE_STORAGE_ACCOUNT_NAME}
+        account-key: ${AZURE_STORAGE_ACCOUNT_KEY}
+        container-name: ${AZURE_STORAGE_CONTAINER_NAME}
