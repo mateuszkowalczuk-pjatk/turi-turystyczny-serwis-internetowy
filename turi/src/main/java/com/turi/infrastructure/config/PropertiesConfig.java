@@ -16,7 +16,8 @@ import org.springframework.context.annotation.Configuration;
         PremiumProperties.class,
         SecurityProperties.class,
         AzureStorageProperties.class,
-        ImageStorageProperties.class
+        ImageStorageProperties.class,
+        AppProperties.class
 })
 public class PropertiesConfig
 {
