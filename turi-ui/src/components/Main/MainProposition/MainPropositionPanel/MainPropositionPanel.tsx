@@ -29,7 +29,7 @@ const MainPropositionPanel = ({ text, imagePath, mode, touristicPlaceType, attra
     return (
         <div
             className={styles.panel}
-            style={{ backgroundImage: imagePath }}
+            // style={{ backgroundImage: imagePath }}
             role="button"
             tabIndex={0}
             onClick={handleSearch}

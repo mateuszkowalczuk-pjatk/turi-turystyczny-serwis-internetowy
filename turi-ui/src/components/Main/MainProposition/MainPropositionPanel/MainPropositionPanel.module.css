@@ -7,6 +7,7 @@
     color: var(--white);
     flex: 0 0 9rem;
     height: 9rem;
+    background-image: url('src/assets/images/proposition/stay/apartment.jpeg');
     background-color: #808080;
     background-size: cover;
     background-position: center;
