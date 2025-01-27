@@ -17,22 +17,22 @@ const MainProposition = () => {
                 panels={
                     <MainPropositionPanels
                         firstText={t('home.proposition.guesthouses')}
-                        firstImage={'../../../../assets/images/proposition/stay/guesthouse.jpeg'}
+                        firstImage={'./src/assets/images/proposition/stay/guesthouse.jpeg'}
                         firstTouristicPlaceType={TouristicPlaceType.GUESTHOUSE}
                         secondText={t('home.proposition.apartments')}
-                        secondImage={'../../../../assets/images/proposition/stay/apartment.jpeg'}
+                        secondImage={'./src/assets/images/proposition/stay/apartment.jpeg'}
                         secondTouristicPlaceType={TouristicPlaceType.APARTMENT}
                         thirdText={t('home.proposition.cottages')}
-                        thirdImage={'../../../../assets/images/proposition/stay/cottages.jpeg'}
+                        thirdImage={'./src/assets/images/proposition/stay/cottages.jpeg'}
                         thirdTouristicPlaceType={TouristicPlaceType.COTTAGES}
                         fourthText={t('home.proposition.hotels')}
-                        fourthImage={'../../../../assets/images/proposition/stay/hotel.jpeg'}
+                        fourthImage={'./src/assets/images/proposition/stay/hotel.jpeg'}
                         fourthTouristicPlaceType={TouristicPlaceType.HOTEL}
                         fifthText={t('home.proposition.b&b')}
-                        fifthImage={'../../../../assets/images/proposition/stay/b&b.jpeg'}
+                        fifthImage={'./src/assets/images/proposition/stay/b&b.jpeg'}
                         fifthTouristicPlaceType={TouristicPlaceType.BB}
                         sixthText={t('home.proposition.hostels')}
-                        sixthImage={'../../../../assets/images/proposition/stay/hostel.jpeg'}
+                        sixthImage={'./src/assets/images/proposition/stay/hostel.jpeg'}
                         sixthTouristicPlaceType={TouristicPlaceType.HOSTEL}
                         mode={SearchMode.STAY}
                     />
@@ -43,22 +43,22 @@ const MainProposition = () => {
                 panels={
                     <MainPropositionPanels
                         firstText={t('home.proposition.relax')}
-                        firstImage={'../../../../assets/images/proposition/attraction/relax.jpeg'}
+                        firstImage={'./src/assets/images/proposition/attraction/relax.jpeg'}
                         firstAttractionType={AttractionType.RELAX}
                         secondText={t('home.proposition.sport')}
-                        secondImage={'../../../../assets/images/proposition/attraction/sport.jpeg'}
+                        secondImage={'./src/assets/images/proposition/attraction/sport.jpeg'}
                         secondAttractionType={AttractionType.SPORT}
                         thirdText={t('home.proposition.recreation')}
-                        thirdImage={'../../../../assets/images/proposition/attraction/recreation.jpeg'}
+                        thirdImage={'./src/assets/images/proposition/attraction/recreation.jpeg'}
                         thirdAttractionType={AttractionType.RECREATION}
                         fourthText={t('home.proposition.entertainment')}
-                        fourthImage={'../../../../assets/images/proposition/attraction/entertainment.jpeg'}
+                        fourthImage={'./src/assets/images/proposition/attraction/entertainment.jpeg'}
                         fourthAttractionType={AttractionType.ENTERTAINMENT}
                         fifthText={t('home.proposition.food')}
-                        fifthImage={'../../../../assets/images/proposition/attraction/food.jpeg'}
+                        fifthImage={'./src/assets/images/proposition/attraction/food.jpeg'}
                         fifthAttractionType={AttractionType.FOOD}
                         sixthText={t('home.proposition.event')}
-                        sixthImage={'../../../../assets/images/proposition/attraction/event.jpeg'}
+                        sixthImage={'./src/assets/images/proposition/attraction/event.jpeg'}
                         sixthAttractionType={AttractionType.EVENT}
                         mode={SearchMode.ATTRACTION}
                     />
