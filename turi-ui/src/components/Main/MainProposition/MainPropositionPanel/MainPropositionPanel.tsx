@@ -7,13 +7,12 @@ import styles from './MainPropositionPanel.module.css'
 
 interface Props {
     text: string
-    imagePath: string
     mode?: SearchMode
     touristicPlaceType?: TouristicPlaceType
     attractionType?: AttractionType
 }
 
-const MainPropositionPanel = ({ text, imagePath, mode, touristicPlaceType, attractionType }: Props) => {
+const MainPropositionPanel = ({ text, mode, touristicPlaceType, attractionType }: Props) => {
     const { navigate } = useHooks()
 
     const handleSearch = () => {
@@ -28,8 +27,13 @@ const MainPropositionPanel = ({ text, imagePath, mode, touristicPlaceType, attra
 
     return (
         <div
-            className={styles.panel}
-            // style={{ backgroundImage: imagePath }}
+            className={`${styles.panel} ${
+                touristicPlaceType
+                    ? styles[touristicPlaceType.toLowerCase()]
+                    : attractionType
+                      ? styles[attractionType.toLowerCase()]
+                      : ''
+            }`}
             role="button"
             tabIndex={0}
             onClick={handleSearch}

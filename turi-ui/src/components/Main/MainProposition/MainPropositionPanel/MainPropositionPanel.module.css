@@ -7,7 +7,6 @@
     color: var(--white);
     flex: 0 0 9rem;
     height: 9rem;
-    background-image: url('src/assets/images/proposition/stay/apartment.jpeg');
     background-color: #808080;
     background-size: cover;
     background-position: center;
@@ -18,6 +17,54 @@
     transition:
         font-size 0.1s,
         background-color 0.3s;
+}
+
+.panel.guesthouse {
+    background-image: url('../../../../assets/images/proposition/stay/guesthouse.jpeg');
+}
+
+.panel.apartment {
+    background-image: url('../../../../assets/images/proposition/stay/apartment.jpeg');
+}
+
+.panel.cottages {
+    background-image: url('../../../../assets/images/proposition/stay/cottages.jpeg');
+}
+
+.panel.hotel {
+    background-image: url('../../../../assets/images/proposition/stay/hotel.jpeg');
+}
+
+.panel.bb {
+    background-image: url('../../../../assets/images/proposition/stay/bb.jpeg');
+}
+
+.panel.hostel {
+    background-image: url('../../../../assets/images/proposition/stay/hostel.jpeg');
+}
+
+.panel.relax {
+    background-image: url('../../../../assets/images/proposition/attraction/relax.jpeg');
+}
+
+.panel.sport {
+    background-image: url('../../../../assets/images/proposition/attraction/sport.jpeg');
+}
+
+.panel.recreation {
+    background-image: url('../../../../assets/images/proposition/attraction/recreation.jpeg');
+}
+
+.panel.entertainment {
+    background-image: url('../../../../assets/images/proposition/attraction/entertainment.jpeg');
+}
+
+.panel.food {
+    background-image: url('../../../../assets/images/proposition/attraction/food.jpeg');
+}
+
+.panel.event {
+    background-image: url('../../../../assets/images/proposition/attraction/event.jpeg');
 }
 
 .panel:hover {
