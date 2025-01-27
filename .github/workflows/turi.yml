@@ -54,6 +54,7 @@ jobs:
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_BB31267E284E4E7084B28AC79D4529E9 }}
 
       - name: Environment variables
+        uses: azure/webapps-deploy@v3
         env:
           DB_URL: ${{ secrets.DB_URL }}
           DB_USERNAME: ${{ secrets.DB_USERNAME }}
