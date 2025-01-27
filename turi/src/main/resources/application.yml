@@ -37,6 +37,9 @@ security:
         access-token-expiration-time: 900
         refresh-token-expiration-time: 604800
 
+ui:
+    url: ${UI_URL}
+
 springdoc:
     swagger-ui:
         enabled: true

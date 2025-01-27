@@ -28,6 +28,7 @@ import org.springframework.web.filter.CorsFilter;
 public class SecurityConfig
 {
     private final JwtFilter jwtFilter;
+    private final AppProperties properties;
 
     @Bean
     public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception
@@ -49,7 +50,7 @@ public class SecurityConfig
                                 "/api/offer/search",
                                 "/api/offer/autocomplete",
                                 "/api/address/getById/**",
-                                "/api/image/getByAccount",
+                                "/api/image/getByAccountId",
                                 "/api/image/getAllByTouristicPlaceId",
                                 "/api/image/getAllByStayId",
                                 "/api/image/getAllByAttractionId",
@@ -58,6 +59,7 @@ public class SecurityConfig
                                 "/api/user/getEmailById/**"
                         ).permitAll()
                         .requestMatchers("/api/account/activate").hasRole(AccountType.INACTIVE.getName())
+                        .requestMatchers("/api/touristicplace/create").hasRole(AccountType.NORMAL.getName())
                         .requestMatchers(
                                 "/api/touristicplace/getById/**",
                                 "/api/stay/getById/**",
@@ -102,7 +104,7 @@ public class SecurityConfig
     {
         final var config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://localhost:3000");
+        config.addAllowedOrigin(properties.getUrl());
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
 
