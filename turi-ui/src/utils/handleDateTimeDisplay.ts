@@ -3,5 +3,6 @@ export const handleDateDisplay = (date: string) => {
 }
 
 export const handleTimeDisplay = (time: string) => {
+    if (time === '') return time
     return `${time[0].toString().padStart(2, '0')}:${time[1].toString().padStart(2, '0')}`
 }

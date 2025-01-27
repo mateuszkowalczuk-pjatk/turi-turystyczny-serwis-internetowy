@@ -1,3 +1,4 @@
+import { useHooks } from '../../../../hooks/shared/useHooks.ts'
 import { generateAddress } from '../../../../utils/generateAddress.ts'
 import TouristicPlaceName from '../TouristicPlaceName'
 import TextRegular from '../../Controls/Text/TextRegular'
@@ -12,6 +13,8 @@ interface Props {
 }
 
 const TouristicPlaceInformation = ({ name, touristicPlaceId, address, isReservation }: Props) => {
+    const { t } = useHooks()
+
     return (
         <div className={styles.information}>
             <TouristicPlaceName
@@ -19,7 +22,7 @@ const TouristicPlaceInformation = ({ name, touristicPlaceId, address, isReservat
                 touristicPlaceId={touristicPlaceId}
                 isReservation={isReservation}
             />
-            {address && <TextRegular text={generateAddress(address)} />}
+            {address && <TextRegular text={generateAddress(address, t)} />}
         </div>
     )
 }

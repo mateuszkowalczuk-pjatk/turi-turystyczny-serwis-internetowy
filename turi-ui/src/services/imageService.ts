@@ -3,8 +3,8 @@ import { API } from './constants.ts'
 import { ImageMode } from '../types/image.ts'
 
 export const imageService = {
-    getByAccount: async (accountId: number) => {
-        return await fetch(`${API_BASE_URL}${API.IMAGE.GET_BY_ACCOUNT}?accountId=${accountId}`, {
+    getByAccount: async () => {
+        return await fetch(`${API_BASE_URL}${API.IMAGE.GET_BY_ACCOUNT}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -13,8 +13,8 @@ export const imageService = {
         })
     },
 
-    getByAccountId: async () => {
-        return await fetch(`${API_BASE_URL}${API.IMAGE.GET_BY_ACCOUNT_ID}`, {
+    getByAccountId: async (accountId: number) => {
+        return await fetch(`${API_BASE_URL}${API.IMAGE.GET_BY_ACCOUNT_ID}?accountId=${accountId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

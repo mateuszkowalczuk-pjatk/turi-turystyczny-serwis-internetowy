@@ -19,7 +19,14 @@ public class ImageFacade
 {
     private final ImageService service;
 
-    public ResponseEntity<Image> getImageByAccount(final String accountId)
+    public ResponseEntity<Image> getImageByAccount()
+    {
+        final var accountId = ContextHandler.getIdFromContext();
+
+        return ImageResponse.of(service.getByAccountId(accountId));
+    }
+
+    public ResponseEntity<Image> getImageByAccountId(final String accountId)
     {
         if (accountId == null)
         {
@@ -29,13 +36,6 @@ public class ImageFacade
         final var id = ObjectId.of(accountId).getValue();
 
         return ImageResponse.of(service.getByAccountId(id));
-    }
-
-    public ResponseEntity<Image> getImageByAccountId()
-    {
-        final var accountId = ContextHandler.getIdFromContext();
-
-        return ImageResponse.of(service.getByAccountId(accountId));
     }
 
     public ResponseEntity<List<Image>> getAllImagesByTouristicPlaceId(final String touristicPlaceId)

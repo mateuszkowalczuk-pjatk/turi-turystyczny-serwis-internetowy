@@ -8,8 +8,8 @@ import { startLoading, stopLoading } from '../../store/slices/loading.ts'
 export const useReservationPlan = (
     reservationId: number,
     touristicPlaceId: number,
-    dateFrom: Date,
-    dateTo: Date
+    dateFrom: string,
+    dateTo: string
 ): {
     reservationAttractions: ReservationAttraction[]
     setReservationAttractions: (
@@ -20,8 +20,6 @@ export const useReservationPlan = (
     const { dispatch } = useHooks()
     const [reservationAttractions, setReservationAttractions] = useState<ReservationAttraction[]>([])
     const [attractions, setAttractions] = useState<Attraction[]>([])
-
-    // redirect jak nie ma date itp
 
     useEffect(() => {
         dispatch(startLoading())

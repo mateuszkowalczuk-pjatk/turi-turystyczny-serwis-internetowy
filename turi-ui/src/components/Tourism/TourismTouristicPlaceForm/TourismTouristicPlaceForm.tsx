@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { handle } from '../../../utils/handle.ts'
 import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import { handleFormError } from '../../../utils/handleFormError.ts'
+import { handleTimeDisplay } from '../../../utils/handleDateTimeDisplay.ts'
 import Input from '../../Shared/Controls/Input'
 import Label from '../../Shared/Controls/Label'
 import Checkbox from '../../Shared/Controls/Checkbox'
@@ -138,10 +139,10 @@ const TourismTouristicPlaceForm = ({ touristicPlaceId }: { touristicPlaceId: num
                         prepayment: touristicPlaceData.prepayment || false,
                         cancelReservation: touristicPlaceData.cancelReservationDays !== 0,
                         cancelReservationDays: touristicPlaceData.cancelReservationDays || 0,
-                        checkInTimeFrom: convertToTime(touristicPlaceData.checkInTimeFrom),
-                        checkInTimeTo: convertToTime(touristicPlaceData.checkInTimeTo),
-                        checkOutTimeFrom: convertToTime(touristicPlaceData.checkOutTimeFrom),
-                        checkOutTimeTo: convertToTime(touristicPlaceData.checkOutTimeTo),
+                        checkInTimeFrom: handleTimeDisplay(touristicPlaceData.checkInTimeFrom || ''),
+                        checkInTimeTo: handleTimeDisplay(touristicPlaceData.checkInTimeTo || ''),
+                        checkOutTimeFrom: handleTimeDisplay(touristicPlaceData.checkOutTimeFrom || ''),
+                        checkOutTimeTo: handleTimeDisplay(touristicPlaceData.checkOutTimeTo || ''),
                         information: touristicPlaceData.information || '',
                         firstName: accountData.firstName || '',
                         lastName: accountData.lastName || '',
@@ -154,34 +155,8 @@ const TourismTouristicPlaceForm = ({ touristicPlaceId }: { touristicPlaceId: num
         fetchData().catch((error) => error)
     }, [t])
 
-    const convertToTime = (dateArray: any) => {
-        if (!dateArray) return null
-        const [hour, minute] = dateArray
-        const formattedHour = ('0' + hour).slice(-2)
-        const formattedMinute = ('0' + minute).slice(-2)
-        return `${formattedHour}:${formattedMinute}`
-    }
-
-    const handleCheckTime = (from?: string, to?: string): string => {
-        if (!from || !to) return ''
-        const formatTime = (time: string) => {
-            const hour = parseInt(time[0]) >= 0 && parseInt(time[0]) <= 9 ? '0' + time[0] : time[0]
-            const minute = parseInt(time[1]) >= 0 && parseInt(time[1]) <= 9 ? '0' + time[1] : time[1]
-            return hour + ':' + minute
-        }
-        return `${formatTime(from)} - ${formatTime(to)}`
-    }
-
     const handleSave = async (e: React.FormEvent) => {
         handle(e, setLoading, setError)
-
-        // if (
-        //     !checkInOutTimeValidation(formData.checkInTimeFrom) ||
-        //     !checkInOutTimeValidation(formData.checkOutTimeFrom) ||
-        //     !checkInOutTimeValidation(formData.checkInTimeFrom) ||
-        //     !checkInOutTimeValidation(formData.checkOutTimeTo)
-        // )
-        //     return handleFormError(setError, setLoading, t('tourism.touristic-place-check-in-out-time'))
 
         let addressId = 0
         const addressCheckResponse = await accountService.isAddressExists(

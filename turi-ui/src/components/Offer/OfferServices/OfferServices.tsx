@@ -26,8 +26,30 @@ const OfferServices = ({ initDateFrom, initDateTo, initStays, initAttractions, t
     const [attractions, setAttractions] = useState<Attraction[]>(initAttractions)
 
     useEffect(() => {
+        const handleFetch = async () => {
+            if (dateFrom && dateTo && touristicPlace.touristicPlaceId) {
+                const staysResponse = await reservationService.getAllTouristicPlaceStaysAvailableInDate(
+                    touristicPlace.touristicPlaceId,
+                    dateFrom,
+                    dateTo
+                )
+                if (staysResponse.status === 200) {
+                    const staysData: Stay[] = await staysResponse.json()
+                    setStays(staysData)
+                }
+                const attractionsResponse = await reservationService.getAllTouristicPlaceAttractionsAvailableInDate(
+                    touristicPlace.touristicPlaceId,
+                    dateFrom,
+                    dateTo
+                )
+                if (attractionsResponse.status === 200) {
+                    const attractionsData: Attraction[] = await attractionsResponse.json()
+                    setAttractions(attractionsData)
+                }
+            }
+        }
         if (dateFrom && dateTo) handleFetch().catch((error) => error)
-    }, [dateFrom, dateTo])
+    }, [dateFrom, dateTo, touristicPlace.touristicPlaceId])
 
     const handleDateFromChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setDateFrom(event.target.value)
@@ -35,29 +57,6 @@ const OfferServices = ({ initDateFrom, initDateTo, initStays, initAttractions, t
 
     const handleDateToChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setDateTo(event.target.value)
-    }
-
-    const handleFetch = async () => {
-        if (dateFrom && dateTo && touristicPlace.touristicPlaceId) {
-            const staysResponse = await reservationService.getAllTouristicPlaceStaysAvailableInDate(
-                touristicPlace.touristicPlaceId,
-                dateFrom,
-                dateTo
-            )
-            if (staysResponse.status === 200) {
-                const staysData: Stay[] = await staysResponse.json()
-                setStays(staysData)
-            }
-            const attractionsResponse = await reservationService.getAllTouristicPlaceAttractionsAvailableInDate(
-                touristicPlace.touristicPlaceId,
-                dateFrom,
-                dateTo
-            )
-            if (attractionsResponse.status === 200) {
-                const attractionsData: Attraction[] = await attractionsResponse.json()
-                setAttractions(attractionsData)
-            }
-        }
     }
 
     return (

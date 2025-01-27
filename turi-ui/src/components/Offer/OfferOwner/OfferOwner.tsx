@@ -35,7 +35,7 @@ const OfferOwner = ({ premiumId, description }: Props) => {
                     setEmail(emailData)
                 }
                 if (accountData.accountId) {
-                    const imageResponse = await imageService.getByAccount(accountData.accountId)
+                    const imageResponse = await imageService.getByAccountId(accountData.accountId)
                     const imageData = await imageResponse.json()
                     setImage(imageData)
                 }

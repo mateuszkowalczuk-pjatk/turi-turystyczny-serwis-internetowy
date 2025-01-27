@@ -81,7 +81,7 @@ const TourismAttractionOfferPanel = ({ touristicPlaceId, modify = false }: Props
                     name: attractionData.name,
                     description: attractionData.description,
                     price: attractionData.price,
-                    priceType: PriceType[attractionData.priceType as keyof typeof PriceType],
+                    priceType: PriceType[attractionData.priceType as unknown as keyof typeof PriceType],
                     prepayment: attractionData.prepayment,
                     cancelReservationDays: attractionData.cancelReservationDays,
                     maxPeopleNumber: attractionData.maxPeopleNumber,
@@ -100,16 +100,14 @@ const TourismAttractionOfferPanel = ({ touristicPlaceId, modify = false }: Props
             }
         }
 
-        const convertToDate = (dateArray: any) => {
+        const convertToDate = (dateArray: any): Date | null => {
             if (!dateArray) return null
             const [year, month, day] = dateArray
-            const formattedMonth = ('0' + month).slice(-2)
-            const formattedDay = ('0' + day).slice(-2)
-            return `${year}-${formattedMonth}-${formattedDay}`
+            return new Date(Date.UTC(year, month - 1, day))
         }
 
-        const convertToTime = (dateArray: any) => {
-            if (!dateArray) return null
+        const convertToTime = (dateArray: any): string | undefined => {
+            if (!dateArray) return undefined
             const [hour, minute] = dateArray
             const formattedHour = ('0' + hour).slice(-2)
             const formattedMinute = ('0' + minute).slice(-2)

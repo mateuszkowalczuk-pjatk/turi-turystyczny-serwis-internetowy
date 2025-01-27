@@ -1,9 +1,6 @@
-import { useHooks } from '../hooks/shared/useHooks.ts'
 import { Address } from '../types'
 
-export const generateAddress = (address: Address): string => {
-    const { t } = useHooks()
-
+export const generateAddress = (address: Address, t: (key: string) => string): string => {
     return (
         t('offer.street') +
         address.street +

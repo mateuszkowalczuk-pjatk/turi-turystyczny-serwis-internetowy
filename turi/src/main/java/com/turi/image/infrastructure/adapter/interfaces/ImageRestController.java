@@ -17,15 +17,15 @@ public class ImageRestController
     private final ImageFacade facade;
 
     @GetMapping("/getByAccount")
-    public ResponseEntity<Image> getImageByAccountId(@RequestParam final String accountId)
+    public ResponseEntity<Image> getImageByAccountId()
     {
-        return facade.getImageByAccount(accountId);
+        return facade.getImageByAccount();
     }
 
     @GetMapping("/getByAccountId")
-    public ResponseEntity<Image> getImageByAccountId()
+    public ResponseEntity<Image> getImageByAccountId(@RequestParam final String accountId)
     {
-        return facade.getImageByAccountId();
+        return facade.getImageByAccountId(accountId);
     }
 
     @GetMapping("/getAllByTouristicPlaceId")

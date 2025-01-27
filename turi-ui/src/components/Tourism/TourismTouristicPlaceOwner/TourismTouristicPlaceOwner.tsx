@@ -26,7 +26,7 @@ const TourismTouristicPlaceOwner = ({ firstPanel, secondPanel, thirdPanel }: Pro
     }
 
     const fetchAccountImage = async () => {
-        const response = await imageService.getByAccountId()
+        const response = await imageService.getByAccount()
         if (response.status === 200) {
             const accountImage = await response.json()
             setImage(accountImage)

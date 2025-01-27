@@ -73,12 +73,10 @@ const TourismStayOfferPanel = ({ touristicPlaceId, modify = false }: Props) => {
             }
         }
 
-        const convertToDate = (dateArray: any) => {
+        const convertToDate = (dateArray: any): Date | null => {
             if (!dateArray) return null
             const [year, month, day] = dateArray
-            const formattedMonth = ('0' + month).slice(-2)
-            const formattedDay = ('0' + day).slice(-2)
-            return `${year}-${formattedMonth}-${formattedDay}`
+            return new Date(Date.UTC(year, month - 1, day))
         }
 
         stayId && fetchData().catch((error) => error)
