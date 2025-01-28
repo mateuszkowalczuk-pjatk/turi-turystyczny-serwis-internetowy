@@ -98,12 +98,8 @@ public class AccountServiceImpl implements AccountService
             throw new InvalidAccountActivationCode();
         }
 
-        System.out.println("==============================================");
-        System.out.println(account.getActivationCodeExpiresAt());
-        System.out.println("==============================================");
         if (account.getActivationCodeExpiresAt().isAfter(LocalDateTime.now()))
         {
-            System.out.println(1);
             account.setAccountType(AccountType.NORMAL);
             account.setActivationCode(null);
             account.setActivationCodeExpiresAt(null);
@@ -112,7 +108,6 @@ public class AccountServiceImpl implements AccountService
         }
         else
         {
-            System.out.println(2);
             sendActivateCode(id);
 
             throw new AccountActivationCodeExpiredException();
