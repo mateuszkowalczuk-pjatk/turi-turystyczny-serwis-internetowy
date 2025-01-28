@@ -4,14 +4,13 @@ import com.turi.infrastructure.exception.BadRequestParameterException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 
 @Component
 @AllArgsConstructor
@@ -44,10 +43,14 @@ public class EmailSender
 
     private String getEmailCodeContent(final String title, final Integer code)
     {
-        try
+        try (final InputStream inputStream = getClass().getClassLoader().getResourceAsStream("email-code-content.html"))
         {
-            final var resource = new ClassPathResource("email-code-content.html");
-            final var content = Files.readString(resource.getFile().toPath(), StandardCharsets.UTF_8);
+            if (inputStream == null)
+            {
+                throw new BadRequestParameterException("Resource email-code-content.html not found!");
+            }
+
+            final var content = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
             return content.replace("{{title}}", title).replace("{{code}}", code.toString());
         }
         catch (final IOException ex)
@@ -81,10 +84,14 @@ public class EmailSender
 
     private String getEmailRemindContent(final String title, final String text, final String date)
     {
-        try
+        try (final InputStream inputStream = getClass().getClassLoader().getResourceAsStream("email-reminder-content.html"))
         {
-            final var resource = new ClassPathResource("email-reminder-content.html");
-            final var content = Files.readString(resource.getFile().toPath(), StandardCharsets.UTF_8);
+            if (inputStream == null)
+            {
+                throw new BadRequestParameterException("Resource email-reminder-content.html not found!");
+            }
+
+            final var content = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
             return content.replace("{{title}}", title).replace("{{text}}", text).replace("{{date}}", date);
         }
         catch (final IOException ex)
