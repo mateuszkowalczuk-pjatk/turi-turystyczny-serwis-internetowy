@@ -25,7 +25,7 @@ public class EmailSender
 
             final var helper = new MimeMessageHelper(message, true);
 
-            helper.setFrom("noreply@turi.com");
+            helper.setFrom("noreply.turi@gmail.com");
             helper.setTo(email);
             helper.setSubject(subject);
             helper.setText(getEmailCodeContent(subject, code), true);
@@ -60,7 +60,7 @@ public class EmailSender
 
             final var helper = new MimeMessageHelper(message, true);
 
-            helper.setFrom("noreply@turi.com");
+            helper.setFrom("noreply.turi@gmail.com");
             helper.setTo(email);
             helper.setSubject(subject);
             helper.setText(getEmailRemindContent(subject, text, date), true);
