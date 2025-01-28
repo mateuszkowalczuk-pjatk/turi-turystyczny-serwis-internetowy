@@ -36,7 +36,8 @@ public class EmailSender
         }
         catch (final Exception ex)
         {
-            LOGGER.error("Error sending email: {}", ex.getMessage(), ex);
+            LOGGER.error("Error occurred while sending e-mail: {}", ex.getMessage(), ex);
+
             throw new BadRequestParameterException("Email cannot be send.");
         }
     }
@@ -55,7 +56,8 @@ public class EmailSender
         }
         catch (final IOException ex)
         {
-            LOGGER.error("Error reading email content: {}", ex.getMessage(), ex);
+            LOGGER.error("Error with email code content: {}", ex.getMessage(), ex);
+
             throw new BadRequestParameterException("Invalid email content.");
         }
     }
@@ -77,7 +79,8 @@ public class EmailSender
         }
         catch (final Exception ex)
         {
-            LOGGER.error("Error sending email: {}", ex.getMessage(), ex);
+            LOGGER.error("Error occurred while sending e-mail: {}", ex.getMessage(), ex);
+
             throw new BadRequestParameterException("Email cannot be send.");
         }
     }
@@ -96,7 +99,8 @@ public class EmailSender
         }
         catch (final IOException ex)
         {
-            LOGGER.error("Error reading email content: {}", ex.getMessage(), ex);
+            LOGGER.error("Error with email reminder content: {}", ex.getMessage(), ex);
+
             throw new BadRequestParameterException("Invalid email content.");
         }
     }
