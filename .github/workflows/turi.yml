@@ -53,6 +53,23 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_87FD9ADD770A4B9DBF0B2616C709E157 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_BB31267E284E4E7084B28AC79D4529E9 }}
 
+      - name: Environment variables
+        run: |
+          echo "DB_URL=${{ secrets.DB_URL }}" >> $GITHUB_ENV
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> $GITHUB_ENV
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
+          echo "MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}" >> $GITHUB_ENV
+          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> $GITHUB_ENV
+          echo "STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}" >> $GITHUB_ENV
+          echo "WEBHOOK_SECRET_KEY=${{ secrets.WEBHOOK_SECRET_KEY }}" >> $GITHUB_ENV
+          echo "UI_URL=${{ secrets.UI_URL }}" >> $GITHUB_ENV
+          echo "CEIDG_API_KEY=${{ secrets.CEIDG_API_KEY }}" >> $GITHUB_ENV
+          echo "IMAGE_STORAGE_MODE=${{ secrets.IMAGE_STORAGE_MODE }}" >> $GITHUB_ENV
+          echo "IMAGE_STORAGE_AZURE_URL=${{ secrets.IMAGE_STORAGE_AZURE_URL }}" >> $GITHUB_ENV
+          echo "AZURE_STORAGE_ACCOUNT_NAME=${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}" >> $GITHUB_ENV
+          echo "AZURE_STORAGE_ACCOUNT_KEY=${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}" >> $GITHUB_ENV
+          echo "AZURE_STORAGE_CONTAINER_NAME=${{ secrets.AZURE_STORAGE_CONTAINER_NAME }}" >> $GITHUB_ENV
+
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
@@ -60,18 +77,3 @@ jobs:
           app-name: 'turi'
           slot-name: 'Production'
           package: '*.jar'
-        env:
-          DB_URL: ${{ secrets.DB_URL }}
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
-          WEBHOOK_SECRET_KEY: ${{ secrets.WEBHOOK_SECRET_KEY }}
-          UI_URL: ${{ secrets.UI_URL }}
-          CEIDG_API_KEY: ${{ secrets.CEIDG_API_KEY }}
-          IMAGE_STORAGE_MODE: ${{ secrets.IMAGE_STORAGE_MODE }}
-          IMAGE_STORAGE_AZURE_URL: ${{ secrets.IMAGE_STORAGE_AZURE_URL }}
-          AZURE_STORAGE_ACCOUNT_NAME: ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}
-          AZURE_STORAGE_ACCOUNT_KEY: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
-          AZURE_STORAGE_CONTAINER_NAME: ${{ secrets.AZURE_STORAGE_CONTAINER_NAME }}
