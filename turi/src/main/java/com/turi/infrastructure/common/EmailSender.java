@@ -73,13 +73,13 @@ public class EmailSender
         }
     }
 
-    private String getEmailRemindContent(final String subject, final String text, final String date)
+    private String getEmailRemindContent(final String title, final String text, final String date)
     {
         try
         {
             final var resource = new ClassPathResource("email-reminder-content.html");
             final var content = Files.readString(resource.getFile().toPath(), StandardCharsets.UTF_8);
-            return content.replace("{{subject}}", subject).replace("{{text}}", text).replace("{{date}}", date);
+            return content.replace("{{title}}", title).replace("{{text}}", text).replace("{{date}}", date);
         }
         catch (final IOException ex)
         {
