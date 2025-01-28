@@ -24,7 +24,7 @@ spring:
         host: smtp.gmail.com
         port: 587
         username: noreply.turi@gmail.com
-        password: ${MAIL_PASSWORD}
+        password: huvmxzbezwqeinul
         properties:
             mail:
                 smtp:
