@@ -70,7 +70,7 @@ public final class AuthenticationResponse
         return ResponseCookie.from(name, token)
                 .httpOnly(true)
                 .secure(true)
-                .sameSite("Strict")
+                .sameSite("None")
                 .path("/")
                 .maxAge(expiresIn)
                 .build();

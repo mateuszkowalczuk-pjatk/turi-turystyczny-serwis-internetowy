@@ -71,7 +71,7 @@ public final class UserResponse
         final var cookie = ResponseCookie.from(name, token)
                 .httpOnly(true)
                 .secure(true)
-                .sameSite("Strict")
+                .sameSite("None")
                 .path("/")
                 .maxAge(expiresIn)
                 .build();
