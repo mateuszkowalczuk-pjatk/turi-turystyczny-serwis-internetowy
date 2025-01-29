@@ -21,6 +21,12 @@ repositories {
     mavenCentral()
 }
 
+dependencyManagement {
+    imports {
+        mavenBom("io.projectreactor:reactor-bom:2020.0.34")
+    }
+}
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
 
@@ -54,6 +60,7 @@ dependencies {
     implementation("com.stripe:stripe-java:24.0.0")
 
     implementation("com.azure:azure-storage-blob:12.18.0")
+    implementation("io.projectreactor:reactor-core:3.4.29")
 }
 
 tasks.withType<Test> {

@@ -6,5 +6,5 @@ public interface AzureBlobStorageService
 {
     String upload(final MultipartFile file, final String fileName);
 
-    void delete(final String path);
+    void delete(final String fileName);
 }

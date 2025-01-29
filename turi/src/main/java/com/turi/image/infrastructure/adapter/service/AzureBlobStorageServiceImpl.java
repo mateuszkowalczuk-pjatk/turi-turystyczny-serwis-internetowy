@@ -2,6 +2,7 @@ package com.turi.image.infrastructure.adapter.service;
 
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
+import com.azure.storage.blob.models.BlobHttpHeaders;
 import com.turi.image.domain.exception.AzureBlobStorageUploadException;
 import com.turi.image.domain.port.AzureBlobStorageService;
 import com.turi.image.infrastructure.config.AzureStorageProperties;
@@ -23,26 +24,27 @@ public class AzureBlobStorageServiceImpl implements AzureBlobStorageService
     @Override
     public String upload(final MultipartFile file, final String fileName)
     {
-        LOGGER.info("Starting file upload: {}", fileName);
         final var containerClient = getBlobServiceClient();
 
         if (!containerClient.exists())
         {
-            LOGGER.info("Container does not exist, creating container: {}", properties.getContainerName());
             containerClient.create();
         }
 
         final var client = containerClient.getBlobClient(fileName);
-        LOGGER.info("Blob client created for file: {}", fileName);
+        final var headers = new BlobHttpHeaders().setContentType(file.getContentType());
 
         try
         {
             client.upload(file.getInputStream(), file.getSize(), true);
-            LOGGER.info("File uploaded successfully: {}", fileName);
+            client.setHttpHeaders(headers);
+
+            LOGGER.info("Image uploaded successfully: {}", fileName);
         }
         catch (final IOException ex)
         {
-            LOGGER.error("Error uploading file to Azure Blob Storage: {}", ex.getMessage(), ex);
+            LOGGER.error("Error with uploading file: {}", ex.getMessage(), ex);
+
             throw new AzureBlobStorageUploadException(ex.getMessage());
         }
 
@@ -50,11 +52,11 @@ public class AzureBlobStorageServiceImpl implements AzureBlobStorageService
     }
 
     @Override
-    public void delete(final String path)
+    public void delete(final String fileName)
     {
         final var containerClient = getBlobServiceClient();
 
-        containerClient.getBlobClient(path).delete();
+        containerClient.getBlobClient(fileName).delete();
     }
 
     private BlobContainerClient getBlobServiceClient()
