@@ -1,6 +1,5 @@
 import React from 'react'
-import Input from '../../../Shared/Controls/Input'
-import './PersonalInput.module.css'
+import styles from './PersonalInput.module.css'
 
 interface Props {
     type: string
@@ -26,7 +25,8 @@ const PersonalInput = ({
     disabled
 }: Props) => {
     return (
-        <Input
+        <input
+            className={styles.input}
             type={type}
             name={name}
             placeholder={placeholder}

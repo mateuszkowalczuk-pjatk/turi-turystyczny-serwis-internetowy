@@ -1,5 +1,5 @@
 import React from 'react'
-import './Input.module.css'
+import styles from './Input.module.css'
 
 interface Props {
     type: string
@@ -37,6 +37,7 @@ const Input = ({
 
     return (
         <input
+            className={styles.input}
             type={type}
             name={name}
             placeholder={placeholder}
