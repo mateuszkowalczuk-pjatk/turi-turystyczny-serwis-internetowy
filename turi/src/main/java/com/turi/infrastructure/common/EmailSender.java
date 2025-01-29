@@ -2,8 +2,6 @@ package com.turi.infrastructure.common;
 
 import com.turi.infrastructure.exception.BadRequestParameterException;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -16,7 +14,6 @@ import java.nio.charset.StandardCharsets;
 @AllArgsConstructor
 public class EmailSender
 {
-    private static final Logger LOGGER = LoggerFactory.getLogger(EmailSender.class);
     private final JavaMailSender sender;
 
     public void sendEmailCode(final String email, final String subject, final Integer code)
@@ -36,8 +33,6 @@ public class EmailSender
         }
         catch (final Exception ex)
         {
-            LOGGER.error("Error occurred while sending e-mail: {}", ex.getMessage(), ex);
-
             throw new BadRequestParameterException("Email cannot be send.");
         }
     }
@@ -56,8 +51,6 @@ public class EmailSender
         }
         catch (final IOException ex)
         {
-            LOGGER.error("Error with email code content: {}", ex.getMessage(), ex);
-
             throw new BadRequestParameterException("Invalid email content.");
         }
     }
@@ -79,8 +72,6 @@ public class EmailSender
         }
         catch (final Exception ex)
         {
-            LOGGER.error("Error occurred while sending e-mail: {}", ex.getMessage(), ex);
-
             throw new BadRequestParameterException("Email cannot be send.");
         }
     }
@@ -99,8 +90,6 @@ public class EmailSender
         }
         catch (final IOException ex)
         {
-            LOGGER.error("Error with email reminder content: {}", ex.getMessage(), ex);
-
             throw new BadRequestParameterException("Invalid email content.");
         }
     }
