@@ -2,7 +2,6 @@ package com.turi.account.infrastructure.adapter.interfaces;
 
 import com.turi.account.domain.model.Account;
 import com.turi.infrastructure.exception.BadRequestResponseException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -35,13 +34,15 @@ public final class AccountResponse
     {
         if (response != null)
         {
-            final var activateToken = new Cookie("activateToken", null);
-            activateToken.setHttpOnly(true);
-            activateToken.setSecure(true);
-            activateToken.setPath("/");
-            activateToken.setMaxAge(0);
+//            final var activateToken = new Cookie("activateToken", null);
+//            activateToken.setHttpOnly(true);
+//            activateToken.setSecure(true);
+//            activateToken.setPath("/");
+//            activateToken.setMaxAge(0);
+//
+//            response.addCookie(activateToken);
 
-            response.addCookie(activateToken);
+            response.addHeader("Set-Cookie", "activateToken=; Max-Age=0; Path=/; HttpOnly; Secure; SameSite=None");
         }
 
         return ResponseEntity.ok().build();

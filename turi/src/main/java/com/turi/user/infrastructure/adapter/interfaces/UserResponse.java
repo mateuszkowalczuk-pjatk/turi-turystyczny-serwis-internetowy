@@ -4,7 +4,6 @@ import com.turi.infrastructure.exception.BadRequestResponseException;
 import com.turi.user.domain.model.RefreshToken;
 import com.turi.user.domain.model.ResetToken;
 import com.turi.user.domain.model.User;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -54,13 +53,15 @@ public final class UserResponse
     {
         if (response != null)
         {
-            final var resetToken = new Cookie("resetToken", null);
-            resetToken.setHttpOnly(true);
-            resetToken.setSecure(true);
-            resetToken.setPath("/");
-            resetToken.setMaxAge(0);
+//            final var resetToken = new Cookie("resetToken", null);
+//            resetToken.setHttpOnly(true);
+//            resetToken.setSecure(true);
+//            resetToken.setPath("/");
+//            resetToken.setMaxAge(0);
+//
+//            response.addCookie(resetToken);
 
-            response.addCookie(resetToken);
+            response.addHeader("Set-Cookie", "resetToken=; Max-Age=0; Path=/; HttpOnly; Secure; SameSite=None");
         }
 
         return prepareResponse("refreshToken", refreshToken.getRefreshToken(), refreshToken.getRefreshTokenExpiresIn());
