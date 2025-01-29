@@ -8,9 +8,12 @@ import PremiumRoutes from './PremiumRoutes'
 import TourismRoutes from './TourismRoutes'
 import ReservationRoutes from './ReservationRoutes.tsx'
 import InfoRoutes from './InfoRoutes.tsx'
+import { useRefresh } from '../hooks/app/useRefresh.ts'
 
 const AppRoutes = () => {
     useAuth(null)
+
+    useRefresh()
 
     return (
         <Routes>
