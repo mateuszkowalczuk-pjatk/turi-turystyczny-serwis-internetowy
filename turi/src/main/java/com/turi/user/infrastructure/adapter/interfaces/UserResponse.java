@@ -53,14 +53,6 @@ public final class UserResponse
     {
         if (response != null)
         {
-//            final var resetToken = new Cookie("resetToken", null);
-//            resetToken.setHttpOnly(true);
-//            resetToken.setSecure(true);
-//            resetToken.setPath("/");
-//            resetToken.setMaxAge(0);
-//
-//            response.addCookie(resetToken);
-
             response.addHeader("Set-Cookie", "resetToken=; Max-Age=0; Path=/; HttpOnly; Secure; SameSite=None");
         }
 

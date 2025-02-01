@@ -98,14 +98,6 @@ public final class AuthenticationResponse
     {
         if (response != null)
         {
-//            final var cookie = new Cookie(name, null);
-//            cookie.setHttpOnly(true);
-//            cookie.setSecure(true);
-//            cookie.setPath("/");
-//            cookie.setMaxAge(0);
-//
-//            response.addCookie(cookie);
-
             response.addHeader("Set-Cookie", name + "=; Max-Age=0; Path=/; HttpOnly; Secure; SameSite=None");
         }
     }
