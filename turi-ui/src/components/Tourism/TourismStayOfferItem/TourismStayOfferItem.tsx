@@ -1,4 +1,5 @@
 import { useHooks } from '../../../hooks/shared/useHooks.ts'
+import { useStates } from '../../../hooks/shared/useStates.ts'
 import { GreyButton } from '../../Shared/Controls/Button'
 import { useEffect, useState } from 'react'
 import ImagePanel from '../../Shared/Image/ImagePanel'
@@ -18,6 +19,7 @@ interface Props {
 
 const TourismStayOfferItem = ({ stay, index, reservation, dateFrom, dateTo }: Props) => {
     const { t, navigate } = useHooks()
+    const { isAuthenticated } = useStates()
     const [image, setImage] = useState<Image>()
 
     useEffect(() => {
@@ -35,7 +37,8 @@ const TourismStayOfferItem = ({ stay, index, reservation, dateFrom, dateTo }: Pr
     }, [])
 
     const handleNavigate = () => {
-        if (stay && dateFrom && dateTo) {
+        if (!isAuthenticated) navigate('/login')
+        else if (stay && dateFrom && dateTo) {
             navigate('/reservation', {
                 state: {
                     stay: stay,

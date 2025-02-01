@@ -50,12 +50,16 @@ const OfferInformation = ({ touristicPlace }: { touristicPlace: TouristicPlace }
                                 }
                             />
                         </li>
-                        <li className={styles.customListItem}>
-                            <span className={styles.customStep}></span>
-                            <TextRegular
-                                text={t('offer.cancel-reservation-day-before') + touristicPlace.cancelReservationDays}
-                            />
-                        </li>
+                        {touristicPlace.cancelReservationDays !== 0 && (
+                            <li className={styles.customListItem}>
+                                <span className={styles.customStep}></span>
+                                <TextRegular
+                                    text={
+                                        t('offer.cancel-reservation-day-before') + touristicPlace.cancelReservationDays
+                                    }
+                                />
+                            </li>
+                        )}
                     </ul>
                 </div>
             </div>

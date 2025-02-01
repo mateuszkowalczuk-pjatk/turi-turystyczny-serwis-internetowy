@@ -57,7 +57,7 @@ const TourismTouristicPlaceForm = ({ touristicPlaceId }: { touristicPlaceId: num
             street: '',
             buildingNumber: ''
         },
-        prepayment: false,
+        prepayment: true,
         cancelReservation: false,
         cancelReservationDays: 0,
         checkInTimeFrom: '',
@@ -136,7 +136,7 @@ const TourismTouristicPlaceForm = ({ touristicPlaceId }: { touristicPlaceId: num
                             buildingNumber: address.buildingNumber,
                             apartmentNumber: address.apartmentNumber
                         },
-                        prepayment: touristicPlaceData.prepayment || false,
+                        prepayment: true,
                         cancelReservation: touristicPlaceData.cancelReservationDays !== 0,
                         cancelReservationDays: touristicPlaceData.cancelReservationDays || 0,
                         checkInTimeFrom: handleTimeDisplay(touristicPlaceData.checkInTimeFrom || ''),
@@ -408,12 +408,7 @@ const TourismTouristicPlaceForm = ({ touristicPlaceId }: { touristicPlaceId: num
                                     checkbox={
                                         <Checkbox
                                             checked={formData.prepayment}
-                                            onChange={() =>
-                                                setFormData((prevData) => ({
-                                                    ...prevData,
-                                                    prepayment: !prevData.prepayment
-                                                }))
-                                            }
+                                            onChange={() => console.log()}
                                             text={t('tourism.touristic-place-reservation-prepayment')}
                                         />
                                     }

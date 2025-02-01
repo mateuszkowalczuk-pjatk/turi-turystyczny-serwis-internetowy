@@ -36,11 +36,14 @@ const ReservationOfferPage = () => {
             else if (reservation.reservation.status === 'REALIZATION') setStep(2)
             else if (reservation.reservation.status === 'REALIZED') setStep(3)
 
-            const today = new Date()
-            const dateFrom = new Date(reservation.reservation.dateFrom)
-            const cancelDate = new Date(today.setDate(today.getDate() + touristicPlace.cancelReservationDays))
-            const condition = touristicPlace.cancelReservationDays !== undefined && cancelDate < dateFrom
-            setIsCancel(condition)
+            if (touristicPlace.cancelReservationDays === 0) setIsCancel(false)
+            else {
+                const today = new Date()
+                const dateFrom = new Date(reservation.reservation.dateFrom)
+                const cancelDate = new Date(today.setDate(today.getDate() + touristicPlace.cancelReservationDays))
+                const condition = touristicPlace.cancelReservationDays !== undefined && cancelDate < dateFrom
+                setIsCancel(condition)
+            }
         }
         fetchAddress().catch((error) => error)
     }, [])

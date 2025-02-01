@@ -56,7 +56,7 @@ const TourismAttractionOfferPanel = ({ touristicPlaceId, modify = false }: Props
             description: '',
             price: null,
             priceType: PriceType.UNASSIGNED,
-            prepayment: false,
+            prepayment: true,
             cancelReservation: false,
             cancelReservationDays: null,
             maxPeopleNumber: null,
@@ -82,7 +82,7 @@ const TourismAttractionOfferPanel = ({ touristicPlaceId, modify = false }: Props
                     description: attractionData.description,
                     price: attractionData.price,
                     priceType: PriceType[attractionData.priceType as unknown as keyof typeof PriceType],
-                    prepayment: attractionData.prepayment,
+                    prepayment: true,
                     cancelReservationDays: attractionData.cancelReservationDays,
                     maxPeopleNumber: attractionData.maxPeopleNumber,
                     maxItems: attractionData.maxItems,
@@ -403,12 +403,7 @@ const TourismAttractionOfferPanel = ({ touristicPlaceId, modify = false }: Props
                                         checkbox={
                                             <Checkbox
                                                 checked={formData.prepayment}
-                                                onChange={() =>
-                                                    updateFormData((prevData) => ({
-                                                        ...prevData,
-                                                        prepayment: !prevData.prepayment
-                                                    }))
-                                                }
+                                                onChange={() => console.log()}
                                                 text={t('tourism.touristic-place-attraction-reservation-prepayment')}
                                             />
                                         }
