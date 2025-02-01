@@ -14,7 +14,7 @@
     },
     "footer": {
         "title": "Witaj na turystycznym serwisie internetowy Turi!",
-        "auth-description": "Korzystając z Turi akceptujesz Warunki użytkowania oraz Politykę prywatności.",
+        "auth-description": "Korzystając z Turi akceptujesz <1>Warunki użytkowania</1> oraz <2>Politykę prywatności</2>.",
         "become-turi-member": "Zostań członkiem Turi",
         "login": "Zaloguj się",
         "register": "Zarejestruj się",
@@ -291,7 +291,7 @@
         "summary-description": "Witaj użytkowniku premium!",
         "summary-first-text": "W ramach strony głównej Turi pojawiła się zakładka <1>Turystyka</1>, w której możesz dodać miejsce turystyczne oraz oferty pobytu i atrakcji w ramach niego. ",
         "summary-second-text": "W profilu możesz znaleźć dodatkową zakładkę <1>Premium</1> zawierającą informację o twoim koncie premium.",
-        "summary-third-text": "Po kliknięciu na nazwę swojego profilu wyświeli Ci się nowa opcja <1>Statystyki</1>, pod którą znajdziesz stronę ze statystykami i innymi szczegółami odnoście pobytów w twoim miejscu turystycznym.",
+        "summary-third-text": "Dziękujemy za zakup konta premium. Ciesz się możliwością promowania i oferowania swoich usług przez turystyczny serwis internetowy Turi!",
         "error-invalid-bank-account": "Podany numer konta jest niepoprawny.",
         "error-invalid-nip": "Podany nip jest niepoprawny."
     },

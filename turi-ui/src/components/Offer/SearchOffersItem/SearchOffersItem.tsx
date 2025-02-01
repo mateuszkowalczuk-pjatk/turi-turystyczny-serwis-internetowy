@@ -88,9 +88,8 @@ const SearchOffersItem = ({ offer, dateFrom, dateTo }: Props) => {
                 <TextRegular text={address?.country + ', ' + address?.city} />
             </div>
             <div className={styles.attractions}>
-                <p className={styles.attraction}>{t('offer.attraction')}</p>
+                {offer.attractions.length !== 0 && <p className={styles.attraction}>{t('offer.attraction')}</p>}
                 <ul>
-                    {offer.attractions.length === 0 && <p>{t('attraction-not-found')}</p>}
                     {offer.attractions[0] && (
                         <li
                             key={offer.attractions[0].attractionId}

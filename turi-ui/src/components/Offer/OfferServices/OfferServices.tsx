@@ -51,12 +51,34 @@ const OfferServices = ({ initDateFrom, initDateTo, initStays, initAttractions, t
         if (dateFrom && dateTo) handleFetch().catch((error) => error)
     }, [dateFrom, dateTo, touristicPlace.touristicPlaceId])
 
+    const getTomorrow = (): string => {
+        const today = new Date()
+        today.setDate(today.getDate() + 1)
+        return today.toISOString().split('T')[0]
+    }
+
     const handleDateFromChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setDateFrom(event.target.value)
+        const selectedDate = event.target.value
+        const todayPlusOne = getTomorrow()
+
+        if (selectedDate < todayPlusOne) setDateFrom(todayPlusOne)
+        else setDateFrom(selectedDate)
+
+        if (dateTo && selectedDate >= dateTo) {
+            const nextDay = new Date(selectedDate)
+            nextDay.setDate(nextDay.getDate() + 1)
+            setDateTo(nextDay.toISOString().split('T')[0])
+        }
     }
 
     const handleDateToChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setDateTo(event.target.value)
+        const selectedDate = event.target.value
+
+        if (dateFrom && selectedDate <= dateFrom) {
+            const nextDay = new Date(dateFrom)
+            nextDay.setDate(nextDay.getDate() + 1)
+            setDateTo(nextDay.toISOString().split('T')[0])
+        } else setDateTo(selectedDate)
     }
 
     return (

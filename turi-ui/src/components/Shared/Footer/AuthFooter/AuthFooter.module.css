@@ -10,6 +10,36 @@
     background: var(--grey);
 }
 
+.link {
+    color: var(--dark);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.link:visited {
+    color: var(--dark);
+}
+
+.link:hover,
+.link:active,
+.link:focus {
+    color: var(--dark);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .summary p {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .summary p {
+        font-size: 0.8rem;
+    }
+}
+
 @media (max-width: 768px) {
     .footer {
         padding-left: 2rem;

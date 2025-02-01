@@ -37,9 +37,9 @@ const RegisterPage = () => {
     const handleRegister = async (e: React.FormEvent) => {
         handle(e, setLoading, setError)
 
-        checkPasswordsMatch(formData.password, formData.rePassword, setError, t, setLoading)
+        if (!checkPasswordsMatch(formData.password, formData.rePassword, setError, t, setLoading)) return
 
-        passwordValidation(formData.password, setError, t, setLoading)
+        if (!passwordValidation(formData.password, setError, t, setLoading)) return
 
         const usernameResponse = await userService.checkIsUsernameExists(formData.login)
         if (usernameResponse.status === 200) {

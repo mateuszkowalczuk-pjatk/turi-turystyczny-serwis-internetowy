@@ -2,6 +2,7 @@ import React from 'react'
 import { checkPasswordsMatch } from '../../../utils/checkPasswordsMatch.ts'
 import { passwordValidation } from '../../../utils/passwordValidation.ts'
 import { useRedirectEvery } from '../../../hooks/shared/useRedirect.ts'
+import { useStates } from '../../../hooks/shared/useStates.ts'
 import { useHooks } from '../../../hooks/shared/useHooks.ts'
 import { useForm } from '../../../hooks/shared/useForm.ts'
 import { handle } from '../../../utils/handle.ts'
@@ -13,7 +14,6 @@ import AuthTopLink from '../../../components/Auth/AuthTopLink'
 import AuthDownLink from '../../../components/Auth/AuthDownLink'
 import Error from '../../../components/Shared/Error'
 import { userService } from '../../../services/userService.ts'
-import { useStates } from '../../../hooks/shared/useStates.ts'
 
 interface FormData {
     password: string
@@ -35,9 +35,9 @@ const ResetPasswordPage = () => {
     const handleResetPassword = async (e: React.FormEvent) => {
         handle(e, setLoading, setError)
 
-        checkPasswordsMatch(formData.password, formData.rePassword, setError, t, setLoading)
+        if (!checkPasswordsMatch(formData.password, formData.rePassword, setError, t, setLoading)) return
 
-        passwordValidation(formData.password, setError, t, setLoading)
+        if (!passwordValidation(formData.password, setError, t, setLoading)) return
 
         const response = await userService.changePassword(formData.password)
         if (response.status === 200) navigate('/')

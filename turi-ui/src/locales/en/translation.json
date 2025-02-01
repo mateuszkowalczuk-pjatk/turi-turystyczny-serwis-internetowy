@@ -14,7 +14,7 @@
     },
     "footer": {
         "title": "Welcome to Turi's tourist website!",
-        "auth-description": "By using Turi you agree to the Terms of Use and Privacy Policy.",
+        "auth-description": "By using Turi you agree to the <1>Terms of Use</1> and <2>Privacy Policy</2>.",
         "become-turi-member": "Become a member of the Turi",
         "login": "Log in",
         "register": "Sign up",
@@ -291,7 +291,7 @@
         "summary-description": "Welcome premium user!",
         "summary-first-text": "A <1>Tourism</1> tab has appeared within the Turi homepage, where you can add a tourist destination and offers to stay and attractions within it.",
         "summary-second-text": "In your profile you can find an additional tab <1>Premium</1> containing information about your premium account.",
-        "summary-third-text": "When you click on the name of your profile, a new option <1>Statistics</1> will be displayed, under which you will find a page with statistics and other details about stays at your tourist destination.",
+        "summary-third-text": "Thank you for purchasing a premium account. Enjoy the opportunity to promote and offer your services through the Turi tourism website!",
         "error-invalid-bank-account": "The account number provided is incorrect.",
         "error-invalid-nip": "The NIP provided is incorrect."
     },

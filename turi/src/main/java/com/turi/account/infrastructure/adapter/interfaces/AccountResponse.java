@@ -34,14 +34,6 @@ public final class AccountResponse
     {
         if (response != null)
         {
-//            final var activateToken = new Cookie("activateToken", null);
-//            activateToken.setHttpOnly(true);
-//            activateToken.setSecure(true);
-//            activateToken.setPath("/");
-//            activateToken.setMaxAge(0);
-//
-//            response.addCookie(activateToken);
-
             response.addHeader("Set-Cookie", "activateToken=; Max-Age=0; Path=/; HttpOnly; Secure; SameSite=None");
         }
 

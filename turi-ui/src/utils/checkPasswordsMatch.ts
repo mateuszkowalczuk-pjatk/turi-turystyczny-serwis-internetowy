@@ -6,10 +6,10 @@ export const checkPasswordsMatch = (
     setError: React.Dispatch<React.SetStateAction<string | null>>,
     t: (key: string) => string,
     setLoading: React.Dispatch<React.SetStateAction<boolean>>
-): void => {
+): boolean => {
     if (password !== rePassword) {
         setError(t('signup.error-mismatch-password'))
         setLoading(false)
-        return
-    }
+        return false
+    } else return true
 }
