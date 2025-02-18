@@ -14,6 +14,6 @@ public class ReservationReminderSchedule
     @Scheduled(cron = "0 0 * * * ?")
     public void createAllReservationsReminder()
     {
-        service.createAllReservationsReminder();
+//        service.createAllReservationsReminder();
     }
 }

@@ -14,8 +14,8 @@ public class ReservationStatusSchedule
     @Scheduled(cron = "0 0/15 * * * ?")
     public void updateAllReservationsAndAttractionsStatuses()
     {
-        service.updateAllReservationsStatuses();
-
-        service.updateAllReservationsAttractionsStatuses();
+//        service.updateAllReservationsStatuses();
+//
+//        service.updateAllReservationsAttractionsStatuses();
     }
 }
